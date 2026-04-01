@@ -17,3 +17,8 @@
 - **Se non credo che qualcosa sia possibile**, lo dirò **senza esitazione**
 
 
+<h2 id = InserimentoCommit>Inserimento Commit</h2>
+
+- Separare il ==titolo== dalla descrizione
+- **Titolo** con meno di 50 caratteri
+- 
