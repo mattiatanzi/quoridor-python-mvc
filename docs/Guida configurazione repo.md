@@ -18,13 +18,13 @@ Mettersi d'accordo su chi sarà il primo componente del gruppo che accetterà l'
 - Il docente risponderà inviando allo studente in chat privata il link di assegnazione del progetto.
 - Cliccare sul link di assegnazione del progetto che il docente ha inviato in chat privata su Teams.
 - Scorrere la lista e cliccare sul proprio indirizzo di email
-  ![joinClassroom](./img/joinClassroom.png)
+  ![joinClassroom](./img/joinClassroomNew.png)
 
 - Creare il team scrivendo il nome prescelto e cliccando sul pulsante verde `Create team`.
 - Aspettare che GitHub Classroom cloni il repository base per il vostro team.
-  ![configuringRepository](./img/configuringRepository.png)
+  ![configuringRepository](./img/configuringRepositoryNew.png)
 - *Fare un refresh della pagina web per verificare il completamento.*
-  ![readyToGo](./img/readyToGo.png)
+  ![readyToGo](./img/readyToGoNew.png)
 
 - Comunicare al docente in chat l'esito della creazione.
 - Comunicare agli altri componenti del gruppo il link di assegnazione del progetto precedentemente inviato dal docente.
@@ -35,15 +35,15 @@ Mettersi d'accordo su chi sarà il primo componente del gruppo che accetterà l'
 
 - Cliccare sul link di assegnazione del progetto ricevuto dal collega designato.
 - Scorrere la lista e cliccare sul proprio indirizzo di email
-  ![joinClassroom](./img/joinClassroom.png)
+  ![joinClassroom](./img/joinClassroomNew.png)
 
 - Unirsi al proprio team cliccando il corrispondente pulsante `Join`
-   ![joinTeam](./img/joinTeam.png)
+   ![joinTeam](./img/joinTeamNew.png)
 
 **Se non si trova il team, è probabile che l'assignment sia stato accettato prima della creazione del team. Fermarsi e avvisare il componente designato dal gruppo.**
 
 - Se ci si è uniti a un team già creato, sarà necessario prima confermare la scelta e quindi si riceverà subito la conferma.
-   ![promptAcceptAssginment](./img/promptAcceptAssginment.png)
+   ![promptAcceptAssginment](./img/promptAcceptAssginmentNew.png)
 
 - Questo passo terminerà con successo se tutti i componenti del gruppo potranno accedere al repository.
 
@@ -72,7 +72,7 @@ Affinché tutti i membri del team possano visualizzare e scaricare l'immagine Do
 **N.B.**: il workflow si attiva automaticamente dopo aver effettuato un'operazione di merge o push sul branch `main` contenente una o più modifiche ai file presenti nelle cartelle `src/` o `tests/`. Attendere che il workflow risulti eseguito con successo prima di proseguire con i passaggi successivi.
 3. Verificare che il package contenente la vostra immagine Docker sia stato correttamente associato al vostro repository.
    - Se l'associazione è avvenuta correttamente, vedrete il link al package nella barra laterale destra della pagina principale del repository, sotto l'intestazione "Packages"
-(vedi freccia rossa in figura). ![ExecuteDockerImage_1](./img/ExecuteDockerImage_1.png)
+(vedi freccia rossa in figura). ![ExecuteDockerImage_1](./img/ExecuteDockerImage_1New.png)
    - In caso contrario, è necessario procedere con un'associazione manuale. Per farlo:
      -  visitare la [pagina con l'elenco dei package associati all'organizzazione del corso](https://github.com/orgs/softeng2526-inf-uniba/packages).
      -  Cercare il package con il nome del proprio team e fare click sul titolo per entrare nella pagina dedicata.
@@ -85,16 +85,16 @@ Affinché tutti i membri del team possano visualizzare e scaricare l'immagine Do
 Per aggiungere il badge che riporta l'ultimo esito dell'esecuzione del workflow `CI-CD.yml` (stato del workflow) all'interno del file README del vostro repository, attenersi alle seguenti istruzioni:
 
 - entrare nella pagina principale del repository e cliccare su `Actions` (subito sotto il titolo, in alto al centro);
-![Update_GitHub_badge_1](./img/Update_GitHub_badge_1.png)
+![Update_GitHub_badge_1](./img/Update_GitHub_badge_1New.png)
 - la pagina *"All workflows"* sotto la tab *"Actions"*, riporta l'elenco delle esecuzioni (*run*) di tutti i workflow di GitHub Actions attivabili nel repository; per filtrarne il contenuto e visualizzare soltanto le esecuzioni relative al workflow `CI-CD.yml`, fare click sulla voce corrispondente nel pannello laterale a sinistra. (**N.B.**: all'inizio del progetto, è del tutto normale che queste liste siano vuote; come già detto, il workflow `CI-CD.yml` si attiverà per la prima volta quando modificherete il codice nelle cartelle `src/` o `tests/` ed effettuerete Pull Request o operazioni di push/merge sul branch `main`);
 - Una volta selezionato il workflow `CI-CD.yml` dal pannello laterale, in alto a destra nella pagina – di fianco alla text box con la scritta "Filter workflow runs" – comparirà un nuovo bottone con tre puntini `•••`. Fare click su tale bottone e poi selezionare la voce "Create status badge" nel menù a tendina.
 - Lasciando invariate le impostazioni di default (`branch` e `event`) nella finestra a comparsa, fare click su `Copy status badge Markdown`;
-  ![Update_GitHub_badge_3](./img/Update_GitHub_badge_3.png)
+  ![Update_GitHub_badge_3](./img/Update_GitHub_badge_3New.png)
 - La modifica del file Markdown `README.md` sarà fatta come parte dei task dello *Sprint 0* incollando il codice markdown per la costruzione del badge in cima al `README.md`, accanto al titolo del repository.
 
 Il titolo del README.md apparirà come nella seguente figura:
 
-![actions-badge](./img/actions-badge.png)
+![actions-badge](./img/actions-badgeNew.png)
 
 Il colore e lo stato del badge potranno cambiare dopo ogni build, riflettendo lo stato del progetto.
 
