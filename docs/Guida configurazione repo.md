@@ -2,13 +2,13 @@
 
 ## Indice
 
-- Accettazione assignment del primo componente e creazione repository su GitHub
-- Accettazione assignment degli altri componenti e accesso al repository su GitHub
-- Configurazione del repository su GitHub
-  - Abilitazione package/immagini Docker
-  - Aggiunta del badge di GitHub Actions nel README
+- [Accettazione assignment del primo componente e creazione repository su GitHub](#Section1.1)
+- [Accettazione assignment degli altri componenti e accesso al repository su GitHub](#Section1.2)
+- [Configurazione del repository su GitHub](#Section1.3)
+  - [Abilitazione package/immagini Docker](#Section1.3.1)
+  - [Aggiunta del badge di GitHub Actions nel README](#Section1.3.2)
 
-## Accettazione assignment del primo componente e creazione repository su GitHub
+## Accettazione assignment del primo componente e creazione repository su GitHub {#Section1.1}
 
 Mettersi d'accordo su chi sarà il primo componente del gruppo che accetterà l'*assignment* su GitHub Classroom.
 
@@ -29,7 +29,7 @@ Mettersi d'accordo su chi sarà il primo componente del gruppo che accetterà l'
 - Comunicare al docente in chat l'esito della creazione.
 - Comunicare agli altri componenti del gruppo il link di assegnazione del progetto precedentemente inviato dal docente.
 
-## Accettazione assignment degli altri componenti e accesso al repository su GitHub
+## Accettazione assignment degli altri componenti e accesso al repository su GitHub {#Section1.2}
 
 **Le seguenti azioni sono di responsabilità di tutti i componenti tranne quello designato per la creazione del repository**:
 
@@ -47,7 +47,7 @@ Mettersi d'accordo su chi sarà il primo componente del gruppo che accetterà l'
 
 - Questo passo terminerà con successo se tutti i componenti del gruppo potranno accedere al repository.
 
-## Configurazione del repository su GitHub
+## Configurazione del repository su GitHub {#Section1.3}
 
 Il repository che vi è stato assegnato contiene tutto il necessario per cominciare lo sviluppo della vostra applicazione. Oltre a una versione base del codice sorgente, esso presenta la struttura di directory alla quale dovrete attenervi durante lo svolgimento del progetto e i file di configurazione per i principali strumenti inclusi nella pipeline.
 
@@ -63,7 +63,7 @@ La seconda pipeline, definita nel file `CI-CD.yml`, viene innescata dalle operaz
 
 **N.B.**: entrambi i workflow si attivano soltanto se le modifiche nei commit riguardano file contenuti nelle cartelle `src/` e `tests/` del repository o il file `pyproject.toml`. In questo modo evitiamo che i workflow si attivino anche in caso di modifiche minori che non avrebbero alcun effetto sul funzionamento del vostro programma (ad esempio, modifiche al file `README.md` o alla documentazione).
 
-## Abilitazione package/immagini Docker
+## Abilitazione package/immagini Docker {#Section1.3.1}
 
 Affinché tutti i membri del team possano visualizzare e scaricare l'immagine Docker del proprio progetto da GitHub Packages, è necessario che il componente designato svolga i seguenti passaggi.
 
@@ -80,7 +80,7 @@ Affinché tutti i membri del team possano visualizzare e scaricare l'immagine Do
      -  Nella finestra di dialogo, cercare e selezionare il vostro repository.
      -  Concludere l'operazione cliccando sul bottone "Connect Repository". A questo punto, tornando nella pagina principale del vostro repository, dovreste vedere il link al package nella barra laterale destra.
 
-## Aggiunta del badge di GitHub Actions nel README
+## Aggiunta del badge di GitHub Actions nel README {#Section1.3.2}
 
 Per aggiungere il badge che riporta l'ultimo esito dell'esecuzione del workflow `CI-CD.yml` (stato del workflow) all'interno del file README del vostro repository, attenersi alle seguenti istruzioni:
 
