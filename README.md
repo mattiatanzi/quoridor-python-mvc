@@ -1,1 +1,1 @@
-# proj-stonebreaker[![proj-stonebreaker](https://github.com/softeng2526-inf-uniba/proj-stonebraker/actions/workflows/CI-CD.yml/badge.svg)](https://github.com/softeng2526-inf-uniba/proj-stonebraker/actions/workflows/CI-CD.yml)
+# proj-stonebreaker [![proj-stonebreaker](https://github.com/softeng2526-inf-uniba/proj-stonebraker/actions/workflows/CI-CD.yml/badge.svg)](https://github.com/softeng2526-inf-uniba/proj-stonebraker/actions/workflows/CI-CD.yml)
