@@ -38,3 +38,8 @@
 - **Aggiornare frequentemente** la repository su git hub, *utilizzando git push origin nomeissue*
 
 
+
+<h2 id = Codice>Codice</h2>
+
+- Il codice deve essere **autoesplicativo**
+- 
