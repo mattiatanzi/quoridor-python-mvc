@@ -1,6 +1,6 @@
 # Guida alla configurazione del repository
 
-## Indice
+## Indice 
 
 - [Accettazione assignment del primo componente e creazione repository su GitHub](#Section1.1)
 - [Accettazione assignment degli altri componenti e accesso al repository su GitHub](#Section1.2)
