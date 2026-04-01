@@ -75,7 +75,7 @@ class UI:
 
 
 def main():
-    """Run the game."""
+    """Run the Quoridor game and activate the GH workflows."""
     ui = UI()
     ui.set_accent_color("blue")
 
