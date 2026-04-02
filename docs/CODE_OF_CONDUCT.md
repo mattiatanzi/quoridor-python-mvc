@@ -42,4 +42,7 @@
 <h2 id = Codice>Codice</h2>
 
 - Il codice deve essere **autoesplicativo**
-- 
+- **Aggiungere commenti** se il codice non è abbastanza autoesplicativo
+- Scrivere codice che **rispetti le convenzioni di formattazione e di stile sclete**
+- **Non fare commit** se il codice non è stato provato
+- **Non fare commit** che provochi degli warning
