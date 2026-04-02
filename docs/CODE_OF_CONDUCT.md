@@ -11,7 +11,7 @@
 - **Partecipare alle revisioni delle issue** è la seconda priorità
 - **Migliorare la velocità del team** è più importante che migliorare quella individuale
 - **Non arrivare in ritardo** alle riunioni del team
-- **Chiedere aiuto** quando c'è ne sarà bisogno
+- **Chiedere aiuto** quando ce ne sarà bisogno
 - **Offrire aiuto** quando richiesto
 - **Essere sempre onesto**
 - **Se non si crede che qualcosa sia possibile**, lo si dirà **senza esitazione**
@@ -43,6 +43,6 @@
 
 - Il codice deve essere **autoesplicativo**
 - **Aggiungere commenti** se il codice non è abbastanza autoesplicativo
-- Scrivere codice che **rispetti le convenzioni di formattazione e di stile sclete**
+- Scrivere codice che **rispetti le convenzioni di formattazione e di stile scelte**
 - **Non fare commit** se il codice non è stato provato
 - **Non fare commit** che provochi degli warning
