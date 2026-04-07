@@ -72,7 +72,7 @@ Affinché tutti i membri del team possano visualizzare e scaricare l'immagine Do
 **N.B.**: il workflow si attiva automaticamente dopo aver effettuato un'operazione di merge o push sul branch `main` contenente una o più modifiche ai file presenti nelle cartelle `src/` o `tests/`. Attendere che il workflow risulti eseguito con successo prima di proseguire con i passaggi successivi.
 3. Verificare che il package contenente la vostra immagine Docker sia stato correttamente associato al vostro repository.
    - Se l'associazione è avvenuta correttamente, vedrete il link al package nella barra laterale destra della pagina principale del repository, sotto l'intestazione "Packages"
-(vedi freccia rossa in figura). ![ExecuteDockerImage_1](./img/ExecuteDockerImage_1New.png)
+(vedi freccia rossa in figura). ![ExecuteDockerImage_1](./img/ExecuteDockerImage_1New'.png)
    - In caso contrario, è necessario procedere con un'associazione manuale. Per farlo:
      -  visitare la [pagina con l'elenco dei package associati all'organizzazione del corso](https://github.com/orgs/softeng2526-inf-uniba/packages).
      -  Cercare il package con il nome del proprio team e fare click sul titolo per entrare nella pagina dedicata.
@@ -94,7 +94,7 @@ Per aggiungere il badge che riporta l'ultimo esito dell'esecuzione del workflow 
 
 Il titolo del README.md apparirà come nella seguente figura:
 
-![actions-badge](./img/actions-badgeNew.png)
+![actions-badge](./img/actions-badgeNew'.png)
 
 Il colore e lo stato del badge potranno cambiare dopo ogni build, riflettendo lo stato del progetto.
 
