@@ -18,6 +18,8 @@ class Nodo:
 
     def __eq__(self, nodo: 'Nodo') -> bool:
         return self.get_valore_nodo() == nodo.get_valore_nodo()
+    def __hash__(self):
+        return hash(self.nodo)
 
     def get_valore_nodo(self) -> str:
         return self.nodo()
