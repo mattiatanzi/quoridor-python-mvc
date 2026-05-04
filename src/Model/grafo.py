@@ -87,7 +87,9 @@ class Grafo:
                         nodo_adiacente_destra
                     )  # Aggiunta dell'arco adiacente destra
                 elif j == self.__COSTANTI.ULTIMA_COLONNA:
-                    nodo_adiacente_sinistra = self.__COSTANTI.COLONNE[j - 1] + str(i)
+                    nodo_adiacente_sinistra = Nodo(
+                        self.__COSTANTI.COLONNE[j - 1] + str(i)
+                    )
                     self.__grafo[nodo_attuale].append(
                         nodo_adiacente_sinistra
                     )  # Aggiunta dell'arco adiacente sinistra
@@ -95,8 +97,12 @@ class Grafo:
                         self.__COSTANTI.NO_ARCO
                     )  # Aggiunta dell'arco adiacente destra
                 else:
-                    nodo_adiacente_sinistra = self.__COSTANTI.COLONNE[j - 1] + str(i)
-                    nodo_adiacente_destra = self.__COSTANTI.COLONNE[j + 1] + str(i)
+                    nodo_adiacente_sinistra = Nodo(
+                        self.__COSTANTI.COLONNE[j - 1] + str(i)
+                    )
+                    nodo_adiacente_destra = Nodo(
+                        self.__COSTANTI.COLONNE[j + 1] + str(i)
+                    )
                     self.__grafo[nodo_attuale].append(
                         nodo_adiacente_sinistra
                     )  # Aggiunta dell'arco adiacente sinistra
