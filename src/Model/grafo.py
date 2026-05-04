@@ -1,4 +1,6 @@
 from nodo import Nodo
+
+
 class Grafo:
     """Struttura dati utilizzata per il tavoliere
 
