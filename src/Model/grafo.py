@@ -43,7 +43,7 @@ class Grafo:
                 j+=1
             i-=1
 
-    def esisteArco (self, nodo1: String, nodo2: String) ->bool: # Controlla se esiste un arco tra 2 nodi
+    def esisteArco (self, nodo1: str, nodo2: str) ->bool: # Controlla se esiste un arco tra 2 nodi
         for i in self.tavoliere[nodo1]:
             if i == nodo2:
                 return True
