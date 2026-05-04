@@ -8,7 +8,7 @@ class Grafo:
         Costanti
         ----------
         name : COLONNE
-            Lista con elementi costanti contenente elementi da "a" ad "i" in ordine
+            Tupla con elementi costanti contenente elementi da "a" ad "i" in ordine
         name: PRIMA_RIGA
             Indica la prima riga del grafo
         name: ULTIMA_RIGA
