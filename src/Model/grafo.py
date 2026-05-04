@@ -32,8 +32,8 @@ class Grafo:
     __COSTANTI = Costanti()
 
     def __init__(self):  # Inizializza il grafo
-        self.__grafo = dict.fromkeys(self.__inizializzaNodi())
-        self.__inizializzaArchi()
+        self.__grafo = dict.fromkeys(self.__inizializza_nodi())
+        self.__inizializza_archi()
 
     def __inizializza_nodi(self) -> list[Nodo]:  # Inizializza i nodi
         chiavi: list[Nodo] = []
