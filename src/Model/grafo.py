@@ -10,7 +10,7 @@ class Grafo:
         Grafo non orientato strutturato come se fosse una matrice
     Costanti:
     ---------
-        nome: costanti
+        nome: COSTANTI
         Classe che contiene tutte le costanti presenti
     Metodi
     -------
