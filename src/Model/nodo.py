@@ -1,4 +1,17 @@
 class Nodo:
+    """Contiene informazioni del nodo del grafo
+    
+    Attributi:
+    ---------
+    nome: nodo
+        Contiene il valore del nodo
+    Metodi:
+    -------
+    nome __eq__:
+        Variazione funzionale del metodo di equivalenza tra nodi
+    nome get_valore_nodo:
+        restituisce il valore del nodo
+    """
     def __init__(self, valore_iniziale: str):
         self.nodo = valore_iniziale
 
@@ -6,4 +19,4 @@ class Nodo:
         return self.get_valore_nodo() == nodo.get_valore_nodo()
     
     def get_valore_nodo(self)-> str:
-        return self.get_valore_nodo
+        return self.nodo()
