@@ -26,19 +26,19 @@ class Grafo:
             j = self.__PRIMA_COLONNA
             while j<=self.__ULTIMA_COLONNA:# Archi con ordine: Sopra, Sotto, Sinistra, Destra
                 if i == self.__ULTIMA_RIGA:
-                    self.scacchiera[self.__COLONNE[j]+str(i)] = [self.__COLONNE[j]+str(i+1),self.__NO_ARCO]
+                    self.tavoliere[self.__COLONNE[j]+str(i)] = [self.__COLONNE[j]+str(i+1),self.__NO_ARCO] # Aggiunta solo dell'arco adiacente sopra
                 elif i == self.__PRIMA_RIGA:
-                    self.scacchiera[self.__COLONNE[j]+str(i)] = [self.__NO_ARCO,self.__COLONNE[j]+str(i-1)]
+                    self.tavoliere[self.__COLONNE[j]+str(i)] = [self.__NO_ARCO,self.__COLONNE[j]+str(i-1)] # Aggiunta solo dell'arco adiacente sotto
                 else: 
-                    self.scacchiera[self.__COLONNE[j]+str(i)] = [self.__COLONNE[j]+str(i+1),self.__COLONNE[j]+str(i-1)]
+                    self.tavoliere[self.__COLONNE[j]+str(i)] = [self.__COLONNE[j]+str(i+1),self.__COLONNE[j]+str(i-1)] # Aggiunta degli archi adiacenti sotto e sopra
                 if j == self.__PRIMA_COLONNA:
-                    self.scacchiera[self.__COLONNE[j]+str(i)].append(self.__NO_ARCO)
-                    self.scacchiera[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j+1]+str(i))
+                    self.tavoliere[self.__COLONNE[j]+str(i)].append(self.__NO_ARCO) # Aggiunta dell'arco adiacente sinistra
+                    self.tavoliere[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j+1]+str(i)) # Aggiunta dell'arco adiacente destra
                 elif j == self.__ULTIMA_COLONNA:
-                    self.scacchiera[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j-1]+str(i))
-                    self.scacchiera[self.__COLONNE[j]+str(i)].append(self.__NO_ARCO)
+                    self.tavoliere[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j-1]+str(i))# Aggiunta dell'arco adiacente sinistra
+                    self.tavoliere[self.__COLONNE[j]+str(i)].append(self.__NO_ARCO)# Aggiunta dell'arco adiacente destra
                 else:
-                    self.scacchiera[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j-1]+str(i))
-                    self.scacchiera[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j+1]+str(i))
+                    self.tavoliere[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j-1]+str(i)) # Aggiunta dell'arco adiacente sinistra
+                    self.tavoliere[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j+1]+str(i))# Aggiunta dell'arco adiacente destra
                 j+=1
             i-=1
