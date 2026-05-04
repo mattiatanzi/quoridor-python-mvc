@@ -29,3 +29,19 @@ Il sistema è stato progettato come un'applicazione interattiva basata su Comman
 
 ## 8 Analisi retrospettiva
 ### 8.1 Sprint 0
+Al termine dello Sprint 0, il team si è riunito per effettuare il meeting di revisione del processo (Sprint Retrospective). La discussione si è concentrata sull'efficienza del nostro metodo di lavoro e della collaborazione interna.
+
+**Analisi del processo:**
+*   **Cosa ha funzionato:** *Siamo stati in grado di lavorare insieme effettuando review precise e controllando il lavoro in modo puntuale.*
+*   **Aree di riflessione:** *Abbiamo notato che scegliere di impostare un numero di approvazioni minime per una PR potrebbe motivare i membri del team a svolgere un buon lavoro e migliorare l'intesa, inoltre avere nomi non standardizzati di branch e PR potrebbe rendere la lettura 'difficile' talvolta.* 
+
+**Sintesi delle azioni correttive (Miglioramenti per lo Sprint 1):**
+Pur non avendo riscontrato criticità, per ottimizzare ulteriormente il lavoro in questo Sprint 1 il team ha deciso di intraprendere le seguenti azioni organizzative:
+1. Mantenere l'approccio proattivo utilizzato finora.
+2. Inserire label descrittive.
+3. Standardizzare i nomi delle Issue e PR.
+4. Aumentare ancor di più la comunicazione tra i membri del team.
+
+**Lavagna di Retrospettiva**
+> Segue una foto della lavagna utilizzata durante il meeting dal team:
+![Analisi retrospettiva](./img/retrospettivaSprint1.png)
