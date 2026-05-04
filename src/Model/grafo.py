@@ -7,6 +7,12 @@ class Grafo:
     __ULTIMA_COLONNA = 8
     __NO_ARCO = "0" 
 
+    __ARCO_ADIACENTE_SOPRA = 0
+    __ARCO_ADIACENTE_SOTTO = 1
+    __ARCO_ADIACENTE_SINISTRA = 2
+    __ARCO_ADIACENTE_DESTRA = 3 
+
+    __NUMERO_ADIACENTI = 4
     def __init__(self): # Inizializza il grafo
         self.tavoliere = dict.fromkeys(self.inizializzaNodi())
         self.inizializzaArchi()
@@ -44,9 +50,21 @@ class Grafo:
             i-=1
 
     def esisteArco (self, nodo1: str, nodo2: str) ->bool: # Controlla se esiste un arco tra 2 nodi
-        for i in self.tavoliere[nodo1]:
-            if i == nodo2:
-                return True
-        return False
+        return any(i == nodo2 for i in self.tavoliere[nodo1])
 
+    def rimuoviArco(self,nodo1: str,nodo2: str):
+        for i in range(0, self.__NUMERO_ADIACENTI): # Controlla per tutti gli adiacenti del nodo1
+            if self.tavoliere[nodo1] == nodo2: # Se trovato elminia l'arco
+                self.tavoliere[nodo1][i] = self.__NO_ARCO
+                if i == self.__ARCO_ADIACENTE_SOPRA: # Se precedentemente è stato eliminato un arco verso l'alto allora sicuramente per nodo2 ci sarà un arco verso il basso
+                    self.tavoliere[nodo2][i+1] = self.__NO_ARCO
+                elif i == self.__ARCO_ADIACENTE_SOTTO:
+                    self.tavoliere[nodo2][i-1] = self.__NO_ARCO
+                elif i == self.__ARCO_ADIACENTE_SINISTRA:
+                    self.tavoliere[nodo2][i+1] = self.__NO_ARCO
+                else:
+                    self.tavoliere[nodo2][i-1] = self.__NO_ARCO
+                return
+        
+                
 
