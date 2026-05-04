@@ -5,28 +5,30 @@ class Grafo:
     ----------
     name : grafo
         Grafo non orientato strutturato come se fosse una matrice
-    name : COLONNE
-        Lista con elementi costanti contenente elementi da "a" ad "i" in ordine
-    name: PRIMA_RIGA
-        Indica la prima riga del grafo
-    name: ULTIMA_RIGA
-        Indica l'ultima riga del grafo
-    name: PRIMA_COLONNA
-        Indica la prima colonna del grafo
-    name: ULTIMA_COLONNA
-        Indica l'ultima colonan del grafo
-    name: NO_ARCO
-        Indica l'elemento che rappresenta che non c'è un arco tra due nodi
-    name: ARCO_ADIACENTE_SOPRA
-        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sopra
-    name: ARCO_ADIACENTE_SOTTO
-        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sotto
-    name: ARCO_ADIACENTE_SINISTRA
-        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sinistra
-    name: ARCO_ADIACENTE_DESTRA
-        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso destra
-    name: NUMERO_ADIACENTI
-        Indica il numero degli adiacenti presenti
+        Costanti
+        ----------
+        name : COLONNE
+            Lista con elementi costanti contenente elementi da "a" ad "i" in ordine
+        name: PRIMA_RIGA
+            Indica la prima riga del grafo
+        name: ULTIMA_RIGA
+            Indica l'ultima riga del grafo
+        name: PRIMA_COLONNA
+            Indica la prima colonna del grafo
+        name: ULTIMA_COLONNA
+            Indica l'ultima colonan del grafo
+        name: NO_ARCO
+            Indica l'elemento che rappresenta che non c'è un arco tra due nodi
+        name: ARCO_ADIACENTE_SOPRA
+            Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sopra
+        name: ARCO_ADIACENTE_SOTTO
+            Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sotto
+        name: ARCO_ADIACENTE_SINISTRA
+            Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sinistra
+        name: ARCO_ADIACENTE_DESTRA
+            Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso destra
+        name: NUMERO_ADIACENTI
+            Indica il numero degli adiacenti presenti
     Metodi
     -------
     inizializzaNodi(self) ->list[str]:
@@ -59,10 +61,10 @@ class Grafo:
     __NUMERO_ADIACENTI = 4
 
     def __init__(self):  # Inizializza il grafo
-        self.__grafo = dict.fromkeys(self.inizializzaNodi())
-        self.inizializzaArchi()
+        self.__grafo = dict.fromkeys(self.__inizializzaNodi())
+        self.__inizializzaArchi()
 
-    def inizializzaNodi(self) -> list[str]:  # Inizializza i nodi
+    def __inizializza_nodi(self) -> list[str]:  # Inizializza i nodi
         chiavi = []
         i = self.__PRIMA_RIGA
         while i >= self.__ULTIMA_RIGA:  # Imposta il valore della prima lettera del nome
@@ -71,7 +73,7 @@ class Grafo:
             i -= 1
         return chiavi
 
-    def inizializzaArchi(self):  # Inizializzazione degli archi
+    def __inizializza_archi(self):  # Inizializzazione degli archi
         i = self.__PRIMA_RIGA
         while i >= self.__ULTIMA_RIGA:
             j = self.__PRIMA_COLONNA
@@ -117,16 +119,16 @@ class Grafo:
                 j += 1
             i -= 1
 
-    def esisteArco(
+    def esiste_arco(
         self, nodo1: str, nodo2: str
     ) -> bool:  # Controlla se esiste un arco tra 2 nodi
         return any(i == nodo2 for i in self.__grafo[nodo1])
 
-    def rimuoviArco(self, nodo1: str, nodo2: str):
+    def rimuovi_arco(self, nodo1: str, nodo2: str):
         for i in range(
             0, self.__NUMERO_ADIACENTI
         ):  # Controlla per tutti gli adiacenti del nodo1
-            if self.__grafo[nodo1] == nodo2:  # Se trovato elminia l'arco
+            if self.__grafo[nodo1][i] == nodo2:  # Se trovato elminia l'arco
                 self.__grafo[nodo1][i] = self.__NO_ARCO
                 if (
                     i == self.__ARCO_ADIACENTE_SOPRA
