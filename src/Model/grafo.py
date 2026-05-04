@@ -11,7 +11,7 @@ class Grafo:
         self.tavoliere = dict.fromkeys(self.inizializzaNodi())
         self.inizializzaArchi()
 
-    def inizializzaNodi(self): # Inizializza i nodi
+    def inizializzaNodi(self) -> String[]: # Inizializza i nodi
         chiavi = []
         i = self.__PRIMA_RIGA
         while i >=self.__ULTIMA_RIGA: # Imposta il valore della prima lettera del nome
@@ -42,3 +42,12 @@ class Grafo:
                     self.tavoliere[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j+1]+str(i))# Aggiunta dell'arco adiacente destra
                 j+=1
             i-=1
+
+    def esisteArco (self, nodo1: String, nodo2: String) ->bool: # Controlla se esiste un arco tra 2 nodi
+        for i in self.tavoliere[nodo1]:
+            if i == nodo2:
+                return True
+        return False
+
+
+    
