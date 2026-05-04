@@ -14,7 +14,7 @@ class Grafo:
 
     __NUMERO_ADIACENTI = 4
     def __init__(self): # Inizializza il grafo
-        self.tavoliere = dict.fromkeys(self.inizializzaNodi())
+        self.grafo = dict.fromkeys(self.inizializzaNodi())
         self.inizializzaArchi()
 
     def inizializzaNodi(self) ->list[str]: # Inizializza i nodi
@@ -32,38 +32,38 @@ class Grafo:
             j = self.__PRIMA_COLONNA
             while j<=self.__ULTIMA_COLONNA:# Archi con ordine: Sopra, Sotto, Sinistra, Destra
                 if i == self.__ULTIMA_RIGA:
-                    self.tavoliere[self.__COLONNE[j]+str(i)] = [self.__COLONNE[j]+str(i+1),self.__NO_ARCO] # Aggiunta solo dell'arco adiacente sopra
+                    self.grafo[self.__COLONNE[j]+str(i)] = [self.__COLONNE[j]+str(i+1),self.__NO_ARCO] # Aggiunta solo dell'arco adiacente sopra
                 elif i == self.__PRIMA_RIGA:
-                    self.tavoliere[self.__COLONNE[j]+str(i)] = [self.__NO_ARCO,self.__COLONNE[j]+str(i-1)] # Aggiunta solo dell'arco adiacente sotto
+                    self.grafo[self.__COLONNE[j]+str(i)] = [self.__NO_ARCO,self.__COLONNE[j]+str(i-1)] # Aggiunta solo dell'arco adiacente sotto
                 else: 
-                    self.tavoliere[self.__COLONNE[j]+str(i)] = [self.__COLONNE[j]+str(i+1),self.__COLONNE[j]+str(i-1)] # Aggiunta degli archi adiacenti sotto e sopra
+                    self.grafo[self.__COLONNE[j]+str(i)] = [self.__COLONNE[j]+str(i+1),self.__COLONNE[j]+str(i-1)] # Aggiunta degli archi adiacenti sotto e sopra
                 if j == self.__PRIMA_COLONNA:
-                    self.tavoliere[self.__COLONNE[j]+str(i)].append(self.__NO_ARCO) # Aggiunta dell'arco adiacente sinistra
-                    self.tavoliere[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j+1]+str(i)) # Aggiunta dell'arco adiacente destra
+                    self.grafo[self.__COLONNE[j]+str(i)].append(self.__NO_ARCO) # Aggiunta dell'arco adiacente sinistra
+                    self.grafo[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j+1]+str(i)) # Aggiunta dell'arco adiacente destra
                 elif j == self.__ULTIMA_COLONNA:
-                    self.tavoliere[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j-1]+str(i))# Aggiunta dell'arco adiacente sinistra
-                    self.tavoliere[self.__COLONNE[j]+str(i)].append(self.__NO_ARCO)# Aggiunta dell'arco adiacente destra
+                    self.grafo[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j-1]+str(i))# Aggiunta dell'arco adiacente sinistra
+                    self.grafo[self.__COLONNE[j]+str(i)].append(self.__NO_ARCO)# Aggiunta dell'arco adiacente destra
                 else:
-                    self.tavoliere[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j-1]+str(i)) # Aggiunta dell'arco adiacente sinistra
-                    self.tavoliere[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j+1]+str(i))# Aggiunta dell'arco adiacente destra
+                    self.grafo[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j-1]+str(i)) # Aggiunta dell'arco adiacente sinistra
+                    self.grafo[self.__COLONNE[j]+str(i)].append(self.__COLONNE[j+1]+str(i))# Aggiunta dell'arco adiacente destra
                 j+=1
             i-=1
 
     def esisteArco (self, nodo1: str, nodo2: str) ->bool: # Controlla se esiste un arco tra 2 nodi
-        return any(i == nodo2 for i in self.tavoliere[nodo1])
+        return any(i == nodo2 for i in self.grafo[nodo1])
 
     def rimuoviArco(self,nodo1: str,nodo2: str):
         for i in range(0, self.__NUMERO_ADIACENTI): # Controlla per tutti gli adiacenti del nodo1
-            if self.tavoliere[nodo1] == nodo2: # Se trovato elminia l'arco
-                self.tavoliere[nodo1][i] = self.__NO_ARCO
+            if self.grafo[nodo1] == nodo2: # Se trovato elminia l'arco
+                self.grafo[nodo1][i] = self.__NO_ARCO
                 if i == self.__ARCO_ADIACENTE_SOPRA: # Se precedentemente è stato eliminato un arco verso l'alto allora sicuramente per nodo2 ci sarà un arco verso il basso
-                    self.tavoliere[nodo2][i+1] = self.__NO_ARCO
+                    self.grafo[nodo2][i+1] = self.__NO_ARCO
                 elif i == self.__ARCO_ADIACENTE_SOTTO:
-                    self.tavoliere[nodo2][i-1] = self.__NO_ARCO
+                    self.grafo[nodo2][i-1] = self.__NO_ARCO
                 elif i == self.__ARCO_ADIACENTE_SINISTRA:
-                    self.tavoliere[nodo2][i+1] = self.__NO_ARCO
+                    self.grafo[nodo2][i+1] = self.__NO_ARCO
                 else:
-                    self.tavoliere[nodo2][i-1] = self.__NO_ARCO
+                    self.grafo[nodo2][i-1] = self.__NO_ARCO
                 return
         
                 
