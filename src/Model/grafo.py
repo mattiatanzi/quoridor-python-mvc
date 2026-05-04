@@ -1,4 +1,26 @@
-class __grafo:
+class Grafo:
+    """Struttura dati utilizzata per il tavoliere
+
+    Attributi
+    ----------
+    name : grafo
+        Grafo non orientato.
+
+    Metodi
+    -------
+    inizializzaNodi(self) ->list[str]:
+        Inizializza tutti i nodi del grafo
+    
+    inizializzaArchi(self):
+        Imposta gli archi del grafo
+    
+    esisteArco (self, nodo1: str, nodo2: str) ->bool:
+        Controlla se esiste un arco tra i due nodi passati
+    
+    rimuoviArco(self,nodo1: str,nodo2: str):
+        Rimuove l'arco presente tra due nodi
+    
+    """
     __COLONNE = ("a","b","c","d","e","f","g","h","i")
 
     __PRIMA_RIGA = 9
