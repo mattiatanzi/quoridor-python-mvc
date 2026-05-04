@@ -22,4 +22,4 @@ class Nodo:
         return hash(self.nodo)
 
     def get_valore_nodo(self) -> str:
-        return self.nodo()
+        return self.nodo
