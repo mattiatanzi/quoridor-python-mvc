@@ -7,14 +7,24 @@ All'inizio della partita, i pedoni vengono posizionati al centro della rispettiv
 
 L'obiettivo principale concordato per questo Sprint 1 è ottenere il "gioco base funzionante". Il team si è concentrato sull'implementazione del sottoinsieme essenziale di funzionalità (User Story) necessarie per rendere il titolo giocabile in modo minimale. Nello specifico, il rilascio di questa iterazione garantisce la visualizzazione dello stato della partita, il movimento corretto dei pedoni, il piazzamento dei muri (orizzontali e verticali), la determinazione della vittoria e la possibilità di gestire l'interruzione della partita. 
 
-Il sistema è stato progettato come un'applicazione interattiva basata su Command Line Interface (CLI), in cui gli utenti impartiscono comandi testuali compatti (es: e2 per il movimento o e3h per i muri). In conformità con i requisiti non funzionali del progetto, l'intero applicativo è stato sviluppato in Python e predisposto per essere eseguito in modo portabile all'interno di un container Docker, assicurando il pieno supporto multipiattaforma sui principali terminali (Linux, MacOS, PowerShell e Git Bash).
+Il sistema è stato progettato come un'applicazione interattiva basata su Command Line Interface (CLI), in cui gli utenti impartiscono comandi testuali compatti (es: `e2` per il movimento o `e3h` per i muri). In conformità con i requisiti non funzionali del progetto, l'intero applicativo è stato sviluppato in Python e predisposto per essere eseguito in modo portabile all'interno di un container Docker, assicurando il pieno supporto multipiattaforma sui principali terminali (Linux, MacOS, PowerShell e Git Bash).
 ## 2. Modello di dominio
 
 ## 3. Requisiti specifici
 ### 3.1 Requisiti funzionali
-
+1. Visualizzare la scacchiera
+2. Muovere il pedone
+3. Piazzare un muro orizzontale
+4. Piazzare un muro verticale
+5. Verificare la vittoria
+6. Abbandonare la partita
+7. Mostrare un messaggio di aiuto
+8. Uscire dal gioco
 ### 3.2 Requisiti non funzionali
-
+- Il sistema deve essere eseguibile in un container **Docker**.
+- I terminali supportati devono essere: Terminal di Linux, Terminal di MacOS, PowerShell di Windows, Git Bash di Windows. 
+- **Robustezza:** Per qualunque input inaspettato l'applicazione non deve mai andare in crash.
+- La Command Line Interface (CLI) deve accettare notazioni testuali compatte (es. `e2` per il pedone, `e3h` per i muri).
 ## 4. System Design
 
 ## 8 Analisi retrospettiva
