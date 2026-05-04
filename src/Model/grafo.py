@@ -1,6 +1,7 @@
 from nodo import Nodo
 from costanti import Costanti
 
+
 class Grafo:
     """Struttura dati utilizzata per il tavoliere
 
@@ -35,10 +36,14 @@ class Grafo:
         self.__inizializzaArchi()
 
     def __inizializza_nodi(self) -> list[Nodo]:  # Inizializza i nodi
-        chiavi : list[Nodo] = [] 
+        chiavi: list[Nodo] = []
         i = self.__COSTANTI.PRIMA_RIGA
-        while i >= self.__COSTANTI.ULTIMA_RIGA:  # Imposta il valore della prima lettera del nome
-            for j in self.__COSTANTI.COLONNE:  # Imposta il valore della seconda lettera del nome
+        while (
+            i >= self.__COSTANTI.ULTIMA_RIGA
+        ):  # Imposta il valore della prima lettera del nome
+            for j in (
+                self.__COSTANTI.COLONNE
+            ):  # Imposta il valore della seconda lettera del nome
                 nodo_attuale = Nodo(j + str(i))
                 chiavi.append(nodo_attuale)
             i -= 1
@@ -72,7 +77,9 @@ class Grafo:
                         nodo_adiacente_sotto,
                     ]  # Aggiunta degli archi adiacenti sotto e sopra
                 if j == self.__COSTANTI.PRIMA_COLONNA:
-                    nodo_adiacente_destra = Nodo(self.__COSTANTI.COLONNE[j + 1] + str(i))
+                    nodo_adiacente_destra = Nodo(
+                        self.__COSTANTI.COLONNE[j + 1] + str(i)
+                    )
                     self.__grafo[nodo_attuale].append(
                         self.__COSTANTI.NO_ARCO
                     )  # Aggiunta dell'arco adiacente sinistra

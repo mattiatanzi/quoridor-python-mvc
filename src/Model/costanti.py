@@ -1,4 +1,6 @@
 from nodo import Nodo
+
+
 class Costanti:
     """Costanti presenti per tutte le classi
     Costanti
@@ -32,10 +34,11 @@ class Costanti:
     nome: MURO_VERTICALE
         Indica il carattere del muro verticale
     nome: MURO_DIVISORIO_ORIZZONTALE
-        Indica il muro divisorio che divide l'intestazione delle colonne dalle celle 
+        Indica il muro divisorio che divide l'intestazione delle colonne dalle celle
     nome: CELLA_VUOTA
         Indica il valore presente nel tavoliere per rappresentare una cella
     """
+
     COLONNE = ("a", "b", "c", "d", "e", "f", "g", "h", "i")
 
     PRIMA_RIGA = 9
@@ -55,6 +58,8 @@ class Costanti:
     SPAZIO_MURO = "   "
 
     MURO_VERTICALE = "|"
-    MURO_DIVISORIO_ORIZZONTALE = "-----------------------------------------------------------------------"
+    MURO_DIVISORIO_ORIZZONTALE = (
+        "-----------------------------------------------------------------------"
+    )
 
     CELLA_VUOTA = "."
