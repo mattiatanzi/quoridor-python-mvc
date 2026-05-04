@@ -3,31 +3,31 @@ class Grafo:
 
     Attributi
     ----------
-    name : grafo
+    nome : grafo
         Grafo non orientato strutturato come se fosse una matrice
         Costanti
         ----------
-        name : COLONNE
+        nome : COLONNE
             Tupla con elementi costanti contenente elementi da "a" ad "i" in ordine
-        name: PRIMA_RIGA
+        nome: PRIMA_RIGA
             Indica la prima riga del grafo
-        name: ULTIMA_RIGA
+        nome: ULTIMA_RIGA
             Indica l'ultima riga del grafo
-        name: PRIMA_COLONNA
+        nome: PRIMA_COLONNA
             Indica la prima colonna del grafo
-        name: ULTIMA_COLONNA
+        nome: ULTIMA_COLONNA
             Indica l'ultima colonan del grafo
-        name: NO_ARCO
+        nome: NO_ARCO
             Indica l'elemento che rappresenta che non c'è un arco tra due nodi
-        name: ARCO_ADIACENTE_SOPRA
+        nome: ARCO_ADIACENTE_SOPRA
             Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sopra
-        name: ARCO_ADIACENTE_SOTTO
+        nome: ARCO_ADIACENTE_SOTTO
             Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sotto
-        name: ARCO_ADIACENTE_SINISTRA
+        nome: ARCO_ADIACENTE_SINISTRA
             Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sinistra
-        name: ARCO_ADIACENTE_DESTRA
+        nome: ARCO_ADIACENTE_DESTRA
             Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso destra
-        name: NUMERO_ADIACENTI
+        nome: NUMERO_ADIACENTI
             Indica il numero degli adiacenti presenti
     Metodi
     -------
