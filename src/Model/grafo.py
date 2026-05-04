@@ -11,7 +11,7 @@ class Grafo:
         self.tavoliere = dict.fromkeys(self.inizializzaNodi())
         self.inizializzaArchi()
 
-    def inizializzaNodi(self) -> String[]: # Inizializza i nodi
+    def inizializzaNodi(self) ->list[str]: # Inizializza i nodi
         chiavi = []
         i = self.__PRIMA_RIGA
         while i >=self.__ULTIMA_RIGA: # Imposta il valore della prima lettera del nome
@@ -50,4 +50,3 @@ class Grafo:
         return False
 
 
-    
