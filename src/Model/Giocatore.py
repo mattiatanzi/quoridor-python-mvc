@@ -1,3 +1,6 @@
+from xxlimited import new
+
+
 class Giocatore:
     """Classe Giocatore.
 
@@ -22,16 +25,46 @@ class Giocatore:
                 P1 (Giocatore 1)
                 P3 (Giocatore 3)
 
+        - posizioneCorrente
+
+            Privato
+
+            Tipo stringa
+
+            La posizione del giocatore rispetto al tavoliere nella partita in corso
+
+            Viene riportata nel formato 'an', come le posizioni del tavoliere
+
+            Per informazioni sulla notazione usata per le posizioni consultare
+            la documentazione sul tavoliere di gioco
 
     """
 
+    # Variabili
     __idGiocatore: str
+    __posizioneCorrente: str
 
-    def __init__(self, newIdGiocatore: str):
+    # Costanti
+    __DEF_POSIZIONE = "a1"
+
+    # Metodi
+
+    # Costruttore
+
+    def __init__(self, newIdGiocatore: str, newPosizione: str = __DEF_POSIZIONE):
         self.setID(newIdGiocatore)
+        self.setPosizione(newPosizione)
+
+    # Modificatori / Osservatori
 
     def getID(self) -> str:
         return self.__idGiocatore
 
     def setID(self, newIdGiocatore: str):
         self.__idGiocatore = newIdGiocatore
+
+    def getPosizione(self) -> str:
+        return self.__posizioneCorrente
+
+    def setPosizione(self, newPosizione: str):
+        self.__posizioneCorrente = newPosizione
