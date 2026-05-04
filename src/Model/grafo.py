@@ -4,8 +4,29 @@ class Grafo:
     Attributi
     ----------
     name : grafo
-        Grafo non orientato.
-
+        Grafo non orientato strutturato come se fosse una matrice
+    name : COLONNE
+        Lista con elementi costanti contenente elementi da "a" ad "i" in ordine
+    name: PRIMA_RIGA
+        Indica la prima riga del grafo
+    name: ULTIMA_RIGA
+        Indica l'ultima riga del grafo
+    name: PRIMA_COLONNA
+        Indica la prima colonna del grafo
+    name: ULTIMA_COLONNA
+        Indica l'ultima colonan del grafo
+    name: NO_ARCO
+        Indica l'elemento che rappresenta che non c'è un arco tra due nodi
+    name: ARCO_ADIACENTE_SOPRA
+        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sopra
+    name: ARCO_ADIACENTE_SOTTO
+        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sotto
+    name: ARCO_ADIACENTE_SINISTRA
+        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sinistra
+    name: ARCO_ADIACENTE_DESTRA
+        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso destra
+    name: NUMERO_ADIACENTI
+        Indica il numero degli adiacenti presenti
     Metodi
     -------
     inizializzaNodi(self) ->list[str]:
