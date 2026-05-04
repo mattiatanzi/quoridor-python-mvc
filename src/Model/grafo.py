@@ -1,3 +1,4 @@
+from nodo import Nodo
 class Grafo:
     """Struttura dati utilizzata per il tavoliere
 
@@ -31,16 +32,16 @@ class Grafo:
             Indica il numero degli adiacenti presenti
     Metodi
     -------
-    inizializzaNodi(self) ->list[str]:
+    inizializzaNodi(self) ->list[Nodo]:
         Inizializza tutti i nodi del grafo
 
     inizializzaArchi(self):
         Imposta gli archi del grafo
 
-    esisteArco (self, nodo1: str, nodo2: str) ->bool:
+    esisteArco (self, nodo1: Nodo, nodo2: Nodo) ->bool:
         Controlla se esiste un arco tra i due nodi passati
 
-    rimuoviArco(self,nodo1: str,nodo2: str):
+    rimuoviArco(self,nodo1: Nodo,nodo2: Nodo):
         Rimuove l'arco presente tra due nodi
 
     """
@@ -51,7 +52,7 @@ class Grafo:
     __ULTIMA_RIGA = 1
     __PRIMA_COLONNA = 0
     __ULTIMA_COLONNA = 8
-    __NO_ARCO = "0"
+    __NO_ARCO = Nodo("0")
 
     __ARCO_ADIACENTE_SOPRA = 0
     __ARCO_ADIACENTE_SOTTO = 1
@@ -64,12 +65,13 @@ class Grafo:
         self.__grafo = dict.fromkeys(self.__inizializzaNodi())
         self.__inizializzaArchi()
 
-    def __inizializza_nodi(self) -> list[str]:  # Inizializza i nodi
-        chiavi = []
+    def __inizializza_nodi(self) -> list[Nodo]:  # Inizializza i nodi
+        chiavi = list[Nodo]
         i = self.__PRIMA_RIGA
         while i >= self.__ULTIMA_RIGA:  # Imposta il valore della prima lettera del nome
             for j in self.__COLONNE:  # Imposta il valore della seconda lettera del nome
-                chiavi.append(j + str(i))
+                nodo_attuale = Nodo(j + str(i))
+                chiavi.append(nodo_attuale)
             i -= 1
         return chiavi
 
@@ -80,51 +82,60 @@ class Grafo:
             while (
                 j <= self.__ULTIMA_COLONNA
             ):  # Archi con ordine: Sopra, Sotto, Sinistra, Destra
+                nodo_attuale = Nodo(self.__COLONNE[j] + str(i))
                 if i == self.__ULTIMA_RIGA:
-                    self.__grafo[self.__COLONNE[j] + str(i)] = [
-                        self.__COLONNE[j] + str(i + 1),
+                    nodo_adiacente_sopra = Nodo(self.__COLONNE[j] + str(i + 1))
+                    self.__grafo[nodo_attuale] = [
+                        nodo_adiacente_sopra,
                         self.__NO_ARCO,
                     ]  # Aggiunta solo dell'arco adiacente sopra
                 elif i == self.__PRIMA_RIGA:
-                    self.__grafo[self.__COLONNE[j] + str(i)] = [
+                    nodo_adiacente_sotto = Nodo(self.__COLONNE[j] + str(i - 1))
+                    self.__grafo[nodo_attuale] = [
                         self.__NO_ARCO,
-                        self.__COLONNE[j] + str(i - 1),
+                        nodo_adiacente_sotto,
                     ]  # Aggiunta solo dell'arco adiacente sotto
                 else:
-                    self.__grafo[self.__COLONNE[j] + str(i)] = [
-                        self.__COLONNE[j] + str(i + 1),
-                        self.__COLONNE[j] + str(i - 1),
+                    nodo_adiacente_sopra = Nodo(self.__COLONNE[j] + str(i + 1))
+                    nodo_adiacente_sotto = Nodo(self.__COLONNE[j] + str(i - 1))
+                    self.__grafo[nodo_attuale] = [
+                        nodo_adiacente_sopra,
+                        nodo_adiacente_sotto,
                     ]  # Aggiunta degli archi adiacenti sotto e sopra
                 if j == self.__PRIMA_COLONNA:
-                    self.__grafo[self.__COLONNE[j] + str(i)].append(
+                    nodo_adiacente_destra = Nodo(self.__COLONNE[j + 1] + str(i))
+                    self.__grafo[nodo_attuale].append(
                         self.__NO_ARCO
                     )  # Aggiunta dell'arco adiacente sinistra
-                    self.__grafo[self.__COLONNE[j] + str(i)].append(
-                        self.__COLONNE[j + 1] + str(i)
+                    self.__grafo[nodo_attuale].append(
+                        nodo_adiacente_destra
                     )  # Aggiunta dell'arco adiacente destra
                 elif j == self.__ULTIMA_COLONNA:
-                    self.__grafo[self.__COLONNE[j] + str(i)].append(
-                        self.__COLONNE[j - 1] + str(i)
+                    nodo_adiacente_sinistra = self.__COLONNE[j - 1] + str(i)
+                    self.__grafo[nodo_attuale].append(
+                        nodo_adiacente_sinistra
                     )  # Aggiunta dell'arco adiacente sinistra
-                    self.__grafo[self.__COLONNE[j] + str(i)].append(
+                    self.__grafo[nodo_attuale].append(
                         self.__NO_ARCO
                     )  # Aggiunta dell'arco adiacente destra
                 else:
-                    self.__grafo[self.__COLONNE[j] + str(i)].append(
-                        self.__COLONNE[j - 1] + str(i)
+                    nodo_adiacente_sinistra = self.__COLONNE[j - 1] + str(i)
+                    nodo_adiacente_destra = self.__COLONNE[j + 1] + str(i)
+                    self.__grafo[nodo_attuale].append(
+                        nodo_adiacente_sinistra
                     )  # Aggiunta dell'arco adiacente sinistra
-                    self.__grafo[self.__COLONNE[j] + str(i)].append(
-                        self.__COLONNE[j + 1] + str(i)
+                    self.__grafo[nodo_attuale].append(
+                        nodo_adiacente_destra
                     )  # Aggiunta dell'arco adiacente destra
                 j += 1
             i -= 1
 
     def esiste_arco(
-        self, nodo1: str, nodo2: str
+        self, nodo1: Nodo, nodo2: Nodo
     ) -> bool:  # Controlla se esiste un arco tra 2 nodi
         return any(i == nodo2 for i in self.__grafo[nodo1])
 
-    def rimuovi_arco(self, nodo1: str, nodo2: str):
+    def rimuovi_arco(self, nodo1: Nodo, nodo2: Nodo):
         for i in range(
             0, self.__NUMERO_ADIACENTI
         ):  # Controlla per tutti gli adiacenti del nodo1
