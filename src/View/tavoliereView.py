@@ -30,7 +30,7 @@ class TavoliereView:
     """
 
     __COLONNE = ("a","b","c","d","e","f","g","h","i")
-    
+
     __PRIMA_RIGA = 9
     __ULTIMA_RIGA = 1
     __PRIMA_COLONNA = 0
@@ -45,7 +45,7 @@ class TavoliereView:
     __CELLA_VUOTA = "."
 
 
-    def stampaTavoliere(self):
+    def stampa_tavoliere(self):
         
         stampa = " "
         for i in self.__COLONNE:
