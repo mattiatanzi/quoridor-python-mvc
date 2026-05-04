@@ -35,7 +35,7 @@ class Grafo:
         self.__inizializzaArchi()
 
     def __inizializza_nodi(self) -> list[Nodo]:  # Inizializza i nodi
-        chiavi = list[Nodo]
+        chiavi : list[Nodo] = [] 
         i = self.__COSTANTI.PRIMA_RIGA
         while i >= self.__COSTANTI.ULTIMA_RIGA:  # Imposta il valore della prima lettera del nome
             for j in self.__COSTANTI.COLONNE:  # Imposta il valore della seconda lettera del nome
@@ -116,7 +116,7 @@ class Grafo:
                     self.__grafo[nodo2][i + 1] = self.__COSTANTI.NO_ARCO
                 elif i == self.__COSTANTI.ARCO_ADIACENTE_SOTTO:
                     self.__grafo[nodo2][i - 1] = self.__COSTANTI.NO_ARCO
-                elif i == self.__ARCO_ADIACENTE_SINISTRA:
+                elif i == self.__COSTANTI.ARCO_ADIACENTE_SINISTRA:
                     self.__grafo[nodo2][i + 1] = self.__COSTANTI.NO_ARCO
                 else:
                     self.__grafo[nodo2][i - 1] = self.__COSTANTI.NO_ARCO
