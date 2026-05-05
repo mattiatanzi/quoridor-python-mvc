@@ -7,33 +7,55 @@ class Giocatore:
     Attributi:
 
         - idGiocatore
+            TIPO
+                Privato, Tipo Stringa
+            DESCRIZIONE
+                l'ID del giocatore, necessario a determinarne la posizione sul
+                tavoliere (oltre a eventualmente distinguerlo dagli altri giocatori).
+                Indicata nel formato 'Pn', dove n appartiene a [1,4].
 
-            Privato
-
-            Tipo stringa
-
-            l'ID del giocatore, necessario a determinarne la posizione sul
-            tavoliere (oltre a eventualmente distinguerlo dagli altri giocatori)
-
-            Indicata nel formato 'Pn', dove
-                n appartiene a [1,4]
-
-            Esempi:
-                P1 (Giocatore 1)
-                P3 (Giocatore 3)
+                Esempi:
+                    P1 (Giocatore 1)
+                    P3 (Giocatore 3)
 
         - posizioneCorrente
+            TIPO
+                Privato, Tipo stringa
+            DESCRIZIONE
+                La posizione del giocatore rispetto al tavoliere nella partita in corso.
+                La notazione utilizzata è la stessa di quella utilizzata
+                per il tavoliere.
+                Per informazioni sulla notazione usata per le posizioni consultare
+                la documentazione sul tavoliere di gioco.
 
-            Privato
 
-            Tipo stringa
+    Metodi:
 
-            La posizione del giocatore rispetto al tavoliere nella partita in corso
+        ------ Costruttori ------
 
-            Viene riportata nel formato 'an', come le posizioni del tavoliere
+        - __init__(self, newIdGiocatore: str, newPosizione: str = __DEF_POSIZIONE):
+            DESCRIZIONE
+                Costruttore di Base.
+                Dato un ID e una posizione restituisce un giocatore.
 
-            Per informazioni sulla notazione usata per le posizioni consultare
-            la documentazione sul tavoliere di gioco
+        ------ Metodi Accesso Attributi Privati ------
+
+        - get_id(self) -> str:
+            DESCRIZIONE
+                Restituisce l'ID del giocatore
+
+
+        def set_id(self, newIdGiocatore: str):
+            DESCRIZIONE
+                Modifica l'ID del giocatore
+
+        def get_posizione(self) -> str:
+            DESCRIZIONE
+                Restituisce la posizione del giocatore
+
+        def set_posizione(self, newPosizione: str):
+            DESCRIZIONE
+                Modifica la posizione del giocatore
 
     """
 
