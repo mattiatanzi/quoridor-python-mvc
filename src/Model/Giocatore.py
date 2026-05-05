@@ -1,6 +1,3 @@
-from xxlimited import new
-
-
 class Giocatore:
     """Classe Giocatore.
 
