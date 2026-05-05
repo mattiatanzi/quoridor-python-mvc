@@ -44,4 +44,4 @@ Pur non avendo riscontrato criticità, per ottimizzare ulteriormente il lavoro i
 
 **Lavagna di Retrospettiva**
 > Segue una foto della lavagna utilizzata durante il meeting dal team:
-![Analisi retrospettiva](./img/retrospettivaSprint1.png)
+![Analisi retrospettiva](./img/retrospettivaSprint1'.png)
