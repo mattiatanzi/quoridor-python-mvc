@@ -2,7 +2,8 @@ from nodo import Nodo
 
 
 class Costanti:
-    """Costanti presenti per tutte le classi
+    """Costanti presenti per tutte le classi.
+    
     Costanti
     ----------
     nome : COLONNE

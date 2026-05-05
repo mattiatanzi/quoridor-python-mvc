@@ -1,9 +1,9 @@
-from nodo import Nodo
 from costanti import Costanti
+from nodo import Nodo
 
 
 class Grafo:
-    """Struttura dati utilizzata per il tavoliere
+    """Struttura dati utilizzata per il tavoliere.
 
     Attributi
     ----------

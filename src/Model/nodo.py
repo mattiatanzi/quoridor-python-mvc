@@ -1,5 +1,5 @@
 class Nodo:
-    """Contiene informazioni del nodo del grafo
+    """Contiene informazioni del nodo del grafo.
 
     Attributi:
     ---------
@@ -16,8 +16,9 @@ class Nodo:
     def __init__(self, valore_iniziale: str):
         self.nodo = valore_iniziale
 
-    def __eq__(self, nodo: 'Nodo') -> bool:
+    def __eq__(self, nodo: "Nodo") -> bool:
         return self.get_valore_nodo() == nodo.get_valore_nodo()
+
     def __hash__(self):
         return hash(self.nodo)
 
