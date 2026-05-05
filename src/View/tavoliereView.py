@@ -1,8 +1,10 @@
-from Model.tavoliere import Tavoliere
 from Model.costanti import Costanti
+from Model.tavoliere import Tavoliere
+
 
 class TavoliereView:
-    """Rappresenta l'insieme di operazioni per mostrare a video il tavoliere
+    """Rappresenta l'insieme di operazioni per mostrare a video il tavoliere.
+
     Costanti
     --------
         nome: COSTANTI
