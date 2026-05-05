@@ -52,19 +52,19 @@ class Giocatore:
     # Costruttore
 
     def __init__(self, newIdGiocatore: str, newPosizione: str = __DEF_POSIZIONE):
-        self.setID(newIdGiocatore)
-        self.setPosizione(newPosizione)
+        self.set_id(newIdGiocatore)
+        self.set_posizione(newPosizione)
 
     # Modificatori / Osservatori
 
-    def getID(self) -> str:
+    def get_id(self) -> str:
         return self.__idGiocatore
 
-    def setID(self, newIdGiocatore: str):
+    def set_id(self, newIdGiocatore: str):
         self.__idGiocatore = newIdGiocatore
 
-    def getPosizione(self) -> str:
+    def get_posizione(self) -> str:
         return self.__posizioneCorrente
 
-    def setPosizione(self, newPosizione: str):
+    def set_posizione(self, newPosizione: str):
         self.__posizioneCorrente = newPosizione
