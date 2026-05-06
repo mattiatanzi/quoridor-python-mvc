@@ -35,8 +35,8 @@ class Grafo:
         self.__grafo = dict.fromkeys(self.__inizializza_nodi())
         self.__inizializza_archi()
 
-    def __inizializza_nodi(self) -> list[Nodo]:  # Inizializza i nodi
-        chiavi: list[Nodo] = []
+    def __inizializza_nodi(self) -> set[Nodo]:  # Inizializza i nodi
+        chiavi: set[Nodo] = set()
         i = self.__COSTANTI.PRIMA_RIGA
         while (
             i >= self.__COSTANTI.ULTIMA_RIGA
@@ -45,7 +45,7 @@ class Grafo:
                 self.__COSTANTI.COLONNE
             ):  # Imposta il valore della seconda lettera del nome
                 nodo_attuale = Nodo(j + str(i))
-                chiavi.append(nodo_attuale)
+                chiavi.add(nodo_attuale)
             i -= 1
         return chiavi
 
