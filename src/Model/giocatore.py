@@ -57,6 +57,8 @@ class Giocatore:
                 Privato, Tipo int
             DESCRIZIONE
                 Numero di muri piazzabili dal giocatore
+                Ad inizio partita il giocatore ha a disposizione 10 muri.
+                Se un giocatore termina i muri a disposizioni, non potrà più piazzarne.
 
 
     Metodi:
