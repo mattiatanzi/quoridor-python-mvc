@@ -57,45 +57,41 @@ class Grafo:
                 j <= self.__COSTANTI.ULTIMA_COLONNA
             ):  # Archi con ordine: Sopra, Sotto, Sinistra, Destra
                 nodo_attuale = Nodo(self.__COSTANTI.COLONNE[j] + str(i))
+                self.__grafo[nodo_attuale] = [self.__COSTANTI.NO_ARCO] * 4
                 if i == self.__COSTANTI.ULTIMA_RIGA:
                     nodo_adiacente_sopra = Nodo(self.__COSTANTI.COLONNE[j] + str(i + 1))
-                    self.__grafo[nodo_attuale] = [
-                        nodo_adiacente_sopra,
-                        self.__COSTANTI.NO_ARCO,
-                    ]  # Aggiunta solo dell'arco adiacente sopra
+                    self.__grafo[nodo_attuale][self.__COSTANTI.ARCO_ADIACENTE_SOPRA] = (
+                        nodo_adiacente_sopra  # Aggiunta solo dell'arco adiacente sopra
+                    )
                 elif i == self.__COSTANTI.PRIMA_RIGA:
                     nodo_adiacente_sotto = Nodo(self.__COSTANTI.COLONNE[j] + str(i - 1))
-                    self.__grafo[nodo_attuale] = [
-                        self.__COSTANTI.NO_ARCO,
-                        nodo_adiacente_sotto,
-                    ]  # Aggiunta solo dell'arco adiacente sotto
+                    self.__grafo[nodo_attuale][self.__COSTANTI.ARCO_ADIACENTE_SOTTO] = (
+                        nodo_adiacente_sotto  # Aggiunta solo dell'arco adiacente sotto
+                    )
                 else:
+                    # Aggiunta degli archi adiacenti sotto e sopra
                     nodo_adiacente_sopra = Nodo(self.__COSTANTI.COLONNE[j] + str(i + 1))
                     nodo_adiacente_sotto = Nodo(self.__COSTANTI.COLONNE[j] + str(i - 1))
-                    self.__grafo[nodo_attuale] = [
-                        nodo_adiacente_sopra,
-                        nodo_adiacente_sotto,
-                    ]  # Aggiunta degli archi adiacenti sotto e sopra
+                    self.__grafo[nodo_attuale][self.__COSTANTI.ARCO_ADIACENTE_SOPRA] = (
+                        nodo_adiacente_sopra
+                    )
+                    self.__grafo[nodo_attuale][self.__COSTANTI.ARCO_ADIACENTE_SOTTO] = (
+                        nodo_adiacente_sotto
+                    )
                 if j == self.__COSTANTI.PRIMA_COLONNA:
                     nodo_adiacente_destra = Nodo(
                         self.__COSTANTI.COLONNE[j + 1] + str(i)
                     )
-                    self.__grafo[nodo_attuale].append(
-                        self.__COSTANTI.NO_ARCO
-                    )  # Aggiunta dell'arco adiacente sinistra
-                    self.__grafo[nodo_attuale].append(
-                        nodo_adiacente_destra
-                    )  # Aggiunta dell'arco adiacente destra
+                    self.__grafo[nodo_attuale][
+                        self.__COSTANTI.ARCO_ADIACENTE_DESTRA
+                    ] = nodo_adiacente_destra  # Aggiunta dell'arco adiacente destra
                 elif j == self.__COSTANTI.ULTIMA_COLONNA:
                     nodo_adiacente_sinistra = Nodo(
                         self.__COSTANTI.COLONNE[j - 1] + str(i)
                     )
-                    self.__grafo[nodo_attuale].append(
-                        nodo_adiacente_sinistra
-                    )  # Aggiunta dell'arco adiacente sinistra
-                    self.__grafo[nodo_attuale].append(
-                        self.__COSTANTI.NO_ARCO
-                    )  # Aggiunta dell'arco adiacente destra
+                    self.__grafo[nodo_attuale][
+                        self.__COSTANTI.ARCO_ADIACENTE_SINISTRA
+                    ] = nodo_adiacente_sinistra  # Aggiunta dell'arco adiacente sinistra
                 else:
                     nodo_adiacente_sinistra = Nodo(
                         self.__COSTANTI.COLONNE[j - 1] + str(i)
@@ -103,12 +99,14 @@ class Grafo:
                     nodo_adiacente_destra = Nodo(
                         self.__COSTANTI.COLONNE[j + 1] + str(i)
                     )
-                    self.__grafo[nodo_attuale].append(
-                        nodo_adiacente_sinistra
-                    )  # Aggiunta dell'arco adiacente sinistra
-                    self.__grafo[nodo_attuale].append(
-                        nodo_adiacente_destra
-                    )  # Aggiunta dell'arco adiacente destra
+                    self.__grafo[nodo_attuale][
+                        self.__COSTANTI.ARCO_ADIACENTE_SINISTRA
+                    ] = nodo_adiacente_sinistra  # Aggiunta dell'arco adiacente destra
+
+                    self.__grafo[nodo_attuale][
+                        self.__COSTANTI.ARCO_ADIACENTE_DESTRA
+                    ] = nodo_adiacente_destra  # Aggiunta dell'arco adiacente destra
+
                 j += 1
             i -= 1
 
