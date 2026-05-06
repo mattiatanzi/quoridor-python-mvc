@@ -16,13 +16,13 @@ class Nodo:
     """
 
     def __init__(self, valore_iniziale: str):
-        self.nodo = valore_iniziale
+        self.id_nodo = valore_iniziale
 
     def __eq__(self, nodo: "Nodo") -> bool:
-        return self.get_valore_nodo() == nodo.get_valore_nodo()
+        return self.get_valore_id_nodo() == nodo.get_valore_id_nodo()
 
     def __hash__(self):
-        return hash(self.nodo)
+        return hash(self.id_nodo)
 
-    def get_valore_nodo(self) -> str:
-        return self.nodo
+    def get_valore_id_nodo(self) -> str:
+        return self.id_nodo
