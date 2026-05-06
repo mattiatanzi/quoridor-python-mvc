@@ -98,7 +98,7 @@ class Giocatore:
         if newIdGiocatore[0] != 'P':
             raise ErroreId("L'id deve avere come primo carattere 'P'")
 
-        if newIdGiocatore[1] != '2' and newIdGiocatore != '1'
+        if newIdGiocatore[1] != '2' and newIdGiocatore[1] != '1':
             raise ErroreId("L'id deve avere come secondo carattere '1' o '2', in base al numero del giocatore")
 
         self.__idGiocatore = newIdGiocatore
