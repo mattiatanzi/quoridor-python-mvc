@@ -9,7 +9,43 @@ L'obiettivo principale concordato per questo Sprint 1 è ottenere il "gioco base
 
 Il sistema è stato progettato come un'applicazione interattiva basata su Command Line Interface (CLI), in cui gli utenti impartiscono comandi testuali compatti (es: `e2` per il movimento o `e3h` per i muri). In conformità con i requisiti non funzionali del progetto, l'intero applicativo è stato sviluppato in Python e predisposto per essere eseguito in modo portabile all'interno di un container Docker, assicurando il pieno supporto multipiattaforma sui principali terminali (Linux, MacOS, PowerShell e Git Bash).
 ## 2. Modello di dominio
-[![](https://mermaid.ink/img/pako:eNp9U01r5DAM_StGx5IGJ_ORxJReurCXLZSlpyWwiNjNmCbW4Dhld4b573W-JkkZ6oMjWe9Jeop9hoKkAgFFhU3zQ2Npsc4N80tqqwqnybBfv3MznPUo9oLWaYfsPBxe1tFX_KBKK6umeLesLg9qdguqyBh1k_-EjaoqXLILIiu1QYc3GT81FehoXVFLZZx-00NkPq9bq_9aXaPp4jfzvShJZpXsJuy5tbQEkdU-JdZ-oy-EeSY5RDmwu_t7b915a1Q7wGYhA6xHdcbYkfDd04dij9_AeRhG3Dt9d4IdNZ5OODHGPANqWWAaumBUFO3xSuiz9PCYL_GzIF-CGn3y98S3wpp2Yk4Z161tV7VQaiz8uK6Kppu1lO9Le3vWKtgDKzvvG0mjfR1bg5XrNUEApdUShLOtCqBWtsbOhf4_5uAOqlY5CG9KtO855ObiOUc0f4jqiWapLQ8g3rBqvNceJTo1vp0rRBmp7BO1xoGIEt7nAHGGfyCSOORRlkY822bpJkriAP57EM_C7TaK9zxL97s44ptLAKe-Kg-TON1soh3fx7s4TtMkACW1H8fz-Hq7z-UT2CMfMg?type=png)](https://mermaid.live/edit#pako:eNp9U01r5DAM_StGx5IGJ_ORxJReurCXLZSlpyWwiNjNmCbW4Dhld4b573W-JkkZ6oMjWe9Jeop9hoKkAgFFhU3zQ2Npsc4N80tqqwqnybBfv3MznPUo9oLWaYfsPBxe1tFX_KBKK6umeLesLg9qdguqyBh1k_-EjaoqXLILIiu1QYc3GT81FehoXVFLZZx-00NkPq9bq_9aXaPp4jfzvShJZpXsJuy5tbQEkdU-JdZ-oy-EeSY5RDmwu_t7b915a1Q7wGYhA6xHdcbYkfDd04dij9_AeRhG3Dt9d4IdNZ5OODHGPANqWWAaumBUFO3xSuiz9PCYL_GzIF-CGn3y98S3wpp2Yk4Z161tV7VQaiz8uK6Kppu1lO9Le3vWKtgDKzvvG0mjfR1bg5XrNUEApdUShLOtCqBWtsbOhf4_5uAOqlY5CG9KtO855ObiOUc0f4jqiWapLQ8g3rBqvNceJTo1vp0rRBmp7BO1xoGIEt7nAHGGfyCSOORRlkY822bpJkriAP57EM_C7TaK9zxL97s44ptLAKe-Kg-TON1soh3fx7s4TtMkACW1H8fz-Hq7z-UT2CMfMg)
+```mermaid
+classDiagram
+    direction TD
+
+    class Partita
+
+    class Pedone {
+
+    }
+
+    class Tavoliere {
+        righe
+        colonne
+    }
+
+    class Casella {
+        coordinata
+    }
+
+    class Giocatore {
+        identificatore
+        muri_rimanenti
+    }
+
+    class Muro {
+        orientamento
+    }
+
+    Tavoliere "1" *-- "*" Casella
+    Giocatore "1" -- "1" Pedone : muove >
+    Giocatore "1" -- "0..10" Muro : piazza >
+    Pedone "0..1" --  "1" Casella : occupa >
+    Muro "0..20" -- "1" Tavoliere : posizionato su >
+    Casella "1" -- "0..4" Casella : adiacente >
+    Partita "1" -- "1..2" Giocatore : < gioca
+    Pedone "0..1" -- "0..1" Pedone : salta >
+```
 ## 3. Requisiti specifici
 ### 3.1 Requisiti funzionali
 1. Visualizzare la scacchiera
