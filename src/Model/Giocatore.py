@@ -75,12 +75,13 @@ class Giocatore:
 
     # Costanti
     __DEF_POSIZIONE = "a1"
+    __DEF_ID        = "P1"
 
     # Metodi
 
     # Costruttore
 
-    def __init__(self, newIdGiocatore: str, newPosizione: str = __DEF_POSIZIONE):
+    def __init__(self, newIdGiocatore: str = __DEF_ID, newPosizione: str = __DEF_POSIZIONE):
         self.set_id(newIdGiocatore)
         self.set_posizione(newPosizione)
 
