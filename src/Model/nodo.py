@@ -22,7 +22,7 @@ class Nodo:
         return self.get_valore_id_nodo() == nodo.get_valore_id_nodo()
 
     def __hash__(self):
-        return hash(self.nodo)
+        return hash(self.id_nodo)
 
     def get_valore_id_nodo(self) -> str:
         return self.id_nodo
