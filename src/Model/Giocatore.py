@@ -12,11 +12,11 @@ class Giocatore:
             DESCRIZIONE
                 l'ID del giocatore, necessario a determinarne la posizione sul
                 tavoliere (oltre a eventualmente distinguerlo dagli altri giocatori).
-                Indicata nel formato 'Pn', dove n appartiene a [1,4].
+                Indicata nel formato 'Pn', dove n appartiene a {1,2}.
 
                 Esempi:
                     P1 (Giocatore 1)
-                    P3 (Giocatore 3)
+                    P2 (Giocatore 2)
 
         - posizioneCorrente
             TIPO
