@@ -63,11 +63,11 @@ class Giocatore:
             DESCRIZIONE
                 Modifica l'ID del giocatore
 
-        def get_posizione(self) -> str:
+        def get_posizione(self) -> Nodo:
             DESCRIZIONE
                 Restituisce la posizione del giocatore
 
-        def set_posizione(self, newPosizione: str):
+        def set_posizione(self, newPosizione: Nodo):
             DESCRIZIONE
                 Modifica la posizione del giocatore
 
