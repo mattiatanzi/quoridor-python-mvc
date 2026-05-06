@@ -1,3 +1,6 @@
+from Model.nodo import Nodo
+
+
 class ErroreId(Exception):
     """Eccezione che gestisce tutti gli errori riguardanti id del giocatore.
 
@@ -5,6 +8,7 @@ class ErroreId(Exception):
         Gestisce i casi in cui viene passato un id errato
 
     """
+
     pass
 
 
@@ -30,7 +34,7 @@ class Giocatore:
 
         - posizioneCorrente
             TIPO
-                Privato, Tipo stringa
+                Privato, Tipo nodo
             DESCRIZIONE
                 La posizione del giocatore rispetto al tavoliere nella partita in corso.
                 La notazione utilizzata è la stessa di quella utilizzata
@@ -71,17 +75,17 @@ class Giocatore:
 
     # Variabili
     __idGiocatore: str
-    __posizioneCorrente: str
+    __posizioneCorrente: Nodo
 
     # Costanti
-    __DEF_POSIZIONE = "a1"
+    __DEF_POSIZIONE = Nodo("a1")
     __DEF_ID        = "P1"
 
     # Metodi
 
     # Costruttore
 
-    def __init__(self, newIdGiocatore: str = __DEF_ID, newPosizione: str = __DEF_POSIZIONE):
+    def __init__(self, newIdGiocatore: str = __DEF_ID, newPosizione: Nodo = __DEF_POSIZIONE):
         self.set_id(newIdGiocatore)
         self.set_posizione(newPosizione)
 
@@ -103,8 +107,8 @@ class Giocatore:
 
         self.__idGiocatore = newIdGiocatore
 
-    def get_posizione(self) -> str:
+    def get_posizione(self) -> Nodo:
         return self.__posizioneCorrente
 
-    def set_posizione(self, newPosizione: str):
+    def set_posizione(self, newPosizione: Nodo):
         self.__posizioneCorrente = newPosizione
