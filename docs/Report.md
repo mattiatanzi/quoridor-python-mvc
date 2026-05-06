@@ -11,7 +11,7 @@ Il sistema è stato progettato come un'applicazione interattiva basata su Comman
 ## 2. Modello di dominio
 ```mermaid
 classDiagram
-    direction TD
+    direction LR
 
     class Partita
 
@@ -37,14 +37,13 @@ classDiagram
         orientamento
     }
 
-    Tavoliere "1" *-- "*" Casella
+    Tavoliere "1" *-- "81" Casella
     Giocatore "1" -- "1" Pedone : muove >
     Giocatore "1" -- "0..10" Muro : piazza >
     Pedone "0..1" --  "1" Casella : occupa >
     Muro "0..20" -- "1" Tavoliere : posizionato su >
     Casella "1" -- "0..4" Casella : adiacente >
-    Partita "1" -- "1..2" Giocatore : < gioca
-    Pedone "0..1" -- "0..1" Pedone : salta >
+    Partita "1" -- "2" Giocatore : < gioca
 ```
 ## 3. Requisiti specifici
 ### 3.1 Requisiti funzionali
