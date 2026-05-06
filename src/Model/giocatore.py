@@ -144,7 +144,7 @@ class Giocatore:
         return self.__muriDisponibili
 
     def set_muri_disponibili(self, newNumeroMuri: int):
-        if not(0 < newNumeroMuri < 10):
+        if not(0 <= newNumeroMuri <= 10):
             raise ErroreMuro("Il numero di muri deve essere compreso tra 0 e 10")
 
         self.__muriDisponibili = newNumeroMuri
