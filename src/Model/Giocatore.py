@@ -1,3 +1,13 @@
+class ErroreId(Exception):
+    """Eccezione che gestisce tutti gli errori riguardanti id del giocatore.
+
+    Descrizione:
+        Gestisce i casi in cui viene passato un id errato
+
+    """
+    pass
+
+
 class Giocatore:
     """Classe Giocatore.
 
@@ -80,6 +90,16 @@ class Giocatore:
         return self.__idGiocatore
 
     def set_id(self, newIdGiocatore: str):
+
+        if len(newIdGiocatore) != 2:
+            raise ErroreId("L'id deve avere lunghezza pari a 2")
+
+        if newIdGiocatore[0] != 'P':
+            raise ErroreId("L'id deve avere come primo carattere 'P'")
+
+        if newIdGiocatore[1] != '2' and newIdGiocatore != '1'
+            raise ErroreId("L'id deve avere come secondo carattere '1' o '2', in base al numero del giocatore")
+
         self.__idGiocatore = newIdGiocatore
 
     def get_posizione(self) -> str:
