@@ -1,5 +1,3 @@
-from ast import Expression
-from xxlimited import Error
 from Model.nodo import Nodo
 
 
