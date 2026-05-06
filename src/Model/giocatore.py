@@ -1,3 +1,5 @@
+from ast import Expression
+from xxlimited import Error
 from Model.nodo import Nodo
 
 
@@ -6,6 +8,16 @@ class ErroreId(Exception):
 
     Descrizione:
         Gestisce i casi in cui viene passato un id errato
+
+    """
+
+    pass
+
+class ErroreMuro(Exception):
+    """Eccezione che gestisce gli errori riguardanti il muro.
+
+    Descrizione:
+        Gestisce i casi in cui il formato del muro è errato
 
     """
 
@@ -42,6 +54,12 @@ class Giocatore:
                 Per informazioni sulla notazione usata per le posizioni consultare
                 la documentazione sul tavoliere di gioco.
 
+        - muriDisponibili
+            TIPO
+                Privato, Tipo int
+            DESCRIZIONE
+                Numero di muri piazzabili dal giocatore
+
 
     Metodi:
 
@@ -71,23 +89,34 @@ class Giocatore:
             DESCRIZIONE
                 Modifica la posizione del giocatore
 
+        def get_muri_disponibili(self):
+            DESCRIZIONE
+                Restituisce numero di muri piazzabili dal giocatore
+
+        def set_muri_disponibili(self, newNumeroMuri: int):
+            DESCRIZIONE
+                Modifica numero di muri a disposizione
+
     """
 
     # Variabili
     __idGiocatore: str
     __posizioneCorrente: Nodo
+    __muriDisponibili: int
 
     # Costanti
-    __DEF_POSIZIONE = Nodo("a1")
-    __DEF_ID        = "P1"
+    __DEF_POSIZIONE         = Nodo("a1")
+    __DEF_ID                = "P1"
+    __DEF_MURI_DISPONIBILI  = 10
 
     # Metodi
 
     # Costruttore
 
-    def __init__(self, newIdGiocatore: str = __DEF_ID, newPosizione: Nodo = __DEF_POSIZIONE):
+    def __init__(self, newIdGiocatore: str = __DEF_ID, newPosizione: Nodo = __DEF_POSIZIONE, newMuriDisponibili: int = __DEF_MURI_DISPONIBILI):
         self.set_id(newIdGiocatore)
         self.set_posizione(newPosizione)
+        self.set_muri_disponibili(newMuriDisponibili)
 
     # Modificatori / Osservatori
 
@@ -112,3 +141,12 @@ class Giocatore:
 
     def set_posizione(self, newPosizione: Nodo):
         self.__posizioneCorrente = newPosizione
+
+    def get_muri_disponibili(self) -> int:
+        return self.__muriDisponibili
+
+    def set_muri_disponibili(self, newNumeroMuri: int):
+        if not(0 < newNumeroMuri < 10):
+            raise ErroreMuro("Il numero di muri deve essere compreso tra 0 e 10")
+
+        self.__muriDisponibili = newNumeroMuri
