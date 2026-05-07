@@ -1,4 +1,4 @@
-from Model.nodo import Nodo
+    from Model.nodo import Nodo
 
 
 class ErroreId(Exception):
@@ -63,14 +63,15 @@ class Giocatore:
 
     Metodi:
 
-        ------ Costruttori ------
+        ------ COSTRUTTORI ------
 
         - __init__(self, newIdGiocatore: str, newPosizione: str = __DEF_POSIZIONE):
             DESCRIZIONE
                 Costruttore di Base.
                 Dato un ID e una posizione restituisce un giocatore.
 
-        ------ Metodi Accesso Attributi Privati ------
+
+        ------ ACCESSO METODI PRIVATI ------
 
         - get_id(self) -> str:
             DESCRIZIONE
