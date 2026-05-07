@@ -28,6 +28,9 @@ class GiocatoreView:
     def stampa_id_giocatore(self, id_giocatore):
         print(id_giocatore)
 
+    def stampa_muri_rimanenti_giocatore(self, muri_disponibili)
+        print(f"Muri Rimanenti: {muri_disponibili}")
+
     def stampa_errore_giocatore(self):
         print("Errore Giocatore: ")
 
