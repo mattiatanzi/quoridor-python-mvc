@@ -15,17 +15,9 @@ class GiocatoreView:
 
         ------ STAMPE ERRORI ------
 
-        def stampa_errore_giocatore(self):
+        def stampa_errore_giocatore(self, messaggio):
             DESCRIZIONE
-                Stampa un errore generico relativo a operazioni errate sulla classe Giocatore
-
-        def stampa_errore_id(self, messaggio):
-            DESCRIZIONE
-                Stampa un errore su operazioni errate svolte sull'id di un Giocatore
-
-        def stampa_errore_muri(self, messaggio):
-            DESCRIZIONE
-                Stampa errore riguadante formato errato dei muri rimanenti ad un Giocatore
+                Stampa il messaggio di errore in input relativo al giocatore
 
     """
 
@@ -35,13 +27,5 @@ class GiocatoreView:
     def stampa_muri_rimanenti_giocatore(self, muri_disponibili):
         print(f"Muri Rimanenti: {muri_disponibili}")
 
-    def stampa_errore_giocatore(self):
-        print("Errore Giocatore: ")
-
-    def stampa_errore_id(self, messaggio):
-        self.stampa_errore_giocatore()
-        print(f"Errore id: {messaggio}")
-
-    def stampa_errore_muri(self, messaggio):
-        self.stampa_errore_giocatore()
-        print(f"Errore Muri: {messaggio}")
+    def stampa_errore_giocatore(self, messaggio):
+        print(messaggio)

@@ -95,7 +95,8 @@ class GiocatoreController:
         try:
             self.get_model().set_id(new_id)
         except ErroreId as errore_id:
-            self.get_view().stampa_errore_id(errore_id)
+            messaggio = f"Errore ID Giocatore. {errore_id}"
+            self.get_view().stampa_errore_giocatore(messaggio)
 
     def get_giocatore_id(self):
         return self.get_model().get_id()
@@ -104,7 +105,8 @@ class GiocatoreController:
         try:
             self.get_model().set_muri_disponibili(new_muri_disponibili)
         except ErroreMuro as errore_muro:
-            self.get_view().stampa_errore_muri(errore_muro)
+            messaggio = f"Errore Muro in Giocatore. {errore_muro}"
+            self.get_view().stampa_errore_giocatore(messaggio)
 
     def get_giocatore_muri(self):
         return self.get_model().get_muri_disponibili()
