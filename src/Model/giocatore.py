@@ -133,15 +133,19 @@ class Giocatore:
 
     def set_id(self, newIdGiocatore: str):
 
+        # Caso in cui l'id è una stringa troppo lunga
         if len(newIdGiocatore) != 2:
             raise ErroreId("L'id deve avere lunghezza pari a 2")
 
+        # id deve cominciare con la lettera P
         if newIdGiocatore[0] != 'P':
             raise ErroreId("L'id deve avere come primo carattere 'P'")
 
+        # id deve terminare con 1 o 2 (Giocatore 1 o 2)
         if newIdGiocatore[1] != '2' and newIdGiocatore[1] != '1':
             raise ErroreId("L'id deve avere come secondo carattere '1' o '2', in base al numero del giocatore")
 
+        # Se l'id rispetta i criteri può essere inserito nel giocatore
         self.__idGiocatore = newIdGiocatore
 
     def get_posizione(self) -> Nodo:
@@ -154,7 +158,10 @@ class Giocatore:
         return self.__muriDisponibili
 
     def set_muri_disponibili(self, newNumeroMuri: int):
+
+        # Un giocatore può avere solo tra 0 e 10 muri
         if not(0 <= newNumeroMuri <= 10):
             raise ErroreMuro("Il numero di muri deve essere compreso tra 0 e 10")
 
+        # Se i muri sono compresi tra 0 e 10 posso assegnarli al giocatore
         self.__muriDisponibili = newNumeroMuri
