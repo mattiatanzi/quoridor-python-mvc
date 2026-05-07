@@ -23,6 +23,10 @@ class GiocatoreView:
             DESCRIZIONE
                 Stampa un errore su operazioni errate svolte sull'id di un Giocatore
 
+        def stampa_errore_muri(self, messaggio):
+            DESCRIZIONE
+                Stampa errore riguadante formato errato dei muri rimanenti ad un Giocatore
+
     """
 
     def stampa_id_giocatore(self, id_giocatore):
