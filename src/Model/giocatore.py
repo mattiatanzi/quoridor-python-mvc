@@ -114,8 +114,15 @@ class Giocatore:
     # Costruttore
 
     def __init__(self, newIdGiocatore: str = __DEF_ID, newPosizione: Nodo = __DEF_POSIZIONE, newMuriDisponibili: int = __DEF_MURI_DISPONIBILI):
+
         self.set_id(newIdGiocatore)
-        self.set_posizione(newPosizione)
+        # Se non specifico il valore della posizione, assegno una copia del nodo posizione di default
+        # # Altrimenti assegno la posizione specificata
+        if (newPosizione is self.__DEF_POSIZIONE):
+            self.set_posizione(Nodo("a1"))
+        else:
+            self.set_posizione(newPosizione)
+
         self.set_muri_disponibili(newMuriDisponibili)
 
     # Modificatori / Osservatori
