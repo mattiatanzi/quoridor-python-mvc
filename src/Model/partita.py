@@ -16,7 +16,7 @@ class Partita:
 
     def __init__(self, newTavoliere: Tavoliere, newGiocatori: set[Giocatore]):
         self.setTavoliere(newTavoliere)
-
+        self.setGiocatori(newGiocatori)
     # Modificatori / Osservatori
 
     def setTavoliere(self, newTavoliere: Tavoliere):
