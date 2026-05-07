@@ -65,7 +65,7 @@ class Giocatore:
 
         ------ COSTRUTTORI ------
 
-        - __init__(self, newIdGiocatore: str, newPosizione: str = __DEF_POSIZIONE):
+        def __init__(self, newIdGiocatore: str, newPosizione: str = __DEF_POSIZIONE):
             DESCRIZIONE
                 Costruttore di Base.
                 Dato un ID e una posizione restituisce un giocatore.
@@ -73,7 +73,7 @@ class Giocatore:
 
         ------ ACCESSO METODI PRIVATI ------
 
-        - get_id(self) -> str:
+        def get_id(self) -> str:
             DESCRIZIONE
                 Restituisce l'ID del giocatore
 

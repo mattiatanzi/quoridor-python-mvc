@@ -27,7 +27,7 @@ class GiocatoreController:
     METODI
         ------ COSTRUTTORI ------
 
-        __init__(self, model: Giocatore, view: GiocatoreView):
+        def __init__(self, model: Giocatore, view: GiocatoreView):
             DESCRIZIONE
                 Costruttore di base
 
@@ -61,6 +61,14 @@ class GiocatoreController:
         def get_giocatore_id(self):
             DESCRIZIONE
                 Restituisce l'id del giocatore
+
+        def set_giocatore_muri(self, new_muri_disponibili: int):
+            DESCRIZIONE
+                Modifica il numero di muri rimanenti per il giocatore, mostrando un errore in caso il numero sia errato
+
+        def get_giocatore_muri(self):
+            DESCRIZIONE
+                Restituisce numero di muri rimanenti al giocatore
 
     """
 
@@ -97,3 +105,6 @@ class GiocatoreController:
             self.get_model().set_muri_disponibili(new_muri_disponibili)
         except ErroreMuro as errore_muro:
             self.get_view().stampa_errore_muri(errore_muro)
+
+    def get_giocatore_muri(self):
+        return self.get_model().get_muri_disponibili()
