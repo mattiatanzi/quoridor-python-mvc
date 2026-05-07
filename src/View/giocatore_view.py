@@ -34,3 +34,7 @@ class GiocatoreView:
     def stampa_errore_id(self, messaggio):
         self.stampa_errore_giocatore()
         print(f"Errore id: {messaggio}")
+
+    def stampa_errore_muri(self, messaggio):
+        self.stampa_errore_giocatore()
+        print(f"Errore Muri: {messaggio}")

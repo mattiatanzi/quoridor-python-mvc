@@ -1,5 +1,4 @@
-from _typeshed import Viewable
-from Model.giocatore import Giocatore, ErroreId
+from Model.giocatore import ErroreMuro, Giocatore, ErroreId
 from View.giocatore_view import GiocatoreView
 
 
@@ -90,6 +89,11 @@ class GiocatoreController:
         except ErroreId as errore_id:
             self.get_view().stampa_errore_id(errore_id)
 
-
     def get_giocatore_id(self):
         return self.get_model().get_id()
+
+    def set_giocatore_muri(self, new_muri_disponibili: int):
+        try:
+            self.get_model().set_muri_disponibili(new_muri_disponibili)
+        except ErroreMuro as errore_muro:
+            self.get_view().stampa_errore_muri(errore_muro)
