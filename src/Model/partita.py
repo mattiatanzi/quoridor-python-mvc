@@ -1,6 +1,11 @@
 from Model.tavoliere import Tavoliere
 from Model.giocatore import Giocatore
 
+class ErroreGiocatoreNonInPartita(Exception):
+    """Eccezione che gestisce caso in cui il giocatore non è presente nella partita."""
+
+    pass
+
 class Partita:
     """Classe Partita.
 
@@ -78,3 +83,13 @@ class Partita:
 
     def getGiocatori(self):
         return self.__giocatori
+
+    def getGiocatore(self, id):
+        for g in self.getGiocatori():
+            if g.get_id() == id:
+                return g
+        raise ErroreGiocatoreNonInPartita("Giocatore non presente nella partita")
+
+    def getPosizioneGiocatore(self, giocatore: Giocatore):
+        g = self.getGiocatore(giocatore.get_id())
+        return g.get_posizione()
