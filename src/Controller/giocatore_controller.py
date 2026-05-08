@@ -1,4 +1,4 @@
-from Model.giocatore import ErroreMuro, ErrorePosizione, ErroreId, Giocatore
+from Model.giocatore import ErroreId, ErroreMuro, ErrorePosizione, Giocatore
 from View.giocatore_view import GiocatoreView
 
 
@@ -56,7 +56,8 @@ class GiocatoreController:
 
         def set_giocatore_id(self, new_id: str):
             DESCRIZIONE
-                Modifica l'id del giocatore, mostrando errore in caso il formato inserito sia errato
+                Modifica l'id del giocatore,
+                mostrando errore in caso il formato inserito sia errato
 
         def get_giocatore_id(self):
             DESCRIZIONE
@@ -64,7 +65,8 @@ class GiocatoreController:
 
         def set_giocatore_muri(self, new_muri_disponibili: int):
             DESCRIZIONE
-                Modifica il numero di muri rimanenti per il giocatore, mostrando un errore in caso il numero sia errato
+                Modifica il numero di muri rimanenti per il giocatore,
+                mostrando un errore in caso il numero sia errato
 
         def get_giocatore_muri(self):
             DESCRIZIONE
