@@ -11,7 +11,7 @@ class Partita:
     """Classe Partita.
 
     Descrizione:
-        Contiene informazioni relative alla partita in corso
+        Contiene informazioni relative alla partita in corso.
 
     Attributi:
 
@@ -19,13 +19,13 @@ class Partita:
             TIPO
                 Privato, Tipo Set di Giocatori
             DESCRIZIONE
-                L'insieme dei giocatori che partecipa alla partita corrente
+                L'insieme dei giocatori che partecipa alla partita corrente.
 
         - tavoliere
             TIPO
                 Privato, Tipo Tavoliere
             DESCRIZIONE
-                Il tavoliere utilizzato nella partita in corso
+                Il tavoliere utilizzato nella partita in corso.
 
     Metodi:
 
@@ -34,25 +34,25 @@ class Partita:
         def __init__(self, newTavoliere: Tavoliere, newGiocatori: set[Giocatore]):
             DESCRIZIONE
                 Costruttore di Base.
-                Dato un Tavoliere e un insieme di Giocatori restituisce una partita
+                Dato un Tavoliere e un insieme di Giocatori restituisce una partita.
 
         ------ Metodi Accesso Attributi Privati ------
 
         def setTavoliere(self, newTavoliere: Tavoliere):
             DESCRIZIONE
-                Modfica il Tavolere della partita
+                Modfica il Tavolere della partita.
 
         def getTavoliere(self) -> Tavoliere:
             DESCRIZIONE
-                Restituisce il Tavoliere utilizzato in partita
+                Restituisce il Tavoliere utilizzato in partita.
 
         def setGiocatori(self, newGiocatori: set[Giocatore]):
             DESCRIZIONE
-                Modifica l'insieme di giocatori della partita
+                Modifica l'insieme di giocatori della partita.
 
         def getGiocatori(self):
             DESCRIZIONE
-                Restituisce l'insieme di giocatori della partita
+                Restituisce l'insieme di giocatori della partita.
 
         ------ Modificatori / Osservatori ------
 
@@ -63,19 +63,45 @@ class Partita:
         def setGiocatore(self, id, newGiocatore: Giocatore):
             DESCRIZIONE
                 Sostitusce il giocatore in partita con l'id in input con il nuovo
-                giocatore in input
+                giocatore in input.
 
 
         def aggiungiGiocatore(self, newGiocatore: Giocatore):
             DESCRIZIONE
                 Aggiunge il giocatore in input alla partita.
-                IL giocatore non verrà aggiunto se è già in partita o se fosse raggiunto
-                il massimo numero di giocatori in partita
+                IL giocatore non verrà aggiunto se è già in partita o se
+                fosse raggiunto.
+                il massimo numero di giocatori in partita.
 
         def rimuoviGiocatore(self, id):
             DESCRIZIONE
                 Rimuove il giocatore con l'id in input dalla partita (Se il giocatore
-                risulta essere in partita)
+                risulta essere in partita).
+
+        def getPosizioneGiocatore(self, id):
+            DESCRIZIONE
+                Restituisce la posizione del giocatore con id in input.
+
+        def setPosizioneGiocatore(self, id, newPosizione):
+            DESCRIZIONE
+                Modifica la posizione del giocatore con id in input sostituendola con
+                una nuova posizione in input.
+
+        def setMuriDisponibiliGiocatore(self, id, newMuriDisponibili):
+            DESCRIZIONE
+                Sostituisce il numero di muri a disposizione del giocatore con id in
+                input con un nuovo numero di muri disponibili in input.
+
+        def getMuriDisponibiliGiocatore(self, id):
+            DESCRIZIONE
+                Restituisce numero di muri a disposizione del giocatore con id in
+                input.
+
+        def rimuoviUnMuroGiocatore(self, id):
+            DESCRIZIONE
+                Decrementa di un valore pari a uno il numero di muri a disposizione del
+                giocatore.
+
     """
 
     # Costanti
