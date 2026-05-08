@@ -97,11 +97,11 @@ class Partita:
 
     def setGiocatore(self, id, newGiocatore: Giocatore):
         self.rimuoviGiocatore(id)
-        self.addGiocatore(newGiocatore)
+        self.aggiungiGiocatore(newGiocatore)
 
     # Aggiungere / Rimuovere Giocatore in partita
 
-    def addGiocatore(self, newGiocatore: Giocatore):
+    def aggiungiGiocatore(self, newGiocatore: Giocatore):
         self.getGiocatori().add(newGiocatore)
 
     def rimuoviGiocatore(self, id):
