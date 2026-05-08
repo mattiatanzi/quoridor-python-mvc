@@ -21,11 +21,15 @@ class GiocatoreView:
 
     """
 
+    # Stampe Video
+
     def stampa_id_giocatore(self, id_giocatore):
         print(id_giocatore)
 
     def stampa_muri_rimanenti_giocatore(self, id, muri_disponibili):
         print(f"Giocatore: {id}, Muri Rimanenti: {muri_disponibili}")
+
+    # Stampe Errori
 
     def stampa_errore_giocatore(self, messaggio):
         print(messaggio)

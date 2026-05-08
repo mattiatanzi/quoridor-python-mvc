@@ -1,4 +1,4 @@
-from Model.giocatore import ErroreMuro, Giocatore, ErroreId
+from Model.giocatore import ErroreMuro, ErrorePosizione, ErroreId, Giocatore
 from View.giocatore_view import GiocatoreView
 
 
@@ -72,24 +72,32 @@ class GiocatoreController:
 
     """
 
+    # Attributi
+    #
     __model: Giocatore
     __view: GiocatoreView
+
+    # Costruttori
 
     def __init__(self, model: Giocatore, view: GiocatoreView):
         self.set_model(model)
         self.set_view(view)
 
-    def get_model(self) -> Giocatore:
-        return self.__model
+    # Accesso Attributi Privati
 
     def set_model(self, model: Giocatore):
         self.__model = model
 
-    def get_view(self) -> GiocatoreView:
-        return self.__view
+    def get_model(self) -> Giocatore:
+        return self.__model
 
     def set_view(self, view: GiocatoreView):
         self.__view = view
+
+    def get_view(self) -> GiocatoreView:
+        return self.__view
+
+    # Modificatori / Osservatori
 
     def set_giocatore_id(self, new_id: str):
         try:
@@ -110,3 +118,10 @@ class GiocatoreController:
 
     def get_giocatore_muri(self):
         return self.get_model().get_muri_disponibili()
+
+    def set_giocatore_posizione(self, new_posizione):
+        try:
+            self.get_model().set_posizione(new_posizione)
+        except ErrorePosizione as errore_posizione:
+            messaggio = f"Errore Posizione in Giocatore. {errore_posizione}"
+            self.get_view().stampa_errore_giocatore(messaggio)

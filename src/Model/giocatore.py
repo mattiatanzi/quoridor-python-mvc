@@ -2,24 +2,17 @@ from Model.nodo import Nodo
 
 
 class ErroreId(Exception):
-    """Eccezione che gestisce tutti gli errori riguardanti id del giocatore.
-
-    Descrizione:
-        Gestisce i casi in cui viene passato un id errato
-
-    """
+    """Eccezione che gestisce tutti gli errori riguardanti id del giocatore."""
 
     pass
 
 class ErroreMuro(Exception):
-    """Eccezione che gestisce gli errori riguardanti il muro.
-
-    Descrizione:
-        Gestisce i casi in cui il formato del muro è errato
-
-    """
+    """Eccezione che gestisce gli errori riguardanti il muro."""
 
     pass
+
+class ErrorePosizione(Exception)
+    """Eccezione che gestisce errori riguardanti la posizione"""
 
 
 class Giocatore:
@@ -175,7 +168,22 @@ class Giocatore:
         return self.__posizioneCorrente
 
     def set_posizione(self, newPosizione: Nodo):
-        self.__posizioneCorrente = newPosizione
+
+        coordinate = newPosizione.get_valore_id_nodo()
+
+        if ('a' <= coordinate[0] <= 'i'):
+            if ('1' <= coordinate[1] <= '9'):
+                self.__posizioneCorrente = newPosizione
+            else:
+                raise ErrorePosizione(
+                    "Il valore della riga deve essere compreso tra 1 e 9."
+                    f"Valore Inserito: {coordinate[1]}"
+                )
+        else:
+            raise ErrorePosizione(
+                "Il valore della colonna deve essere compreso tra a e i."
+                f"Valore Inserito: {coordinate[0]}"
+            )
 
     def get_muri_disponibili(self) -> int:
         return self.__muriDisponibili
