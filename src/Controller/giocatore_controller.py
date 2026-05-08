@@ -22,7 +22,7 @@ class GiocatoreController:
                 Privato, tipo GiocatoreView
 
             DESCRIZIONE
-                Responsabile della gestione di stampa e input del Giocatore
+                Responsabile della gestione di stampa e input del Giocatore.
 
     METODI
         ------ COSTRUTTORI ------
@@ -36,7 +36,7 @@ class GiocatoreController:
 
         def get_model(self) -> Giocatore:
             DESCRIZIONE
-                Restituisce il Model del Giocatore contenuto nel Controller
+                Restituisce il Model del Giocatore contenuto nel Controller.
 
         def set_model(self, model: Giocatore):
             DESCRIZIONE
@@ -45,11 +45,11 @@ class GiocatoreController:
         def get_view(self) -> GiocatoreView:
             DESCRIZIONE
                 Restituisce la classe responsabile del View del Giocatore contenuta nel
-                Controller
+                Controller.
 
         def set_view(self, view: GiocatoreView):
             DESCRIZIONE
-                Modifica la classe responsabile del View del Giocatore nel Controller
+                Modifica la classe responsabile del View del Giocatore nel Controller.
 
 
         ------ OSSERVATORI / MODIFICATORI ------
@@ -57,20 +57,25 @@ class GiocatoreController:
         def set_giocatore_id(self, new_id: str):
             DESCRIZIONE
                 Modifica l'id del giocatore,
-                mostrando errore in caso il formato inserito sia errato
+                mostrando errore in caso il formato inserito sia errato.
 
         def get_giocatore_id(self):
             DESCRIZIONE
-                Restituisce l'id del giocatore
+                Restituisce l'id del giocatore.
 
         def set_giocatore_muri(self, new_muri_disponibili: int):
             DESCRIZIONE
                 Modifica il numero di muri rimanenti per il giocatore,
-                mostrando un errore in caso il numero sia errato
+                mostrando un errore in caso il numero sia errato.
 
         def get_giocatore_muri(self):
             DESCRIZIONE
-                Restituisce numero di muri rimanenti al giocatore
+                Restituisce numero di muri rimanenti al giocatore.
+
+        def set_giocatore_posizione(self, new_posizione):
+            DESCRIZIONE
+                Modifica posizione del giocatore, mostrando un errore
+                in caso essa sia errata.
 
     """
 
