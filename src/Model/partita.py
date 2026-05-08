@@ -54,6 +54,27 @@ class Partita:
             DESCRIZIONE
                 Restituisce l'insieme di giocatori della partita
 
+        ------ Modificatori / Osservatori ------
+
+        def getGiocatore(self, id):
+            DESCRIZIONE
+                Restituisce il giocatore in partita con l'id in input
+
+        def setGiocatore(self, id, newGiocatore: Giocatore):
+            DESCRIZIONE
+                Sostitusce il giocatore in partita con l'id in input con il nuovo
+                giocatore in input
+
+
+        def aggiungiGiocatore(self, newGiocatore: Giocatore):
+            DESCRIZIONE
+                Aggiunge il giocatore in input alla partita.
+                IL giocatore non verrà aggiunto se è già in partita o se fosse raggiunto
+                il massimo numero di giocatori in partita
+
+        def rimuoviGiocatore(self, id):
+            DESCRIZIONE
+                Rimuove il giocatore con l'id in input dalla partita (Se il giocatore risulta essere in partita)
     """
 
     # Costanti
