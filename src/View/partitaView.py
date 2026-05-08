@@ -1,9 +1,62 @@
-from View.tavoliereView import TavoliereView
-from View.giocatore import GiocatoreView
 from Model.partita import Partita
+from View.giocatore import GiocatoreView
+from View.tavoliereView import TavoliereView
 
 
 class PartitaView:
+    """Classe GiocatoreView.
+
+    DESCRIZIONE
+        Rappresenta la classe che gestisce operazioni di input / stampa per la
+        Partita
+
+    METODI
+
+        ------ COSTRUTTORE ------
+
+        def __init__(
+            self, new_giocatore_view: GiocatoreView, new_tavoliere_view: TavoliereView
+        ):
+            DESCRIZIONE
+                Costruttore di base.
+                Data un modello GiocatoreView e un TavoliereView restituisce
+                un PartitaView
+
+
+        ------ ACCESSO ATTRIBUTI PRIVATI ------
+
+        def set_tavoliere_view(self, new_tavoliere_view: TavoliereView):
+            DESCRIZIONE
+                Modifica il TavoliereView contenuto in PartitaView
+
+        def get_tavoliere_view(self):
+            DESCRIZIONE
+                Restituisce il TavoliereView contenuto in PartitaView
+
+        def set_giocatore_view(self, new_giocatore_view: GiocatoreView):
+            DESCRIZIONE
+                Modifica il GiocatoreView contenuto in PartitaView
+
+        def get_giocatore_view(self):
+            DESCRIZIONE
+                Restituisce il GiocatoreView contenuto in PartitaView
+
+
+        ------ STAMPE VIDEO ------
+
+        def stampa_partita(self, partita: Partita):
+            DESCRIZIONE
+            Stampa a video la partita corrente
+
+
+        ------ STAMPE ERRORI ------
+
+        def stampa_errore_partita(self, messaggio):
+            DESCRIZIONE
+                Stampa il messaggio di errore in input relativo alla partita
+
+    """
+
     # Attributi
     __giocatoreView: GiocatoreView
     __tavoliereView: TavoliereView

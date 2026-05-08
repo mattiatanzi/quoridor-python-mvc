@@ -11,10 +11,18 @@ class ErrorePartita(Exception):
 class Partita:
     """Classe Partita.
 
-    Descrizione:
+    DESCRIZIONE:
         Contiene informazioni relative alla partita in corso.
 
-    Attributi:
+    ATTRIBUTI:
+
+        ------ COSTANTI ------
+
+        - TOTALE_GIOCATORI
+            TIPO
+                Privato, Tipo int
+            DESCRIZIONE
+                Il numero massimo dei giocatori amessi in partita
 
         - giocatori
             TIPO
@@ -28,16 +36,16 @@ class Partita:
             DESCRIZIONE
                 Il tavoliere utilizzato nella partita in corso.
 
-    Metodi:
+    METODI:
 
-        ------ Costruttori ------
+        ------ COSTRUTTORI ------
 
         def __init__(self, new_tavoliere: Tavoliere, new_giocatori: set[Giocatore]):
             DESCRIZIONE
                 Costruttore di Base.
                 Dato un Tavoliere e un insieme di Giocatori restituisce una partita.
 
-        ------ Metodi Accesso Attributi Privati ------
+        ------ ACCESSO ATTRIBUTI PRIVATI ------
 
         def set_tavoliere(self, new_tavoliere: Tavoliere):
             DESCRIZIONE
@@ -55,7 +63,7 @@ class Partita:
             DESCRIZIONE
                 Restituisce l'insieme di giocatori della partita.
 
-        ------ Modificatori / Osservatori ------
+        ------ MODIFICATORI / OSSERVATORI ------
 
         def set_giocatore(self, id, new_giocatore: Giocatore):
             DESCRIZIONE

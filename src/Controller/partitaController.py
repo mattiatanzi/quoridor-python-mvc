@@ -3,6 +3,77 @@ from View.partitaView import PartitaView
 
 
 class PartitaController:
+    """Classe PartitaController.
+
+    DESCRIZIONE:
+        Il controller della partita in corso.
+
+    ATTRIBUTI:
+
+        - model
+            TIPO
+                Privato, tipo Partita
+
+            DESCRIZIONE
+                Il modello della Partita
+
+        - view
+            TIPO
+                Privato, tipo PartitaView
+
+            DESCRIZIONE
+                Responsabile della gestione di stampa e input della Partita
+
+    METODI:
+
+        ------ COSTRUTTORI ------
+
+        def __init__(self, model: Partita, view: PartitaView):
+            DESCRIZIONE
+                Costruttore di Base.
+                Data un modello Partita e un PartitaView restituisce
+                un PartitaController
+
+        ------ ACCESSO ATTRIBUTI PRIVATI ------
+
+        def get_model(self) -> Partita:
+            DESCRIZIONE
+                Restituisce il Model di Partita contenuto nel Controller
+
+        def set_model(self, model: Partita):
+            DESCRIZIONE
+                Modifica il Model di Partita nel Controller
+
+        def get_view(self) -> PartitaView:
+            DESCRIZIONE
+                Restituisce la classe responsabile del View di Partita contenuta nel
+                Controller
+
+        def set_view(self, view: PartitaView):
+            DESCRIZIONE
+                Modifica la classe responsabile del View di Partita contenuta nel
+                Controller
+
+        ------ MODIFICATORI / OSSERVATORI ------
+
+        def get_giocatore(self, id):
+            DESCRIZIONE
+                Restituisce un giocatore dato un id
+
+        def aggiungi_giocatore(self, new_giocatore):
+            DESCRIZIONE
+                Aggiunge il giocatore in input alla partita.
+                IL giocatore non verrà aggiunto se è già in partita o se
+                fosse raggiunto.
+                il massimo numero di giocatori in partita.
+
+        def rimuovi_giocatore(self, id):
+            DESCRIZIONE
+                Rimuove il giocatore con l'id in input dalla partita (Se il giocatore
+                risulta essere in partita).
+
+    """
+
     # Attributi
 
     __model: Partita
