@@ -4,7 +4,7 @@ from View.tavoliereView import TavoliereView
 
 
 class PartitaView:
-    """Classe GiocatoreView.
+    """Classe PartitaView.
 
     DESCRIZIONE
         Rappresenta la classe che gestisce operazioni di input / stampa per la

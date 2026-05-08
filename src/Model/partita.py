@@ -63,11 +63,11 @@ class Partita:
             DESCRIZIONE
                 Restituisce il Tavoliere utilizzato in partita.
 
-        def setGiocatori(self, new_giocatori: set[Giocatore]):
+        def set_giocatori(self, new_giocatori: set[Giocatore]):
             DESCRIZIONE
                 Modifica l'insieme di giocatori della partita.
 
-        def getGiocatori(self):
+        def get_giocatori(self):
             DESCRIZIONE
                 Restituisce l'insieme di giocatori della partita.
 
