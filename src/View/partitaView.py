@@ -41,7 +41,7 @@ class PartitaView:
         for g in giocatori:
             idSelezionato = g.get_id()
             muriRimanenti = partita.getMuriDisponibiliGiocatore(idSelezionato)
-            print(f"{idSelezionato}, Muri rimanenti: {muriRimanenti}")
+            self.getGiocatoreView().stampa_muri_rimanenti_giocatore(idSelezionato, muriRimanenti)
 
         self.getTavoliereView().stampa_tavoliere()
 
