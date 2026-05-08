@@ -31,22 +31,22 @@ class Partita:
 
         ------ Costruttori ------
 
-        def __init__(self, newTavoliere: Tavoliere, newGiocatori: set[Giocatore]):
+        def __init__(self, new_tavoliere: Tavoliere, new_giocatori: set[Giocatore]):
             DESCRIZIONE
                 Costruttore di Base.
                 Dato un Tavoliere e un insieme di Giocatori restituisce una partita.
 
         ------ Metodi Accesso Attributi Privati ------
 
-        def setTavoliere(self, newTavoliere: Tavoliere):
+        def set_tavoliere(self, new_tavoliere: Tavoliere):
             DESCRIZIONE
                 Modfica il Tavolere della partita.
 
-        def getTavoliere(self) -> Tavoliere:
+        def get_tavoliere(self) -> Tavoliere:
             DESCRIZIONE
                 Restituisce il Tavoliere utilizzato in partita.
 
-        def setGiocatori(self, newGiocatori: set[Giocatore]):
+        def setGiocatori(self, new_giocatori: set[Giocatore]):
             DESCRIZIONE
                 Modifica l'insieme di giocatori della partita.
 
@@ -56,48 +56,50 @@ class Partita:
 
         ------ Modificatori / Osservatori ------
 
-        def getGiocatore(self, id):
-            DESCRIZIONE
-                Restituisce il giocatore in partita con l'id in input
-
-        def setGiocatore(self, id, newGiocatore: Giocatore):
+        def set_giocatore(self, id, new_giocatore: Giocatore):
             DESCRIZIONE
                 Sostitusce il giocatore in partita con l'id in input con il nuovo
                 giocatore in input.
 
+        def get_giocatore(self, id):
+            DESCRIZIONE
+                Restituisce il giocatore in partita con l'id in input
 
-        def aggiungiGiocatore(self, newGiocatore: Giocatore):
+
+        def aggiungi_giocatore(self, new_giocatore: Giocatore):
             DESCRIZIONE
                 Aggiunge il giocatore in input alla partita.
                 IL giocatore non verrà aggiunto se è già in partita o se
                 fosse raggiunto.
                 il massimo numero di giocatori in partita.
 
-        def rimuoviGiocatore(self, id):
+        def rimuovi_giocatore(self, id):
             DESCRIZIONE
                 Rimuove il giocatore con l'id in input dalla partita (Se il giocatore
                 risulta essere in partita).
 
-        def getPosizioneGiocatore(self, id):
-            DESCRIZIONE
-                Restituisce la posizione del giocatore con id in input.
 
-        def setPosizioneGiocatore(self, id, newPosizione):
+        def set_posizione_giocatore(self, id, new_posizione):
             DESCRIZIONE
                 Modifica la posizione del giocatore con id in input sostituendola con
                 una nuova posizione in input.
 
-        def setMuriDisponibiliGiocatore(self, id, newMuriDisponibili):
+        def get_posizione_giocatore(self, id):
+            DESCRIZIONE
+                Restituisce la posizione del giocatore con id in input.
+
+
+        def set_muri_disponibili_giocatore(self, id, new_muri_disponibili):
             DESCRIZIONE
                 Sostituisce il numero di muri a disposizione del giocatore con id in
                 input con un nuovo numero di muri disponibili in input.
 
-        def getMuriDisponibiliGiocatore(self, id):
+        def get_muri_disponibili_giocatore(self, id):
             DESCRIZIONE
                 Restituisce numero di muri a disposizione del giocatore con id in
                 input.
 
-        def rimuoviUnMuroGiocatore(self, id):
+        def rimuovi_un_muro_giocatore(self, id):
             DESCRIZIONE
                 Decrementa di un valore pari a uno il numero di muri a disposizione del
                 giocatore.
@@ -115,77 +117,77 @@ class Partita:
 
     # Costruttore
 
-    def __init__(self, newTavoliere: Tavoliere, newGiocatori: set[Giocatore]):
-        self.setTavoliere(newTavoliere)
-        self.setGiocatori(newGiocatori)
+    def __init__(self, new_tavoliere: Tavoliere, new_giocatori: set[Giocatore]):
+        self.set_tavoliere(new_tavoliere)
+        self.set_giocatori(new_giocatori)
 
     # Accesso Attributi Privati
 
-    def setTavoliere(self, newTavoliere: Tavoliere):
-        self.__tavoliere = newTavoliere
+    def set_tavoliere(self, new_tavoliere: Tavoliere):
+        self.__tavoliere = new_tavoliere
 
-    def getTavoliere(self) -> Tavoliere:
+    def get_tavoliere(self) -> Tavoliere:
         return self.__tavoliere
 
-    def setGiocatori(self, newGiocatori: set[Giocatore]):
-        self.__giocatori = newGiocatori
+    def set_giocatori(self, new_giocatori: set[Giocatore]):
+        self.__giocatori = new_giocatori
 
-    def getGiocatori(self):
+    def get_giocatori(self):
         return self.__giocatori
 
     # Modificatori / Osservatori
 
     # Modificare / Restituire un Giocatore in Partita
 
-    def getGiocatore(self, id):
-        for g in self.getGiocatori():
+    def get_giocatore(self, id):
+        for g in self.get_giocatori():
             if g.get_id() == id:
                 return g
         raise ErrorePartita("Giocatore non presente nella partita")
 
-    def setGiocatore(self, id, newGiocatore: Giocatore):
-        self.rimuoviGiocatore(id)
-        self.aggiungiGiocatore(newGiocatore)
+    def set_giocatore(self, id, new_giocatore: Giocatore):
+        self.rimuovi_giocatore(id)
+        self.aggiungi_giocatore(new_giocatore)
 
     # Aggiungere / Rimuovere Giocatore in partita
 
-    def aggiungiGiocatore(self, newGiocatore: Giocatore):
-        numeroGiocatoriPartita = len(self.getGiocatori())
+    def aggiungi_giocatore(self, new_giocatore: Giocatore):
+        numero_giocatori_partita = len(self.get_giocatori())
 
-        if (numeroGiocatoriPartita < self.__TOTALE_GIOCATORI):
-            self.getGiocatori().add(newGiocatore)
+        if (numero_giocatori_partita < self.__TOTALE_GIOCATORI):
+            self.get_giocatori().add(new_giocatore)
         else:
-            raise ErrorePartita(f"Impossibile Aggiungere Giocatori (Numero giocatori: {numeroGiocatoriPartita}/{self.__TOTALE_GIOCATORI}")
+            raise ErrorePartita(f"Impossibile Aggiungere Giocatori (Numero giocatori: {numero_giocatori_partita}/{self.__TOTALE_GIOCATORI}")
 
-    def rimuoviGiocatore(self, id):
-        numeroGiocatoriPartita = len(self.getGiocatori())
+    def rimuovi_giocatore(self, id):
+        numero_giocatori_partita = len(self.get_giocatori())
 
-        if (numeroGiocatoriPartita > 0):
-            giocatoreSelezionato = self.getGiocatore(id)
-            self.getGiocatori().remove(giocatoreSelezionato)
+        if (numero_giocatori_partita > 0):
+            giocatore_selezionato = self.get_giocatore(id)
+            self.get_giocatori().remove(giocatore_selezionato)
         else:
-            raise ErrorePartita(f"Impossibile Rimuovere Giocatori (Numero giocatori: {numeroGiocatoriPartita}/{self.__TOTALE_GIOCATORI}")
+            raise ErrorePartita(f"Impossibile Rimuovere Giocatori (Numero giocatori: {numero_giocatori_partita}/{self.__TOTALE_GIOCATORI}")
 
     # Cambiare Posizione di Giocatore in partita
 
-    def getPosizioneGiocatore(self, id):
-        g = self.getGiocatore(id)
+    def get_posizione_giocatore(self, id):
+        g = self.get_giocatore(id)
         return g.get_posizione()
 
-    def setPosizioneGiocatore(self, id, newPosizione):
-        giocatoreSelezionato = self.getGiocatore(id)
-        giocatoreSelezionato.set_posizione(newPosizione)
+    def set_posizione_giocatore(self, id, new_posizione):
+        giocatore_selezionato = self.get_giocatore(id)
+        giocatore_selezionato.set_posizione(new_posizione)
 
     # Cambiare muri disponibili di giocatore in partita
 
-    def setMuriDisponibiliGiocatore(self, id, newMuriDisponibili):
+    def set_muri_disponibili_giocatore(self, id, new_muri_disponibili):
 
-        giocatoreSelezionato = self.getGiocatore(id)
-        giocatoreSelezionato.set_muri_disponibili(newMuriDisponibili)
+        giocatore_selezionato = self.get_giocatore(id)
+        giocatore_selezionato.set_muri_disponibili(new_muri_disponibili)
 
-    def getMuriDisponibiliGiocatore(self, id):
-        giocatoreSelezionato = self.getGiocatore(id)
-        return giocatoreSelezionato.get_muri_disponibili()
+    def get_muri_disponibili_giocatore(self, id):
+        giocatore_selezionato = self.get_giocatore(id)
+        return giocatore_selezionato.get_muri_disponibili()
 
-    def rimuoviUnMuroGiocatore(self, id):
-        self.setMuriDisponibiliGiocatore(id, self.getMuriDisponibiliGiocatore(id) - 1)
+    def rimuovi_un_muro_giocatore(self, id):
+        self.set_muri_disponibili_giocatore(id, self.get_muri_disponibili_giocatore(id) - 1)

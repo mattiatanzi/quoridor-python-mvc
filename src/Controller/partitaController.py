@@ -34,21 +34,21 @@ class PartitaController:
 
     def get_giocatore(self, id):
         try:
-            return self.get_model().getGiocatore(id)
+            return self.get_model().get_giocatore(id)
         except ErrorePartita as errPart:
             messaggio = f"Errore Giocatore in Partita. {errPart}"
             self.get_view().stampa_errore_partita(messaggio)
 
-    def aggiungi_giocatore(self, newGiocatore):
+    def aggiungi_giocatore(self, new_giocatore):
         try:
-            self.get_model().aggiungiGiocatore(newGiocatore)
+            self.get_model().aggiungi_giocatore(new_giocatore)
         except ErrorePartita as errPart:
             messaggio = f"Errore Numero Giocatori in Partita. {errPart}"
             self.get_view().stampa_errore_partita(messaggio)
 
     def rimuovi_giocatore(self, id):
         try:
-            self.get_model().rimuoviGiocatore(id)
+            self.get_model().rimuovi_giocatore(id)
         except ErrorePartita as errPart:
             messaggio = f"Errore Numero Giocatori in Partita. {errPart}"
             self.get_view().stampa_errore_partita(messaggio)

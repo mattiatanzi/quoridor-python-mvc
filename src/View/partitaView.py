@@ -15,35 +15,36 @@ class PartitaView:
 
     # Costruttore
 
-    def __init__(self, newGiocatoreView: GiocatoreView, newTavoliereView: TavoliereView):
-        self.setGiocatoreView(newGiocatoreView)
-        self.setTavoliereView(newTavoliereView)
+    def __init__(self, new_giocatore_view: GiocatoreView, new_tavoliere_view: TavoliereView):
+        self.set_giocatore_view(new_giocatore_view)
+        self.set_tavoliere_view(new_tavoliere_view)
 
     # Accesso Attributi Privati
 
-    def setTavoliereView(self, newTavoliereView: TavoliereView):
-        self.__tavoliereView = newTavoliereView
+    def set_tavoliere_view(self, new_tavoliere_view: TavoliereView):
+        self.__tavoliereView = new_tavoliere_view
 
-    def setGiocatoreView(self, newGiocatoreView: GiocatoreView):
-        self.__giocatoreView = newGiocatoreView
-
-    def getTavoliereView(self):
+    def get_tavoliere_view(self):
         return self.__tavoliereView
 
-    def getGiocatoreView(self):
+
+    def set_giocatore_view(self, new_giocatore_view: GiocatoreView):
+        self.__giocatoreView = new_giocatore_view
+
+    def get_giocatore_view(self):
         return self.__giocatoreView
 
     # Stampe Video
 
     def stampa_partita(self, partita: Partita):
-        giocatori = partita.getGiocatori()
+        giocatori = partita.get_giocatori()
 
         for g in giocatori:
-            idSelezionato = g.get_id()
-            muriRimanenti = partita.getMuriDisponibiliGiocatore(idSelezionato)
-            self.getGiocatoreView().stampa_muri_rimanenti_giocatore(idSelezionato, muriRimanenti)
+            id_selezionato = g.get_id()
+            muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
+            self.get_giocatore_view().stampa_muri_rimanenti_giocatore(id_selezionato, muri_rimanenti)
 
-        self.getTavoliereView().stampa_tavoliere()
+        self.get_tavoliere_view().stampa_tavoliere()
 
     # Stampe Errori
 
