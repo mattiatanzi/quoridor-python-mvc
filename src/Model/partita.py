@@ -24,6 +24,8 @@ class Partita:
             DESCRIZIONE
                 Il numero massimo dei giocatori amessi in partita
 
+        ------ VARIABILI ------
+
         - giocatori
             TIPO
                 Privato, Tipo Set di Giocatori
