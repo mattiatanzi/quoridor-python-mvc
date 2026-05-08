@@ -1,5 +1,6 @@
-from Model.tavoliere import Tavoliere
 from Model.giocatore import Giocatore
+from Model.tavoliere import Tavoliere
+
 
 class ErrorePartita(Exception):
     """Eccezione che gestisce errori durante la partita."""
@@ -154,19 +155,25 @@ class Partita:
     def aggiungi_giocatore(self, new_giocatore: Giocatore):
         numero_giocatori_partita = len(self.get_giocatori())
 
-        if (numero_giocatori_partita < self.__TOTALE_GIOCATORI):
+        if numero_giocatori_partita < self.__TOTALE_GIOCATORI:
             self.get_giocatori().add(new_giocatore)
         else:
-            raise ErrorePartita(f"Impossibile Aggiungere Giocatori (Numero giocatori: {numero_giocatori_partita}/{self.__TOTALE_GIOCATORI}")
+            raise ErrorePartita(
+                "Impossibile Aggiungere Giocatori (Numero giocatori: "
+                f"{numero_giocatori_partita}/{self.__TOTALE_GIOCATORI})"
+            )
 
     def rimuovi_giocatore(self, id):
         numero_giocatori_partita = len(self.get_giocatori())
 
-        if (numero_giocatori_partita > 0):
+        if numero_giocatori_partita > 0:
             giocatore_selezionato = self.get_giocatore(id)
             self.get_giocatori().remove(giocatore_selezionato)
         else:
-            raise ErrorePartita(f"Impossibile Rimuovere Giocatori (Numero giocatori: {numero_giocatori_partita}/{self.__TOTALE_GIOCATORI}")
+            raise ErrorePartita(
+                f"Impossibile Rimuovere Giocatori (Numero giocatori: "
+                f"{numero_giocatori_partita}/{self.__TOTALE_GIOCATORI})"
+            )
 
     # Cambiare Posizione di Giocatore in partita
 
@@ -181,7 +188,6 @@ class Partita:
     # Cambiare muri disponibili di giocatore in partita
 
     def set_muri_disponibili_giocatore(self, id, new_muri_disponibili):
-
         giocatore_selezionato = self.get_giocatore(id)
         giocatore_selezionato.set_muri_disponibili(new_muri_disponibili)
 
@@ -190,4 +196,6 @@ class Partita:
         return giocatore_selezionato.get_muri_disponibili()
 
     def rimuovi_un_muro_giocatore(self, id):
-        self.set_muri_disponibili_giocatore(id, self.get_muri_disponibili_giocatore(id) - 1)
+        self.set_muri_disponibili_giocatore(
+            id, self.get_muri_disponibili_giocatore(id) - 1
+        )

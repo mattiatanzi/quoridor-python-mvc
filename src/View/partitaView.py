@@ -1,21 +1,20 @@
-from Model.partita import Partita
-from View.giocatore import GiocatoreView
 from View.tavoliereView import TavoliereView
+from View.giocatore import GiocatoreView
+from Model.partita import Partita
 
 
 class PartitaView:
-
-
     # Attributi
     __giocatoreView: GiocatoreView
     __tavoliereView: TavoliereView
-
 
     # Metodi
 
     # Costruttore
 
-    def __init__(self, new_giocatore_view: GiocatoreView, new_tavoliere_view: TavoliereView):
+    def __init__(
+        self, new_giocatore_view: GiocatoreView, new_tavoliere_view: TavoliereView
+    ):
         self.set_giocatore_view(new_giocatore_view)
         self.set_tavoliere_view(new_tavoliere_view)
 
@@ -26,7 +25,6 @@ class PartitaView:
 
     def get_tavoliere_view(self):
         return self.__tavoliereView
-
 
     def set_giocatore_view(self, new_giocatore_view: GiocatoreView):
         self.__giocatoreView = new_giocatore_view
@@ -42,7 +40,9 @@ class PartitaView:
         for g in giocatori:
             id_selezionato = g.get_id()
             muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
-            self.get_giocatore_view().stampa_muri_rimanenti_giocatore(id_selezionato, muri_rimanenti)
+            self.get_giocatore_view().stampa_muri_rimanenti_giocatore(
+                id_selezionato, muri_rimanenti
+            )
 
         self.get_tavoliere_view().stampa_tavoliere()
 

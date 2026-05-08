@@ -1,8 +1,8 @@
 from Model.partita import ErrorePartita, Partita
 from View.partitaView import PartitaView
 
-class PartitaController:
 
+class PartitaController:
     # Attributi
 
     __model: Partita
