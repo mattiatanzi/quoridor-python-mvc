@@ -47,5 +47,5 @@ class PartitaView:
 
     # Stampe Errori
 
-    def stampa_errore_partita(self, messaggio)
+    def stampa_errore_partita(self, messaggio):
         print(messaggio)
