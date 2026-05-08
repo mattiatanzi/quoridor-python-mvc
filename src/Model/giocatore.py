@@ -25,10 +25,33 @@ class ErroreMuro(Exception):
 class Giocatore:
     """Classe Giocatore.
 
-    Descrizione:
+    DESCRIZIONE:
         Contiene informazioni relative al giocatore
 
-    Attributi:
+    ATTRIBUTI:
+
+        ------ COSTANTI ------
+
+        - DEF_COORDINATE
+            TIPO
+                Privato, Tipo str
+            DESCRIZIONE
+                Coordinate di default con cui creare la posizione in caso
+                non venisse specificata
+
+        - DEF_ID
+            TIPO
+                Privato, Tipo str
+            DESCRIZIONE
+                id di default con cui creare un giocatore in caso
+                non venisse specificato
+
+        - DEF_MURI_DISPONIBILI
+            TIPO
+                Privato, Tipo int
+            DESCRIZIONE
+                Numero di muri disponibili all'inizio di ogni partita
+
 
         - idGiocatore
             TIPO
@@ -100,13 +123,13 @@ class Giocatore:
 
     """
 
-    # Variabili
+    # Attributi
     __idGiocatore: str
     __posizioneCorrente: Nodo
     __muriDisponibili: int
 
     # Costanti
-    __DEF_POSIZIONE         = Nodo("a1")
+    __DEF_COORDINATE        = "a1"
     __DEF_ID                = "P1"
     __DEF_MURI_DISPONIBILI  = 10
 
@@ -114,13 +137,13 @@ class Giocatore:
 
     # Costruttore
 
-    def __init__(self, newIdGiocatore: str = __DEF_ID, newPosizione: Nodo = __DEF_POSIZIONE, newMuriDisponibili: int = __DEF_MURI_DISPONIBILI):
+    def __init__(self, newIdGiocatore: str = __DEF_ID, newPosizione = None, newMuriDisponibili: int = __DEF_MURI_DISPONIBILI):
 
         self.set_id(newIdGiocatore)
         # Se non specifico il valore della posizione, assegno una copia del nodo posizione di default
         # # Altrimenti assegno la posizione specificata
-        if (newPosizione is self.__DEF_POSIZIONE):
-            self.set_posizione(Nodo("a1"))
+        if (newPosizione is None):
+            self.set_posizione(Nodo(self.__DEF_COORDINATE))
         else:
             self.set_posizione(newPosizione)
 
