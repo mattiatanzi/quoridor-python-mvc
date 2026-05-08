@@ -11,6 +11,7 @@ class ErroreId(Exception):
 
     pass
 
+
 class ErroreMuro(Exception):
     """Eccezione che gestisce gli errori riguardanti il muro.
 
@@ -25,10 +26,10 @@ class ErroreMuro(Exception):
 class Giocatore:
     """Classe Giocatore.
 
-    Descrizione:
+    DESCRIZIONE:
         Contiene informazioni relative al giocatore
 
-    Attributi:
+    ATTRIBUTI:
 
         - idGiocatore
             TIPO
@@ -61,23 +62,29 @@ class Giocatore:
                 Se un giocatore termina i muri a disposizioni, non potrà più piazzarne.
 
 
-    Metodi:
+    METODI:
 
-        ------ Costruttori ------
+        ------ COSTRUTTORI ------
 
-        - __init__(self, newIdGiocatore: str, newPosizione: str = __DEF_POSIZIONE):
+        def __init__(
+            self,
+            new_id_giocatore: str = __DEF_ID,
+            new_posizione: Nodo = __DEF_POSIZIONE,
+            new_muri_disponibili: int = __DEF_MURI_DISPONIBILI,
+        ):
             DESCRIZIONE
                 Costruttore di Base.
-                Dato un ID e una posizione restituisce un giocatore.
+                Dato un ID, una posizione e un numero di muri disponibili,
+                restituisce un giocatore.
 
-        ------ Metodi Accesso Attributi Privati ------
+        ------ ACCESSO ATTRIBUTI PRIVATI ------
 
-        - get_id(self) -> str:
+        def get_id(self) -> str:
             DESCRIZIONE
                 Restituisce l'ID del giocatore
 
 
-        def set_id(self, newIdGiocatore: str):
+        def set_id(self, new_id_giocatore: str):
             DESCRIZIONE
                 Modifica l'ID del giocatore
 
@@ -85,7 +92,7 @@ class Giocatore:
             DESCRIZIONE
                 Restituisce la posizione del giocatore
 
-        def set_posizione(self, newPosizione: Nodo):
+        def set_posizione(self, new_posizione: Nodo):
             DESCRIZIONE
                 Modifica la posizione del giocatore
 
@@ -93,7 +100,7 @@ class Giocatore:
             DESCRIZIONE
                 Restituisce numero di muri piazzabili dal giocatore
 
-        def set_muri_disponibili(self, newNumeroMuri: int):
+        def set_muri_disponibili(self, new_muri_disponibili: int):
             DESCRIZIONE
                 Modifica numero di muri a disposizione
 
@@ -105,55 +112,62 @@ class Giocatore:
     __muriDisponibili: int
 
     # Costanti
-    __DEF_POSIZIONE         = Nodo("a1")
-    __DEF_ID                = "P1"
-    __DEF_MURI_DISPONIBILI  = 10
+    __DEF_POSIZIONE = Nodo("a1")
+    __DEF_ID = "P1"
+    __DEF_MURI_DISPONIBILI = 10
 
     # Metodi
 
     # Costruttore
 
-    def __init__(self, newIdGiocatore: str = __DEF_ID, newPosizione: Nodo = __DEF_POSIZIONE, newMuriDisponibili: int = __DEF_MURI_DISPONIBILI):
-
-        self.set_id(newIdGiocatore)
-        # Se non specifico il valore della posizione, assegno una copia del nodo posizione di default
-        # # Altrimenti assegno la posizione specificata
-        if (newPosizione is self.__DEF_POSIZIONE):
+    def __init__(
+        self,
+        new_id_giocatore: str = __DEF_ID,
+        new_posizione: Nodo = __DEF_POSIZIONE,
+        new_muri_disponibili: int = __DEF_MURI_DISPONIBILI,
+    ):
+        self.set_id(new_id_giocatore)
+        # Se non specifico il valore della posizione, assegno una copia del nodo
+        # posizione di default.
+        # Altrimenti assegno la posizione specificata
+        if new_posizione is self.__DEF_POSIZIONE:
             self.set_posizione(Nodo("a1"))
         else:
-            self.set_posizione(newPosizione)
+            self.set_posizione(new_posizione)
 
-        self.set_muri_disponibili(newMuriDisponibili)
+        self.set_muri_disponibili(new_muri_disponibili)
 
     # Modificatori / Osservatori
 
     def get_id(self) -> str:
         return self.__idGiocatore
 
-    def set_id(self, newIdGiocatore: str):
-
-        if len(newIdGiocatore) != 2:
+    def set_id(self, new_id_giocatore: str):
+        if len(new_id_giocatore) != 2:
             raise ErroreId("L'id deve avere lunghezza pari a 2")
 
-        if newIdGiocatore[0] != 'P':
+        if new_id_giocatore[0] != "P":
             raise ErroreId("L'id deve avere come primo carattere 'P'")
 
-        if newIdGiocatore[1] != '2' and newIdGiocatore[1] != '1':
-            raise ErroreId("L'id deve avere come secondo carattere '1' o '2', in base al numero del giocatore")
+        if new_id_giocatore[1] != "2" and new_id_giocatore[1] != "1":
+            raise ErroreId(
+                "L'id deve avere come secondo carattere '1' o '2', "
+                "in base al numero del giocatore"
+            )
 
-        self.__idGiocatore = newIdGiocatore
+        self.__idGiocatore = new_id_giocatore
 
     def get_posizione(self) -> Nodo:
         return self.__posizioneCorrente
 
-    def set_posizione(self, newPosizione: Nodo):
-        self.__posizioneCorrente = newPosizione
+    def set_posizione(self, new_posizione: Nodo):
+        self.__posizioneCorrente = new_posizione
 
     def get_muri_disponibili(self) -> int:
         return self.__muriDisponibili
 
-    def set_muri_disponibili(self, newNumeroMuri: int):
-        if not(0 <= newNumeroMuri <= 10):
+    def set_muri_disponibili(self, new_muri_disponibili: int):
+        if not (0 <= new_muri_disponibili <= 10):
             raise ErroreMuro("Il numero di muri deve essere compreso tra 0 e 10")
 
-        self.__muriDisponibili = newNumeroMuri
+        self.__muriDisponibili = new_muri_disponibili
