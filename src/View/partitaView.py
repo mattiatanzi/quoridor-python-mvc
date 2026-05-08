@@ -93,7 +93,13 @@ class PartitaView:
         for g in giocatori:
             id_selezionato = g.get_id()
             muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
-            self.get_giocatore_view().stampa_muri_rimanenti_giocatore(
+
+            if (id_selezionato == partita.get_id_giocatore_attivo()):
+                self.get_giocatore_view().stampa_giocatore_attivo(
+                    id_selezionato, muri_rimanenti
+                )
+            else:
+                self.get_giocatore_view().stampa_muri_rimanenti_giocatore(
                 id_selezionato, muri_rimanenti
             )
 

@@ -36,6 +36,12 @@ class Partita:
             DESCRIZIONE
                 Il tavoliere utilizzato nella partita in corso.
 
+        - id_giocatore_attivo
+            TIPO
+                Privato, Tipo str
+            DESCRIZIONE
+                L'id del giocatore che sta svolgendo il turno
+
     METODI:
 
         ------ COSTRUTTORI ------
@@ -62,6 +68,14 @@ class Partita:
         def getGiocatori(self):
             DESCRIZIONE
                 Restituisce l'insieme di giocatori della partita.
+
+        def set_id_giocatore_attivo(self, id):
+            DESCRIZIONE
+                Sostituisce l'id del giocatore con il turno attivo.
+
+        def get_id_giocatore_attivo(self):
+            DESCRIZIONE
+                Restituisce l'id del giocatore con il turno attivo.
 
         ------ MODIFICATORI / OSSERVATORI ------
 
@@ -113,14 +127,20 @@ class Partita:
                 Decrementa di un valore pari a uno il numero di muri a disposizione del
                 giocatore.
 
+        def incrementa_turno(self):
+            DESCRIZIONE
+                Passa il turno al giocatore successivo
+
     """
 
     # Costanti
-    __TOTALE_GIOCATORI = 2
+    __TOTALE_GIOCATORI          = 2
+    __ID_PRIMO_GIOCATORE_ATTIVO = "P1"
 
     # Variabili
-    __giocatori: set[Giocatore]
-    __tavoliere: Tavoliere
+    __giocatori:            set[Giocatore]
+    __tavoliere:            Tavoliere
+    __id_giocatore_attivo:  str
 
     # Metodi
 
@@ -129,6 +149,7 @@ class Partita:
     def __init__(self, new_tavoliere: Tavoliere, new_giocatori: set[Giocatore]):
         self.set_tavoliere(new_tavoliere)
         self.set_giocatori(new_giocatori)
+        self.set_id_giocatore_attivo(self.__ID_PRIMO_GIOCATORE_ATTIVO)
 
     # Accesso Attributi Privati
 
@@ -141,8 +162,14 @@ class Partita:
     def set_giocatori(self, new_giocatori: set[Giocatore]):
         self.__giocatori = new_giocatori
 
-    def get_giocatori(self):
+    def get_giocatori(self) -> set[Giocatore]:
         return self.__giocatori
+
+    def set_id_giocatore_attivo(self, id):
+        self.__id_giocatore_attivo = id
+
+    def get_id_giocatore_attivo(self):
+        return self.__id_giocatore_attivo
 
     # Modificatori / Osservatori
 
@@ -207,3 +234,17 @@ class Partita:
         self.set_muri_disponibili_giocatore(
             id, self.get_muri_disponibili_giocatore(id) - 1
         )
+
+    # Modificatori turno
+
+    def incrementa_turno(self):
+        id_giocatore_attivo = self.get_id_giocatore_attivo()
+
+        numeroGiocatore = int(id_giocatore_attivo[1]) + 1
+
+        if (numeroGiocatore > self.__TOTALE_GIOCATORI):
+            numeroGiocatore = 1
+
+        nuovo_id_giocatore_attivo = f"{id_giocatore_attivo[0]}{numeroGiocatore}"
+
+        self.set_id_giocatore_attivo(nuovo_id_giocatore_attivo)
