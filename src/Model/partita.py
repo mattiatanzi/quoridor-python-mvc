@@ -1,6 +1,11 @@
 from Model.tavoliere import Tavoliere
 from Model.giocatore import Giocatore
 
+class ErrorePartita(Exception):
+    """Eccezione che gestisce errori durante la partita."""
+
+    pass
+
 
 class Partita:
     """Classe Partita.
@@ -88,7 +93,7 @@ class Partita:
         for g in self.getGiocatori():
             if g.get_id() == id:
                 return g
-        raise ErroreGiocatoreNonInPartita("Giocatore non presente nella partita")
+        raise ErrorePartita("Giocatore non presente nella partita")
 
     def setGiocatore(self, id, newGiocatore: Giocatore):
         self.rimuoviGiocatore(id)

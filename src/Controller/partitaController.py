@@ -1,4 +1,4 @@
-from Model.partita import Partita
+from Model.partita import ErrorePartita, Partita
 from View.partitaView import PartitaView
 
 
@@ -30,3 +30,12 @@ class PartitaController:
 
     def set_view(self, view: PartitaView):
         self.__view = view
+
+    # Modificatori / Osservatori
+
+    def get_giocatore(self, id):
+        try:
+            return self.get_model().getGiocatore(id)
+        except ErrorePartita as errPart:
+            messaggio = f"Errore Giocatore in Partita. {errPart}"
+            self.get_view().stampa_errore_partita(messaggio)

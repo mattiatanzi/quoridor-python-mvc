@@ -39,8 +39,13 @@ class PartitaView:
         giocatori = partita.getGiocatori()
 
         for g in giocatori:
-            idSelezionato = g.get_id
+            idSelezionato = g.get_id()
             muriRimanenti = partita.getMuriDisponibiliGiocatore(idSelezionato)
             print(f"{idSelezionato}, Muri rimanenti: {muriRimanenti}")
 
         self.getTavoliereView().stampa_tavoliere()
+
+    # Stampe Errori
+
+    def stampa_errore_partita(self, messaggio)
+        print(messaggio)
