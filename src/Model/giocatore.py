@@ -81,7 +81,7 @@ class Giocatore:
                 Se un giocatore termina i muri a disposizioni, non potrà più piazzarne.
 
 
-    Metodi:
+    METODI:
 
         ------ COSTRUTTORI ------
 
