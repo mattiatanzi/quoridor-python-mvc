@@ -74,7 +74,8 @@ class Partita:
 
         def rimuoviGiocatore(self, id):
             DESCRIZIONE
-                Rimuove il giocatore con l'id in input dalla partita (Se il giocatore risulta essere in partita)
+                Rimuove il giocatore con l'id in input dalla partita (Se il giocatore
+                risulta essere in partita)
     """
 
     # Costanti
@@ -123,11 +124,21 @@ class Partita:
     # Aggiungere / Rimuovere Giocatore in partita
 
     def aggiungiGiocatore(self, newGiocatore: Giocatore):
-        self.getGiocatori().add(newGiocatore)
+        numeroGiocatoriPartita = len(self.getGiocatori())
+
+        if (numeroGiocatoriPartita < self.__TOTALE_GIOCATORI):
+            self.getGiocatori().add(newGiocatore)
+        else:
+            raise ErrorePartita(f"Impossibile Aggiungere Giocatori (Numero giocatori: {numeroGiocatoriPartita}/{self.__TOTALE_GIOCATORI}")
 
     def rimuoviGiocatore(self, id):
-        giocatoreSelezionato = self.getGiocatore(id)
-        self.getGiocatori().remove(giocatoreSelezionato)
+        numeroGiocatoriPartita = len(self.getGiocatori())
+
+        if (numeroGiocatoriPartita > 0):
+            giocatoreSelezionato = self.getGiocatore(id)
+            self.getGiocatori().remove(giocatoreSelezionato)
+        else:
+            raise ErrorePartita(f"Impossibile Rimuovere Giocatori (Numero giocatori: {numeroGiocatoriPartita}/{self.__TOTALE_GIOCATORI}")
 
     # Cambiare Posizione di Giocatore in partita
 
