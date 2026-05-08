@@ -99,7 +99,7 @@ class PartitaView:
                     id_selezionato, muri_rimanenti
                 )
             else:
-                self.get_giocatore_view().stampa_muri_rimanenti_giocatore(
+                self.get_giocatore_view().stampa_info_giocatore(
                 id_selezionato, muri_rimanenti
             )
 
