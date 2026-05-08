@@ -11,9 +11,10 @@ class ErroreMuro(Exception):
 
     pass
 
-class ErrorePosizione(Exception)
+class ErrorePosizione(Exception):
     """Eccezione che gestisce errori riguardanti la posizione"""
 
+    pass
 
 class Giocatore:
     """Classe Giocatore.
