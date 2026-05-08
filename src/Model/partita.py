@@ -1,10 +1,6 @@
 from Model.tavoliere import Tavoliere
 from Model.giocatore import Giocatore
 
-class ErroreGiocatoreNonInPartita(Exception):
-    """Eccezione che gestisce caso in cui il giocatore non è presente nella partita."""
-
-    pass
 
 class Partita:
     """Classe Partita.
@@ -70,7 +66,7 @@ class Partita:
         self.setTavoliere(newTavoliere)
         self.setGiocatori(newGiocatori)
 
-    # Modificatori / Osservatori
+    # Accesso Attributi Privati
 
     def setTavoliere(self, newTavoliere: Tavoliere):
         self.__tavoliere = newTavoliere
@@ -84,12 +80,49 @@ class Partita:
     def getGiocatori(self):
         return self.__giocatori
 
+    # Modificatori / Osservatori
+
+    # Modificare / Restituire un Giocatore in Partita
+
     def getGiocatore(self, id):
         for g in self.getGiocatori():
             if g.get_id() == id:
                 return g
         raise ErroreGiocatoreNonInPartita("Giocatore non presente nella partita")
 
-    def getPosizioneGiocatore(self, giocatore: Giocatore):
-        g = self.getGiocatore(giocatore.get_id())
+    def setGiocatore(self, id, newGiocatore: Giocatore):
+        self.rimuoviGiocatore(id)
+        self.addGiocatore(newGiocatore)
+
+    # Aggiungere / Rimuovere Giocatore in partita
+
+    def addGiocatore(self, newGiocatore: Giocatore):
+        self.getGiocatori().add(newGiocatore)
+
+    def rimuoviGiocatore(self, id):
+        giocatoreSelezionato = self.getGiocatore(id)
+        self.getGiocatori().remove(giocatoreSelezionato)
+
+    # Cambiare Posizione di Giocatore in partita
+
+    def getPosizioneGiocatore(self, id):
+        g = self.getGiocatore(id)
         return g.get_posizione()
+
+    def setPosizioneGiocatore(self, id, newPosizione):
+        giocatoreSelezionato = self.getGiocatore(id)
+        giocatoreSelezionato.set_posizione(newPosizione)
+
+    # Cambiare muri disponibili di giocatore in partita
+
+    def setMuriDisponibiliGiocatore(self, id, newMuriDisponibili):
+
+        giocatoreSelezionato = self.getGiocatore(id)
+        giocatoreSelezionato.set_muri_disponibili(newMuriDisponibili)
+
+    def getMuriDisponibiliGiocatore(self, id):
+        giocatoreSelezionato = self.getGiocatore(id)
+        return giocatoreSelezionato.get_muri_disponibili()
+
+    def rimuoviUnMuroGiocatore(self, id):
+        self.setMuriDisponibiliGiocatore(id, self.getMuriDisponibiliGiocatore(id) - 1)
