@@ -90,26 +90,28 @@ class PartitaView:
     # Stampe Video
 
     def stampa_partita(self, partita: Partita):
-        if os.name == 'nt': #Controlla in quale terminale si trova per pulire lo schermo
-            os.system('cls')
+        if (
+            os.name == "nt"
+        ):  # Controlla in quale terminale si trova per pulire lo schermo
+            os.system("cls")
         else:
-            os.system('clear')
+            os.system("clear")
         giocatori = partita.get_giocatori()
         tavoliere = partita.get_tavoliere()
         for g in giocatori:
             id_selezionato = g.get_id()
             muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
 
-            if (id_selezionato == partita.get_id_giocatore_attivo()):
+            if id_selezionato == partita.get_id_giocatore_attivo():
                 self.get_giocatore_view().stampa_giocatore_attivo(
                     id_selezionato, muri_rimanenti
                 )
             else:
                 self.get_giocatore_view().stampa_info_giocatore(
-                id_selezionato, muri_rimanenti
-            )
+                    id_selezionato, muri_rimanenti
+                )
 
-        self.get_tavoliere_view().stampa_tavoliere(tavoliere)
+        self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
 
     # Stampe Errori
 
