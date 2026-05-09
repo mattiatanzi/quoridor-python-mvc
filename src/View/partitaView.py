@@ -1,5 +1,7 @@
+import os
+
 from Model.partita import Partita
-from View.giocatore import GiocatoreView
+from View.giocatore_view import GiocatoreView
 from View.tavoliereView import TavoliereView
 
 
@@ -88,6 +90,10 @@ class PartitaView:
     # Stampe Video
 
     def stampa_partita(self, partita: Partita):
+        if os.name == 'nt': #Controlla in quale terminale si trova per pulire lo schermo
+            os.system('cls')
+        else:
+            os.system('clear')
         giocatori = partita.get_giocatori()
 
         for g in giocatori:
