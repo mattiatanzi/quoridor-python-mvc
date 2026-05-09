@@ -72,6 +72,10 @@ class PartitaController:
                 Rimuove il giocatore con l'id in input dalla partita (Se il giocatore
                 risulta essere in partita).
 
+        def gioca_partita(self):
+            DESCRIZIONE
+            Permette di avviare giocare una partita, stampa la partita in corso e prende
+            i dati di input dall'utente e gestice il dato
     """
 
     # Attributi
