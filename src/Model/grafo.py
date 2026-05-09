@@ -132,3 +132,6 @@ class Grafo:
                 else:
                     self.__grafo[nodo2][i - 1] = self.__COSTANTI.NO_ARCO
                 return
+
+    def get_adiacente(self,nodo,posizione):
+        return self.__grafo[nodo][posizione]
