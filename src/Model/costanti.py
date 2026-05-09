@@ -3,7 +3,7 @@ from Model.nodo import Nodo
 
 class Costanti:
     """Costanti presenti per tutte le classi.
-    
+
     Costanti
     ----------
     nome : COLONNE
