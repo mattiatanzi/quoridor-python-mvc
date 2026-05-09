@@ -95,7 +95,7 @@ class PartitaView:
         else:
             os.system('clear')
         giocatori = partita.get_giocatori()
-
+        tavoliere = partita.get_tavoliere()
         for g in giocatori:
             id_selezionato = g.get_id()
             muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
@@ -109,7 +109,7 @@ class PartitaView:
                 id_selezionato, muri_rimanenti
             )
 
-        self.get_tavoliere_view().stampa_tavoliere()
+        self.get_tavoliere_view().stampa_tavoliere(tavoliere)
 
     # Stampe Errori
 
