@@ -123,3 +123,6 @@ class PartitaController:
         except ErrorePartita as errPart:
             messaggio = f"Errore Numero Giocatori in Partita. {errPart}"
             self.get_view().stampa_errore_partita(messaggio)
+
+    def gioca_partita(self):
+        self.__view.stampa_partita(self.__model)
