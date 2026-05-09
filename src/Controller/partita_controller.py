@@ -129,4 +129,4 @@ class PartitaController:
             self.get_view().stampa_errore_partita(messaggio)
 
     def gioca_partita(self):
-        self.__view.stampa_partita(self.__model)
+        self.__view.stampa_partita(self.get_model())
