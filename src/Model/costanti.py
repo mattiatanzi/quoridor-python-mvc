@@ -1,4 +1,4 @@
-from nodo import Nodo
+from Model.nodo import Nodo
 
 
 class Costanti:

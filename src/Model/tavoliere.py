@@ -1,4 +1,4 @@
-from grafo import Grafo
+from Model.grafo import Grafo
 
 
 class Tavoliere:
