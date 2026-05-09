@@ -1,5 +1,5 @@
 from Model.partita import ErrorePartita, Partita
-from View.partitaView import PartitaView
+from View.partita_view import PartitaView
 
 
 class PartitaController:

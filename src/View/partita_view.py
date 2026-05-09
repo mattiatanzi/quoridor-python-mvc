@@ -2,7 +2,7 @@ import os
 
 from Model.partita import Partita
 from View.giocatore_view import GiocatoreView
-from View.tavoliereView import TavoliereView
+from View.tavoliere_view import TavoliereView
 
 
 class PartitaView:

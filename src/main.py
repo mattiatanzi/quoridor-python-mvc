@@ -1,4 +1,4 @@
-from Controller.quoridorController import QuoridorController
+from Controller.quoridor_controller import QuoridorController
 
 
 def main():
