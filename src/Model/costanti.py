@@ -1,9 +1,9 @@
-from nodo import Nodo
+from Model.nodo import Nodo
 
 
 class Costanti:
     """Costanti presenti per tutte le classi.
-    
+
     Costanti
     ----------
     nome : COLONNE
@@ -59,8 +59,12 @@ class Costanti:
     SPAZIO_MURO = "   "
 
     MURO_VERTICALE = "|"
+    MURO_ORIZZONTALE = "--------"
     MURO_DIVISORIO_ORIZZONTALE = (
         "-----------------------------------------------------------------------"
     )
+    MURO_PRESENTE = Nodo("1")
+
+    NUMERO_RIGHE_COLONNE = 9
 
     CELLA_VUOTA = "."

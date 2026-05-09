@@ -136,13 +136,13 @@ class Partita:
     """
 
     # Costanti
-    __TOTALE_GIOCATORI          = 2
+    __TOTALE_GIOCATORI = 2
     __ID_PRIMO_GIOCATORE_ATTIVO = "P1"
 
     # Variabili
-    __giocatori:            set[Giocatore]
-    __tavoliere:            Tavoliere
-    __id_giocatore_attivo:  str
+    __giocatori: set[Giocatore]
+    __tavoliere: Tavoliere
+    __id_giocatore_attivo: str
 
     # Metodi
 
@@ -244,7 +244,7 @@ class Partita:
 
         numeroGiocatore = int(id_giocatore_attivo[1]) + 1
 
-        if (numeroGiocatore > self.__TOTALE_GIOCATORI):
+        if numeroGiocatore > self.__TOTALE_GIOCATORI:
             numeroGiocatore = 1
 
         nuovo_id_giocatore_attivo = f"{id_giocatore_attivo[0]}{numeroGiocatore}"

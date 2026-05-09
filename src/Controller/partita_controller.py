@@ -1,5 +1,5 @@
 from Model.partita import ErrorePartita, Partita
-from View.partitaView import PartitaView
+from View.partita_view import PartitaView
 
 
 class PartitaController:
@@ -72,6 +72,10 @@ class PartitaController:
                 Rimuove il giocatore con l'id in input dalla partita (Se il giocatore
                 risulta essere in partita).
 
+        def gioca_partita(self):
+            DESCRIZIONE
+            Permette di avviare giocare una partita, stampa la partita in corso e prende
+            i dati di input dall'utente e gestice il dato
     """
 
     # Attributi
@@ -123,3 +127,6 @@ class PartitaController:
         except ErrorePartita as errPart:
             messaggio = f"Errore Numero Giocatori in Partita. {errPart}"
             self.get_view().stampa_errore_partita(messaggio)
+
+    def gioca_partita(self):
+        self.__view.stampa_partita(self.get_model())

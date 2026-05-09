@@ -143,7 +143,7 @@ class Giocatore:
     def __init__(
         self,
         new_id_giocatore: str = __DEF_ID,
-        new_posizione = None,
+        new_posizione=None,
         new_muri_disponibili: int = __DEF_MURI_DISPONIBILI,
     ):
         self.set_id(new_id_giocatore)

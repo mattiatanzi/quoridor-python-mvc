@@ -1,6 +1,6 @@
 from Model.partita import Partita
-from View.giocatore import GiocatoreView
-from View.tavoliereView import TavoliereView
+from View.giocatore_view import GiocatoreView
+from View.tavoliere_view import TavoliereView
 
 
 class PartitaView:
@@ -88,22 +88,23 @@ class PartitaView:
     # Stampe Video
 
     def stampa_partita(self, partita: Partita):
+        print("\n\n")
         giocatori = partita.get_giocatori()
-
+        tavoliere = partita.get_tavoliere()
         for g in giocatori:
             id_selezionato = g.get_id()
             muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
 
-            if (id_selezionato == partita.get_id_giocatore_attivo()):
+            if id_selezionato == partita.get_id_giocatore_attivo():
                 self.get_giocatore_view().stampa_giocatore_attivo(
                     id_selezionato, muri_rimanenti
                 )
             else:
                 self.get_giocatore_view().stampa_info_giocatore(
-                id_selezionato, muri_rimanenti
-            )
+                    id_selezionato, muri_rimanenti
+                )
 
-        self.get_tavoliere_view().stampa_tavoliere()
+        self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
 
     # Stampe Errori
 
