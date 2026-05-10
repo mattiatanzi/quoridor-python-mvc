@@ -10,6 +10,38 @@ class PartitaView:
         Rappresenta la classe che gestisce operazioni di input / stampa per la
         Partita
 
+    ATTRIBUTI
+
+        ------ COSTANTI ------
+
+        - LUNGHEZZA_DIVISORI
+            TIPO
+                Privato, Tipo int
+            DESCRIZIONE
+                La lunghezza dei divisori utilizzati in qualche interfaccia.
+                Esempio
+                    LUNGHEZZA_DIVISORI = 20
+                    <=>
+                    La stampa del divisore sarà 20 caratteri "=":
+
+                    ====================
+
+        ------ VARIABILI ------
+
+        giocatoreView
+            TIPO
+                Privato, Tipo GiocatoreView
+            DESCRIZIONE
+                View della classe Giocatore, necessaria per eventuali
+                stampe riguardanti il giocatore
+
+        tavoliereView
+            TIPO
+                Privato, Tipo TavoliereView
+            DESCRIZIONE
+                View della classe Tavoliere, necessaria per eventuali
+                stampe riguardanti il tavoliere
+
     METODI
 
         ------ COSTRUTTORE ------
@@ -46,7 +78,11 @@ class PartitaView:
 
         def stampa_partita(self, partita: Partita):
             DESCRIZIONE
-            Stampa a video la partita corrente
+                Stampa a video la partita corrente
+
+        def stampa_vittoria(self, idVincitore):
+            DESCRIZIONE
+                Stampa a video l'interfaccia di vittoria
 
 
         ------ STAMPE ERRORI ------
@@ -60,6 +96,9 @@ class PartitaView:
     # Attributi
     __giocatoreView: GiocatoreView
     __tavoliereView: TavoliereView
+
+    # Costanti
+    __LUNGHEZZA_DIVISORI = 40
 
     # Metodi
 
@@ -105,6 +144,52 @@ class PartitaView:
                 )
 
         self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
+
+
+    def stampa_vittoria(self, idVincitore):
+
+        # Stampa ==============================
+        for i in range(0, self.__LUNGHEZZA_DIVISORI)
+            print("=", end = "")
+
+        # Stampa Scritta Vittoria Centrata
+
+        # Messaggio da stampare
+        messaggioVittoria = f"{idVincitore} HA VINTO"
+
+        # Calcolo di caratteri vuoti per centrare la scritta
+        numeroCaratteriVuoti = (int)((self.__LUNGHEZZA_DIVISORI - len(messaggioVittoria)) / 2)
+
+
+        for i in range(0, numeroCaratteriVuoti):
+            print(" ", end = "")
+
+        print(messaggioVittoria, end = "")
+
+        for i in range(0, numeroCaratteriVuoti):
+            print(" ", end = "")
+
+        # Stampa ==============================
+        for i in range(0, self.__LUNGHEZZA_DIVISORI)
+            print("=", end = "")
+
+        # Stampa descrizione della vittoria
+        print("\n\n")
+        print(f"\tIl giocatore {idVincitore} ha raggiunto destinazione.")
+        print("\n\n")
+
+        # Stampa -------------------------------
+        for i in range(0, self.__LUNGHEZZA_DIVISORI):
+            print("-", end = "")
+
+        # Stampa Opzioni per uscire
+        print("")
+        print("[M] Menu")
+        print("")
+
+        # Stampa ==============================
+        for i in range(0, self.__LUNGHEZZA_DIVISORI):
+            print("=", end = "")
 
     # Stampe Errori
 
