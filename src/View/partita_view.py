@@ -98,7 +98,7 @@ class PartitaView:
     __tavoliereView: TavoliereView
 
     # Costanti
-    __LUNGHEZZA_DIVISORI = 40
+    __LUNGHEZZA_DIVISORI = 70
 
     # Metodi
 
@@ -149,7 +149,7 @@ class PartitaView:
     def stampa_vittoria(self, idVincitore):
 
         # Stampa ==============================
-        for i in range(0, self.__LUNGHEZZA_DIVISORI)
+        for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("=", end = "")
 
         # Stampa Scritta Vittoria Centrata
@@ -158,39 +158,40 @@ class PartitaView:
         messaggioVittoria = f"{idVincitore} HA VINTO"
 
         # Calcolo di caratteri vuoti per centrare la scritta
-        numeroCaratteriVuoti = (int)((self.__LUNGHEZZA_DIVISORI - len(messaggioVittoria)) / 2)
+        numeroCaratteriVuoti = (int)(
+            (self.__LUNGHEZZA_DIVISORI - len(messaggioVittoria)) / 2
+        )
 
-
-        for i in range(0, numeroCaratteriVuoti):
+        # Stampa effettiva
+        print("\n")
+        for _ in range(0, numeroCaratteriVuoti):
             print(" ", end = "")
 
         print(messaggioVittoria, end = "")
-
-        for i in range(0, numeroCaratteriVuoti):
-            print(" ", end = "")
+        print("\n")
 
         # Stampa ==============================
-        for i in range(0, self.__LUNGHEZZA_DIVISORI)
+        for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("=", end = "")
 
         # Stampa descrizione della vittoria
         print("\n\n")
-        print(f"\tIl giocatore {idVincitore} ha raggiunto destinazione.")
+        print(f"\tIl giocatore {idVincitore} ha raggiunto destinazione.", end = "")
         print("\n\n")
 
         # Stampa -------------------------------
-        for i in range(0, self.__LUNGHEZZA_DIVISORI):
+        for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("-", end = "")
 
         # Stampa Opzioni per uscire
-        print("")
-        print("[M] Menu")
-        print("")
+        print("\n")
+        print("[M] Menu", end = "")
+        print("\n")
 
         # Stampa ==============================
-        for i in range(0, self.__LUNGHEZZA_DIVISORI):
+        for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("=", end = "")
-
+        print("\n")
     # Stampe Errori
 
     def stampa_errore_partita(self, messaggio):
