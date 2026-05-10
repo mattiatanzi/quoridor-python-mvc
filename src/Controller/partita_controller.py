@@ -84,7 +84,7 @@ class PartitaController:
     __view: PartitaView
 
     # Metodi
-
+    __POSSIBILE_MURO = 3
     # Costruttore
 
     def __init__(self, model: Partita, view: PartitaView):
@@ -129,4 +129,8 @@ class PartitaController:
             self.get_view().stampa_errore_partita(messaggio)
 
     def gioca_partita(self):
-        self.__view.stampa_partita(self.get_model())
+        while True:
+            azione : str = self.__view.stampa_partita(self.get_model())
+            id_giocatore_attivo = self.__model.get_id_giocatore_attivo()
+            if len(azione) == self.__POSSIBILE_MURO:
+                self.__model.rimuovi_un_muro_giocatore(id_giocatore_attivo)
