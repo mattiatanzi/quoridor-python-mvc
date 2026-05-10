@@ -1,0 +1,112 @@
+from Model.partita import Partita
+from View.giocatore_view import GiocatoreView
+from View.tavoliere_view import TavoliereView
+
+
+class PartitaView:
+    """Classe PartitaView.
+
+    DESCRIZIONE
+        Rappresenta la classe che gestisce operazioni di input / stampa per la
+        Partita
+
+    METODI
+
+        ------ COSTRUTTORE ------
+
+        def __init__(
+            self, new_giocatore_view: GiocatoreView, new_tavoliere_view: TavoliereView
+        ):
+            DESCRIZIONE
+                Costruttore di base.
+                Data un modello GiocatoreView e un TavoliereView restituisce
+                un PartitaView
+
+
+        ------ ACCESSO ATTRIBUTI PRIVATI ------
+
+        def set_tavoliere_view(self, new_tavoliere_view: TavoliereView):
+            DESCRIZIONE
+                Modifica il TavoliereView contenuto in PartitaView
+
+        def get_tavoliere_view(self):
+            DESCRIZIONE
+                Restituisce il TavoliereView contenuto in PartitaView
+
+        def set_giocatore_view(self, new_giocatore_view: GiocatoreView):
+            DESCRIZIONE
+                Modifica il GiocatoreView contenuto in PartitaView
+
+        def get_giocatore_view(self):
+            DESCRIZIONE
+                Restituisce il GiocatoreView contenuto in PartitaView
+
+
+        ------ STAMPE VIDEO ------
+
+        def stampa_partita(self, partita: Partita):
+            DESCRIZIONE
+            Stampa a video la partita corrente
+
+
+        ------ STAMPE ERRORI ------
+
+        def stampa_errore_partita(self, messaggio):
+            DESCRIZIONE
+                Stampa il messaggio di errore in input relativo alla partita
+
+    """
+
+    # Attributi
+    __giocatoreView: GiocatoreView
+    __tavoliereView: TavoliereView
+
+    # Metodi
+
+    # Costruttore
+
+    def __init__(
+        self, new_giocatore_view: GiocatoreView, new_tavoliere_view: TavoliereView
+    ):
+        self.set_giocatore_view(new_giocatore_view)
+        self.set_tavoliere_view(new_tavoliere_view)
+
+    # Accesso Attributi Privati
+
+    def set_tavoliere_view(self, new_tavoliere_view: TavoliereView):
+        self.__tavoliereView = new_tavoliere_view
+
+    def get_tavoliere_view(self):
+        return self.__tavoliereView
+
+    def set_giocatore_view(self, new_giocatore_view: GiocatoreView):
+        self.__giocatoreView = new_giocatore_view
+
+    def get_giocatore_view(self):
+        return self.__giocatoreView
+
+    # Stampe Video
+
+    def stampa_partita(self, partita: Partita):
+        print("\n\n")
+        giocatori = partita.get_giocatori()
+        tavoliere = partita.get_tavoliere()
+        for g in giocatori:
+            id_selezionato = g.get_id()
+            muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
+
+            if id_selezionato == partita.get_id_giocatore_attivo():
+                self.get_giocatore_view().stampa_giocatore_attivo(
+                    id_selezionato, muri_rimanenti
+                )
+            else:
+                self.get_giocatore_view().stampa_info_giocatore(
+                    id_selezionato, muri_rimanenti
+                )
+
+        self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
+
+    # Stampe Errori
+
+    def stampa_errore_partita(self, messaggio):
+        print(messaggio)
