@@ -46,7 +46,7 @@ class PartitaView:
 
         def stampa_partita(self, partita: Partita):
             DESCRIZIONE
-            Stampa a video la partita corrente
+            Stampa a video la partita corrente e restituisce quello l'azione dell'utente
 
 
         ------ STAMPE ERRORI ------
