@@ -10,7 +10,7 @@ class Nodo:
     nome __eq__:
         Variazione funzionale del metodo di equivalenza tra nodi
     nome __hash__:
-        Variazioen funzionale del metodo di controllo hash
+        Variazione funzionale del metodo di controllo hash
     nome get_valore_nodo:
         Restituisce il valore del nodo
     """
