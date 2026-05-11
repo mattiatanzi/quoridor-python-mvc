@@ -129,19 +129,18 @@ class PartitaController:
             messaggio = f"Errore Numero Giocatori in Partita. {errPart}"
             self.get_view().stampa_errore_partita(messaggio)
 
-    def get_input(self) -> str:
-        return input("Fai la tua mossa: ")
+
     def gioca_partita(self):
         errore = ""
         while True:
             self.__view.stampa_partita(self.get_model())
             self.get_view().stampa_errore_partita(errore)
-            azione = self.get_input()
+            azione = self.__view.get_input()
             id_giocatore_attivo = self.__model.get_id_giocatore_attivo()
             giocatore_attivo = self.get_giocatore(id_giocatore_attivo)
 
             errore = ""
-            
+
             if len(azione) == self.__LUNGHEZZA_COMANDO_MURO:
                 try:
                     self.__model.piazza_muro(azione,giocatore_attivo)
