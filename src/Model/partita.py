@@ -1,7 +1,8 @@
+from Model.nodo import Nodo
 from Model.giocatore import Giocatore
 from Model.tavoliere import Tavoliere
 from Model.giocatore import ErrorePosizione
-from Model.Nodo import Nodo
+
 
 
 class ErrorePartita(Exception):
@@ -307,6 +308,7 @@ class Partita:
         
         # Verifica dell'esistenza passaggio
         if self.__tavoliere.esiste_arco(nodo_partenza, nodo_arrivo):
+            # Il passaggio è libero
             self.set_posizione_giocatore(giocatore_attivo.get_id, nodo_arrivo)
         else: 
             # Il passaggio non è libero (o non è adiacente)
