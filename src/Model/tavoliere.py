@@ -21,3 +21,5 @@ class Tavoliere:
 
     def get_adiacente(self,nodo,posizione):
         return self.tavoliere.get_adiacente(nodo,posizione)
+    
+    def piazza_muro(self, id_giocatore : str, azione: str):pass
