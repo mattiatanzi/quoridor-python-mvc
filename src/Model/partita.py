@@ -310,7 +310,7 @@ class Partita:
         nodo_arrivo = Nodo(azione)
         
         # Verifica dell'esistenza passaggio
-        if self.__tavoliere.esiste_arco(nodo_partenza, nodo_arrivo):
+        if self.__tavoliere.mossa_permessa(nodo_partenza, nodo_arrivo):
             # Il passaggio è libero
             self.set_posizione_giocatore(giocatore_attivo.get_id(), nodo_arrivo)
         else: 
