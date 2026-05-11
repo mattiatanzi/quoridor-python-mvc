@@ -113,6 +113,8 @@ class Grafo:
     def esiste_arco(
         self, nodo1: Nodo, nodo2: Nodo
     ) -> bool:  # Controlla se esiste un arco tra 2 nodi
+        if nodo2 == self.__COSTANTI.NO_ARCO:
+            return False
         return any(i == nodo2 for i in self.__grafo[nodo1])
 
     def rimuovi_arco(self, nodo1: Nodo, nodo2: Nodo):
