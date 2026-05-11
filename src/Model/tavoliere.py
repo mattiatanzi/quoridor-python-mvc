@@ -80,5 +80,5 @@ class Tavoliere:
         self.__piazza_muro(n_dx_alto, n_dx_bass)
         self.__muri_piazzati.append(azione_effettiva)
         
-    def esiste_arco(self, nodo1: Nodo, nodo2: Nodo) -> bool:
+    def mossa_permessa(self, nodo1: Nodo, nodo2: Nodo) -> bool:
         return self.__tavoliere.esiste_arco(nodo1, nodo2)
