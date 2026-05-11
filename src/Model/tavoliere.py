@@ -20,7 +20,14 @@ class Tavoliere:
     -------
 
     nome get_adiacente
-        Restituisce l'adiacente presente ad un nodo specifico
+        Restituisce l'adiacente presente ad un nodo specifico+
+
+    nome piazza_muro
+        Piazza l'effettivo muro tra 2 nodi
+
+    nome piazza_muro_orizzontale
+        Effettua dei controlli per poter piazzare il muro orizzontale e se va a buon
+          fine richiama piazza_muro
     """
 
     def __init__(self):
