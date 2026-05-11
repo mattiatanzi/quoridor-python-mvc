@@ -172,11 +172,14 @@ class PartitaController:
             
             # Mossa        
             elif len(azione) == self.__LUNGHEZZA_COMANDO_MOSSA:
-                try: 
-                    self.__model.muovi_giocatore(azione, giocatore_attivo)
-                    self.__model.incrementa_turno()
-                except ErrorePosizione as err_pos:
-                    errore = f"Errore movimento: {err_pos}"
+                if azione[0].isalpha() and azione [1].isdigit():
+                    try: 
+                        self.__model.muovi_giocatore(azione, giocatore_attivo)
+                        self.__model.incrementa_turno()
+                    except ErrorePosizione as err_pos:
+                        errore = f"Errore movimento: {err_pos}"
+                else: 
+                    errore = "Formato errato: usa una lettera (a-i) e un numero (1-9)."
             
             # Input sconosciuto
             else: 
