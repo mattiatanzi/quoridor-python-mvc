@@ -115,7 +115,7 @@ class PartitaView:
         print("+----------------------+" )
         print("|      ** MENU **      |" )
         print("+----------------------+" )
-        print("| 1. Gioca             |" )
+        print("| 1. Continua             |" )
         print("| 2. Esci              |" )
         print("+----------------------+" )
 
