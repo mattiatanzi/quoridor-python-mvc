@@ -120,13 +120,31 @@ class PartitaView:
         
     def stampa_aiuto(self):
         aiuto = """
-        --- GUIDA AI COMANDI DI QUORIDOR ---
-        • Muovere il pedone        : [colonna][riga] (es. e2, f4)
-        • Muro orizzontale         : [colonna][riga]h (es. e3h)
-        • Muro verticale           : [colonna][riga]v (es. d5v)
-        • Mostrare questo menu     : 'help' oppure 'aiuto'
-        • Abbandonare la partita   : 'esci' oppure 'quit'
-        ------------------------------------
+        ╔══════════════════════════════════════════════════════════════╗
+        ║             QUORIDOR: GUIDA AI COMANDI PRINCIPALI            ║
+        ╠══════════════════════════════════════════════════════════════╣
+        ║  SEI IN DIFFICOLTÀ?                                          ║
+        ║   Ecco per te un elenco dei comandi principali:              ║
+        ║                                                              ║
+        ║  - MOSSA PEDONE:                                             ║
+        ║     Inserisci le coordinate della casella di destinazione    ║
+        ║     Formato: <colonna><riga>  (es. 'e2', 'e3')               ║
+        ║                                                              ║
+        ║  - PIAZZAMENTO MURO:                                         ║
+        ║     Inserisci coordinate e orientamento (h=orizz, v=vert).   ║
+        ║     Formato: <colonna><riga><h/v>  (es. 'e2h', 'a4v')        ║
+        ║                                                              ║
+        ║  - AIUTO:                                                    ║
+        ║     Scrivi 'help' o 'aiuto' per rileggere questo             ║
+        ║      menu in ogni turno.                                     ║
+        ║                                                              ║
+        ║  - USCITA DAL GIOCO:                                         ║
+        ║     Scrivi 'quit' o 'esci' per uscire dal gioco.             ║
+        ║                                                              ║
+        ║  - USCITA DALLA PARTITA:                                     ║
+        ║    Scrivi 'exit' o 'abbandona' per uscire dalla partita.     ║
+        ║                                                              ║
+        ╚══════════════════════════════════════════════════════════════╝
         """
         print(aiuto)
         
