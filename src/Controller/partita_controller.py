@@ -1,6 +1,7 @@
 from Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from Model.tavoliere import ErroreTavoliere
 from View.partita_view import PartitaView
+from Model.giocatore import ErrorePosizione
 
 
 class PartitaController:
@@ -24,6 +25,16 @@ class PartitaController:
 
             DESCRIZIONE
                 Responsabile della gestione di stampa e input della Partita
+                
+    COSTANTI: 
+        - LUNGHEZZA_COMANDO_MURO
+            Si riferisce alla lunghezza di un comando relativo al piazzamento di un
+            qualsiasi muro.
+            
+        - LUNGHEZZA_COMANDO_MOSSA
+            Si riferisce alla lunghezza di un comando relativo ad un movimento 
+            del pedone.
+
 
     METODI:
 
@@ -85,7 +96,12 @@ class PartitaController:
     __view: PartitaView
 
     # Metodi
+    
+    # Costanti
+    
     __LUNGHEZZA_COMANDO_MURO = 3
+    __LUNGHEZZA_COMANDO_MOSSA = 2
+    
     # Costruttore
 
     def __init__(self, model: Partita, view: PartitaView):
@@ -141,6 +157,7 @@ class PartitaController:
 
             errore = ""
 
+            # Piazzamento muro
             if len(azione) == self.__LUNGHEZZA_COMANDO_MURO:
                 try:
                     self.__model.piazza_muro(azione,giocatore_attivo)
@@ -152,3 +169,18 @@ class PartitaController:
                     errore = err_tav
                 except ErrorePartita as err_part:
                     errore = err_part
+            
+            # Mossa        
+            elif len(azione) == self.__LUNGHEZZA_COMANDO_MOSSA:
+                if azione[0].isalpha() and azione [1].isdigit():
+                    try: 
+                        self.__model.muovi_giocatore(azione, giocatore_attivo)
+                        self.__model.incrementa_turno()
+                    except ErrorePosizione as err_pos:
+                        errore = f"Errore movimento: {err_pos}"
+                else: 
+                    errore = "Formato errato: usa una lettera (a-i) e un numero (1-9)."
+            
+            # Input sconosciuto
+            else: 
+                errore = "Comando non riconosciuto"

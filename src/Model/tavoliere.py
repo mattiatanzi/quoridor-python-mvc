@@ -28,6 +28,9 @@ class Tavoliere:
     nome piazza_muro_orizzontale
         Effettua dei controlli per poter piazzare il muro orizzontale e se va a buon
           fine richiama piazza_muro
+          
+    nome esiste_arco
+        Controlla se esiste un passaggio tra due caselle.
     """
 
     def __init__(self):
@@ -76,3 +79,6 @@ class Tavoliere:
         self.__piazza_muro(n_sx_alto, n_sx_bass)
         self.__piazza_muro(n_dx_alto, n_dx_bass)
         self.__muri_piazzati.append(azione_effettiva)
+        
+    def mossa_permessa(self, nodo1: Nodo, nodo2: Nodo) -> bool:
+        return self.__tavoliere.esiste_arco(nodo1, nodo2)
