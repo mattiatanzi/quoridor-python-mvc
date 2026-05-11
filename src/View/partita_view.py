@@ -105,8 +105,6 @@ class PartitaView:
                 )
 
         self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
-        azione: str = input("Fai la tua mossa: ")
-        return azione
 
     # Stampe Errori
 

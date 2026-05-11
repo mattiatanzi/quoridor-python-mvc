@@ -85,7 +85,7 @@ class PartitaController:
     __view: PartitaView
 
     # Metodi
-    __POSSIBILE_MURO = 3
+    __LUNGHEZZA_COMANDO_MURO = 3
     # Costruttore
 
     def __init__(self, model: Partita, view: PartitaView):
@@ -129,19 +129,27 @@ class PartitaController:
             messaggio = f"Errore Numero Giocatori in Partita. {errPart}"
             self.get_view().stampa_errore_partita(messaggio)
 
+    def get_input(self) -> str:
+        return input("Fai la tua mossa: ")
     def gioca_partita(self):
+        errore = ""
         while True:
-            azione: str = self.__view.stampa_partita(self.get_model())
+            self.__view.stampa_partita(self.get_model())
+            self.get_view().stampa_errore_partita(errore)
+            azione = self.get_input()
             id_giocatore_attivo = self.__model.get_id_giocatore_attivo()
             giocatore_attivo = self.get_giocatore(id_giocatore_attivo)
-            if len(azione) == self.__POSSIBILE_MURO:
+
+            errore = ""
+            
+            if len(azione) == self.__LUNGHEZZA_COMANDO_MURO:
                 try:
                     self.__model.piazza_muro(azione,giocatore_attivo)
                     self.__model.rimuovi_un_muro_giocatore(id_giocatore_attivo)
                     self.__model.incrementa_turno()
                 except ErroreFormattazione as err_from:
-                    self.get_view().stampa_errore_partita(err_from)
+                    errore = err_from
                 except ErroreTavoliere as err_tav:
-                    self.get_view().stampa_errore_partita(err_tav)
+                    errore = err_tav
                 except ErrorePartita as err_part:
-                    self.get_view().stampa_errore_partita(err_part)
+                    errore = err_part
