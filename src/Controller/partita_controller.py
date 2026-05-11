@@ -1,6 +1,6 @@
-from Model.partita import ErrorePartita, ErroreFormattazione, Partita
-from View.partita_view import PartitaView
+from Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from Model.tavoliere import ErroreTavoliere
+from View.partita_view import PartitaView
 
 
 class PartitaController:
@@ -133,12 +133,15 @@ class PartitaController:
         while True:
             azione: str = self.__view.stampa_partita(self.get_model())
             id_giocatore_attivo = self.__model.get_id_giocatore_attivo()
+            giocatore_attivo = self.get_giocatore(id_giocatore_attivo)
             if len(azione) == self.__POSSIBILE_MURO:
                 try:
-                    self.__model.piazza_muro(azione)
+                    self.__model.piazza_muro(azione,giocatore_attivo)
                     self.__model.rimuovi_un_muro_giocatore(id_giocatore_attivo)
                     self.__model.incrementa_turno()
                 except ErroreFormattazione as err_from:
                     self.get_view().stampa_errore_partita(err_from)
                 except ErroreTavoliere as err_tav:
                     self.get_view().stampa_errore_partita(err_tav)
+                except ErrorePartita as err_part:
+                    self.get_view().stampa_errore_partita(err_part)
