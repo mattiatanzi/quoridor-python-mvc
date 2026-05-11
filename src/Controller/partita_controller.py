@@ -1,6 +1,7 @@
 from Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from Model.tavoliere import ErroreTavoliere
 from View.partita_view import PartitaView
+from Model.giocatore import ErrorePosizione
 
 
 class PartitaController:
@@ -156,6 +157,7 @@ class PartitaController:
 
             errore = ""
 
+            # Piazzamento muro
             if len(azione) == self.__LUNGHEZZA_COMANDO_MURO:
                 try:
                     self.__model.piazza_muro(azione,giocatore_attivo)
@@ -167,3 +169,15 @@ class PartitaController:
                     errore = err_tav
                 except ErrorePartita as err_part:
                     errore = err_part
+            
+            # Mossa        
+            elif len(azione) == self.__LUNGHEZZA_COMANDO_MOSSA:
+                try: 
+                    self.__model.muovi_giocatore(azione, giocatore_attivo)
+                    self.__model.incrementa_turno()
+                except ErrorePosizione as err_pos:
+                    errore = f"Errore movimento: {err_pos}"
+            
+            # Input sconosciuto
+            else: 
+                errore = "Comando non riconosciuto"
