@@ -1,5 +1,7 @@
 from Model.giocatore import Giocatore
 from Model.tavoliere import Tavoliere
+from Model.giocatore import ErrorePosizione
+from Model.Nodo import Nodo
 
 
 class ErrorePartita(Exception):
@@ -143,6 +145,12 @@ class Partita:
             DESCRIZIONE
                 Controlla se è possibile piazzare un muro e se piazzarlo verticale o 
                 orizzontale
+            
+        def muovi_giocatore(self, azione, giocatore_attivo)
+            DESCRIZIONE
+                Esegue il movimento del pedone. 
+                Controlla sul tavoliere se la mossa può essere fatta, poi aggiorna
+                la posizione.
 
     """
 
@@ -292,3 +300,15 @@ class Partita:
             raise ErroreFormattazione(
                 "Errore: inserire la colonna corretta come primo carattere tra 'a' e 'i'"
             )
+            
+    def muovi_giocatore(self, azione: str, giocatore_attivo: Giocatore):
+        nodo_partenza = giocatore_attivo.get_posizione()
+        nodo_arrivo = Nodo(azione)
+        
+        # Verifica dell'esistenza passaggio
+        if self.__tavoliere.esiste_arco(nodo_partenza, nodo_arrivo):
+            self.set_posizione_giocatore(giocatore_attivo.get_id, nodo_arrivo)
+        else: 
+            # Il passaggio non è libero (o non è adiacente)
+            raise ErrorePosizione(f"Mossa non valida: {azione} non è raggiungibile")
+            
