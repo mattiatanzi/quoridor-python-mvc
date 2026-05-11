@@ -46,7 +46,11 @@ class PartitaView:
 
         def stampa_partita(self, partita: Partita):
             DESCRIZIONE
-            Stampa a video la partita corrente
+                Stampa a video la partita corrente
+
+        def stampa_menu(self)
+            DESCRIZIONE
+                Stampa a video il menu restituendo la scelta dell'utente
 
 
         ------ STAMPE ERRORI ------
@@ -115,8 +119,8 @@ class PartitaView:
         print("| 2. Esci              |" )
         print("+----------------------+" )
 
-        input("In")
-
+        scelta = input("\nInserire la scelta: ")
+        return scelta
 
 
 
