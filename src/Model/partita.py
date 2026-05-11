@@ -256,17 +256,19 @@ class Partita:
 
         self.set_id_giocatore_attivo(nuovo_id_giocatore_attivo)
 
-    def piazza_muro(self, giocatore: Giocatore, azione : str):
+    def piazza_muro(self, azione : str):
 
-        if azione[0] in range('a','j'):
-            if azione[1] in range(1,10):
+        if 'a' <= azione[0] <= 'i':
+            if '1' <= azione[1] <= '9':
                 if azione[2] == 'h':
-                    self.__tavoliere.piazza_muro_orizzontale(giocatore,azione)
+                    self.__tavoliere.piazza_muro_orizzontale(azione)
                 elif azione[2] == 'v':
                     # Piazza muro verticale
                     pass # da togliere
                 else:
                     raise ErroreFormattazione("Errore: inserire dopo la posizione h/v per indicare muro verticale o orizzontale")
-            raise ErroreFormattazione("Errore: inserire dopo la colonna un numero tra 1 e 9")
-        raise ErroreFormattazione("Errore: inserire la colonna corretta come primo carattere tra 'a' e 'i'")
+            else :
+                raise ErroreFormattazione("Errore: inserire dopo la colonna un numero tra 1 e 9")
+        else:
+            raise ErroreFormattazione("Errore: inserire la colonna corretta come primo carattere tra 'a' e 'i'")
                     
