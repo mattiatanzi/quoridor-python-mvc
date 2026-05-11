@@ -24,6 +24,16 @@ class PartitaController:
 
             DESCRIZIONE
                 Responsabile della gestione di stampa e input della Partita
+                
+    COSTANTI: 
+        - LUNGHEZZA_COMANDO_MURO
+            Si riferisce alla lunghezza di un comando relativo al piazzamento di un
+            qualsiasi muro.
+            
+        - LUNGHEZZA_COMANDO_MOSSA
+            Si riferisce alla lunghezza di un comando relativo ad un movimento 
+            del pedone.
+
 
     METODI:
 
@@ -85,7 +95,12 @@ class PartitaController:
     __view: PartitaView
 
     # Metodi
+    
+    # Costanti
+    
     __LUNGHEZZA_COMANDO_MURO = 3
+    __LUNGHEZZA_COMANDO_MOSSA = 2
+    
     # Costruttore
 
     def __init__(self, model: Partita, view: PartitaView):
