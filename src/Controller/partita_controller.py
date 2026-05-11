@@ -1,4 +1,4 @@
-from Model.partita import ErrorePartita,ErroreFormattazione, Partita
+from Model.partita import ErrorePartita, ErroreFormattazione, Partita
 from View.partita_view import PartitaView
 from Model.tavoliere import ErroreTavoliere
 
@@ -131,7 +131,7 @@ class PartitaController:
 
     def gioca_partita(self):
         while True:
-            azione : str = self.__view.stampa_partita(self.get_model())
+            azione: str = self.__view.stampa_partita(self.get_model())
             id_giocatore_attivo = self.__model.get_id_giocatore_attivo()
             if len(azione) == self.__POSSIBILE_MURO:
                 try:
