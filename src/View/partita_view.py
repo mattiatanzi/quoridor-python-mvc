@@ -48,6 +48,10 @@ class PartitaView:
             DESCRIZIONE
             Stampa a video la partita corrente, ossia tavoliere di gioco e info sui 
             giocatori
+            
+        def stampa_aiuto(self)
+            DESCRIZIONE
+            Stampa a video la guida riassuntiva dei comandi disponibili.
 
 
         ------ STAMPE ERRORI ------
@@ -113,6 +117,19 @@ class PartitaView:
                 )
 
         self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
+        
+    def stampa_aiuto(self):
+        aiuto = """
+        --- GUIDA AI COMANDI DI QUORIDOR ---
+        • Muovere il pedone        : [colonna][riga] (es. e2, f4)
+        • Muro orizzontale         : [colonna][riga]h (es. e3h)
+        • Muro verticale           : [colonna][riga]v (es. d5v)
+        • Mostrare questo menu     : 'help' oppure 'aiuto'
+        • Abbandonare la partita   : 'esci' oppure 'quit'
+        ------------------------------------
+        """
+        print(aiuto)
+        
 
     # Stampe Errori
 
