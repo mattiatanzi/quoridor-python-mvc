@@ -19,13 +19,17 @@ class Costanti:
     nome: NO_ARCO
         Indica l'elemento che rappresenta che non c'è un arco tra due nodi
     nome: ARCO_ADIACENTE_SOPRA
-        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sopra
+        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso
+        sopra
     nome: ARCO_ADIACENTE_SOTTO
-        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sotto
+        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso
+        sotto
     nome: ARCO_ADIACENTE_SINISTRA
-        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso sinistra
+        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso
+        sinistra
     nome: ARCO_ADIACENTE_DESTRA
-        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso destra
+        Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso
+        destra
     nome: NUMERO_ADIACENTI
         Indica il numero degli adiacenti presenti
     nome: SPAZIO_ELEMENTI
@@ -38,6 +42,11 @@ class Costanti:
         Indica il muro divisorio che divide l'intestazione delle colonne dalle celle
     nome: CELLA_VUOTA
         Indica il valore presente nel tavoliere per rappresentare una cella
+    nome: SPAZIO_MURI_ORIZZONTALI
+        Indica lo spazio presente tra i muri orizzontali
+    nome: SPAZIO_COLONNE_INTESTAZIONE
+        Indica lo spazio presente tra la colonna principale della stampa che
+        conterrà solo elementi che sono presenti in COLONNE
     """
 
     COLONNE = ("a", "b", "c", "d", "e", "f", "g", "h", "i")
@@ -55,19 +64,17 @@ class Costanti:
 
     NUMERO_ADIACENTI = 4
 
-    SPAZIO_ELEMENTI = " "*3
+    SPAZIO_ELEMENTI = " " * 3
     SPAZIO_MURO = " "
-    SPAZIO_MURI_ORIZZONTALI = " "*5
-    SPAZIO_COLONNE_INTESTAZIONE = " "*4
+    SPAZIO_MURI_ORIZZONTALI = " " * 5
+    SPAZIO_COLONNE_INTESTAZIONE = " " * 4
 
     MURO_VERTICALE = "|"
     MURO_ORIZZONTALE = "-----"
-    MURO_DIVISORIO_ORIZZONTALE = (
-        "--------------------------------------------"
-    )
+    MURO_DIVISORIO_ORIZZONTALE = "--------------------------------------------"
 
     MURO_PRESENTE = Nodo("1")
 
     NUMERO_RIGHE_COLONNE = 9
 
-    CELLA_VUOTA = "."
+    CELLA_VUOTA = ". "
