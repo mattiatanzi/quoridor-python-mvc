@@ -106,6 +106,20 @@ class PartitaView:
 
         self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
 
+    def stampa_menu(self):
+
+        print("+----------------------+" )
+        print("|      ** MENU **      |" )
+        print("+----------------------+" )
+        print("| 1. Gioca             |" )
+        print("| 2. Esci              |" )
+        print("+----------------------+" )
+
+        input("In")
+
+
+
+
     # Stampe Errori
 
     def stampa_errore_partita(self, messaggio):
