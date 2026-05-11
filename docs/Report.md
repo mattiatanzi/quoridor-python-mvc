@@ -61,6 +61,9 @@ classDiagram
 - **Robustezza:** Per qualunque input inaspettato l'applicazione non deve mai andare in crash.
 - La Command Line Interface (CLI) deve accettare notazioni testuali compatte (es. `e2` per il pedone, `e3h` per i muri).
 ## 4. System Design
+### Stile Architetturale MVC
+- Model: Comprende tutti i dati, la topologia del dominio e le 'regole di gioco, dentro vi troviamo file come: `partita.py`, `giocatore.py`, `tavoliere.py`, ma questi sono solo alcuni esempi. Il Model segue una **precisa regola**: è l'unico responsabile della validazione delle mosse. Quando un'azione viola le regole (es: muro non piazzabile o mossa non permessa) il Model si oppone sollevando eccezioni rigorosamente tipizzate (es: `ErrorePosizione`).
+
 
 ## 8 Analisi retrospettiva
 ### 8.1 Sprint 0
