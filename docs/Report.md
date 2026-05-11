@@ -63,8 +63,7 @@ classDiagram
 ## 4. System Design
 ### Stile Architetturale MVC
 - Model: Comprende tutti i dati, la topologia del dominio e le 'regole di gioco, dentro vi troviamo file come: `partita.py`, `giocatore.py`, `tavoliere.py`, ma questi sono solo alcuni esempi. Il Model segue una **precisa regola**: è l'unico responsabile della validazione delle mosse. Quando un'azione viola le regole (es: muro non piazzabile o mossa non permessa) il Model si oppone sollevando eccezioni rigorosamente tipizzate (es: `ErrorePosizione`).
-
-
+- Controller: I file del livello di controllo (es: `partita_controller.py`, `quoridor_controller.py`) fungono da intermediari. Essi hanno la responsabilità di ricevere l'input, richiamare i Model e catturare tutte le eccezioni tramite dei blocchi `try...except`. Invece di far andare il programma in crash, ordinano alla parte View di mostrare l'errore.
 ## 8 Analisi retrospettiva
 ### 8.1 Sprint 0
 Al termine dello Sprint 0, il team si è riunito per effettuare il meeting di revisione del processo (Sprint Retrospective). La discussione si è concentrata sull'efficienza del nostro metodo di lavoro e della collaborazione interna.
