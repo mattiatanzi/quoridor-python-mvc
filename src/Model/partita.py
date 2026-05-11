@@ -138,6 +138,11 @@ class Partita:
         def incrementa_turno(self):
             DESCRIZIONE
                 Passa il turno al giocatore successivo
+        
+        def piazza_muro(self,azione,giocatore):
+            DESCRIZIONE
+                Controlla se è possibile piazzare un muro e se piazzarlo verticale o 
+                orizzontale
 
     """
 
@@ -264,7 +269,10 @@ class Partita:
 
         self.set_id_giocatore_attivo(nuovo_id_giocatore_attivo)
 
-    def piazza_muro(self, azione: str):
+    def piazza_muro(self, azione: str, giocatore_attivo : Giocatore):
+        if giocatore_attivo.get_muri_disponibili() == 0:
+            raise ErrorePartita("Errore: Muri da piazzare terminati")
+        
         if self.__PRIMA_COLONNA <= azione[0] <= self.__ULTIMA_COLONNA:
             if self.__PRIMA_RIGA <= azione[1] <= self.__ULTIMA_RIGA:
                 if azione[2] == self.__ORIZZONTALE:
