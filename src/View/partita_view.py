@@ -46,7 +46,8 @@ class PartitaView:
 
         def stampa_partita(self, partita: Partita):
             DESCRIZIONE
-            Stampa a video la partita corrente
+            Stampa a video la partita corrente, ossia tavoliere di gioco e info sui 
+            giocatori
 
 
         ------ STAMPE ERRORI ------
@@ -54,6 +55,13 @@ class PartitaView:
         def stampa_errore_partita(self, messaggio):
             DESCRIZIONE
                 Stampa il messaggio di errore in input relativo alla partita
+
+        ------ INPUT UTENTE ------
+        
+        def get_input(self):
+            DESCRIZIONE
+                Scrive un messaggio e prende e restituisce quello che scrive l'utente
+                in input
 
     """
 
@@ -110,3 +118,6 @@ class PartitaView:
 
     def stampa_errore_partita(self, messaggio):
         print(messaggio)
+    
+    def get_input(self) -> str:
+        return input("Fai la tua mossa: ")
