@@ -302,6 +302,10 @@ class Partita:
             )
             
     def muovi_giocatore(self, azione: str, giocatore_attivo: Giocatore):
+        if not (self.__PRIMA_COLONNA <= azione[0] <= self.__ULTIMA_COLONNA and
+                self.__PRIMA_RIGA <= azione[1] <= self.__ULTIMA_RIGA):
+            raise ErrorePosizione(f"Coordinate fuori scacchiera: {azione}")
+        
         nodo_partenza = giocatore_attivo.get_posizione()
         nodo_arrivo = Nodo(azione)
         
