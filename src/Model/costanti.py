@@ -55,14 +55,17 @@ class Costanti:
 
     NUMERO_ADIACENTI = 4
 
-    SPAZIO_ELEMENTI = "\t"
-    SPAZIO_MURO = "   "
+    SPAZIO_ELEMENTI = " "*3
+    SPAZIO_MURO = " "
+    SPAZIO_MURI_ORIZZONTALI = " "*5
+    SPAZIO_COLONNE_INTESTAZIONE = " "*4
 
     MURO_VERTICALE = "|"
-    MURO_ORIZZONTALE = "--------"
+    MURO_ORIZZONTALE = "-----"
     MURO_DIVISORIO_ORIZZONTALE = (
-        "-----------------------------------------------------------------------"
+        "--------------------------------------------"
     )
+
     MURO_PRESENTE = Nodo("1")
 
     NUMERO_RIGHE_COLONNE = 9
