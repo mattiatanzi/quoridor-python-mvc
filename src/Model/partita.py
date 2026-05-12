@@ -1,9 +1,17 @@
-from Model.giocatore import Giocatore
+from Model.giocatore import Giocatore, ErrorePosizione
 from Model.tavoliere import Tavoliere
+from Model.nodo import Nodo
+
 
 
 class ErrorePartita(Exception):
     """Eccezione che gestisce errori durante la partita."""
+
+    pass
+
+
+class ErroreFormattazione(ErrorePartita):
+    """Eccezione che gestisce tutti gli errori sulle formattazioni sbagliate."""
 
     pass
 
@@ -132,12 +140,30 @@ class Partita:
         def incrementa_turno(self):
             DESCRIZIONE
                 Passa il turno al giocatore successivo
+        
+        def piazza_muro(self,azione,giocatore):
+            DESCRIZIONE
+                Controlla se è possibile piazzare un muro e se piazzarlo verticale o 
+                orizzontale
+            
+        def muovi_giocatore(self, azione, giocatore_attivo)
+            DESCRIZIONE
+                Esegue il movimento del pedone. 
+                Controlla sul tavoliere se la mossa può essere fatta, poi aggiorna
+                la posizione.
 
     """
 
     # Costanti
     __TOTALE_GIOCATORI = 2
     __ID_PRIMO_GIOCATORE_ATTIVO = "P1"
+
+    __PRIMA_COLONNA = "a"
+    __ULTIMA_COLONNA = "i"
+    __PRIMA_RIGA = "1"
+    __ULTIMA_RIGA = "9"
+    __ORIZZONTALE = "h"
+    __VERTICALE = "v"
 
     # Variabili
     __giocatori: set[Giocatore]
@@ -250,3 +276,44 @@ class Partita:
         nuovo_id_giocatore_attivo = f"{id_giocatore_attivo[0]}{numeroGiocatore}"
 
         self.set_id_giocatore_attivo(nuovo_id_giocatore_attivo)
+
+    def piazza_muro(self, azione: str, giocatore_attivo : Giocatore):
+        if giocatore_attivo.get_muri_disponibili() == 0:
+            raise ErrorePartita("Errore: Muri da piazzare terminati")
+        
+        if self.__PRIMA_COLONNA <= azione[0] <= self.__ULTIMA_COLONNA:
+            if self.__PRIMA_RIGA <= azione[1] <= self.__ULTIMA_RIGA:
+                if azione[2] == self.__ORIZZONTALE:
+                    self.__tavoliere.piazza_muro_orizzontale(azione)
+                elif azione[2] == self.__VERTICALE:
+                    # Piazza muro verticale
+                    pass  # da togliere
+                else:
+                    raise ErroreFormattazione(
+                        "Errore: inserire dopo la posizione h/v per indicare muro verticale o orizzontale"
+                    )
+            else:
+                raise ErroreFormattazione(
+                    "Errore: inserire dopo la colonna un numero tra 1 e 9"
+                )
+        else:
+            raise ErroreFormattazione(
+                "Errore: inserire la colonna corretta come primo carattere tra 'a' e 'i'"
+            )
+            
+    def muovi_giocatore(self, azione: str, giocatore_attivo: Giocatore):
+        if not (self.__PRIMA_COLONNA <= azione[0] <= self.__ULTIMA_COLONNA and
+                self.__PRIMA_RIGA <= azione[1] <= self.__ULTIMA_RIGA):
+            raise ErrorePosizione(f"Coordinate fuori scacchiera: {azione}")
+        
+        nodo_partenza = giocatore_attivo.get_posizione()
+        nodo_arrivo = Nodo(azione)
+        
+        # Verifica dell'esistenza passaggio
+        if self.__tavoliere.mossa_permessa(nodo_partenza, nodo_arrivo):
+            # Il passaggio è libero
+            self.set_posizione_giocatore(giocatore_attivo.get_id(), nodo_arrivo)
+        else: 
+            # Il passaggio non è libero (o non è adiacente)
+            raise ErrorePosizione(f"Mossa non valida: {azione} non è raggiungibile")
+            
