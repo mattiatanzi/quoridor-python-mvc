@@ -61,11 +61,11 @@ classDiagram
 - **Robustezza:** Per qualunque input inaspettato l'applicazione non deve mai andare in crash.
 - La Command Line Interface (CLI) deve accettare notazioni testuali compatte (es. `e2` per il pedone, `e3h` per i muri).
 ## 4. System Design
-### Stile Architetturale MVC
-> Abbiamo optato per la realizzazione tramite MVC (Model View Control) ecco come le diverse componenti fanno la loro parte nel nostro progetto:
-- **Model:** Comprende tutti i dati, la topologia del dominio e le 'regole di gioco, dentro vi troviamo file come: `partita.py`, `giocatore.py`, `tavoliere.py`, ma questi sono solo alcuni esempi. Il Model segue una **precisa regola**: è l'unico responsabile della validazione delle mosse. Quando un'azione viola le regole (es: muro non piazzabile o mossa non permessa) il Model si oppone sollevando eccezioni rigorosamente tipizzate (es: `ErrorePosizione`).
-- **Controller:** I file del livello di controllo (es: `partita_controller.py`, `quoridor_controller.py`) fungono da intermediari. Essi hanno la responsabilità di ricevere l'input, richiamare i Model e catturare tutte le eccezioni tramite dei blocchi `try...except`. Invece di far andare il programma in crash, ordinano alla parte View di mostrare l'errore.
-- **View:** Questo è il livello di presentazione (es: `partita_view.py`) non ha alcuna logica decisionale nè conosce le logiche di gioco. Si limita infatti a stampare le diverse schermate e messaggi, incapsulando le richieste di input e mostrando gli eventuali errori ricevuti dal Controller.
+### Stile architetturale MVC
+> L'architettura del software è fondata sullo stile **Model-View-Controller (MVC)**, strutturata per separare nettamente le logiche di back-end dall'interfaccia utente in CLI. Ecco come sono state gestite le rispettive parti del modello:
+1. **Model:** Il Model comprende i dati, la topologia del dominio e le regole del gioco, vi troviamo file come `partita.py`, `giocatore.py` o `tavoliere.py`. Il Model segue una fondamentale regola: esso è **l'unico responsabile** della validazione delle mosse. Infatti, quando un'azione viola le regole (ad esempio un piazzamento di un muro non possibile o una mossa non legale) il Model si oppone sollevando eccezioni, che sono state rigorosamente tipizzate (per citarne una: `ErrorePosizione`).
+2. **Controller:** Il Controller comprende i file di controllo come `partita_controller.py` o `quoridor_controller.py`, questi fungono da intermediari tra l'esperienza dell'utente e le effettive logiche di gioco, cioè hanno la responsabilità di fare un parsing dell'input, richiamare i Model e catturare tramite dei blocchi `try...except` le eventuali eccezioni sollevate. Grazie al loro lavoro il programma non va in 'crash' ma fornisce all'utente una View specifica per l'errore.
+3. **View:** La View è il livello di presentazione, vi abbiamo file come `partita_view`. Questi non hanno alcuna logica decisionale, bensì si limitano a fare stampe (es: stampare il tavoliere o messaggi di errore per l'utente) garantendo una comunicazione con l'utente in CLI e talvolta incapsulando le richieste di input mostrando i relativi errori ricevuti dal Controller.
 
 ### Principi di progettazione
 
