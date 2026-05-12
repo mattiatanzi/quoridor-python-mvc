@@ -58,6 +58,17 @@ class PartitaView:
 
         ------ INPUT UTENTE ------
 
+        def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
+            DESCRIZIONE
+                Stampa un interfaccia con un eventuale messaggio di indicazioni in cui
+                viene chiesto all'utente di inserire un input. La funzione restituisce
+                l'input inserito dall'utente
+
+        def stampa_richiesta_input(self, indicazioni: str = ""):
+            DESCRIZIONE
+                Stampa un interfaccia con un eventuale messaggio di indicazioni in cui
+                viene chiesto all'utente di inserire un input.
+
         def get_input(self):
             DESCRIZIONE
                 Scrive un messaggio e prende e restituisce quello che scrive l'utente
@@ -115,16 +126,16 @@ class PartitaView:
         self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
 
 
-    def chiedi_input_utente(self, indicazioniInput: str) -> str:
+    def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
 
         # Stampa interfaccia Input
         self.stampa_richiesta_input(indicazioniInput)
 
         # Richiedi input
-        return input().lower().strip()
+        return input()
 
     def stampa_richiesta_input(self, indicazioni: str = ""):
-        print(indicazioni)
+        print(indicazioni, end = "\n\n")
         print("Input: ", end = "")
 
 
@@ -134,4 +145,4 @@ class PartitaView:
         print(messaggio)
 
     def get_input(self) -> str:
-        return input("Fai la tua mossa: ")
+        return self.chiedi_input_utente("Fai la tua mossa: ")
