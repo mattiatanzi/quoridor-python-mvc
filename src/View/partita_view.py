@@ -46,13 +46,16 @@ class PartitaView:
 
         def stampa_partita(self, partita: Partita):
             DESCRIZIONE
-            Stampa a video la partita corrente, ossia tavoliere di gioco e info sui 
+            Stampa a video la partita corrente, ossia tavoliere di gioco e info sui
             giocatori
             
         def stampa_aiuto(self)
             DESCRIZIONE
             Stampa a video la guida riassuntiva dei comandi disponibili.
 
+        def stampa_aiuto(self)
+            DESCRIZIONE
+            Stampa a video la guida riassuntiva dei comandi disponibili.
 
         ------ STAMPE ERRORI ------
 
@@ -61,11 +64,22 @@ class PartitaView:
                 Stampa il messaggio di errore in input relativo alla partita
 
         ------ INPUT UTENTE ------
-        
+
+        def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
+            DESCRIZIONE
+                Stampa un interfaccia con un eventuale messaggio di indicazioni in cui
+                viene chiesto all'utente di inserire un input. La funzione restituisce
+                l'input inserito dall'utente
+
+        def stampa_richiesta_input(self, indicazioni: str = ""):
+            DESCRIZIONE
+                Stampa un interfaccia con un eventuale messaggio di indicazioni in cui
+                viene chiesto all'utente di inserire un input.
+
         def get_input(self):
             DESCRIZIONE
                 Scrive un messaggio e prende e restituisce quello che scrive l'utente
-                in input
+                in input.
 
     """
 
@@ -149,10 +163,54 @@ class PartitaView:
         print(aiuto)
         
 
+
+    def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
+
+        # Stampa interfaccia Input
+        self.stampa_richiesta_input(indicazioniInput)
+
+        # Richiedi input
+        return input()
+
+    def stampa_richiesta_input(self, indicazioni: str = ""):
+        print(indicazioni, end = "\n\n")
+        print("Input: ", end = "")
+
+    def stampa_aiuto(self):
+        aiuto = """
+        ╔══════════════════════════════════════════════════════════════╗
+        ║             QUORIDOR: GUIDA AI COMANDI PRINCIPALI            ║
+        ╠══════════════════════════════════════════════════════════════╣
+        ║  SEI IN DIFFICOLTÀ?                                          ║
+        ║   Ecco per te un elenco dei comandi principali:              ║
+        ║                                                              ║
+        ║  - MOSSA PEDONE:                                             ║
+        ║     Inserisci le coordinate della casella di destinazione    ║
+        ║     Formato: <colonna><riga>  (es. 'e2', 'e3')               ║
+        ║                                                              ║
+        ║  - PIAZZAMENTO MURO:                                         ║
+        ║     Inserisci coordinate e orientamento (h=orizz, v=vert).   ║
+        ║     Formato: <colonna><riga><h/v>  (es. 'e2h', 'a4v')        ║
+        ║                                                              ║
+        ║  - AIUTO:                                                    ║
+        ║     Scrivi 'help' o 'aiuto' per rileggere questo             ║
+        ║      menu in ogni turno.                                     ║
+        ║                                                              ║
+        ║  - USCIRE DAL GIOCO:                                         ║
+        ║     Scrivi 'exit' o 'esci' per uscire dal gioco.             ║
+        ║                                                              ║
+        ║  -  ABBANDONARE LA PARTITA:                                  ║
+        ║     Scrivi 'quit' o 'abbandona' per uscire dalla partita.    ║
+        ║                                                              ║
+        ╚══════════════════════════════════════════════════════════════╝
+        """
+        print(aiuto)
+
+
     # Stampe Errori
 
     def stampa_errore_partita(self, messaggio):
         print(messaggio)
-    
+
     def get_input(self) -> str:
-        return input("Fai la tua mossa: ")
+        return self.chiedi_input_utente("Fai la tua mossa: ")
