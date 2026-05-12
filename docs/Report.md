@@ -61,7 +61,7 @@ classDiagram
 - **Robustezza:** Per qualunque input inaspettato l'applicazione non deve mai andare in crash.
 - La Command Line Interface (CLI) deve accettare notazioni testuali compatte (es. `e2` per il pedone, `e3h` per i muri).
 ## 4. System Design
-
+ 
 ## 8 Analisi retrospettiva
 ### 8.1 Sprint 0
 Al termine dello Sprint 0, il team si è riunito per effettuare il meeting di revisione del processo (Sprint Retrospective). La discussione si è concentrata sull'efficienza del nostro metodo di lavoro e della collaborazione interna.
