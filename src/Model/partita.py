@@ -327,4 +327,20 @@ class Partita:
         else: 
             # Il passaggio non è libero (o non è adiacente)
             raise ErrorePosizione(f"Mossa non valida: {azione} non è raggiungibile")
+    
+    # Osservatore condizione di vittoria
+    
+    def verifica_vittoria(self):
+        for giocatore in self.get_giocatori():
+            id_giocatore = giocatore.get_id()
             
+            # Estrazione carattere corrispondente alla riga
+            pos_giocatore = giocatore.get_posizione().get_valore_id_nodo()
+            riga = pos_giocatore[1] 
+            
+            # Verifica raggiunta del traguardo
+            if self.__TRAGUARDI.get(id_giocatore) == riga:
+                return id_giocatore  
+            
+        # In caso non sia stato rilevato un vincitore
+        return None
