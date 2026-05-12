@@ -115,6 +115,19 @@ class PartitaView:
         self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
 
 
+    def chiedi_input_utente(self, indicazioniInput: str) -> str:
+
+        # Stampa interfaccia Input
+        self.stampa_richiesta_input(indicazioniInput)
+
+        # Richiedi input
+        return input().lower().strip()
+
+    def stampa_richiesta_input(self, indicazioni: str = ""):
+        print(indicazioni)
+        print("Input: ", end = "")
+
+
     # Stampe Errori
 
     def stampa_errore_partita(self, messaggio):

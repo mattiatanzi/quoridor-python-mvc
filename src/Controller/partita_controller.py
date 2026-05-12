@@ -165,8 +165,24 @@ class PartitaController:
 
             errore = ""
 
+            # Uscire dalla partita
+            if azione in self.__COMANDI_ABBANDONA_PARTITA:
+
+                # Messaggi per chiedere conferma
+                messaggioConferma = "Uscita In Corso...\nSicuro di voler abbandonare la partita? [si/no]"
+                risposta = ""
+
+                # Stampa Fin quando l'utente non decide
+                while (risposta != "si" and risposta != "no"):
+                    risposta = self.get_view().chiedi_input_utente(messaggioConferma)
+                else:
+                    if risposta == "si":
+                        continuarePartita = False
+
+
+
             # Piazzamento muro
-            if len(azione) == self.__LUNGHEZZA_COMANDO_MURO:
+            elif len(azione) == self.__LUNGHEZZA_COMANDO_MURO:
                 try:
                     self.__model.piazza_muro(azione,giocatore_attivo)
                     self.__model.rimuovi_un_muro_giocatore(id_giocatore_attivo)
@@ -189,9 +205,7 @@ class PartitaController:
                 else:
                     errore = "Formato errato: usa una lettera (a-i) e un numero (1-9)."
 
-            # Uscire dalla partita
-            elif azione in self.__COMANDI_ABBANDONA_PARTITA:
-                continuarePartita = False
+
 
 
 
