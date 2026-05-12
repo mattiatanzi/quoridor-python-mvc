@@ -165,6 +165,13 @@ class PartitaController:
 
             errore = ""
 
+            # Aiuto
+            if azione in ["help", "aiuto"]:
+                self.__view.stampa_aiuto()
+                input("---- Premi INVIO per tornare alla partita... ----")
+                # La richiesta di aiuto non incrementa il turno
+                continue
+
             # Uscire dalla partita
             if azione in self.__COMANDI_ABBANDONA_PARTITA:
 
