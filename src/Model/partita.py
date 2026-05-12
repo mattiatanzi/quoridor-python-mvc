@@ -140,10 +140,10 @@ class Partita:
         def incrementa_turno(self):
             DESCRIZIONE
                 Passa il turno al giocatore successivo
-        
+
         def piazza_muro(self,azione,giocatore):
             DESCRIZIONE
-                Controlla se è possibile piazzare un muro e se piazzarlo verticale o 
+                Controlla se è possibile piazzare un muro e se piazzarlo verticale o
                 orizzontale
             
         def muovi_giocatore(self, azione, giocatore_attivo)
@@ -277,17 +277,16 @@ class Partita:
 
         self.set_id_giocatore_attivo(nuovo_id_giocatore_attivo)
 
-    def piazza_muro(self, azione: str, giocatore_attivo : Giocatore):
+    def piazza_muro(self, azione: str, giocatore_attivo: Giocatore):
         if giocatore_attivo.get_muri_disponibili() == 0:
             raise ErrorePartita("Errore: Muri da piazzare terminati")
-        
+
         if self.__PRIMA_COLONNA <= azione[0] <= self.__ULTIMA_COLONNA:
             if self.__PRIMA_RIGA <= azione[1] <= self.__ULTIMA_RIGA:
                 if azione[2] == self.__ORIZZONTALE:
                     self.__tavoliere.piazza_muro_orizzontale(azione)
                 elif azione[2] == self.__VERTICALE:
-                    # Piazza muro verticale
-                    pass  # da togliere
+                    self.__tavoliere.piazza_muro_verticale(azione)
                 else:
                     raise ErroreFormattazione(
                         "Errore: inserire dopo la posizione h/v per indicare muro verticale o orizzontale"
