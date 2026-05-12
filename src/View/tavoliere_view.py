@@ -22,12 +22,12 @@ class TavoliereView:
     __COSTANTI = Costanti()
 
     def stampa_tavoliere(self, tavoliere: Tavoliere, giocatori: set[Giocatore]):
-        stampa = " "
+        stampa = ""
         muriOrizzontali = [
             self.__COSTANTI.NO_ARCO
         ] * self.__COSTANTI.NUMERO_RIGHE_COLONNE
         for i in self.__COSTANTI.COLONNE:
-            stampa += self.__COSTANTI.SPAZIO_ELEMENTI + i
+            stampa +=  self.__COSTANTI.SPAZIO_COLONNE_INTESTAZIONE +i 
         stampa += "\n"
         stampa += (
             self.__COSTANTI.SPAZIO_MURO
@@ -53,7 +53,7 @@ class TavoliereView:
                         stampa += g.get_id()
                         stampa_giocatore = True
                 if not (stampa_giocatore):
-                    stampa += self.__COSTANTI.CELLA_VUOTA
+                    stampa += f"{self.__COSTANTI.CELLA_VUOTA:<2}"
                 if (
                     tavoliere.get_adiacente(
                         chiaveAttuale, self.__COSTANTI.ARCO_ADIACENTE_SOTTO
@@ -86,7 +86,7 @@ class TavoliereView:
                         stampa += " " + self.__COSTANTI.SPAZIO_MURO
                     stampa += self.__COSTANTI.MURO_ORIZZONTALE
                 else:
-                    stampa += self.__COSTANTI.SPAZIO_ELEMENTI
+                    stampa += self.__COSTANTI.SPAZIO_MURI_ORIZZONTALI
                 k += 1
             if muriOrizzontali[k] == self.__COSTANTI.MURO_PRESENTE:
                 if muriOrizzontali[k - 1] != self.__COSTANTI.MURO_PRESENTE:
