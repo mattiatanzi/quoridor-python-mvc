@@ -151,6 +151,11 @@ class Partita:
                 Esegue il movimento del pedone. 
                 Controlla sul tavoliere se la mossa può essere fatta, poi aggiorna
                 la posizione.
+                
+        def verifica_vittoria(self)
+            DESCRIZIONE
+                Controlla la posizione dei pedoni per decretare la fine della partita.
+                Restituisce l'ID del vincitore.
 
     """
 
