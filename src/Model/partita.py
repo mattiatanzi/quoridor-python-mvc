@@ -169,6 +169,12 @@ class Partita:
     __ULTIMA_RIGA = "9"
     __ORIZZONTALE = "h"
     __VERTICALE = "v"
+    
+    # Dizionario per gestire le vittorie
+    __TRAGUARDI = {
+        "P1" : "9",
+        "P2" : "1"
+    }
 
     # Variabili
     __giocatori: set[Giocatore]
