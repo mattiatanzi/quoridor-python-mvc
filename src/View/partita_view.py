@@ -46,7 +46,11 @@ class PartitaView:
 
         def stampa_partita(self, partita: Partita):
             DESCRIZIONE
-            Stampa a video la partita corrente
+                Stampa a video la partita corrente
+
+        def stampa_menu(self)
+            DESCRIZIONE
+                Stampa a video il menu restituendo la scelta dell'utente
 
 
         ------ STAMPE ERRORI ------
@@ -105,6 +109,20 @@ class PartitaView:
                 )
 
         self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
+
+    def stampa_menu(self):
+
+        print("+----------------------+" )
+        print("|      ** MENU **      |" )
+        print("+----------------------+" )
+        print("| 1. Continua             |" )
+        print("| 2. Esci              |" )
+        print("+----------------------+" )
+
+        scelta = input("\nInserire la scelta: ")
+        return scelta
+
+
 
     # Stampe Errori
 
