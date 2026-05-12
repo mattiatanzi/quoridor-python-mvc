@@ -138,11 +138,11 @@ class PartitaView:
         ║     Scrivi 'help' o 'aiuto' per rileggere questo             ║
         ║      menu in ogni turno.                                     ║
         ║                                                              ║
-        ║  - USCITA DAL GIOCO:                                         ║
-        ║     Scrivi 'quit' o 'esci' per uscire dal gioco.             ║
+        ║  - USCIRE DAL GIOCO:                                         ║
+        ║     Scrivi 'exit' o 'esci' per uscire dal gioco.             ║
         ║                                                              ║
-        ║  - USCITA DALLA PARTITA:                                     ║
-        ║    Scrivi 'exit' o 'abbandona' per uscire dalla partita.     ║
+        ║  -  ABBANDONARE LA PARTITA:                                  ║
+        ║     Scrivi 'quit' o 'abbandona' per uscire dalla partita.    ║
         ║                                                              ║
         ╚══════════════════════════════════════════════════════════════╝
         """
