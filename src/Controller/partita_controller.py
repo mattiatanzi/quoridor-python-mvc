@@ -35,6 +35,9 @@ class PartitaController:
             Si riferisce alla lunghezza di un comando relativo ad un movimento
             del pedone.
 
+        - COMANDI_ABBANDONA_PARTITA
+            Tutti i comandi possibili per abbandonare la partita
+
 
     METODI:
 
@@ -86,8 +89,9 @@ class PartitaController:
 
         def gioca_partita(self):
             DESCRIZIONE
-            Permette di avviare giocare una partita, stampa la partita in corso e prende
-            i dati di input dall'utente e gestice il dato
+                Permette di avviare giocare una partita, stampa la partita in corso e
+                prende i dati di input dall'utente e gestice il dato (muovere il
+                giocatore, posizionare un muro, tornare al menu, abbandonare il gioco)
     """
 
     # Attributi
@@ -101,6 +105,8 @@ class PartitaController:
 
     __LUNGHEZZA_COMANDO_MURO = 3
     __LUNGHEZZA_COMANDO_MOSSA = 2
+
+    __COMANDI_ABBANDONA_PARTITA = {"quit", "abbandona"}
 
     # Costruttore
 
@@ -148,7 +154,9 @@ class PartitaController:
 
     def gioca_partita(self):
         errore = ""
-        while True:
+        continuarePartita = True
+
+        while continuarePartita:
             self.__view.stampa_partita(self.get_model())
             self.get_view().stampa_errore_partita(errore)
             azione = self.__view.get_input()
@@ -180,6 +188,12 @@ class PartitaController:
                         errore = f"Errore movimento: {err_pos}"
                 else:
                     errore = "Formato errato: usa una lettera (a-i) e un numero (1-9)."
+
+            # Uscire dalla partita
+            elif azione in self.__COMANDI_ABBANDONA_PARTITA:
+                continuarePartita = False
+
+
 
             # Input sconosciuto
             else:
