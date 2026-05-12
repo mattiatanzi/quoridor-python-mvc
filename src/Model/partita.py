@@ -151,6 +151,11 @@ class Partita:
                 Esegue il movimento del pedone. 
                 Controlla sul tavoliere se la mossa può essere fatta, poi aggiorna
                 la posizione.
+                
+        def verifica_vittoria(self)
+            DESCRIZIONE
+                Controlla la posizione dei pedoni per decretare la fine della partita.
+                Restituisce l'ID del vincitore.
 
     """
 
@@ -164,6 +169,12 @@ class Partita:
     __ULTIMA_RIGA = "9"
     __ORIZZONTALE = "h"
     __VERTICALE = "v"
+    
+    # Dizionario per gestire le vittorie
+    __TRAGUARDI = {
+        "P1" : "9",
+        "P2" : "1"
+    }
 
     # Variabili
     __giocatori: set[Giocatore]
@@ -326,4 +337,20 @@ class Partita:
         else: 
             # Il passaggio non è libero (o non è adiacente)
             raise ErrorePosizione(f"Mossa non valida: {azione} non è raggiungibile")
+    
+    # Osservatore condizione di vittoria
+    
+    def verifica_vittoria(self):
+        for giocatore in self.get_giocatori():
+            id_giocatore = giocatore.get_id()
             
+            # Estrazione carattere corrispondente alla riga
+            pos_giocatore = giocatore.get_posizione().get_valore_id_nodo()
+            riga = pos_giocatore[1] 
+            
+            # Verifica raggiunta del traguardo
+            if self.__TRAGUARDI.get(id_giocatore) == riga:
+                return id_giocatore  
+            
+        # In caso non sia stato rilevato un vincitore
+        return None

@@ -206,7 +206,25 @@ class PartitaController:
                 if azione[0].isalpha() and azione [1].isdigit():
                     try:
                         self.__model.muovi_giocatore(azione, giocatore_attivo)
+                        
+                        # Controllo vittoria
+                        vincitore = self.__model.verifica_vittoria()
+                        
+                        # Vittoria
+                        if vincitore is not None:
+                            
+                            # Stampa tabellone per mostrare la mossa vincente
+                            self.__view.stampa_partita(self.__model)
+                            
+                            # Stampa vittoria
+                            self.__view.stampa_vittoria(vincitore)
+                            
+                            # Terminazione partita
+                            break
+                        
+                        # Nessuna vittoria    
                         self.__model.incrementa_turno()
+                        
                     except ErrorePosizione as err_pos:
                         errore = f"Errore movimento: {err_pos}"
                 else:
