@@ -308,6 +308,20 @@ class Partita:
         nodo_partenza = giocatore_attivo.get_posizione()
         nodo_arrivo = Nodo(azione)
         
+        for avversario in self.get_giocatori():
+            
+            # Esclusione del giocatore attivo dal controllo
+            if avversario.get_id() == giocatore_attivo.get_id():
+                continue
+            
+            # Salvare posizione avversario
+            pos_avversario = avversario.get_posizione().get_valore_id_nodo()
+            
+            # Controllo sovrapposizione
+            if pos_avversario == azione:
+                mess_err = f"Mossa non valida: {azione} è occupata dall'avversario"
+                raise ErrorePosizione(mess_err)
+        
         # Verifica dell'esistenza passaggio
         if self.__tavoliere.mossa_permessa(nodo_partenza, nodo_arrivo):
             # Il passaggio è libero
