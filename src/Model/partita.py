@@ -313,12 +313,9 @@ class Partita:
             # Esclusione del giocatore attivo dal controllo
             if avversario.get_id() == giocatore_attivo.get_id():
                 continue
-            
-            # Salvare posizione avversario
-            pos_avversario = avversario.get_posizione().get_valore_id_nodo()
-            
-            # Controllo sovrapposizione
-            if pos_avversario == azione:
+
+            # Controllo sovrapposizione (tra nodi)
+            if avversario.get_posizione() == nodo_arrivo:
                 mess_err = f"Mossa non valida: {azione} è occupata dall'avversario"
                 raise ErrorePosizione(mess_err)
         
