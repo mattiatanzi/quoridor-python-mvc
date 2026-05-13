@@ -37,7 +37,7 @@ class PartitaController:
 
         - COMANDI_ABBANDONA_PARTITA
             Tutti i comandi possibili per abbandonare la partita
-        
+
         - COMANDI_USCITA_GIOCO
             Tutti i comandi possibili per uscire dal gioco
 
@@ -237,8 +237,16 @@ class PartitaController:
                             # Stampa vittoria
                             self.__view.stampa_vittoria(vincitore)
 
-                            # Terminazione partita
-                            break
+
+                            scelta = ""
+
+                            scelta = self.get_view().chiedi_input_utente()
+
+                            while (scelta != "M" and scelta != "m"):
+                                self.__view.stampa_vittoria(vincitore)
+                                scelta = self.get_view().chiedi_input_utente()
+                            else:
+                                continuarePartita = False
 
                         # Nessuna vittoria
                         self.__model.incrementa_turno()
