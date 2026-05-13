@@ -1,4 +1,4 @@
-from Model.grafo import Grafo
+from src.Model.grafo import Grafo
 from src.Model.nodo import Nodo
 
 
