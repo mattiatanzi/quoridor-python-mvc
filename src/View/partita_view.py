@@ -166,6 +166,7 @@ class PartitaView:
                     id_selezionato, muri_rimanenti
                 )
 
+        print("")
         self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
 
     def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
