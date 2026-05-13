@@ -140,10 +140,10 @@ class Partita:
         def incrementa_turno(self):
             DESCRIZIONE
                 Passa il turno al giocatore successivo
-        
+
         def piazza_muro(self,azione,giocatore):
             DESCRIZIONE
-                Controlla se è possibile piazzare un muro e se piazzarlo verticale o 
+                Controlla se è possibile piazzare un muro e se piazzarlo verticale o
                 orizzontale
             
         def muovi_giocatore(self, azione, giocatore_attivo)
@@ -151,6 +151,11 @@ class Partita:
                 Esegue il movimento del pedone. 
                 Controlla sul tavoliere se la mossa può essere fatta, poi aggiorna
                 la posizione.
+                
+        def verifica_vittoria(self)
+            DESCRIZIONE
+                Controlla la posizione dei pedoni per decretare la fine della partita.
+                Restituisce l'ID del vincitore.
 
     """
 
@@ -164,6 +169,12 @@ class Partita:
     __ULTIMA_RIGA = "9"
     __ORIZZONTALE = "h"
     __VERTICALE = "v"
+    
+    # Dizionario per gestire le vittorie
+    __TRAGUARDI = {
+        "P1" : "9",
+        "P2" : "1"
+    }
 
     # Variabili
     __giocatori: set[Giocatore]
@@ -277,17 +288,16 @@ class Partita:
 
         self.set_id_giocatore_attivo(nuovo_id_giocatore_attivo)
 
-    def piazza_muro(self, azione: str, giocatore_attivo : Giocatore):
+    def piazza_muro(self, azione: str, giocatore_attivo: Giocatore):
         if giocatore_attivo.get_muri_disponibili() == 0:
             raise ErrorePartita("Errore: Muri da piazzare terminati")
-        
+
         if self.__PRIMA_COLONNA <= azione[0] <= self.__ULTIMA_COLONNA:
             if self.__PRIMA_RIGA <= azione[1] <= self.__ULTIMA_RIGA:
                 if azione[2] == self.__ORIZZONTALE:
                     self.__tavoliere.piazza_muro_orizzontale(azione)
                 elif azione[2] == self.__VERTICALE:
-                    # Piazza muro verticale
-                    pass  # da togliere
+                    self.__tavoliere.piazza_muro_verticale(azione)
                 else:
                     raise ErroreFormattazione(
                         "Errore: inserire dopo la posizione h/v per indicare muro verticale o orizzontale"
@@ -309,6 +319,17 @@ class Partita:
         nodo_partenza = giocatore_attivo.get_posizione()
         nodo_arrivo = Nodo(azione)
         
+        for avversario in self.get_giocatori():
+            
+            # Esclusione del giocatore attivo dal controllo
+            if avversario.get_id() == giocatore_attivo.get_id():
+                continue
+
+            # Controllo sovrapposizione (tra nodi)
+            if avversario.get_posizione() == nodo_arrivo:
+                mess_err = f"Mossa non valida: {azione} è occupata dall'avversario"
+                raise ErrorePosizione(mess_err)
+        
         # Verifica dell'esistenza passaggio
         if self.__tavoliere.mossa_permessa(nodo_partenza, nodo_arrivo):
             # Il passaggio è libero
@@ -316,4 +337,20 @@ class Partita:
         else: 
             # Il passaggio non è libero (o non è adiacente)
             raise ErrorePosizione(f"Mossa non valida: {azione} non è raggiungibile")
+    
+    # Osservatore condizione di vittoria
+    
+    def verifica_vittoria(self):
+        for giocatore in self.get_giocatori():
+            id_giocatore = giocatore.get_id()
             
+            # Estrazione carattere corrispondente alla riga
+            pos_giocatore = giocatore.get_posizione().get_valore_id_nodo()
+            riga = pos_giocatore[1] 
+            
+            # Verifica raggiunta del traguardo
+            if self.__TRAGUARDI.get(id_giocatore) == riga:
+                return id_giocatore  
+            
+        # In caso non sia stato rilevato un vincitore
+        return None

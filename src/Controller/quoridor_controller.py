@@ -54,7 +54,8 @@ class QuoridorController:
         self.__menu = QuoridorView()
 
     def gioca(self):
-        while True:
+        continuareGioco = True
+        while continuareGioco:
             scelta: str = self.__menu.menu_di_gioco()
 
             if scelta == "1":
@@ -74,7 +75,7 @@ class QuoridorController:
                     Partita(tavoliere, giocatori),
                     PartitaView(view_giocatore, view_tavoliere),
                 )
-                partita.gioca_partita()
+                continuareGioco = partita.gioca_partita()
             elif scelta == "0":
                 self.__menu.stampa_messaggio("Uscita in corso, alla prossima!")
                 return
