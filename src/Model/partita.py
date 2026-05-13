@@ -319,19 +319,24 @@ class Partita:
         nodo_partenza = giocatore_attivo.get_posizione()
         nodo_arrivo = Nodo(azione)
         
-        for avversario in self.get_giocatori():
-            
-            # Esclusione del giocatore attivo dal controllo
-            if avversario.get_id() == giocatore_attivo.get_id():
-                continue
-
-            # Controllo sovrapposizione (tra nodi)
-            if avversario.get_posizione() == nodo_arrivo:
-                mess_err = f"Mossa non valida: {azione} è occupata dall'avversario"
-                raise ErrorePosizione(mess_err)
-        
+        # Riconoscere uno spostamento sulla medesima casella
+        if nodo_partenza == nodo_arrivo:
+            mess_err = f"Mossa non valida: Sei già sulla casella {azione}..."
+            raise ErrorePosizione(mess_err)
         # Verifica dell'esistenza passaggio
-        if self.__tavoliere.mossa_permessa(nodo_partenza, nodo_arrivo):
+        elif self.__tavoliere.mossa_permessa(nodo_partenza, nodo_arrivo):
+            
+            # Evitiamo che ci si possa spostare su una casella occupata
+            for avversario in self.get_giocatori():
+            
+                # Esclusione del giocatore attivo dal controllo
+                if avversario.get_id() == giocatore_attivo.get_id():
+                    continue
+
+                # Controllo sovrapposizione (il controllo avviene tra nodi)
+                if avversario.get_posizione() == nodo_arrivo:
+                    mess_err = f"Mossa non valida: {azione} è occupata dall'avversario"
+                    raise ErrorePosizione(mess_err)
             # Il passaggio è libero
             self.set_posizione_giocatore(giocatore_attivo.get_id(), nodo_arrivo)
         else: 
