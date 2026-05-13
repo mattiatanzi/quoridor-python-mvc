@@ -164,9 +164,12 @@ class PartitaController:
             giocatore_attivo = self.get_giocatore(id_giocatore_attivo)
 
             errore = ""
+            
+            # Pulizia input utente
+            azione_pulita = azione.strip().lower()
 
             # Aiuto
-            if azione in ["help", "aiuto"]:
+            if azione_pulita in ["help", "aiuto"]:
                 self.__view.stampa_aiuto()
                 input("---- Premi INVIO per tornare alla partita... ----")
                 # La richiesta di aiuto non incrementa il turno
