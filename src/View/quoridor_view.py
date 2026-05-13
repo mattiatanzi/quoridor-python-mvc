@@ -1,3 +1,6 @@
+from src.View.pulisci_schermo_view import pulisci_schermo
+
+
 class QuoridorView:
     """Stampa del menu di base.
 
@@ -15,12 +18,15 @@ class QuoridorView:
     """
 
     def __menu_base(self):
+        pulisci_schermo()
         print("Benvenuto in Quoridor \n")
         print("1 - Avvia una nuova partita \n")
         print("0 - Esci dal gioco \n")
 
-    def menu_di_gioco(self) -> str:
+    def menu_di_gioco(self):
         self.__menu_base()
+
+    def get_input_menu(self) -> str:
         return input("Seleziona un'opzione: ")
 
     def stampa_messaggio(self, messaggio: str):
