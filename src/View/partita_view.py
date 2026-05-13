@@ -170,6 +170,8 @@ class PartitaView:
         print("")
         self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
 
+        print("\nSuggerimento -- Digitare 'help' per visualizzare i comandi\n")
+
     def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
         # Stampa interfaccia Input
         self.stampa_richiesta_input(indicazioniInput)
