@@ -166,16 +166,19 @@ class PartitaController:
             giocatore_attivo = self.get_giocatore(id_giocatore_attivo)
 
             errore = ""
+            
+            # Pulizia input utente
+            azione_pulita = azione.strip().lower()
 
             # Aiuto
-            if azione in ["help", "aiuto"]:
+            if azione_pulita in ["help", "aiuto"]:
                 self.__view.stampa_aiuto()
                 input("---- Premi INVIO per tornare alla partita... ----")
                 # La richiesta di aiuto non incrementa il turno
                 continue
 
             # Uscire dalla partita
-            elif azione in self.__COMANDI_ABBANDONA_PARTITA:
+            elif azione_pulita in self.__COMANDI_ABBANDONA_PARTITA:
 
                 # Messaggi per chiedere conferma
                 messaggioConferma = "Uscita In Corso...\nSicuro di voler abbandonare la partita? [si/no]"
@@ -202,9 +205,9 @@ class PartitaController:
 
             
             # Piazzamento muro
-            elif len(azione) == self.__LUNGHEZZA_COMANDO_MURO:
+            elif len(azione_pulita) == self.__LUNGHEZZA_COMANDO_MURO:
                 try:
-                    self.__model.piazza_muro(azione,giocatore_attivo)
+                    self.__model.piazza_muro(azione_pulita, giocatore_attivo)
                     self.__model.rimuovi_un_muro_giocatore(id_giocatore_attivo)
                     self.__model.incrementa_turno()
                 except ErroreFormattazione as err_from:
@@ -215,10 +218,10 @@ class PartitaController:
                     errore = err_part
 
             # Mossa
-            elif len(azione) == self.__LUNGHEZZA_COMANDO_MOSSA:
-                if azione[0].isalpha() and azione [1].isdigit():
+            elif len(azione_pulita) == self.__LUNGHEZZA_COMANDO_MOSSA:
+                if azione_pulita[0].isalpha() and azione_pulita[1].isdigit():
                     try:
-                        self.__model.muovi_giocatore(azione, giocatore_attivo)
+                        self.__model.muovi_giocatore(azione_pulita, giocatore_attivo)
                         
                         # Controllo vittoria
                         vincitore = self.__model.verifica_vittoria()
