@@ -10,7 +10,7 @@ class TavoliereView:
     Costanti
     --------
         nome: COSTANTI
-        Costante di tipo costanti che contiene tutte le costanti
+        Costante di tipo Costanti che contiene tutte le costanti
 
     Metodi
     -------

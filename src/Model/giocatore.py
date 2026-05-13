@@ -49,7 +49,7 @@ class Giocatore:
             DESCRIZIONE
                 Numero di muri disponibili all'inizio di ogni partita
 
-        ------ VARIABILI ------
+        ------ ATTRIBUTI ------
 
         - idGiocatore
             TIPO

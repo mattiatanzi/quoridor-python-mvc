@@ -37,7 +37,9 @@ class PartitaController:
 
         - COMANDI_ABBANDONA_PARTITA
             Tutti i comandi possibili per abbandonare la partita
-
+        
+        - COMANDI_USCITA_GIOCO
+            Tutti i comandi possibili per uscire dal gioco
 
     METODI:
 
@@ -78,7 +80,7 @@ class PartitaController:
         def aggiungi_giocatore(self, new_giocatore):
             DESCRIZIONE
                 Aggiunge il giocatore in input alla partita.
-                IL giocatore non verrà aggiunto se è già in partita o se
+                Il giocatore non verrà aggiunto se è già in partita o se
                 fosse raggiunto.
                 il massimo numero di giocatori in partita.
 

@@ -16,6 +16,8 @@ class Tavoliere:
     nome: tavoliere
         Il tavoliere di gioco realizzato con un grafo
 
+    nome: muri_piazzati
+        E' una lista contenente tutti i muri piazzati per evitare incroci di muri
     Metodi:
     -------
 
@@ -33,7 +35,7 @@ class Tavoliere:
         Effettua dei controlli per poter piazzare il muro verticale e se va a buon
         fine richiama piazza_muro
 
-    nome esiste_arco
+    nome mossa_permessa
         Controlla se esiste un passaggio tra due caselle.
     """
 
