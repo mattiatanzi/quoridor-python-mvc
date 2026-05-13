@@ -1,10 +1,10 @@
-from Model.tavoliere import Tavoliere
-from View.tavoliere_view import TavoliereView
+from src.Model.tavoliere import Tavoliere
+from src.View.tavoliere_view import TavoliereView
 
 
 class TavoliereController:
-    """Effettua controlli sul tavoliere su i dati di input per evitare errori in esecuzione.
-    
+    """Effettua controlli sul tavoliere su dati di input per evitare errori esecuzione.
+
     Attributi
     ---------
     nome: model
@@ -13,7 +13,6 @@ class TavoliereController:
         Contiene la controparte di tavoliere presente in view
     """
 
-    def __init__(self,model,view):
+    def __init__(self, model: Tavoliere, view: TavoliereView):
         self.model = model
-        self.view  = view
-        
+        self.view = view

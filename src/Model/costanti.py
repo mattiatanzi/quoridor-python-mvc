@@ -1,4 +1,4 @@
-from Model.nodo import Nodo
+from src.Model.nodo import Nodo
 
 
 class Costanti:
@@ -8,45 +8,72 @@ class Costanti:
     ----------
     nome : COLONNE
         Tupla con elementi costanti contenente elementi da "a" ad "i" in ordine
+    
     nome: PRIMA_RIGA
         Indica la prima riga del grafo
+    
     nome: ULTIMA_RIGA
         Indica l'ultima riga del grafo
+    
     nome: PRIMA_COLONNA
         Indica la prima colonna del grafo
+    
     nome: ULTIMA_COLONNA
         Indica l'ultima colonan del grafo
+    
     nome: NO_ARCO
         Indica l'elemento che rappresenta che non c'è un arco tra due nodi
+    
     nome: ARCO_ADIACENTE_SOPRA
         Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso
         sopra
+    
     nome: ARCO_ADIACENTE_SOTTO
         Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso
         sotto
+    
     nome: ARCO_ADIACENTE_SINISTRA
         Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso
         sinistra
+    
     nome: ARCO_ADIACENTE_DESTRA
         Indica la posizione nella lista degli adiacenti dell'arco che ha il nodo verso
         destra
+    
     nome: NUMERO_ADIACENTI
         Indica il numero degli adiacenti presenti
+    
     nome: SPAZIO_ELEMENTI
         Indica lo spazio che c'è tra ogni elemento del tavoliere
+    
     nome: SPAZIO_MURO
         Indica lo spazio da tenere presente quando si stampa a video un muro
-    nome: MURO_VERTICALE
-        Indica il carattere del muro verticale
-    nome: MURO_DIVISORIO_ORIZZONTALE
-        Indica il muro divisorio che divide l'intestazione delle colonne dalle celle
-    nome: CELLA_VUOTA
-        Indica il valore presente nel tavoliere per rappresentare una cella
+    
     nome: SPAZIO_MURI_ORIZZONTALI
         Indica lo spazio presente tra i muri orizzontali
+    
     nome: SPAZIO_COLONNE_INTESTAZIONE
         Indica lo spazio presente tra la colonna principale della stampa che
         conterrà solo elementi che sono presenti in COLONNE
+    
+    nome: MURO_VERTICALE
+        Indica la stringa che rappresentrà visivamente il muro verticale
+    
+    nome: MURO_ORIZZONTALE
+        Indica la stringa che rappresentrà visivamente il muro orizzontale
+    
+    nome: MURO_DIVISORIO_ORIZZONTALE
+        Indica il muro divisorio che divide l'intestazione delle colonne dalle celle
+    
+    nome: MURO_PRESENTE
+        Indica se effettivamente se tra due celle è presente un muro
+    
+    nome: NUMERO_RIGHE_COLONNE
+        Indica il numero di righe e colonne totali
+        
+    nome: CELLA_VUOTA
+        Indica il valore presente nel tavoliere per rappresentare una cella
+    
     """
 
     COLONNE = ("a", "b", "c", "d", "e", "f", "g", "h", "i")

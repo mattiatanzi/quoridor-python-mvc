@@ -1,7 +1,7 @@
-from Model.costanti import Costanti
-from Model.giocatore import Giocatore
-from Model.nodo import Nodo
-from Model.tavoliere import Tavoliere
+from src.Model.costanti import Costanti
+from src.Model.giocatore import Giocatore
+from src.Model.nodo import Nodo
+from src.Model.tavoliere import Tavoliere
 
 
 class TavoliereView:
@@ -10,7 +10,7 @@ class TavoliereView:
     Costanti
     --------
         nome: COSTANTI
-        Costante di tipo costanti che contiene tutte le costanti
+        Costante di tipo Costanti che contiene tutte le costanti
 
     Metodi
     -------
@@ -27,7 +27,7 @@ class TavoliereView:
             self.__COSTANTI.NO_ARCO
         ] * self.__COSTANTI.NUMERO_RIGHE_COLONNE
         for i in self.__COSTANTI.COLONNE:
-            stampa +=  self.__COSTANTI.SPAZIO_COLONNE_INTESTAZIONE +i 
+            stampa += self.__COSTANTI.SPAZIO_COLONNE_INTESTAZIONE + i
         stampa += "\n"
         stampa += (
             self.__COSTANTI.SPAZIO_MURO

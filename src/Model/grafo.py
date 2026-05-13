@@ -1,5 +1,5 @@
-from Model.costanti import Costanti
-from Model.nodo import Nodo
+from src.Model.costanti import Costanti
+from src.Model.nodo import Nodo
 
 
 class Grafo:
@@ -11,21 +11,24 @@ class Grafo:
         Grafo non orientato strutturato come se fosse una matrice
     Costanti:
     ---------
-        nome: COSTANTI
+    nome: COSTANTI
         Classe che contiene tutte le costanti presenti
     Metodi
     -------
-    inizializzaNodi(self) ->list[Nodo]:
+    inizializza_nodi(self) ->list[Nodo]:
         Inizializza tutti i nodi del grafo
 
-    inizializzaArchi(self):
+    inizializza_archi(self):
         Imposta gli archi del grafo
 
-    esisteArco (self, nodo1: Nodo, nodo2: Nodo) ->bool:
+    esiste_arco (self, nodo1: Nodo, nodo2: Nodo) ->bool:
         Controlla se esiste un arco tra i due nodi passati
 
-    rimuoviArco(self,nodo1: Nodo,nodo2: Nodo):
+    rimuovi_arco(self,nodo1: Nodo,nodo2: Nodo):
         Rimuove l'arco presente tra due nodi
+    
+    get_adiacente(slef, nodo: Nodo, posizione: str):
+        Restituisce il nodo adiacente data una posizione
 
     """
 
@@ -125,7 +128,8 @@ class Grafo:
                 self.__grafo[nodo1][i] = self.__COSTANTI.NO_ARCO
                 if (
                     i == self.__COSTANTI.ARCO_ADIACENTE_SOPRA
-                ):  # Se precedentemente è stato eliminato un arco verso l'alto allora sicuramente per nodo2 ci sarà un arco verso il basso
+                ):  # Se precedentemente è stato eliminato un arco verso l'alto allora
+                    # sicuramente per nodo2 ci sarà un arco verso il basso
                     self.__grafo[nodo2][i + 1] = self.__COSTANTI.NO_ARCO
                 elif i == self.__COSTANTI.ARCO_ADIACENTE_SOTTO:
                     self.__grafo[nodo2][i - 1] = self.__COSTANTI.NO_ARCO
@@ -135,5 +139,5 @@ class Grafo:
                     self.__grafo[nodo2][i - 1] = self.__COSTANTI.NO_ARCO
                 return
 
-    def get_adiacente(self, nodo, posizione):
+    def get_adiacente(self, nodo : Nodo, posizione : str):
         return self.__grafo[nodo][posizione]

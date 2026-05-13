@@ -1,12 +1,12 @@
-from Controller.partita_controller import PartitaController
-from Model.giocatore import Giocatore
-from Model.nodo import Nodo
-from Model.partita import Partita
-from Model.tavoliere import Tavoliere
-from View.giocatore_view import GiocatoreView
-from View.partita_view import PartitaView
-from View.quoridor_view import QuoridorView
-from View.tavoliere_view import TavoliereView
+from src.Controller.partita_controller import PartitaController
+from src.Model.giocatore import Giocatore
+from src.Model.nodo import Nodo
+from src.Model.partita import Partita
+from src.Model.tavoliere import Tavoliere
+from src.View.giocatore_view import GiocatoreView
+from src.View.partita_view import PartitaView
+from src.View.quoridor_view import QuoridorView
+from src.View.tavoliere_view import TavoliereView
 
 
 class QuoridorController:

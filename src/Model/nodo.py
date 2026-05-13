@@ -19,9 +19,11 @@ class Nodo:
         self.id_nodo = valore_iniziale
 
     def __eq__(self, nodo: "Nodo") -> bool:
+        """Confronto di due nodi."""
         return self.get_valore_id_nodo() == nodo.get_valore_id_nodo()
 
     def __hash__(self):
+        """Genera codice hash per dizionario."""
         return hash(self.id_nodo)
 
     def get_valore_id_nodo(self) -> str:

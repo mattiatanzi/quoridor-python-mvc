@@ -1,6 +1,6 @@
-from Model.partita import Partita
-from View.giocatore_view import GiocatoreView
-from View.tavoliere_view import TavoliereView
+from src.Model.partita import Partita
+from src.View.giocatore_view import GiocatoreView
+from src.View.tavoliere_view import TavoliereView
 
 
 class PartitaView:
@@ -80,7 +80,7 @@ class PartitaView:
             DESCRIZIONE
             Stampa a video la partita corrente, ossia tavoliere di gioco e info sui
             giocatori
-            
+
         def stampa_aiuto(self)
             DESCRIZIONE
             Stampa a video la guida riassuntiva dei comandi disponibili.
@@ -166,10 +166,10 @@ class PartitaView:
                     id_selezionato, muri_rimanenti
                 )
 
+        print("")
         self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
 
     def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
-
         # Stampa interfaccia Input
         self.stampa_richiesta_input(indicazioniInput)
 
@@ -177,8 +177,8 @@ class PartitaView:
         return input()
 
     def stampa_richiesta_input(self, indicazioni: str = ""):
-        print(indicazioni, end = "\n\n")
-        print("Input: ", end = "")
+        print(indicazioni, end="\n\n")
+        print("Input: ", end="")
 
     def stampa_aiuto(self):
         aiuto = """
@@ -210,13 +210,10 @@ class PartitaView:
         """
         print(aiuto)
 
-
-
     def stampa_vittoria(self, idVincitore):
-
         # Stampa ==============================
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
-            print("=", end = "")
+            print("=", end="")
 
         # Stampa Scritta Vittoria Centrata
 
@@ -231,33 +228,34 @@ class PartitaView:
         # Stampa effettiva
         print("\n")
         for _ in range(0, numeroCaratteriVuoti):
-            print(" ", end = "")
+            print(" ", end="")
 
-        print(messaggioVittoria, end = "")
+        print(messaggioVittoria, end="")
         print("\n")
 
         # Stampa ==============================
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
-            print("=", end = "")
+            print("=", end="")
 
         # Stampa descrizione della vittoria
         print("\n\n")
-        print(f"\tIl giocatore {idVincitore} ha raggiunto destinazione.", end = "")
+        print(f"\tIl giocatore {idVincitore} ha raggiunto destinazione.", end="")
         print("\n\n")
 
         # Stampa -------------------------------
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
-            print("-", end = "")
+            print("-", end="")
 
         # Stampa Opzioni per uscire
         print("\n")
-        print("[M] Menu", end = "")
+        print("[M] Menu", end="")
         print("\n")
 
         # Stampa ==============================
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
-            print("=", end = "")
+            print("=", end="")
         print("\n")
+
     # Stampe Errori
 
     def stampa_errore_partita(self, messaggio):

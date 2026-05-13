@@ -1,4 +1,4 @@
-from Model.nodo import Nodo
+from src.Model.nodo import Nodo
 
 
 class ErroreId(Exception):
@@ -49,7 +49,7 @@ class Giocatore:
             DESCRIZIONE
                 Numero di muri disponibili all'inizio di ogni partita
 
-        ------ VARIABILI ------
+        ------ ATTRIBUTI ------
 
         - idGiocatore
             TIPO

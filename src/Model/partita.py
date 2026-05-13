@@ -1,7 +1,6 @@
-from Model.giocatore import Giocatore, ErrorePosizione
-from Model.tavoliere import Tavoliere
-from Model.nodo import Nodo
-
+from src.Model.giocatore import ErrorePosizione, Giocatore
+from src.Model.nodo import Nodo
+from src.Model.tavoliere import Tavoliere
 
 
 class ErrorePartita(Exception):
@@ -31,7 +30,57 @@ class Partita:
                 Privato, Tipo int
             DESCRIZIONE
                 Il numero massimo dei giocatori amessi in partita
+        
+        - ID_PRIMO_GIOCATORE_ATTIVO
+            TIPO 
+                Privato, Tipo str
+            DESCRIZIONE
+                Indica l'id del primo giocatore attivo
+        
+        - PRIMA_COLONNA
+            TIPO
+                Privato, Tipo str
+            DESCRIZIONE
+                Indica la prima colonna del tavoliere
 
+        - ULTIMA_COLONNA
+            TIPO
+                Privato, Tipo str
+            DESCRIZIONE
+                Indica l'ultima colonna del tavoliere
+
+        - PRIMA_RIGA
+            TIPO
+                Privato, Tipo str
+            DESCRIZIONE
+                Indica la prima riga del tavoliere
+        
+        - ULTIMA_RIGA
+            TIPO
+                Privato, Tipo str
+            DESCRIZIONE
+                Indica l'ultima riga del tavoliere
+        
+        - ORIZZONTALE
+            TIPO 
+                Privato, Tipo str
+            DESCRIZIONE
+                Indica il carattere presente quando si legge un muro orizzontale
+            
+        - VERTICALE
+            TIPO
+                Privato, Tipo str
+            DESCRIZIONE
+                Indica il carattere presente quando si legge un muro verticale
+        
+        - TRAGUARDI
+            TIPO 
+                Privato, Tipo Dizionario
+            DESCRIZIONE
+                E' un dizionario che ha per chiavi gli id dei giocatori e per valore
+                la riga di arrivo
+            
+        
         ------ VARIABILI ------
 
         - giocatori
@@ -145,13 +194,13 @@ class Partita:
             DESCRIZIONE
                 Controlla se è possibile piazzare un muro e se piazzarlo verticale o
                 orizzontale
-            
+
         def muovi_giocatore(self, azione, giocatore_attivo)
             DESCRIZIONE
-                Esegue il movimento del pedone. 
+                Esegue il movimento del pedone.
                 Controlla sul tavoliere se la mossa può essere fatta, poi aggiorna
                 la posizione.
-                
+
         def verifica_vittoria(self)
             DESCRIZIONE
                 Controlla la posizione dei pedoni per decretare la fine della partita.
@@ -169,12 +218,9 @@ class Partita:
     __ULTIMA_RIGA = "9"
     __ORIZZONTALE = "h"
     __VERTICALE = "v"
-    
+
     # Dizionario per gestire le vittorie
-    __TRAGUARDI = {
-        "P1" : "9",
-        "P2" : "1"
-    }
+    __TRAGUARDI = {"P1": "9", "P2": "1"}
 
     # Variabili
     __giocatori: set[Giocatore]
@@ -300,7 +346,8 @@ class Partita:
                     self.__tavoliere.piazza_muro_verticale(azione)
                 else:
                     raise ErroreFormattazione(
-                        "Errore: inserire dopo la posizione h/v per indicare muro verticale o orizzontale"
+                        "Errore: inserire dopo la posizione h/v per indicare muro "
+                        + "verticale o orizzontale"
                     )
             else:
                 raise ErroreFormattazione(
@@ -308,14 +355,16 @@ class Partita:
                 )
         else:
             raise ErroreFormattazione(
-                "Errore: inserire la colonna corretta come primo carattere tra 'a' e 'i'"
+                "Errore: inserire colonna corretta come primo carattere tra 'a' e 'i'"
             )
-            
+
     def muovi_giocatore(self, azione: str, giocatore_attivo: Giocatore):
-        if not (self.__PRIMA_COLONNA <= azione[0] <= self.__ULTIMA_COLONNA and
-                self.__PRIMA_RIGA <= azione[1] <= self.__ULTIMA_RIGA):
+        if not (
+            self.__PRIMA_COLONNA <= azione[0] <= self.__ULTIMA_COLONNA
+            and self.__PRIMA_RIGA <= azione[1] <= self.__ULTIMA_RIGA
+        ):
             raise ErrorePosizione(f"Coordinate fuori scacchiera: {azione}")
-        
+
         nodo_partenza = giocatore_attivo.get_posizione()
         nodo_arrivo = Nodo(azione)
         
@@ -339,23 +388,23 @@ class Partita:
                     raise ErrorePosizione(mess_err)
             # Il passaggio è libero
             self.set_posizione_giocatore(giocatore_attivo.get_id(), nodo_arrivo)
-        else: 
+        else:
             # Il passaggio non è libero (o non è adiacente)
             raise ErrorePosizione(f"Mossa non valida: {azione} non è raggiungibile")
-    
+
     # Osservatore condizione di vittoria
-    
+
     def verifica_vittoria(self):
         for giocatore in self.get_giocatori():
             id_giocatore = giocatore.get_id()
-            
+
             # Estrazione carattere corrispondente alla riga
             pos_giocatore = giocatore.get_posizione().get_valore_id_nodo()
-            riga = pos_giocatore[1] 
-            
+            riga = pos_giocatore[1]
+
             # Verifica raggiunta del traguardo
             if self.__TRAGUARDI.get(id_giocatore) == riga:
-                return id_giocatore  
-            
+                return id_giocatore
+
         # In caso non sia stato rilevato un vincitore
         return None
