@@ -237,14 +237,20 @@ class PartitaController:
                             # Stampa vittoria
                             self.__view.stampa_vittoria(vincitore)
 
+                            # Richiedi input per tornare al menu
+                            scelta_pulita = (
+                                self.get_view().chiedi_input_utente().lower().strip()
+                            )
 
-                            scelta = ""
-
-                            scelta = self.get_view().chiedi_input_utente()
-
-                            while (scelta != "M" and scelta != "m"):
-                                self.__view.stampa_vittoria(vincitore)
-                                scelta = self.get_view().chiedi_input_utente()
+                            # Stampa fin quando utente non decide di tornare al menù
+                            while scelta_pulita != "m":
+                                self.get_view().stampa_vittoria(vincitore)
+                                scelta_pulita = (
+                                    self.get_view()
+                                    .chiedi_input_utente()
+                                    .lower()
+                                    .strip()
+                                )
                             else:
                                 continuarePartita = False
 
