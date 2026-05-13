@@ -27,7 +27,7 @@ class TavoliereView:
             self.__COSTANTI.NO_ARCO
         ] * self.__COSTANTI.NUMERO_RIGHE_COLONNE
         for i in self.__COSTANTI.COLONNE:
-            stampa +=  self.__COSTANTI.SPAZIO_COLONNE_INTESTAZIONE +i 
+            stampa += self.__COSTANTI.SPAZIO_COLONNE_INTESTAZIONE + i
         stampa += "\n"
         stampa += (
             self.__COSTANTI.SPAZIO_MURO
