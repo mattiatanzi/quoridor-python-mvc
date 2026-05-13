@@ -125,7 +125,8 @@ class Grafo:
                 self.__grafo[nodo1][i] = self.__COSTANTI.NO_ARCO
                 if (
                     i == self.__COSTANTI.ARCO_ADIACENTE_SOPRA
-                ):  # Se precedentemente è stato eliminato un arco verso l'alto allora sicuramente per nodo2 ci sarà un arco verso il basso
+                ):  # Se precedentemente è stato eliminato un arco verso l'alto allora
+                    # sicuramente per nodo2 ci sarà un arco verso il basso
                     self.__grafo[nodo2][i + 1] = self.__COSTANTI.NO_ARCO
                 elif i == self.__COSTANTI.ARCO_ADIACENTE_SOTTO:
                     self.__grafo[nodo2][i - 1] = self.__COSTANTI.NO_ARCO

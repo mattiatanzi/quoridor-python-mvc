@@ -3,7 +3,7 @@ from src.Model.nodo import Nodo
 
 
 class ErroreTavoliere(Exception):
-    """"""
+    """Errori causati dai movimenti e piazzamenti di muri."""
 
     pass
 
@@ -32,7 +32,7 @@ class Tavoliere:
     nome piazza_muro_verticale
         Effettua dei controlli per poter piazzare il muro verticale e se va a buon
         fine richiama piazza_muro
-          
+
     nome esiste_arco
         Controlla se esiste un passaggio tra due caselle.
     """
@@ -84,7 +84,6 @@ class Tavoliere:
         self.__piazza_muro(n_dx_alto, n_dx_bass)
         self.__muri_piazzati.append(azione_effettiva)
 
-
     def piazza_muro_verticale(self, azione: str):
         colonna_input = azione[0]
         riga_input = int(azione[1])
@@ -104,19 +103,21 @@ class Tavoliere:
 
         # Controllo muri verticali già presenti per evitare sovrapposizione
         if not self.__tavoliere.esiste_arco(
-        n_sx_alto, n_dx_alto
+            n_sx_alto, n_dx_alto
         ) or not self.__tavoliere.esiste_arco(n_sx_bass, n_dx_bass):
             raise ErroreTavoliere("Errore: Qui è già presente un muro verticale.")
 
         # Controllo presenza di muri orizzontali che portino a un incrocio a croce
         muro_orizzontale_critico = f"{col_sx}{riga_alt}h"
         if muro_orizzontale_critico in self.__muri_piazzati:
-            raise ErroreTavoliere("Errore: Non puoi incrociare a croce un muro orizzontale!")
+            raise ErroreTavoliere(
+                "Errore: Non puoi incrociare a croce un muro orizzontale!"
+            )
 
         self.__piazza_muro(n_sx_alto, n_dx_alto)
         self.__piazza_muro(n_sx_bass, n_dx_bass)
         azione_effettiva = f"{col_sx}{riga_alt}v"
         self.__muri_piazzati.append(azione_effettiva)
-        
+
     def mossa_permessa(self, nodo1: Nodo, nodo2: Nodo) -> bool:
         return self.__tavoliere.esiste_arco(nodo1, nodo2)
