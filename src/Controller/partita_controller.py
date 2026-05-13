@@ -107,6 +107,7 @@ class PartitaController:
     __LUNGHEZZA_COMANDO_MOSSA = 2
 
     __COMANDI_ABBANDONA_PARTITA = {"quit", "abbandona"}
+    __COMANDI_USCITA_GIOCO = {"exit", "esci"}
 
     # Costruttore
 
@@ -152,11 +153,12 @@ class PartitaController:
             self.get_view().stampa_errore_partita(messaggio)
 
 
-    def gioca_partita(self):
+    def gioca_partita(self) -> bool:
         errore = ""
         continuarePartita = True
+        continuareGioco = True 
 
-        while continuarePartita:
+        while continuarePartita and continuareGioco:
             self.__view.stampa_partita(self.get_model())
             self.get_view().stampa_errore_partita(errore)
             azione = self.__view.get_input()
@@ -173,7 +175,7 @@ class PartitaController:
                 continue
 
             # Uscire dalla partita
-            if azione in self.__COMANDI_ABBANDONA_PARTITA:
+            elif azione in self.__COMANDI_ABBANDONA_PARTITA:
 
                 # Messaggi per chiedere conferma
                 messaggioConferma = "Uscita In Corso...\nSicuro di voler abbandonare la partita? [si/no]"
@@ -186,8 +188,19 @@ class PartitaController:
                     if risposta == "si":
                         continuarePartita = False
 
+            # Uscire dal gioco
+            elif azione in self.__COMANDI_USCITA_GIOCO:
+                messaggioConferma = "Uscita In Corso...\nSicuro di voler uscire dal gioco? [si/no]"
+                risposta = ""
+
+                while (risposta != "si" and risposta != "no"):
+                    risposta = self.get_view().chiedi_input_utente(messaggioConferma)
+                else:
+                    if risposta == "si":
+                        continuareGioco = False
 
 
+            
             # Piazzamento muro
             elif len(azione) == self.__LUNGHEZZA_COMANDO_MURO:
                 try:
@@ -237,3 +250,5 @@ class PartitaController:
             # Input sconosciuto
             else:
                 errore = "Comando non riconosciuto"
+        
+        return continuareGioco 
