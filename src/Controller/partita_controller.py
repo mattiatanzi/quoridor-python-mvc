@@ -1,7 +1,7 @@
-from Model.partita import ErroreFormattazione, ErrorePartita, Partita
-from Model.tavoliere import ErroreTavoliere
-from View.partita_view import PartitaView
-from Model.giocatore import ErrorePosizione
+from src.Model.giocatore import ErrorePosizione
+from src.Model.partita import ErroreFormattazione, ErrorePartita, Partita
+from src.Model.tavoliere import ErroreTavoliere
+from src.View.partita_view import PartitaView
 
 
 class PartitaController:

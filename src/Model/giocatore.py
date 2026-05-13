@@ -1,4 +1,4 @@
-from Model.nodo import Nodo
+from src.Model.nodo import Nodo
 
 
 class ErroreId(Exception):

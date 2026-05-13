@@ -1,6 +1,6 @@
-from Model.partita import Partita
-from View.giocatore_view import GiocatoreView
-from View.tavoliere_view import TavoliereView
+from src.Model.partita import Partita
+from src.View.giocatore_view import GiocatoreView
+from src.View.tavoliere_view import TavoliereView
 
 
 class PartitaView:

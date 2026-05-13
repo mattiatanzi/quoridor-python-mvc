@@ -1,5 +1,5 @@
 from Model.grafo import Grafo
-from Model.nodo import Nodo
+from src.Model.nodo import Nodo
 
 
 class ErroreTavoliere(Exception):

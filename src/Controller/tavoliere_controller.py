@@ -1,5 +1,5 @@
-from Model.tavoliere import Tavoliere
-from View.tavoliere_view import TavoliereView
+from src.Model.tavoliere import Tavoliere
+from src.View.tavoliere_view import TavoliereView
 
 
 class TavoliereController:

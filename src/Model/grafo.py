@@ -1,5 +1,5 @@
-from Model.costanti import Costanti
-from Model.nodo import Nodo
+from src.Model.costanti import Costanti
+from src.Model.nodo import Nodo
 
 
 class Grafo:

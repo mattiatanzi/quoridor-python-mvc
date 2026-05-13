@@ -1,5 +1,5 @@
-from Model.giocatore import ErroreId, ErroreMuro, ErrorePosizione, Giocatore
-from View.giocatore_view import GiocatoreView
+from src.Model.giocatore import ErroreId, ErroreMuro, ErrorePosizione, Giocatore
+from src.View.giocatore_view import GiocatoreView
 
 
 class GiocatoreController:

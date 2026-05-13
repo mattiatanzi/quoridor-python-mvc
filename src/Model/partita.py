@@ -1,7 +1,6 @@
-from Model.giocatore import Giocatore, ErrorePosizione
-from Model.tavoliere import Tavoliere
-from Model.nodo import Nodo
-
+from src.Model.giocatore import ErrorePosizione, Giocatore
+from src.Model.nodo import Nodo
+from src.Model.tavoliere import Tavoliere
 
 
 class ErrorePartita(Exception):
