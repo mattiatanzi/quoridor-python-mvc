@@ -1,3 +1,5 @@
+import os
+
 from src.Model.partita import Partita
 from src.View.giocatore_view import GiocatoreView
 from src.View.tavoliere_view import TavoliereView

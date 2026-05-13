@@ -30,13 +30,13 @@ class Partita:
                 Privato, Tipo int
             DESCRIZIONE
                 Il numero massimo dei giocatori amessi in partita
-        
+
         - ID_PRIMO_GIOCATORE_ATTIVO
-            TIPO 
+            TIPO
                 Privato, Tipo str
             DESCRIZIONE
                 Indica l'id del primo giocatore attivo
-        
+
         - PRIMA_COLONNA
             TIPO
                 Privato, Tipo str
@@ -54,33 +54,33 @@ class Partita:
                 Privato, Tipo str
             DESCRIZIONE
                 Indica la prima riga del tavoliere
-        
+
         - ULTIMA_RIGA
             TIPO
                 Privato, Tipo str
             DESCRIZIONE
                 Indica l'ultima riga del tavoliere
-        
+
         - ORIZZONTALE
-            TIPO 
+            TIPO
                 Privato, Tipo str
             DESCRIZIONE
                 Indica il carattere presente quando si legge un muro orizzontale
-            
+
         - VERTICALE
             TIPO
                 Privato, Tipo str
             DESCRIZIONE
                 Indica il carattere presente quando si legge un muro verticale
-        
+
         - TRAGUARDI
-            TIPO 
+            TIPO
                 Privato, Tipo Dizionario
             DESCRIZIONE
                 E' un dizionario che ha per chiavi gli id dei giocatori e per valore
                 la riga di arrivo
-            
-        
+
+
         ------ VARIABILI ------
 
         - giocatori

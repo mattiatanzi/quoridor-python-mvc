@@ -37,7 +37,7 @@ class PartitaController:
 
         - COMANDI_ABBANDONA_PARTITA
             Tutti i comandi possibili per abbandonare la partita
-        
+
         - COMANDI_USCITA_GIOCO
             Tutti i comandi possibili per uscire dal gioco
 

@@ -26,7 +26,7 @@ class Grafo:
 
     rimuovi_arco(self,nodo1: Nodo,nodo2: Nodo):
         Rimuove l'arco presente tra due nodi
-    
+
     get_adiacente(slef, nodo: Nodo, posizione: str):
         Restituisce il nodo adiacente data una posizione
 
@@ -139,5 +139,5 @@ class Grafo:
                     self.__grafo[nodo2][i - 1] = self.__COSTANTI.NO_ARCO
                 return
 
-    def get_adiacente(self, nodo : Nodo, posizione : str):
+    def get_adiacente(self, nodo: Nodo, posizione: str):
         return self.__grafo[nodo][posizione]
