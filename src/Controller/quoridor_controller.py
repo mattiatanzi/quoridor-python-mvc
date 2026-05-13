@@ -54,10 +54,14 @@ class QuoridorController:
         self.__menu = QuoridorView()
 
     def gioca(self):
+        errore: str = ""
         continuareGioco = True
         while continuareGioco:
-            scelta: str = self.__menu.menu_di_gioco()
-
+            self.__menu.menu_di_gioco()
+            self.__menu.stampa_messaggio(errore)
+            scelta: str = self.__menu.get_input_menu()
+            
+            errore = ""
             if scelta == "1":
                 tavoliere = Tavoliere()
 
@@ -80,6 +84,5 @@ class QuoridorController:
                 self.__menu.stampa_messaggio("Uscita in corso, alla prossima!")
                 return
             else:
-                self.__menu.stampa_messaggio(
-                    "Errore nell'inserimento della scelta, riprova"
-                )
+                errore= "Errore nell'inserimento della scelta, riprova"
+        
