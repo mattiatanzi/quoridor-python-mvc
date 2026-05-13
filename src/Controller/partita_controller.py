@@ -152,11 +152,10 @@ class PartitaController:
             messaggio = f"Errore Numero Giocatori in Partita. {errPart}"
             self.get_view().stampa_errore_partita(messaggio)
 
-
     def gioca_partita(self) -> bool:
         errore = ""
         continuarePartita = True
-        continuareGioco = True 
+        continuareGioco = True
 
         while continuarePartita and continuareGioco:
             self.__view.stampa_partita(self.get_model())
@@ -166,7 +165,7 @@ class PartitaController:
             giocatore_attivo = self.get_giocatore(id_giocatore_attivo)
 
             errore = ""
-            
+
             # Pulizia input utente
             azione_pulita = azione.strip().lower()
 
@@ -179,13 +178,15 @@ class PartitaController:
 
             # Uscire dalla partita
             elif azione_pulita in self.__COMANDI_ABBANDONA_PARTITA:
-
                 # Messaggi per chiedere conferma
-                messaggioConferma = "Uscita In Corso...\nSicuro di voler abbandonare la partita? [si/no]"
+                messaggioConferma = (
+                    "Uscita In Corso...\nSicuro di voler "
+                    "abbandonare la partita? [si/no]"
+                )
                 risposta = ""
 
                 # Stampa Fin quando l'utente non decide
-                while (risposta != "si" and risposta != "no"):
+                while risposta != "si" and risposta != "no":
                     risposta = self.get_view().chiedi_input_utente(messaggioConferma)
                 else:
                     if risposta == "si":
@@ -193,17 +194,17 @@ class PartitaController:
 
             # Uscire dal gioco
             elif azione in self.__COMANDI_USCITA_GIOCO:
-                messaggioConferma = "Uscita In Corso...\nSicuro di voler uscire dal gioco? [si/no]"
+                messaggioConferma = (
+                    "Uscita In Corso...\nSicuro di voler uscire dal gioco? [si/no]"
+                )
                 risposta = ""
 
-                while (risposta != "si" and risposta != "no"):
+                while risposta != "si" and risposta != "no":
                     risposta = self.get_view().chiedi_input_utente(messaggioConferma)
                 else:
                     if risposta == "si":
                         continuareGioco = False
 
-
-            
             # Piazzamento muro
             elif len(azione_pulita) == self.__LUNGHEZZA_COMANDO_MURO:
                 try:
@@ -222,36 +223,31 @@ class PartitaController:
                 if azione_pulita[0].isalpha() and azione_pulita[1].isdigit():
                     try:
                         self.__model.muovi_giocatore(azione_pulita, giocatore_attivo)
-                        
+
                         # Controllo vittoria
                         vincitore = self.__model.verifica_vittoria()
-                        
+
                         # Vittoria
                         if vincitore is not None:
-                            
                             # Stampa tabellone per mostrare la mossa vincente
                             self.__view.stampa_partita(self.__model)
-                            
+
                             # Stampa vittoria
                             self.__view.stampa_vittoria(vincitore)
-                            
+
                             # Terminazione partita
                             break
-                        
-                        # Nessuna vittoria    
+
+                        # Nessuna vittoria
                         self.__model.incrementa_turno()
-                        
+
                     except ErrorePosizione as err_pos:
                         errore = f"Errore movimento: {err_pos}"
                 else:
                     errore = "Formato errato: usa una lettera (a-i) e un numero (1-9)."
 
-
-
-
-
             # Input sconosciuto
             else:
                 errore = "Comando non riconosciuto"
-        
-        return continuareGioco 
+
+        return continuareGioco
