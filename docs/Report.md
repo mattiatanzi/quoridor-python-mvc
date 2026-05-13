@@ -1,3 +1,13 @@
+## Indice
+* [1. Introduzione](#1-introduzione)
+* [2. Modello di dominio](#2-modello-di-dominio)
+* [3. Requisiti specifici](#3-requisiti-specifici)
+    * [3.1 Requisiti funzionali](#31-requisiti-funzionali)
+    * [3.2 Requisiti non funzionali](#32-requisiti-non-funzionali)
+* [4. System Design](#4-system-design)
+* [8. Analisi retrospettiva](#8-analisi-retrospettiva)
+    * [8.1 Sprint 0](#81-sprint-0)
+
 # Relazione Tecnica - Sprint 1 Team Stonebraker 
 
 ## 1. Introduzione
@@ -61,8 +71,33 @@ classDiagram
 - **Robustezza:** Per qualunque input inaspettato l'applicazione non deve mai andare in crash.
 - La Command Line Interface (CLI) deve accettare notazioni testuali compatte (es. `e2` per il pedone, `e3h` per i muri).
 ## 4. System Design
- 
-## 8 Analisi retrospettiva
+### Stile architetturale MVC
+> L'architettura del software è fondata sullo stile **Model-View-Controller (MVC)**, strutturata per separare nettamente le logiche di back-end dall'interfaccia utente in CLI. Ecco come sono state gestite le rispettive parti del modello:
+1. **Model:** Il Model comprende i dati, la topologia del dominio e le regole del gioco, vi troviamo file come `partita.py`, `giocatore.py` o `tavoliere.py`. Il Model segue una fondamentale regola: esso è **l'unico responsabile** della validazione delle mosse. Infatti, quando un'azione viola le regole (ad esempio un piazzamento di un muro non possibile o una mossa non legale) il Model si oppone sollevando eccezioni, che sono state rigorosamente tipizzate (per citarne una: `ErrorePosizione`).
+2. **Controller:** Il Controller comprende i file di controllo come `partita_controller.py` o `quoridor_controller.py`, questi fungono da intermediari tra l'esperienza dell'utente e le effettive logiche di gioco, cioè hanno la responsabilità di fare un parsing dell'input, richiamare i Model e catturare tramite dei blocchi `try...except` le eventuali eccezioni sollevate. Grazie al loro lavoro il programma non va in 'crash' ma fornisce all'utente una View specifica per l'errore.
+3. **View:** La View è il livello di presentazione, vi abbiamo file come `partita_view`. Questi non hanno alcuna logica decisionale, bensì si limitano a fare stampe (es: stampare il tavoliere o messaggi di errore per l'utente) garantendo una comunicazione con l'utente in CLI e talvolta incapsulando le richieste di input mostrando i relativi errori ricevuti dal Controller.
+
+#### Traduzione del modello di dominio (**forward engineering**)
+Nel nostro progetto, la transizione dal Modello di Dominio all'implementazione software rispetta rigorosamente i principi dell'Object-Oriented Design, tenendo conto che un diagramma concettuale non impone una traduzione 1:1 in termini di classi strutturali. Ad esempio, nel modello di dominio è presente il `Pedone` come una **classe concettuale** che nel software è stato implementato sotto forma di stato interno incapsulato all'interno della classe Giocatore (tramite la sua posizione). Poiché la responsabilità del pedone è legata unicamente alla sua posizione sui nodi del Grafo, la creazione di una classe dedicata Pedone avrebbe aumentato la complessità senza aggiungere logica di business significativa. Pertanto, si è scelto di mantenere questo dato come attributo riservato del Giocatore, nascondendo i dettagli implementativi all'esterno.L'esistenza e la posizione del pedone non sono mai definite in modo implicito nella CLI; al contrario, risiedono in modo autorevole e univoco all'interno del livello Model. La View si limita esclusivamente ad assolvere al suo ruolo di "impiattamento": essa interroga lo stato spaziale fornito dal Giocatore (Model) e lo traduce visivamente sul terminale stampando i simboli 'P1' o 'P2'. In questo modo, abbiamo garantito il totale isolamento della logica di dominio dall'interfaccia utente, impedendo che informazioni di business vengano gestite dallo strato di presentazione. Una simile traduzione è stata fatta per i muri che non trovano una corrispondenza diretta con una classe software ma solo nelle logiche di gioco.
+### Principi di progettazione
+#### Struttura dati
+Abbiamo scelto di progettare il `Tavoliere` tramite `Grafo`. Si è infatti scelto di implementare la griglia di gioco non come una semplice matrice, ma come un **grafo basato sulle liste di adiacenze**, il Grafo è composto da oggetti `Nodo`. In particolare è un Grafo basato su un dizionario con:
+- chiavi: oggetti `Nodo` (prima citati), che indicano le celle del tavoliere
+- valore: lista di adiacenza, cioè liste di Nodi con i relativi riferimenti che mantengono l'informazione sulle caselle adiacenti (e accessibli) rispetto il nodo ispezionato (la chiave), abbiamo scelto anche un particolare pattern di memorizzione: *Adiacente sopra, Adiacente Sotto, Adiacente Sinistra e Adiacente Destra*. Questa scelta permette di implementare in modo elegante le regole del Quoridor, ad esempio: 
+> *il piazzamento di un muro da parte di un giocatore si traduce semplicemente nella rimozione dell'arco (quello del legame di adiacenza) dalla lista di adiacenza del Nodo in questione e dalla lista di adiacenza dell'altro Nodo interessato.*  
+
+La scelta di questa struttura dati permetterà anche in futuro di implementare, per funzionalità avanzate, tramite algoritmi BFS o DFS, come verificare che un muro non blocchi completamente il percorso del giocatore.
+#### Gestione del sistema
+> Il sistema è stato disegnato per limitare il debito tecnico e facilitare la sua manutenzione, applicando i seguenti principi:
+- **Presentazione separata:** *Nessuna istruzione di I/O risiede nel model, il dominio di gioco è totalemnte ignaro dell'interfaccia CLI, il che permetterebbe in futuro di modificare l'interfaccia testuale senza dover modificare le logiche di gioco.*
+- **Alta coesione e Basso Accoppiamento:** *Le responsabilità sono state distribuite assegnandole in modo tale da limitare l'impatto dei cambiamenti e ottenere classi con compiti ben definiti, ad esempio `Tavoliere` gestisce solo la struttura spaziale del grafo, mentre `Partita` orchestra il flusso dei turni, evitando che una modifica ad un componente si propaghi agli altri.*
+- **Information Hiding:** *Ogni componente custodisce dati privati al suo interno, questi sono di fatto incapsulati garantendo uno stato 'segreto' con variabili di istanza private accessibili solo tramite metodi specifici, i dettagli implementativi sono quindi nascosti all'esterno.*
+### Gestione dei requisiti non funzionali e vincoli
+> L'architettura risponde ai vincoli operativi e di qualità specificati:
+- **Vincolo di tolleranza ai guasti:** Per qualunque input l'applicazione non va in crash, questo è stato garantito, a livello architetturale nel nostro software, attraverso una rigida regola interna nel nostro pattern MVC: le classi del `Model` si occupano di validare i dati e si limitano a sollevare eccezioni (che sono personalizzate e tipizzate) in caso di mosse non valide. Invece i `Controller` hanno la responsabilità di catturarle con blocchi `try...except` delegando alla `View` il compito di stampare il messaggio di errore.
+- **Vincolo di usabilità CLI (notazione compatta):** Il sistema garantisce l'interazione tramite CLI inoltre l'azione viene dedotta unicamente dalla sintassi testuale compatta, fornita in input secondo una griglia 9x9. Il `Controller` differenzia inoltre un movimento dal piazzamento di un muro.
+- **Vincolo di portabilità multi-piattaforma:** Per garantire l'esecuzione uniforme sui terminali richiesti, azzerando i conflitti legati agli OS, il software è incapsulato in un container **Docker**.
+## 8. Analisi retrospettiva
 ### 8.1 Sprint 0
 Al termine dello Sprint 0, il team si è riunito per effettuare il meeting di revisione del processo (Sprint Retrospective). La discussione si è concentrata sull'efficienza del nostro metodo di lavoro e della collaborazione interna.
 
