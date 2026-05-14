@@ -156,10 +156,10 @@ class PartitaController:
 
     def gioca_partita(self) -> bool:
         errore = ""
-        continuarePartita = True
-        continuareGioco = True
+        continuare_partita = True
+        continuare_gioco = True
 
-        while continuarePartita and continuareGioco:
+        while continuare_partita and continuare_gioco:
             self.__view.stampa_partita(self.get_model())
             self.get_view().stampa_errore_partita(errore)
             azione = self.__view.get_input()
@@ -181,7 +181,7 @@ class PartitaController:
             # Uscire dalla partita
             elif azione_pulita in self.__COMANDI_ABBANDONA_PARTITA:
                 # Messaggi per chiedere conferma
-                messaggioConferma = (
+                messaggio_conferma = (
                     "Uscita In Corso...\nSicuro di voler "
                     "abbandonare la partita? [si/no]"
                 )
@@ -189,23 +189,23 @@ class PartitaController:
 
                 # Stampa Fin quando l'utente non decide
                 while risposta != "si" and risposta != "no":
-                    risposta = self.get_view().chiedi_input_utente(messaggioConferma)
+                    risposta = self.get_view().chiedi_input_utente(messaggio_conferma)
                 else:
                     if risposta == "si":
-                        continuarePartita = False
+                        continuare_partita = False
 
             # Uscire dal gioco
             elif azione in self.__COMANDI_USCITA_GIOCO:
-                messaggioConferma = (
+                messaggio_conferma = (
                     "Uscita In Corso...\nSicuro di voler uscire dal gioco? [si/no]"
                 )
                 risposta = ""
 
                 while risposta != "si" and risposta != "no":
-                    risposta = self.get_view().chiedi_input_utente(messaggioConferma)
+                    risposta = self.get_view().chiedi_input_utente(messaggio_conferma)
                 else:
                     if risposta == "si":
-                        continuareGioco = False
+                        continuare_gioco = False
 
             # Piazzamento muro
             elif len(azione_pulita) == self.__LUNGHEZZA_COMANDO_MURO:
@@ -266,4 +266,4 @@ class PartitaController:
             else:
                 errore = "Comando non riconosciuto"
 
-        return continuareGioco
+        return continuare_gioco

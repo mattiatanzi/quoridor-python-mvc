@@ -23,7 +23,7 @@ class TavoliereView:
 
     def stampa_tavoliere(self, tavoliere: Tavoliere, giocatori: set[Giocatore]):
         stampa = ""
-        muriOrizzontali = [
+        muri_orizzontali = [
             self.__COSTANTI.NO_ARCO
         ] * self.__COSTANTI.NUMERO_RIGHE_COLONNE
         for i in self.__COSTANTI.COLONNE:
@@ -46,25 +46,25 @@ class TavoliereView:
             )
             j = self.__COSTANTI.PRIMA_COLONNA
             while j <= self.__COSTANTI.ULTIMA_COLONNA:
-                chiaveAttuale = Nodo(self.__COSTANTI.COLONNE[j] + str(i))
+                chiave_attuale = Nodo(self.__COSTANTI.COLONNE[j] + str(i))
                 stampa_giocatore = False
                 for g in giocatori:
-                    if chiaveAttuale == g.get_posizione():
+                    if chiave_attuale == g.get_posizione():
                         stampa += g.get_id()
                         stampa_giocatore = True
                 if not (stampa_giocatore):
                     stampa += f"{self.__COSTANTI.CELLA_VUOTA:<2}"
                 if (
                     tavoliere.get_adiacente(
-                        chiaveAttuale, self.__COSTANTI.ARCO_ADIACENTE_SOTTO
+                        chiave_attuale, self.__COSTANTI.ARCO_ADIACENTE_SOTTO
                     )
                     == self.__COSTANTI.NO_ARCO
                 ):
-                    muriOrizzontali[j] = self.__COSTANTI.MURO_PRESENTE
+                    muri_orizzontali[j] = self.__COSTANTI.MURO_PRESENTE
 
                 if (
                     tavoliere.get_adiacente(
-                        chiaveAttuale, self.__COSTANTI.ARCO_ADIACENTE_DESTRA
+                        chiave_attuale, self.__COSTANTI.ARCO_ADIACENTE_DESTRA
                     )
                     == self.__COSTANTI.NO_ARCO
                 ):
@@ -81,20 +81,20 @@ class TavoliereView:
             if i == self.__COSTANTI.ULTIMA_RIGA:
                 stampa += self.__COSTANTI.SPAZIO_MURO + " "
             while k < self.__COSTANTI.NUMERO_RIGHE_COLONNE - 1:
-                if muriOrizzontali[k] == self.__COSTANTI.MURO_PRESENTE:
-                    if muriOrizzontali[k - 1] != self.__COSTANTI.MURO_PRESENTE:
+                if muri_orizzontali[k] == self.__COSTANTI.MURO_PRESENTE:
+                    if muri_orizzontali[k - 1] != self.__COSTANTI.MURO_PRESENTE:
                         stampa += " " + self.__COSTANTI.SPAZIO_MURO
                     stampa += self.__COSTANTI.MURO_ORIZZONTALE
                 else:
                     stampa += self.__COSTANTI.SPAZIO_MURI_ORIZZONTALI
                 k += 1
-            if muriOrizzontali[k] == self.__COSTANTI.MURO_PRESENTE:
-                if muriOrizzontali[k - 1] != self.__COSTANTI.MURO_PRESENTE:
+            if muri_orizzontali[k] == self.__COSTANTI.MURO_PRESENTE:
+                if muri_orizzontali[k - 1] != self.__COSTANTI.MURO_PRESENTE:
                     stampa += " " + self.__COSTANTI.SPAZIO_MURO
                 stampa += self.__COSTANTI.MURO_ORIZZONTALE
 
             stampa += "\n"
-            muriOrizzontali = [
+            muri_orizzontali = [
                 self.__COSTANTI.NO_ARCO
             ] * self.__COSTANTI.NUMERO_RIGHE_COLONNE
 
