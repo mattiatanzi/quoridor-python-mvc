@@ -252,7 +252,7 @@ class PartitaController:
                                     .strip()
                                 )
                             else:
-                                continuarePartita = False
+                                continuare_partita = False
 
                         # Nessuna vittoria
                         self.__model.incrementa_turno()
