@@ -218,6 +218,8 @@ class PartitaView:
         ║                                                              ║
         ╚══════════════════════════════════════════════════════════════╝
         """
+        
+        # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
 
     def stampa_vittoria(self, idVincitore):
