@@ -199,6 +199,13 @@ class PartitaView:
         ║     Inserisci coordinate e orientamento (h=orizz, v=vert).   ║
         ║     Formato: <colonna><riga><h/v>  (es. 'e2h', 'a4v')        ║
         ║                                                              ║
+        ║   [!] REGOLA DI PIAZZAMENTO:                                 ║
+        ║        La coordinata indica la casella di ancoraggio.        ║
+        ║        • Muro 'h': Si inserisce nel bordo in BASSO della     ║
+        ║          casella e si estende per 2 spazi verso DESTRA.      ║
+        ║        • Muro 'v': Si inserisce nel bordo a DESTRA della     ║
+        ║          casella e si estende per 2 spazi verso il BASSO.    ║
+        ║                                                              ║
         ║  - AIUTO:                                                    ║
         ║     Scrivi 'help' o 'aiuto' per rileggere questo             ║
         ║      menu in ogni turno.                                     ║
@@ -211,7 +218,7 @@ class PartitaView:
         ║                                                              ║
         ╚══════════════════════════════════════════════════════════════╝
         """
-        print(aiuto)
+        print(f"\033[94m{aiuto}\033[0m")
 
     def stampa_vittoria(self, idVincitore):
         # Stampa ==============================
