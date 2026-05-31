@@ -57,14 +57,88 @@ classDiagram
 ```
 ## 3. Requisiti specifici
 ### 3.1 Requisiti funzionali
-1. Visualizzare la scacchiera
-2. Muovere il pedone
-3. Piazzare un muro orizzontale
-4. Piazzare un muro verticale
-5. Verificare la vittoria
-6. Abbandonare la partita
-7. Mostrare un messaggio di aiuto
-8. Uscire dal gioco
+#### Sprint 1
+1. **Visualizzare la scacchiera**: **User Story**
+Come giocatore voglio vedere la scacchiera 9x9 con le posizioni dei pedoni e dei muri sul terminale, in modo da poter decidere la prossima mossa.
+
+**Criteri di Accettazione**
+- La scacchiera mostra una griglia 9x9 con le colonne etichettate da a a i e le righe da 1 a 9.
+- Il pedone del Giocatore 1 è visualizzato nella posizione corrente con il simbolo P1, il pedone del Giocatore 2 con P2.
+- Le caselle vuote sono rappresentate dal simbolo “.” (punto).
+- I muri orizzontali e verticali piazzati sono visibili sulla scacchiera e distinguibili tra loro.
+- Per ciascun giocatore è indicato il numero di muri ancora disponibili.
+- È indicato di chi è il turno corrente.
+- La scacchiera viene ristampata dopo ogni mossa valida.
+
+2. **Muovere il pedone**: **User Story**
+Come giocatore, voglio poter muovere il mio pedone digitando le coordinate della casella di destinazione, in modo tale da avanzare verso la linea di fondo avversaria.
+
+**Criteri di Accettazione**
+- Il sistema riconosce e accetta l'input per il movimento tramite notazione testuale compatta, inserendo solo la casella di destinazione (es. `e2`)
+- Il sistema convalida la mossa verificando che il pedone si sposti di una sola casella alla volta in orizzontale o in verticale
+- Il sistema impedisce movimenti in diagonale (non consentiti per il movimento base)
+- Il sistema verifica la presenza di ostacoli, impedendo al pedone di attraversare un muro
+- Il sistema impedisce al pedone di muoversi al di fuori dei confini della griglia 9x9.
+- A fronte di qualsiasi input non valido (formato errato, mossa illegale o casella occupata), il sistema rifiuta l'azione senza mai andare in crash, permettendo all'utente di riprovare
+- Dopo una mossa valida, la posizione del pedone si aggiorna, la scacchiera viene ristampata e il turno passa all'avversario
+
+3. **Piazzare un muro orizzontale**:**User Story**
+Come giocatore, voglio poter piazzare un muro orizzontale digitando le coordinate apposite, in modo tale da ostacolare e allungare il percorso del pedone avversario verso la mia linea di fondo.
+
+**Criteri di Accettazione**
+- Il sistema riconosce l'input per il piazzamento orizzontale tramite la notazione testuale a 3 caratteri (intersezione + orientamento), ad esempio `e3h`.
+- Il sistema verifica che il giocatore di turno abbia ancora muri a disposizione nel proprio inventario prima di accettare la mossa.
+- Il sistema impedisce di posizionare il muro al di fuori dei limiti consentiti dalla griglia della scacchiera.
+- Il sistema impedisce di posizionare un muro orizzontale se l'intersezione è già occupata, evitando conflitti o sovrapposizioni con altri muri.
+- A fronte di qualsiasi input non valido (sintassi errata, incrocio occupato), il sistema rifiuta passivamente l'azione senza mai andare in crash, richiedendo un nuovo inserimento.
+- Dopo una mossa valida, la disponibilità dei muri del giocatore scende di 1, la scacchiera viene aggiornata e ristampata, e il turno passa all'avversario.
+
+4. **Piazzare un muro verticale**:**User Story**
+Come giocatore, voglio poter piazzare un muro verticale digitando le coordinate apposite, in modo tale da ostacolare e allungare il percorso del pedone avversario verso la mia linea di fondo.
+
+**Criteri di Accettazione**
+- Il sistema riconosce e accetta l'input per il piazzamento verticale tramite la notazione testuale compatta a 3 caratteri (intersezione + orientamento), ad esempio `d5v`.
+- Il sistema verifica che il giocatore di turno possieda ancora muri disponibili nel proprio inventario prima di convalidare la mossa.
+- Il sistema impedisce di posizionare il muro al di fuori dei limiti consentiti dalla griglia 9x9.
+- Il sistema impedisce di posizionare un muro verticale se la coordinata specificata è già occupata da un altro muro, evitando sovrapposizioni.
+- A fronte di qualsiasi input non valido (formato errato, incrocio occupato, tentativo di blocco totale o muri esauriti), il sistema rifiuta passivamente l'azione senza mai andare in crash, permettendo all'utente di inserire un nuovo comando.
+- Dopo una mossa valida, la disponibilità dei muri del giocatore di turno scende di 1, la scacchiera viene aggiornata e ristampata, e il turno passa all'avversario.
+5. **Verificare la vittoria**:**User Story**
+Come giocatore, voglio che il sistema verifichi se ho raggiunto la linea di fondo avversaria e decreti la fine della partita, per poi decretare il vincitore.
+
+**Criteri di Accettazione**
+- Il sistema controlla in modo automatico la posizione dei pedoni dopo ogni mossa valida.
+- Il sistema riconosce la vittoria del Giocatore 1 (P1) se il suo pedone raggiunge una qualsiasi delle 9 caselle della linea di fondo opposta (riga 9).
+- Il sistema riconosce la vittoria del Giocatore 2 (P2) se il suo pedone raggiunge una qualsiasi delle 9 caselle della sua linea di fondo opposta (riga 1).
+- Al raggiungimento delle condizioni di vittoria, il sistema stampa a terminale un messaggio ben visibile che dichiara ufficialmente quale giocatore ha vinto la partita.
+- Dopo la dichiarazione della vittoria, il sistema interrompe il ciclo dei turni e termina correttamente la partita in corso, senza presentare errori o crash.
+6. **Abbandonare la partita**:**User Story**
+Come giocatore, voglio poter interrompere e abbandonare la partita in corso in qualsiasi momento tramite un comando testuale, concedendo la vittoria al mio avversario.
+
+**Criteri di Accettazione**
+- Il sistema riconosce e accetta un comando testuale specifico per l'abbandono (es. `abbandona` o `resa`) inserito al posto delle coordinate di mossa.
+- Al momento dell'inserimento del comando, e al suo invio, il sistema interrompe immediatamente il ciclo dei turni della partita corrente.
+- Il sistema gestisce l'interruzione in modo controllato, chiudendo la partita e ritornando al menu principale (o uscendo dal gioco) senza mai andare in crash o generare errori imprevisti.
+
+7. **Mostrare un messaggio di aiuto**:**User Story**
+Come giocatore, voglio poter richiedere e visualizzare un messaggio di aiuto esplicativo, in modo tale da comprendere rapidamente la sintassi corretta dei comandi necessari per giocare tramite linea di comando.
+
+**Criteri di Accettazione**
+- Il sistema riconosce e accetta un comando testuale specifico (es. `help` o `aiuto`) inserito al prompt dei comandi.
+- Il sistema stampa a terminale un riepilogo chiaro e conciso della sintassi da usare per le mosse valide (es. `e2` per muovere il pedone, `e3h` o `d5v` per piazzare i muri) e per le altre azioni di gioco (es. abbandonare o uscire).
+- La visualizzazione del messaggio di aiuto non avanza il turno né altera lo stato della scacchiera, permettendo al giocatore di inserire la sua mossa subito dopo.
+- Le istruzioni mostrate riflettono direttamente le funzionalità della CLI, senza rimandare l'utente a file di testo esterni.
+- Come per ogni altro input, un'eventuale sintassi errata nel richiamare l'aiuto viene gestita passivamente e non causa mai il crash dell'applicazione.
+
+8. **Uscire dal gioco**:**User Story**
+Come giocatore, voglio poter uscire completamente dal gioco tramite un comando testuale, in modo tale da chiudere l'applicazione in modo sicuro e tornare al terminale.
+
+**Criteri di Accettazione**
+- Il sistema riconosce e accetta un comando testuale specifico per l'uscita (es. `esci`, `quit` o `exit`) inserito al prompt dei comandi.
+- Al momento dell'inserimento del comando, l'applicazione si chiude immediatamente e in modo pulito.
+- Se il comando viene inserito mentre una partita è in corso, la partita viene interrotta istantaneamente senza salvataggio.
+- Il sistema gestisce l'uscita restituendo correttamente il controllo al terminale (o al container Docker) senza mai generare eccezioni non gestite o crash dell'applicazione.
+
 ### 3.2 Requisiti non funzionali
 - Il sistema deve essere eseguibile in un container **Docker**.
 - I terminali supportati devono essere: Terminal di Linux, Terminal di MacOS, PowerShell di Windows, Git Bash di Windows. 
