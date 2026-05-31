@@ -66,10 +66,10 @@ classDiagram
 7. Mostrare un messaggio di aiuto
 8. Uscire dal gioco
 ### 3.2 Requisiti non funzionali
-- Il sistema deve essere eseguibile in un container **Docker**.
-- I terminali supportati devono essere: Terminal di Linux, Terminal di MacOS, PowerShell di Windows, Git Bash di Windows. 
-- **Robustezza:** Per qualunque input inaspettato l'applicazione non deve mai andare in crash.
-- La Command Line Interface (CLI) deve accettare notazioni testuali compatte (es. `e2` per il pedone, `e3h` per i muri).
+- **RNF1** (Robustezza): Il sistema deve essere eseguibile in un container **Docker**.
+- **RNF2** (Portabilità): I terminali supportati devono essere: Terminal di Linux, Terminal di MacOS, PowerShell di Windows, Git Bash di Windows. 
+- **RNF3** (Robustezza): Per qualunque input inaspettato l'applicazione non deve mai andare in crash.
+- **RNF4** (Normalizzazione comandi): La Command Line Interface (CLI) deve accettare notazioni testuali compatte (es. `e2` per il pedone, `e3h` per i muri).
 ## 4. System Design
 ### Stile architetturale MVC
 > L'architettura del software è fondata sullo stile **Model-View-Controller (MVC)**, strutturata per separare nettamente le logiche di back-end dall'interfaccia utente in CLI. Ecco come sono state gestite le rispettive parti del modello:
