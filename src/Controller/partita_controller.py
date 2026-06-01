@@ -40,6 +40,9 @@ class PartitaController:
 
         - COMANDI_USCITA_GIOCO
             Tutti i comandi possibili per uscire dal gioco
+            
+        - COMANDI_TRASCRIZIONE
+            Tutti i comandi possibili per visualizzare la trascrizione delle mosse
 
     METODI:
 
@@ -110,6 +113,7 @@ class PartitaController:
 
     __COMANDI_ABBANDONA_PARTITA = {"quit", "abbandona"}
     __COMANDI_USCITA_GIOCO = {"exit", "esci"}
+    __COMANDI_TRASCRIZIONE = {"trascrizione", "trascrizione mosse", "mosse"}
 
     # Costruttore
 
