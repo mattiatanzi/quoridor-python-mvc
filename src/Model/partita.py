@@ -274,6 +274,14 @@ class Partita:
         return list(self.__trascrizione)
     
     # Modificatori / Osservatori
+    
+    # Aggiungere mossa nella trascrizione
+    def aggiungi_mossa_trascrizione(self, mossa: str):
+        if self.__id_giocatore_attivo == self.__ID_PRIMO_GIOCATORE_ATTIVO:
+            numero = len(self.__trascrizione) + 1
+            self.__trascrizione.append(f"{numero}. {mossa}")
+        else: 
+            self.__trascrizione[-1] += f" {mossa}"
 
     # Modificare / Restituire un Giocatore in Partita
 
