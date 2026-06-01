@@ -83,5 +83,8 @@ class QuoridorController:
             elif scelta == "0":
                 self.__menu.stampa_messaggio("Uscita in corso, alla prossima!")
                 return
+            elif scelta in ("h", "help", "aiuto"):
+                PartitaView(GiocatoreView(), TavoliereView()).stampa_aiuto()
+                input("---- Premi INVIO per tornare al menu... ----")
             else:
                 errore = "Errore nell'inserimento della scelta, riprova"
