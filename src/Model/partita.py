@@ -210,6 +210,11 @@ class Partita:
             DESCRIZIONE
                 Controlla la posizione dei pedoni per decretare la fine della partita.
                 Restituisce l'ID del vincitore.
+                
+        def aggiungi_mossa_trascrizione(self, mossa: str)
+            DESCRIZIONE
+                Aggiunge una mossa alla trascrizione della partita.
+        
 
     """
 
