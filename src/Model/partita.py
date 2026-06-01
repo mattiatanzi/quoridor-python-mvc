@@ -269,7 +269,10 @@ class Partita:
 
     def get_id_giocatore_attivo(self):
         return self.__id_giocatore_attivo
-
+    
+    def get_trascrizione(self) -> list[str]:
+        return list(self.__trascrizione)
+    
     # Modificatori / Osservatori
 
     # Modificare / Restituire un Giocatore in Partita
