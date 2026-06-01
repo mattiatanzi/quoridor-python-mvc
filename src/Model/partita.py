@@ -100,6 +100,11 @@ class Partita:
                 Privato, Tipo str
             DESCRIZIONE
                 L'id del giocatore che sta svolgendo il turno
+        - trascrizione
+            TIPO
+                Privato, Lista di Stringhe
+            DESCRIZIONE
+                La lista che memorizza le mosse
 
     METODI:
 
@@ -226,6 +231,7 @@ class Partita:
     __giocatori: set[Giocatore]
     __tavoliere: Tavoliere
     __id_giocatore_attivo: str
+    __trascrizione: list[str]
 
     # Metodi
 
@@ -235,6 +241,7 @@ class Partita:
         self.set_tavoliere(new_tavoliere)
         self.set_giocatori(new_giocatori)
         self.set_id_giocatore_attivo(self.__ID_PRIMO_GIOCATORE_ATTIVO)
+        self.__trascrizione = []
 
     # Accesso Attributi Privati
 
