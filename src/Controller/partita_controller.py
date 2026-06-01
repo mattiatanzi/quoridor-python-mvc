@@ -226,7 +226,9 @@ class PartitaController:
                     errore = err_tav
                 except ErrorePartita as err_part:
                     errore = err_part
+                # Solo se non ci sono eccezioni si continua con il flusso
                 else:
+                    # Prima di incrementare il turno salva la trascrizione
                     self.__model.aggiungi_mossa_trascrizione(azione_pulita)
                     self.__model.incrementa_turno()
 
