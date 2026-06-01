@@ -235,7 +235,12 @@ class PartitaController:
                 if azione_pulita[0].isalpha() and azione_pulita[1].isdigit():
                     try:
                         self.__model.muovi_giocatore(azione_pulita, giocatore_attivo)
-
+                    except ErrorePosizione as err_pos:
+                        errore = f"Errore movimento: {err_pos}"
+                    # Solo se non ci sono eccezioni si continua con il flusso
+                    else:
+                        # Prima di eseguire le logiche della mossa salva la trascrizione
+                        self.__model.aggiungi_mossa_trascrizione(azione_pulita)
                         # Controllo vittoria
                         vincitore = self.__model.verifica_vittoria()
 
@@ -267,8 +272,7 @@ class PartitaController:
                         # Nessuna vittoria
                         self.__model.incrementa_turno()
 
-                    except ErrorePosizione as err_pos:
-                        errore = f"Errore movimento: {err_pos}"
+                    
                 else:
                     errore = "Formato errato: usa una lettera (a-i) e un numero (1-9)."
 
