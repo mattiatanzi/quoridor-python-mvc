@@ -220,13 +220,15 @@ class PartitaController:
                 try:
                     self.__model.piazza_muro(azione_pulita, giocatore_attivo)
                     self.__model.rimuovi_un_muro_giocatore(id_giocatore_attivo)
-                    self.__model.incrementa_turno()
                 except ErroreFormattazione as err_from:
                     errore = err_from
                 except ErroreTavoliere as err_tav:
                     errore = err_tav
                 except ErrorePartita as err_part:
                     errore = err_part
+                else:
+                    self.__model.aggiungi_mossa_trascrizione(azione_pulita)
+                    self.__model.incrementa_turno()
 
             # Mossa
             elif len(azione_pulita) == self.__LUNGHEZZA_COMANDO_MOSSA:
