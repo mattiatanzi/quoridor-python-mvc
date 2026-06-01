@@ -181,6 +181,10 @@ class PartitaController:
                 input("---- Premi INVIO per tornare alla partita... ----")
                 # La richiesta di aiuto non incrementa il turno
                 continue
+            
+            elif azione_pulita in self.__COMANDI_TRASCRIZIONE:
+                
+                input("---- Premi INVIO per tornare alla partita... ----")
 
             # Uscire dalla partita
             elif azione_pulita in self.__COMANDI_ABBANDONA_PARTITA:
