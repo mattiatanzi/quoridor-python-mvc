@@ -215,7 +215,9 @@ class Partita:
             DESCRIZIONE
                 Aggiunge una mossa alla trascrizione della partita.
         
-
+        def get_trascrizione(self) -> list[str]:
+            DESCRIZIONE
+                Restituisce una copia della trascrizione partita.
     """
 
     # Costanti
