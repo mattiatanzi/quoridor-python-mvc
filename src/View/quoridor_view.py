@@ -22,6 +22,8 @@ class QuoridorView:
         print("Benvenuto in Quoridor \n")
         print("1 - Avvia una nuova partita \n")
         print("0 - Esci dal gioco \n")
+        
+        print("h - Aiuto (Comandi di gioco) \n")
 
     def menu_di_gioco(self):
         self.__menu_base()
