@@ -40,6 +40,9 @@ class PartitaController:
 
         - COMANDI_USCITA_GIOCO
             Tutti i comandi possibili per uscire dal gioco
+            
+        - COMANDI_TRASCRIZIONE
+            Tutti i comandi possibili per visualizzare la trascrizione delle mosse
 
     METODI:
 
@@ -110,6 +113,7 @@ class PartitaController:
 
     __COMANDI_ABBANDONA_PARTITA = {"quit", "abbandona"}
     __COMANDI_USCITA_GIOCO = {"exit", "esci"}
+    __COMANDI_TRASCRIZIONE = {"trascrizione", "trascrizione mosse", "mosse"}
 
     # Costruttore
 
@@ -177,6 +181,10 @@ class PartitaController:
                 input("---- Premi INVIO per tornare alla partita... ----")
                 # La richiesta di aiuto non incrementa il turno
                 continue
+            
+            elif azione_pulita in self.__COMANDI_TRASCRIZIONE:
+                
+                input("---- Premi INVIO per tornare alla partita... ----")
 
             # Uscire dalla partita
             elif azione_pulita in self.__COMANDI_ABBANDONA_PARTITA:
@@ -212,20 +220,29 @@ class PartitaController:
                 try:
                     self.__model.piazza_muro(azione_pulita, giocatore_attivo)
                     self.__model.rimuovi_un_muro_giocatore(id_giocatore_attivo)
-                    self.__model.incrementa_turno()
                 except ErroreFormattazione as err_from:
                     errore = err_from
                 except ErroreTavoliere as err_tav:
                     errore = err_tav
                 except ErrorePartita as err_part:
                     errore = err_part
+                # Solo se non ci sono eccezioni si continua con il flusso
+                else:
+                    # Prima di incrementare il turno salva la trascrizione
+                    self.__model.aggiungi_mossa_trascrizione(azione_pulita)
+                    self.__model.incrementa_turno()
 
             # Mossa
             elif len(azione_pulita) == self.__LUNGHEZZA_COMANDO_MOSSA:
                 if azione_pulita[0].isalpha() and azione_pulita[1].isdigit():
                     try:
                         self.__model.muovi_giocatore(azione_pulita, giocatore_attivo)
-
+                    except ErrorePosizione as err_pos:
+                        errore = f"Errore movimento: {err_pos}"
+                    # Solo se non ci sono eccezioni si continua con il flusso
+                    else:
+                        # Prima di eseguire le logiche della mossa salva la trascrizione
+                        self.__model.aggiungi_mossa_trascrizione(azione_pulita)
                         # Controllo vittoria
                         vincitore = self.__model.verifica_vittoria()
 
@@ -257,8 +274,7 @@ class PartitaController:
                         # Nessuna vittoria
                         self.__model.incrementa_turno()
 
-                    except ErrorePosizione as err_pos:
-                        errore = f"Errore movimento: {err_pos}"
+                    
                 else:
                     errore = "Formato errato: usa una lettera (a-i) e un numero (1-9)."
 

@@ -100,6 +100,11 @@ class Partita:
                 Privato, Tipo str
             DESCRIZIONE
                 L'id del giocatore che sta svolgendo il turno
+        - trascrizione
+            TIPO
+                Privato, Lista di Stringhe
+            DESCRIZIONE
+                La lista che memorizza le mosse
 
     METODI:
 
@@ -205,7 +210,22 @@ class Partita:
             DESCRIZIONE
                 Controlla la posizione dei pedoni per decretare la fine della partita.
                 Restituisce l'ID del vincitore.
+                
+        def aggiungi_mossa_trascrizione(self, mossa: str)
+            DESCRIZIONE
+                Aggiunge una mossa alla trascrizione della partita.
+        
+        def get_trascrizione(self) -> list[str]:
+            DESCRIZIONE
+                Restituisce una copia della trascrizione partita. La trascrizione 
+                avviene nel seguente modo:
+                    -Per ogni turno viene creato un elemento nella lista trascrizioni
+                    - Ogni elemento della lista trascrizioni contiene le mosse svolte 
+                      da ogni giocatore in quel turno, ordinate per numero di giocatore
 
+                Esempio: La seguente lista indica che ci sono 2 giocatori e sono stati 
+                svolti due turni, in cui P1 si è mosso in a2 e poi in a3, 
+                mentre P2 in b5 e poi b6. [1. a2 b5 , 2. a3 b6]
     """
 
     # Costanti
@@ -226,6 +246,7 @@ class Partita:
     __giocatori: set[Giocatore]
     __tavoliere: Tavoliere
     __id_giocatore_attivo: str
+    __trascrizione: list[str]
 
     # Metodi
 
@@ -235,6 +256,7 @@ class Partita:
         self.set_tavoliere(new_tavoliere)
         self.set_giocatori(new_giocatori)
         self.set_id_giocatore_attivo(self.__ID_PRIMO_GIOCATORE_ATTIVO)
+        self.__trascrizione = []
 
     # Accesso Attributi Privati
 
@@ -255,8 +277,19 @@ class Partita:
 
     def get_id_giocatore_attivo(self):
         return self.__id_giocatore_attivo
-
+    
+    def get_trascrizione(self) -> list[str]:
+        return list(self.__trascrizione)
+    
     # Modificatori / Osservatori
+    
+    # Aggiungere mossa nella trascrizione
+    def aggiungi_mossa_trascrizione(self, mossa: str):
+        if self.__id_giocatore_attivo == self.__ID_PRIMO_GIOCATORE_ATTIVO:
+            numero = len(self.__trascrizione) + 1
+            self.__trascrizione.append(f"{numero}. {mossa}")
+        else: 
+            self.__trascrizione[-1] += f" {mossa}"
 
     # Modificare / Restituire un Giocatore in Partita
 
