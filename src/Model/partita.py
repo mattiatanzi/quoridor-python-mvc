@@ -217,7 +217,15 @@ class Partita:
         
         def get_trascrizione(self) -> list[str]:
             DESCRIZIONE
-                Restituisce una copia della trascrizione partita.
+                Restituisce una copia della trascrizione partita. La trascrizione 
+                avviene nel seguente modo:
+                    -Per ogni turno viene creato un elemento nella lista trascrizioni
+                    - Ogni elemento della lista trascrizioni contiene le mosse svolte 
+                      da ogni giocatore in quel turno, ordinate per numero di giocatore
+
+                Esempio: La seguente lista indica che ci sono 2 giocatori e sono stati 
+                svolti due turni, in cui P1 si è mosso in a2 e poi in a3, 
+                mentre P2 in b5 e poi b6. [1. a2 b5 , 2. a3 b6]
     """
 
     # Costanti
