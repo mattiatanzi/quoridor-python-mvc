@@ -91,6 +91,7 @@ class PartitaView:
                 Stampa a video l'interfaccia di vittoria
 
 
+
         ------ STAMPE ERRORI ------
 
         def stampa_errore_partita(self, messaggio):
@@ -216,6 +217,9 @@ class PartitaView:
         ║  -  ABBANDONARE LA PARTITA:                                  ║
         ║     Scrivi 'quit' o 'abbandona' per uscire dalla partita.    ║
         ║                                                              ║
+        ║  - TRASCRIZIONE DELLE MOSSE:                                 ║
+        ║    Scrivi 'trascrizione' o 'trascrizione mosse' o            ║
+        ║    'mosse' per visualizzare la trascrizione delle mosse      ║
         ╚══════════════════════════════════════════════════════════════╝
         """
         
@@ -260,7 +264,8 @@ class PartitaView:
 
         # Stampa Opzioni per uscire
         print("\n")
-        print("[M] Menu", end="")
+        print("[M] Menu")
+        print("[Trascrizione],[Trascrizione mosse],[Mosse] Trascrizione delle mosse", end ="")
         print("\n")
 
         # Stampa ==============================
@@ -275,3 +280,4 @@ class PartitaView:
 
     def get_input(self) -> str:
         return self.chiedi_input_utente("Fai la tua mossa: ")
+
