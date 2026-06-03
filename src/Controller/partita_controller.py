@@ -183,10 +183,13 @@ class PartitaController:
                 continue
 
             elif azione_pulita in self.__COMANDI_TRASCRIZIONE:
-                self.__view.stampa_trascrizione(
+                if not self.__model.get_trascrizione():
+                    errore = "Errore: Trascrizione vuota"
+                else:
+                    self.__view.stampa_trascrizione(
                     self.__model.get_trascrizione(), len(self.__model.get_giocatori())
-                )
-                input("---- Premi INVIO per tornare alla partita... ----")
+                    )
+                    input("---- Premi INVIO per tornare alla partita... ----")
 
             # Uscire dalla partita
             elif azione_pulita in self.__COMANDI_ABBANDONA_PARTITA:
