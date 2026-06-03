@@ -1,4 +1,4 @@
-from src.View.pulisci_schermo_view import pulisci_schermo
+from src.View.funzioni_utili_stampa import pulisci_schermo, chiedi_input_utente
 
 
 class QuoridorView:
@@ -22,7 +22,7 @@ class QuoridorView:
         print("Benvenuto in Quoridor \n")
         print("1 - Avvia una nuova partita \n")
         print("0 - Esci dal gioco \n")
-        
+
         print("h - Aiuto (Comandi di gioco) \n")
 
     def menu_di_gioco(self):
@@ -33,3 +33,13 @@ class QuoridorView:
 
     def stampa_messaggio(self, messaggio: str):
         print(messaggio)
+
+    def get_input_modalita_partita(self) -> str:
+        messaggio = """
+        Selezionare Una Modalità Di Gioco:
+            1. Partita con Timer
+            2. Partita senza Timer
+            3. Torna Indietro
+        """
+
+        return chiedi_input_utente(messaggio)
