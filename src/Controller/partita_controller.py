@@ -183,7 +183,7 @@ class PartitaController:
                 continue
             
             elif azione_pulita in self.__COMANDI_TRASCRIZIONE:
-                
+                self.__view.stampa_trascrizione(self.__model.get_trascrizione(),len(self.__model.get_giocatori()))
                 input("---- Premi INVIO per tornare alla partita... ----")
 
             # Uscire dalla partita
@@ -260,8 +260,10 @@ class PartitaController:
                             )
 
                             # Stampa fin quando utente non decide di tornare al menù
-                            while scelta_pulita != "m":
+                            while scelta_pulita != "m" or scelta_pulita in self.__COMANDI_TRASCRIZIONE:
                                 self.get_view().stampa_vittoria(vincitore)
+                                if scelta_pulita in self.__COMANDI_TRASCRIZIONE:
+                                    self.__view.stampa_trascrizione(self.__model.get_trascrizione(),len(self.__model.get_giocatori()))
                                 scelta_pulita = (
                                     self.get_view()
                                     .chiedi_input_utente()
