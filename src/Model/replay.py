@@ -115,6 +115,7 @@ class ReplayPartita:
                     mosse_flat.append((giocatori_turno[i], mossa))
                     
         return mosse_flat
+    
     def __crea_partita_iniziale(self) -> Partita:
         # Assegnazioni per la creazione di una nuova partita
         tavoliere = Tavoliere()
@@ -139,7 +140,7 @@ class ReplayPartita:
         partita = self.__crea_partita_iniziale()
         stati.append(partita)
         
-        for id_giocatore, mossa in self.__mosse_flat:
+        for _ in self.__mosse_flat:
             # Ricrea una partita pulita e riesegue le mosse fino a questo punto
             partita_step = self.__crea_partita_iniziale()
             n_mosse_da_eseguire = len(stati) # indice della mossa corrente
