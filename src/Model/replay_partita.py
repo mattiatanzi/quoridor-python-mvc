@@ -149,17 +149,18 @@ class ReplayPartita:
                 Restituisce true se il replay si trova nello stato finale.
     """
 
-    # Costanti
-    __P1 = "P1"
-    __P2 = "P2"
-    __POSIZIONE_P1 = Nodo("e1")
-    __POSIZIONE_P2 = Nodo("e9")
-    __MURI_INIZIALI = 10
+    # Attributi
+    __giocatori_setup: set[Giocatore]
+    __id_giocatori_ordinati: list[str]
+    
 
     # Metodi
 
     # ------ Costruttori ------ #
-    def __init__(self, trascrizione: list[str]):
+    def __init__(self, trascrizione: list[str], giocatori_iniziali: set[Giocatore]):
+        # Ricava gli ID ordinati dei partecipanti
+        self.__giocatori_setup = giocatori_iniziali
+        self.__id_giocatori_ordinati = sorted([g.get_id() for g in giocatori_iniziali])
         self.__mosse_flat = self.__parse_trascrizione(trascrizione)
         self.__indice_corrente = 0
         self.__stati = self.__build_stati()
@@ -182,7 +183,7 @@ class ReplayPartita:
             mosse_turno = parti[1].split()
 
             # P1 parte per primo
-            giocatori_turno = [self.__P1, self.__P2]
+            giocatori_turno = self.__id_giocatori_ordinati
             for i, mossa in enumerate(mosse_turno):
                 if i < len(giocatori_turno):
                     mosse_flat.append((giocatori_turno[i], mossa))
@@ -233,19 +234,19 @@ class ReplayPartita:
     def __crea_partita_iniziale(self) -> Partita:
         # Assegnazioni per la creazione di una nuova partita
         tavoliere = Tavoliere()
+        nuovi_giocatori = set()
 
-        g1 = Giocatore(
-            self.__P1,
-            Nodo(self.__POSIZIONE_P1.get_valore_id_nodo()),
-            self.__MURI_INIZIALI,
-        )
-        g2 = Giocatore(
-            self.__P2,
-            Nodo(self.__POSIZIONE_P2.get_valore_id_nodo()),
-            self.__MURI_INIZIALI,
-        )
+        for g_setup in self.__giocatori_setup:
+            nodo_iniziale = Nodo(g_setup.get_posizione().get_valore_id_nodo())
+            
+            giocatore_pulito = Giocatore(
+                g_setup.get_id(),
+                nodo_iniziale,
+                g_setup.get_muri_disponibili()
+            )
+            nuovi_giocatori.add(giocatore_pulito)
 
-        return Partita(tavoliere, {g1, g2})
+        return Partita(tavoliere, nuovi_giocatori)
 
     # ------ Navigazione ------ #
     def get_stato_corrente(self) -> Partita:
