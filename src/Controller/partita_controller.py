@@ -1,3 +1,6 @@
+from datetime import date, datetime
+
+from src.Model import giocatore
 from src.Model.giocatore import ErrorePosizione
 from src.Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from src.Model.tavoliere import ErroreTavoliere
@@ -161,127 +164,134 @@ class PartitaController:
             self.get_view().stampa_errore_partita(messaggio)
 
     def gioca_partita(self) -> bool:
-        errore = ""
-        continuare_partita = True
-        continuare_gioco = True
-
-        while continuare_partita and continuare_gioco:
-            self.__view.stampa_partita(self.get_model())
-            self.get_view().stampa_errore_partita(errore)
-            azione = self.__view.get_input()
-            id_giocatore_attivo = self.__model.get_id_giocatore_attivo()
-            giocatore_attivo = self.get_giocatore(id_giocatore_attivo)
-
             errore = ""
+            continuare_partita = True
+            continuare_gioco = True
 
-            # Pulizia input utente
-            azione_pulita = azione.strip().lower()
+            while continuare_partita and continuare_gioco:
+                self.__view.stampa_partita(self.get_model())
+                self.get_view().stampa_errore_partita(errore)
+                id_giocatore_attivo = self.__model.get_id_giocatore_attivo()
+                giocatore_attivo = self.get_giocatore(id_giocatore_attivo)
 
-            # Aiuto
-            if azione_pulita in ["help", "aiuto"]:
-                self.__view.stampa_aiuto()
-                input("---- Premi INVIO per tornare alla partita... ----")
-                # La richiesta di aiuto non incrementa il turno
-                continue
+                # Inizio a cronometrare il giocatore
+                if (giocatore_attivo.possiede_limite_tempo()):
+                    tempo_inizio_turno = datetime.now()
 
-            elif azione_pulita in self.__COMANDI_TRASCRIZIONE:
+                azione = self.__view.get_input()
+                errore = ""
 
-                input("---- Premi INVIO per tornare alla partita... ----")
+                # Pulizia input utente
+                azione_pulita = azione.strip().lower()
 
-            # Uscire dalla partita
-            elif azione_pulita in self.__COMANDI_ABBANDONA_PARTITA:
-                # Messaggi per chiedere conferma
-                messaggio_conferma = (
-                    "Uscita In Corso...\nSicuro di voler "
-                    "abbandonare la partita? [si/no]"
-                )
-                risposta = ""
+                # Aiuto
+                if azione_pulita in ["help", "aiuto"]:
+                    self.__view.stampa_aiuto()
+                    input("---- Premi INVIO per tornare alla partita... ----")
+                    # La richiesta di aiuto non incrementa il turno
+                    continue
 
-                # Stampa Fin quando l'utente non decide
-                while risposta != "si" and risposta != "no":
-                    risposta = chiedi_input_utente(messaggio_conferma)
-                else:
-                    if risposta == "si":
-                        continuare_partita = False
+                elif azione_pulita in self.__COMANDI_TRASCRIZIONE:
 
-            # Uscire dal gioco
-            elif azione in self.__COMANDI_USCITA_GIOCO:
-                messaggio_conferma = (
-                    "Uscita In Corso...\nSicuro di voler uscire dal gioco? [si/no]"
-                )
-                risposta = ""
+                    input("---- Premi INVIO per tornare alla partita... ----")
+                    continue
 
-                while risposta != "si" and risposta != "no":
-                    risposta = chiedi_input_utente(messaggio_conferma)
-                else:
-                    if risposta == "si":
-                        continuare_gioco = False
+                # Uscire dalla partita
+                elif azione_pulita in self.__COMANDI_ABBANDONA_PARTITA:
+                    # Messaggi per chiedere conferma
+                    messaggio_conferma = (
+                        "Uscita In Corso...\nSicuro di voler "
+                        "abbandonare la partita? [si/no]"
+                    )
+                    risposta = ""
 
-            # Piazzamento muro
-            elif len(azione_pulita) == self.__LUNGHEZZA_COMANDO_MURO:
-                try:
-                    self.__model.piazza_muro(azione_pulita, giocatore_attivo)
-                    self.__model.rimuovi_un_muro_giocatore(id_giocatore_attivo)
-                except ErroreFormattazione as err_from:
-                    errore = err_from
-                except ErroreTavoliere as err_tav:
-                    errore = err_tav
-                except ErrorePartita as err_part:
-                    errore = err_part
-                # Solo se non ci sono eccezioni si continua con il flusso
-                else:
-                    # Prima di incrementare il turno salva la trascrizione
-                    self.__model.aggiungi_mossa_trascrizione(azione_pulita)
-                    self.__model.incrementa_turno()
+                    # Stampa Fin quando l'utente non decide
+                    while risposta != "si" and risposta != "no":
+                        risposta = chiedi_input_utente(messaggio_conferma)
+                    else:
+                        if risposta == "si":
+                            continuare_partita = False
 
-            # Mossa
-            elif len(azione_pulita) == self.__LUNGHEZZA_COMANDO_MOSSA:
-                if azione_pulita[0].isalpha() and azione_pulita[1].isdigit():
+                # Uscire dal gioco
+                elif azione in self.__COMANDI_USCITA_GIOCO:
+                    messaggio_conferma = (
+                        "Uscita In Corso...\nSicuro di voler uscire dal gioco? [si/no]"
+                    )
+                    risposta = ""
+
+                    while risposta != "si" and risposta != "no":
+                        risposta = chiedi_input_utente(messaggio_conferma)
+                    else:
+                        if risposta == "si":
+                            continuare_gioco = False
+
+                # Piazzamento muro
+                elif len(azione_pulita) == self.__LUNGHEZZA_COMANDO_MURO:
                     try:
-                        self.__model.muovi_giocatore(azione_pulita, giocatore_attivo)
-                    except ErrorePosizione as err_pos:
-                        errore = f"Errore movimento: {err_pos}"
+                        self.__model.piazza_muro(azione_pulita, giocatore_attivo)
+                        self.__model.rimuovi_un_muro_giocatore(id_giocatore_attivo)
+                    except ErroreFormattazione as err_from:
+                        errore = err_from
+                    except ErroreTavoliere as err_tav:
+                        errore = err_tav
+                    except ErrorePartita as err_part:
+                        errore = err_part
                     # Solo se non ci sono eccezioni si continua con il flusso
                     else:
-                        # Prima di eseguire le logiche della mossa salva la trascrizione
+                        if (giocatore_attivo.possiede_limite_tempo()):
+                            tempo_fine_turno = datetime.now()
+                            giocatore_attivo.sottrai_tempo(tempo_fine_turno - tempo_inizio_turno)
+                        # Prima di incrementare il turno salva la trascrizione
                         self.__model.aggiungi_mossa_trascrizione(azione_pulita)
-                        # Controllo vittoria
-                        vincitore = self.__model.verifica_vittoria()
-
-                        # Vittoria
-                        if vincitore is not None:
-                            # Stampa tabellone per mostrare la mossa vincente
-                            self.__view.stampa_partita(self.__model)
-
-                            # Stampa vittoria
-                            self.__view.stampa_vittoria(vincitore)
-
-                            # Richiedi input per tornare al menu
-                            scelta_pulita = (
-                                self.get_view().chiedi_input_utente().lower().strip()
-                            )
-
-                            # Stampa fin quando utente non decide di tornare al menù
-                            while scelta_pulita != "m":
-                                self.get_view().stampa_vittoria(vincitore)
-                                scelta_pulita = (
-                                    self.get_view()
-                                    .chiedi_input_utente()
-                                    .lower()
-                                    .strip()
-                                )
-                            else:
-                                continuare_partita = False
-
-                        # Nessuna vittoria
                         self.__model.incrementa_turno()
 
+                # Mossa
+                elif len(azione_pulita) == self.__LUNGHEZZA_COMANDO_MOSSA:
+                    if azione_pulita[0].isalpha() and azione_pulita[1].isdigit():
+                        try:
+                            self.__model.muovi_giocatore(azione_pulita, giocatore_attivo)
+                        except ErrorePosizione as err_pos:
+                            errore = f"Errore movimento: {err_pos}"
+                        # Solo se non ci sono eccezioni si continua con il flusso
+                        else:
+                            if (giocatore_attivo.possiede_limite_tempo()):
+                                tempo_fine_turno = datetime.now()
+                                giocatore_attivo.riduci_tempo(tempo_fine_turno - tempo_inizio_turno)
+                            # Prima di eseguire le logiche della mossa salva la trascrizione
+                            self.__model.aggiungi_mossa_trascrizione(azione_pulita)
+                            # Controllo vittoria
+                            vincitore = self.__model.verifica_vittoria()
 
+                            # Vittoria
+                            if vincitore is not None:
+                                # Stampa tabellone per mostrare la mossa vincente
+                                self.__view.stampa_partita(self.__model)
+
+                                # Stampa vittoria
+                                self.__view.stampa_vittoria(vincitore)
+
+                                # Richiedi input per tornare al menu
+                                scelta_pulita = (
+                                    self.__view.get_input().lower().strip()
+                                )
+
+                                # Stampa fin quando utente non decide di tornare al menù
+                                while scelta_pulita != "m":
+                                    self.__view.stampa_vittoria(vincitore)
+                                    scelta_pulita = (
+                                        self.__view.get_input().lower().strip()
+                                    )
+                                else:
+                                    continuare_partita = False
+                            else:
+                                # Nessuna vittoria
+                                self.__model.incrementa_turno()
+
+                    else:
+                        errore = "Formato errato: usa una lettera (a-i) e un numero (1-9)."
+
+                # Input sconosciuto
                 else:
-                    errore = "Formato errato: usa una lettera (a-i) e un numero (1-9)."
+                    errore = "Comando non riconosciuto"
 
-            # Input sconosciuto
-            else:
-                errore = "Comando non riconosciuto"
-
-        return continuare_gioco
+            return continuare_gioco
