@@ -176,7 +176,7 @@ class Giocatore:
 
         self.set_tempo_residuo(new_tempo_iniziale)
 
-    # Modificatori / Osservatori
+    # Accesso Attributi Privati
 
     def get_id(self) -> str:
         return self.__idGiocatore
@@ -236,6 +236,9 @@ class Giocatore:
 
     def set_tempo_residuo(self, tempo: timedelta):
         self.__tempoResiduo = tempo
+
+    # Modificatori / Osservatori
+
 
     def riduci_tempo(self, tempo_trascorso: timedelta  = timedelta(seconds = 1)) -> bool:
         if(tempo_trascorso.seconds < 0):
