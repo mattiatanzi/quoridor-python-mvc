@@ -1,4 +1,7 @@
+from datetime import timedelta
+
 from src.Controller.partita_controller import PartitaController
+from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.giocatore import Giocatore
 from src.Model.nodo import Nodo
 from src.Model.partita import Partita
@@ -66,45 +69,75 @@ class QuoridorController:
         continuare_gioco = True
         scelta: str
 
+        # continuare_gioco = True <=> Non uscire dal gioco
         while continuare_gioco:
 
+            # Chiedi all'utente se giocare, uscire dal gioco
             self.get_view().menu_di_gioco()
             scelta = self.get_view().get_input_menu()
 
-            # Scelta = 1 <=> Gioca Partita
+            tornaIndietro = False
+
+            # Scelta = 1 <=> Procedere con creazione Partita
             if scelta == "1":
+                while not tornaIndietro:
 
-                scelta = ""
-                while (scelta != "1" and scelta != "2" and scelta != "3" ):
-                    scelta = self.get_view().get_input_modalita_partita()
+                    tornaIndietro = False
+                    # Chiedi all'utente se giocare con timer, senza, o tornare indietro
+                    scelta_modalita_timer = self.get_view().get_input_modalita_partita()
+                    while (scelta_modalita_timer != "1" and scelta_modalita_timer != "2" and scelta_modalita_timer != "3" ):
+                        scelta_modalita_timer = self.get_view().get_input_modalita_partita()
 
-                # Implementare Logica Partita con Timer qui
-                # if scelta == "1":
+                    if (scelta_modalita_timer == "3"):
+                        tornaIndietro = True
 
-                if scelta == "2":
-                    tavoliere = Tavoliere()
+                    # Se l'utente non vuole uscire dalla creazione partita
+                    if not tornaIndietro:
 
-                    giocatore1 = Giocatore(
-                        self.__P1, self.__POSIZIONE_P1, self.__MURI_INIZIALI
-                    )
-                    giocatore2 = Giocatore(
-                        self.__P2, self.__POSIZIONE_P2, self.__MURI_INIZIALI
-                    )
-                    giocatori = {giocatore1, giocatore2}
+                        limite_tempo_scelto = None
 
-                    view_giocatore = GiocatoreView()
-                    view_tavoliere = TavoliereView()
-                    partita = PartitaController(
-                        Partita(tavoliere, giocatori),
-                        PartitaView(view_giocatore, view_tavoliere),
-                    )
+                        # Caso Utente Sceglie Timer
+                        if scelta_modalita_timer == "1":
+                            while (limite_tempo_scelto is None and not tornaIndietro):
+                                scelta_limite_tempo = self.get_view().get_input_limite_tempo()
+                                if (scelta_limite_tempo == "3"):
+                                    tornaIndietro = True
+                                else:
+                                    if (scelta_limite_tempo == "1"  or scelta_limite_tempo == "2"):
+                                        limite_tempo_scelto = CostantiGiocatore._DEF_TIMER_PREDEFINITI[int(scelta_limite_tempo) - 1]
+                                    else:
+                                        limite_tempo_scelto = self.__stringa_to_tempo_limite(scelta_limite_tempo)
 
-                    continuare_gioco = partita.gioca_partita()
+                        else:
+                            limite_tempo_scelto = CostantiGiocatore._DEF_SENZA_TIMER
+
+                        if (not tornaIndietro):
+                            tavoliere = Tavoliere()
+
+                            giocatore1 = Giocatore(
+                                self.__P1, self.__POSIZIONE_P1, self.__MURI_INIZIALI, limite_tempo_scelto
+                            )
+                            giocatore2 = Giocatore(
+                                self.__P2, self.__POSIZIONE_P2, self.__MURI_INIZIALI, limite_tempo_scelto
+                            )
+                            giocatori = {giocatore1, giocatore2}
+
+                            view_giocatore = GiocatoreView()
+                            view_tavoliere = TavoliereView()
+                            partita = PartitaController(
+                                Partita(tavoliere, giocatori),
+                                PartitaView(view_giocatore, view_tavoliere),
+                            )
+
+                            continuare_gioco = partita.gioca_partita()
+                            tornaIndietro = True
+                        else:
+                            tornaIndietro = False
 
             # Scelta = 0 <=> Esci dal gioco
             elif scelta == "0":
-                self.__view.stampa_messaggio("Uscita in corso, alla prossima!")
-                return
+                    self.__view.stampa_messaggio("Uscita in corso, alla prossima!")
+                    continuare_gioco = False
             elif scelta in ("h", "help", "aiuto"):
                 PartitaView(GiocatoreView(), TavoliereView()).stampa_aiuto()
                 input("---- Premi INVIO per tornare al menu... ----")
@@ -112,3 +145,12 @@ class QuoridorController:
                 errore = "Errore nell'inserimento della scelta, riprova"
                 self.get_view().stampa_messaggio(errore)
                 errore = ""
+
+
+    def __stringa_to_tempo_limite(self, stringa_tempo: str) -> timedelta:
+        try:
+            ore, minuti, secondi = map(int, stringa_tempo.split(":"))
+            return timedelta(hours = ore, minutes = minuti, seconds = secondi)
+        except ValueError:
+            self.get_view().stampa_messaggio("Errore Formato Tempo")
+            return None

@@ -31,5 +31,5 @@ def chiedi_input_utente(indicazioniInput: str = "") -> str:
     return input()
 
 def __stampa_richiesta_input(indicazioni: str = ""):
-    print(indicazioni, end="\n\n")
+    print(f"\n{indicazioni}", end="\n\n")
     print("Input: ", end="")

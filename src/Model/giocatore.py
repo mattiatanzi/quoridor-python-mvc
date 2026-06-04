@@ -1,4 +1,5 @@
 from datetime import timedelta
+from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.nodo import Nodo
 
 
@@ -145,23 +146,16 @@ class Giocatore:
     __muriDisponibili: int
     __tempoResiduo: timedelta
 
-    # Costanti
-    __DEF_COORDINATE = "a1"
-    __DEF_ID = "P1"
-    __DEF_MURI_DISPONIBILI = 10
-    __DEF_TEMPO_MINIMO = timedelta(minutes=1)
-    __DEF_SENZA_TIMER = timedelta.max
-
     # Metodi
 
     # Costruttore
 
     def __init__(
         self,
-        new_id_giocatore: str = __DEF_ID,
+        new_id_giocatore: str = CostantiGiocatore._DEF_ID,
         new_posizione=None,
-        new_muri_disponibili: int = __DEF_MURI_DISPONIBILI,
-        new_tempo_iniziale: timedelta = __DEF_SENZA_TIMER,
+        new_muri_disponibili: int = CostantiGiocatore._DEF_MURI_DISPONIBILI,
+        new_tempo_iniziale: timedelta = CostantiGiocatore._DEF_SENZA_TIMER,
     ):
         self.set_id(new_id_giocatore)
 
