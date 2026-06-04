@@ -264,4 +264,4 @@ class Giocatore:
             return f"Tempo rimasto: {minuti:02d}:{secondi:02d}"
 
     def possiede_limite_tempo(self):
-        return self.__tempoResiduo != self.__DEF_SENZA_TIMER
+        return self.__tempoResiduo != CostantiGiocatore._DEF_SENZA_TIMER

@@ -157,13 +157,18 @@ class PartitaView:
             id_selezionato = g.get_id()
             muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
 
+            if (g.possiede_limite_tempo()):
+                stringa_tempo_rimanente = g.get_tempo_formattato()
+            else:
+                stringa_tempo_rimanente = None
+
             if id_selezionato == partita.get_id_giocatore_attivo():
                 self.get_giocatore_view().stampa_giocatore_attivo(
-                    id_selezionato, muri_rimanenti
+                    id_selezionato, muri_rimanenti, stringa_tempo_rimanente
                 )
             else:
                 self.get_giocatore_view().stampa_info_giocatore(
-                    id_selezionato, muri_rimanenti
+                    id_selezionato, muri_rimanenti, stringa_tempo_rimanente
                 )
 
         print("")
