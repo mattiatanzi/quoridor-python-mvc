@@ -207,7 +207,7 @@ class ReplayPartita:
 
                 # Sincronizzazione del turno
                 if partita_step.get_id_giocatore_attivo() != id_g:
-                    partita.step.incrementa_turno()
+                    partita_step.incrementa_turno()
                 if len(m) == 3:  # Muro
                     partita_step.piazza_muro(m, g)
                     partita_step.rimuovi_un_muro_giocatore(id_g)
@@ -220,12 +220,12 @@ class ReplayPartita:
         return stati
 
     def get_mossa_corrente(self) -> tuple[str, str] | None:
-        if self.replay_inizio:
+        if self.replay_inizio():
             return None
         return self.__mosse_flat[self.__indice_corrente - 1]
 
     def get_numero_mossa_corrente(self) -> str:
-        if self.replay_inizio:
+        if self.replay_inizio():
             return "Non ci sono ancora state mosse!"
         return f"Mossa {self.__indice_corrente}/{len(self.__mosse_flat)}"
 
