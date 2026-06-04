@@ -232,8 +232,9 @@ class ReplayController:
             self.vai_a_fine()
         elif cmd in self.COMANDI_INIZIO:
             self.vai_a_inizio()
-        # I comandi non riconosciuti sono ignorati
-        # Si potrebbe implementare un messaggio nella view per la questione
+        else: 
+            raise ErroreReplay("Comando non riconosciuto")
+            # Eventuale metodo view (?)
         
         return True
          
