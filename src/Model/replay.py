@@ -1,3 +1,6 @@
+from src.Model.partita import Partita
+from src.Model.tavoliere import Tavoliere
+from src.Model.giocatore import Giocatore
 from src.Model.nodo import Nodo
 
 class ErroreReplay(Exception):
@@ -60,18 +63,23 @@ class ReplayPartita:
                     [("P1", "e2"), ("P2", "e8"), ("P1", "e3h"), ...]
                     
     METODI:
-
+        ------ COSTRUZIONE STATI ------
+        
+        - crea_partita_iniziale(self) -> Partita
+            DESCRIZIONE
+                Crea una nuova partita nello stato iniziale
+                
         ------ UTILITÀ ------
         
-    - parse_trascrizione(self, trascrizione: list[str]) -> list[tuple[str, str]]
-        DESRCIZIONE
-            Converte la trascrizione in una lista piatta 
-            di (giocatore, mossa).
-    
-            La trascrizione ha il formato: ["1. e2 e8", "2. e3h d7v", ...]
-            dove ogni elemento del turno può contenere 1 o 2 mosse
-            (la seconda mossa potrebbe mancare nell'ultimo turno se P2
-            non ha giocato prima della fine).
+        - parse_trascrizione(self, trascrizione: list[str]) -> list[tuple[str, str]]
+            DESRCIZIONE
+                Converte la trascrizione in una lista piatta 
+                di (giocatore, mossa).
+        
+                La trascrizione ha il formato: ["1. e2 e8", "2. e3h d7v", ...]
+                dove ogni elemento del turno può contenere 1 o 2 mosse
+                (la seconda mossa potrebbe mancare nell'ultimo turno se P2
+                non ha giocato prima della fine).
  
     """
     
@@ -100,3 +108,21 @@ class ReplayPartita:
                     mosse_flat.append((giocatori_turno[i], mossa))
                     
         return mosse_flat
+    def __crea_partita_iniziale(self) -> Partita:
+        # Assegnazioni per la creazione di una nuova partita
+        tavoliere = Tavoliere()
+        
+        g1 = Giocatore(
+            self.__P1, 
+            Nodo(self.__POSIZIONE_P1.get_valore_id_nodo()), 
+            self.__MURI_INIZIALI
+        )
+        g2 = Giocatore(
+            self.__P2, 
+            Nodo(self.__POSIZIONE_P2.get_valore_id_nodo()), 
+            self.__MURI_INIZIALI
+        )
+        
+        return Partita(tavoliere, {g1, g2})
+        
+        
