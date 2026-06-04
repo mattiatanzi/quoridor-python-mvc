@@ -65,10 +65,20 @@ class ReplayPartita:
     METODI:
         ------ COSTRUTTORI ------
 
-        def __init__(self, trascrizione: list[str])
+        - def __init__(self, trascrizione: list[str])
             DESCRIZIONE
                 Costruttore di Base.
                 Costruisce il replay della trascrizione della partita.
+                
+        ------ ACCESSO ATTRIBUTI ------
+        
+        - def get_indice_corrente(self) -> int:
+            DESCRIZIONE
+                Restituisce l'indice della mossa correntemente mostrata.
+             
+        - def get_totale_mosse(self) -> int:
+            DESCRIZIONE
+                Restituisce il numero totale di mosse della partita.
                 
         ------ COSTRUZIONE STATI ------
         
@@ -111,6 +121,13 @@ class ReplayPartita:
         self.__mosse_flat = self.__parse_trascrizione(trascrizione)
         self.__indice_corrente = 0
         self.__stati = self.__build_stati()
+    
+    # ------ Accesso attributi ------ #
+    def get_indice_corrente(self) -> int:
+        return self.__indice_corrente
+    
+    def get_totale_mosse(self) -> int:
+        return len(self.__mosse_flat)
         
     # ------ Utilità ------ #
     def __parse_trascrizione(self, trascrizione: list[str]) -> list[tuple[str, str]]:
@@ -162,7 +179,6 @@ class ReplayPartita:
         return stati
     
     # ------ Costruzione stati ------ #
-
     def __crea_partita_iniziale(self) -> Partita:
         # Assegnazioni per la creazione di una nuova partita
         tavoliere = Tavoliere()
@@ -179,5 +195,6 @@ class ReplayPartita:
         )
         
         return Partita(tavoliere, {g1, g2})
+    
     
     
