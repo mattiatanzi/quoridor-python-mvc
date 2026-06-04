@@ -80,6 +80,13 @@ class ReplayPartita:
                 dove ogni elemento del turno può contenere 1 o 2 mosse
                 (la seconda mossa potrebbe mancare nell'ultimo turno se P2
                 non ha giocato prima della fine).
+                
+        - build_stati(self) -> list[Partita]
+            DESCRIZIONE
+                Costruisce la lista di tutti gli stati rieseguendo le mosse.
+                
+                Riesegue le mosse della trascrizione in ordine su una nuova partita
+                pulita
  
     """
     
@@ -124,5 +131,36 @@ class ReplayPartita:
         )
         
         return Partita(tavoliere, {g1, g2})
+    
+    def __build_stati(self) -> list[Partita]:
+        stati: list[Partita] = []
         
+        # Stato 0: la partita iniziale
+        partita = self.__crea_partita_iniziale()
+        stati.append(partita)
         
+        for id_giocatore, mossa in self.__mosse_flat:
+            # Ricrea una partita pulita e riesegue le mosse fino a questo punto
+            partita_step = self.__crea_partita_iniziale()
+            n_mosse_da_eseguire = len(stati) # indice della mossa corrente
+            
+            giocatore_corrente_id = self.__P1
+            for i in range(n_mosse_da_eseguire):
+                id_g, m = self.__mosse_flat[i]
+                g = partita_step.get_giocatore(id_g)
+                
+                # Sincronizzazione del turno
+                if partita_step.get_id_giocatore_attivo() != id_g:        
+                    partita.step.incrementa_turno()
+                if len(m) == 3: # Muro
+                    partita_step.piazza_muro(m, g)
+                    partita_step.rimuovi_un_muro_giocatore(id_g)
+                else: # Pedone
+                    partita_step.muovi_giocatore(m, g)
+                partita_step.incrementa_turno()
+                
+            stati.append(partita_step)
+        
+        return stati
+    
+    
