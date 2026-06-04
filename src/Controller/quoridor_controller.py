@@ -51,40 +51,64 @@ class QuoridorController:
     __MURI_INIZIALI = 10
 
     def __init__(self):
-        self.__menu = QuoridorView()
+        self.set_view(QuoridorView())
+
+
+    def get_view(self):
+        return self.__view
+
+    def set_view(self, new_view: QuoridorView):
+        self.__view = new_view
+
 
     def gioca(self):
         errore: str = ""
         continuare_gioco = True
+        scelta: str
+
         while continuare_gioco:
-            self.__menu.menu_di_gioco()
-            self.__menu.stampa_messaggio(errore)
-            scelta: str = self.__menu.get_input_menu()
 
-            errore = ""
+            self.get_view().menu_di_gioco()
+            scelta = self.get_view().get_input_menu()
+
+            # Scelta = 1 <=> Gioca Partita
             if scelta == "1":
-                tavoliere = Tavoliere()
 
-                giocatore1 = Giocatore(
-                    self.__P1, self.__POSIZIONE_P1, self.__MURI_INIZIALI
-                )
-                giocatore2 = Giocatore(
-                    self.__P2, self.__POSIZIONE_P2, self.__MURI_INIZIALI
-                )
-                giocatori = {giocatore1, giocatore2}
+                scelta = ""
+                while (scelta != "1" and scelta != "2" and scelta != "3" ):
+                    scelta = self.get_view().get_input_modalita_partita()
 
-                view_giocatore = GiocatoreView()
-                view_tavoliere = TavoliereView()
-                partita = PartitaController(
-                    Partita(tavoliere, giocatori),
-                    PartitaView(view_giocatore, view_tavoliere),
-                )
-                continuare_gioco = partita.gioca_partita()
+                # Implementare Logica Partita con Timer qui
+                # if scelta == "1":
+
+                if scelta == "2":
+                    tavoliere = Tavoliere()
+
+                    giocatore1 = Giocatore(
+                        self.__P1, self.__POSIZIONE_P1, self.__MURI_INIZIALI
+                    )
+                    giocatore2 = Giocatore(
+                        self.__P2, self.__POSIZIONE_P2, self.__MURI_INIZIALI
+                    )
+                    giocatori = {giocatore1, giocatore2}
+
+                    view_giocatore = GiocatoreView()
+                    view_tavoliere = TavoliereView()
+                    partita = PartitaController(
+                        Partita(tavoliere, giocatori),
+                        PartitaView(view_giocatore, view_tavoliere),
+                    )
+
+                    continuare_gioco = partita.gioca_partita()
+
+            # Scelta = 0 <=> Esci dal gioco
             elif scelta == "0":
-                self.__menu.stampa_messaggio("Uscita in corso, alla prossima!")
+                self.__view.stampa_messaggio("Uscita in corso, alla prossima!")
                 return
             elif scelta in ("h", "help", "aiuto"):
                 PartitaView(GiocatoreView(), TavoliereView()).stampa_aiuto()
                 input("---- Premi INVIO per tornare al menu... ----")
             else:
                 errore = "Errore nell'inserimento della scelta, riprova"
+                self.get_view().stampa_messaggio(errore)
+                errore = ""

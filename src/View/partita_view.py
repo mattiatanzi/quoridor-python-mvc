@@ -1,8 +1,7 @@
 from src.Model.partita import Partita
 from src.View.giocatore_view import GiocatoreView
-from src.View.pulisci_schermo_view import pulisci_schermo
+from src.View.funzioni_utili_stampa import pulisci_schermo, chiedi_input_utente
 from src.View.tavoliere_view import TavoliereView
-
 
 class PartitaView:
     """Classe PartitaView.
@@ -172,16 +171,7 @@ class PartitaView:
 
         print("\nSuggerimento -- Digitare 'help' per visualizzare i comandi\n")
 
-    def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
-        # Stampa interfaccia Input
-        self.stampa_richiesta_input(indicazioniInput)
 
-        # Richiedi input
-        return input()
-
-    def stampa_richiesta_input(self, indicazioni: str = ""):
-        print(indicazioni, end="\n\n")
-        print("Input: ", end="")
 
     def stampa_aiuto(self):
         aiuto = """
@@ -218,7 +208,7 @@ class PartitaView:
         ║                                                              ║
         ╚══════════════════════════════════════════════════════════════╝
         """
-        
+
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
 
@@ -274,4 +264,4 @@ class PartitaView:
         print(messaggio)
 
     def get_input(self) -> str:
-        return self.chiedi_input_utente("Fai la tua mossa: ")
+        return chiedi_input_utente("Fai la tua mossa: ")

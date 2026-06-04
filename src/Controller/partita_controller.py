@@ -2,6 +2,8 @@ from src.Model.giocatore import ErrorePosizione
 from src.Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from src.Model.tavoliere import ErroreTavoliere
 from src.View.partita_view import PartitaView
+from src.View.funzioni_utili_stampa import chiedi_input_utente
+
 
 
 class PartitaController:
@@ -40,7 +42,7 @@ class PartitaController:
 
         - COMANDI_USCITA_GIOCO
             Tutti i comandi possibili per uscire dal gioco
-            
+
         - COMANDI_TRASCRIZIONE
             Tutti i comandi possibili per visualizzare la trascrizione delle mosse
 
@@ -181,9 +183,9 @@ class PartitaController:
                 input("---- Premi INVIO per tornare alla partita... ----")
                 # La richiesta di aiuto non incrementa il turno
                 continue
-            
+
             elif azione_pulita in self.__COMANDI_TRASCRIZIONE:
-                
+
                 input("---- Premi INVIO per tornare alla partita... ----")
 
             # Uscire dalla partita
@@ -197,7 +199,7 @@ class PartitaController:
 
                 # Stampa Fin quando l'utente non decide
                 while risposta != "si" and risposta != "no":
-                    risposta = self.get_view().chiedi_input_utente(messaggio_conferma)
+                    risposta = chiedi_input_utente(messaggio_conferma)
                 else:
                     if risposta == "si":
                         continuare_partita = False
@@ -210,7 +212,7 @@ class PartitaController:
                 risposta = ""
 
                 while risposta != "si" and risposta != "no":
-                    risposta = self.get_view().chiedi_input_utente(messaggio_conferma)
+                    risposta = chiedi_input_utente(messaggio_conferma)
                 else:
                     if risposta == "si":
                         continuare_gioco = False
@@ -274,7 +276,7 @@ class PartitaController:
                         # Nessuna vittoria
                         self.__model.incrementa_turno()
 
-                    
+
                 else:
                     errore = "Formato errato: usa una lettera (a-i) e un numero (1-9)."
 
