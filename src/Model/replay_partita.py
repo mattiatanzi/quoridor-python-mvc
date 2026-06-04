@@ -4,7 +4,6 @@ from src.Model.partita import Partita
 from src.Model.tavoliere import Tavoliere
 
 
-
 class ErroreReplay(Exception):
     """Eccezione che gestisce errori durante il replay."""
     
@@ -15,8 +14,8 @@ class ReplayPartita:
     
     DESCRIZIONE:
         Gestisce il replay animato di una partita appena conclusa.
-        Ricostruisce gli stati del gioco riseguendo le mosse della trascrizione a partire
-        da uno stato iniziale pulito.
+        Ricostruisce gli stati del gioco riseguendo le mosse della trascrizione a 
+        partire da uno stato iniziale pulito.
         
     ATTRIBUTI:
     
