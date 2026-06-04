@@ -1,5 +1,6 @@
-from src.Model.replay_partita import ErroreReplay, ReplayPartita
 from src.Model.partita import Partita
+from src.Model.replay_partita import ErroreReplay, ReplayPartita
+
 
 class ReplayController:
     """Classe ReplayController.
@@ -133,6 +134,12 @@ class ReplayController:
                 - uscire
                 - andare al primo stato
                 - andare all'ultimo stato
+                
+        ------ PRIVATI ------
+        
+        - notifica_cambio_stato(self)
+            DESCRIZIONE
+                Chiama il callback on_stato_cambiato se impostato.
         
     """
     
