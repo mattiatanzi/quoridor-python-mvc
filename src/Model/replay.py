@@ -103,8 +103,36 @@ class ReplayPartita:
                 Costruisce la lista di tutti gli stati rieseguendo le mosse.
                 
                 Riesegue le mosse della trascrizione in ordine su una nuova partita
-                pulita
- 
+                pulita.
+                
+        ------ NAVIGAZIONE ------
+        
+        - get_stato_corrente(self) -> Partita
+            DESCRIZIONE
+                Restituisce lo stato della partita corrispondente all'indice corrente.
+                
+        - avanza(self) -> bool
+            DESCRIZIONE
+                Avanza al passo successivo del replay e restituisce un booleano in 
+                base alla buona riuscita dell'avanzamento.
+        
+        - torna_indietro(self) -> bool
+            DESCRIZIONE
+                Torna al passo precedente del replay e restituisce un booleano in 
+                base alla buona riuscita dell'indietreggiamento.
+                
+        - vai_a(self, indice: int): 
+            DESCRIZIONE
+                Posizione il replay all'indice specificato, solleva ErroreReplay
+                in caso l'indice sia fuori dai limiti.
+                
+        - replay_inizio(self) -> bool:
+            DESCRIZIONE
+                Restituisce true se il replay si trova nello stato iniziale.
+            
+        - replay_fine(self) -> bool:
+            DESCRIZIONE
+                Restituisce true se il replay si trova nello stato finale.
     """
     
     # Costanti
@@ -196,5 +224,32 @@ class ReplayPartita:
         
         return Partita(tavoliere, {g1, g2})
     
+    # ------ Navigazione ------ #
+    def get_stato_corrente(self) -> Partita:
+        return self.__stati[self.__indice_corrente]
     
+    def avanza(self) -> bool:
+        if self.__indice_corrente < len(self.__mosse_flat):
+            self.__indice_corrente += 1
+            return True
+        return False
     
+    def torna_indietro(self) -> bool:
+        if self.__indice_corrente > 0:
+            self.__indice_corrente -= 1
+            return True
+        return False
+    
+    def vai_a(self, indice: int):
+        if not (0 <= indice <= len(self.__mosse_flat)):
+            raise ErroreReplay(
+                f"Indice {indice} fuori dai limiti: "
+                f"[0, {len(self.__mosse_flat)}]"
+            )
+        self.__indice_corrente = indice
+    
+    def replay_inizio(self) -> bool:
+        return self.__indice_corrente == 0
+    
+    def replay_fine(self) -> bool:
+        return self.__indice_corrente == len(self.__mosse_flat)
