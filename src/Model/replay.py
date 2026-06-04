@@ -82,6 +82,7 @@ class ReplayPartita:
     __POSIZIONE_P2 = Nodo("e9")
     __MURI_INIZIALI = 10
     
+    # Metodi
     def __parse_trascrizione(self, trascrizione: list[str]) -> list[tuple[str, str]]:
         
         mosse_flat: list[tuple[str, str]] = []
