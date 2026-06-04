@@ -150,7 +150,7 @@ class Giocatore:
     __DEF_ID = "P1"
     __DEF_MURI_DISPONIBILI = 10
     __DEF_TEMPO_MINIMO = timedelta(minutes=1)
-    __DEF_TEMPO_INIZIALE = timedelta(hours=0, minutes=5, seconds=0)
+    __DEF_SENZA_TIMER = timedelta.max
 
     # Metodi
 
@@ -161,7 +161,7 @@ class Giocatore:
         new_id_giocatore: str = __DEF_ID,
         new_posizione=None,
         new_muri_disponibili: int = __DEF_MURI_DISPONIBILI,
-        new_tempo_iniziale: timedelta = __DEF_TEMPO_INIZIALE,
+        new_tempo_iniziale: timedelta = __DEF_SENZA_TIMER,
     ):
         self.set_id(new_id_giocatore)
 
