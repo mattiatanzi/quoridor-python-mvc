@@ -1,4 +1,4 @@
-from datetime import timedelta 
+from datetime import timedelta
 from src.Model.nodo import Nodo
 
 
@@ -131,12 +131,12 @@ class Giocatore:
                 Modifica numero di muri a disposizione
 
         def get_tempo_residuo(self) -> timedelta:
-            DESCRIZIONE 
+            DESCRIZIONE
                 Restituisce il tempo residuo del giocatore come oggetto timedelta
         def set_tempo_residuo(self, tempo: timedelta):
             DESCRIZIONE
                 Imposta il timer del giocatore. Verifica che il tempo sia superiore o uguale a 1 minuto
-        
+
     """
 
     # Attributi
@@ -164,7 +164,7 @@ class Giocatore:
         new_tempo_iniziale: timedelta = __DEF_TEMPO_INIZIALE,
     ):
         self.set_id(new_id_giocatore)
-        
+
 
         # Caso in cui Posizione non viene specificata
         if new_posizione is None:
@@ -235,26 +235,20 @@ class Giocatore:
         return self.__tempoResiduo
 
     def set_tempo_residuo(self, tempo: timedelta):
-       
-        if not isinstance(tempo, timedelta):
-            raise TypeError("Il tempo deve essere un oggetto timedelta")
-
         self.__tempoResiduo = tempo
 
-    def riduci_tempo(self, secondi_passati: timedelta  = timedelta(seconds=1) ) -> bool:
-        if(secondi_passati < 0):
+    def riduci_tempo(self, tempo_trascorso: timedelta  = timedelta(seconds = 1)) -> bool:
+        if(tempo_trascorso.seconds < 0):
             raise TempoScadutoException("I secondi passati devono essere un numero positivo")
-        
-        delta_da_sottrarre = timedelta(seconds=secondi_passati)
-        
+
         if self.get_tempo_residuo() == timedelta(seconds=0):
             raise TempoScadutoException(f"Il tempo del giocatore {self.get_id()} è già scaduto")
-        
-        if self.get_tempo_residuo() <= delta_da_sottrarre:
-            self.set_tempo_residuo(timedelta(seconds = 0)) 
+
+        if self.get_tempo_residuo() <= tempo_trascorso:
+            self.set_tempo_residuo(timedelta(seconds = 0))
             return False  # Tempo finito
         else:
-            self.set_tempo_residuo(self.get_tempo_residuo() - delta_da_sottrarre) 
+            self.set_tempo_residuo(self.get_tempo_residuo() - tempo_trascorso)
             return True  # C'è ancora tempo
 
     def get_tempo_formattato(self) -> str:
@@ -271,4 +265,3 @@ class Giocatore:
             return f"Tempo rimasto: {ore:02d}:{minuti:02d}:{secondi:02d}"
         else:
             return f"Tempo rimasto: {minuti:02d}:{secondi:02d}"
-
