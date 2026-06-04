@@ -17,6 +17,21 @@ class ReplayController:
         
         ------ VARIABILI ------
         
+        - model 
+            TIPO
+                Privato, tipo ReplayPartita
+            DESCRIZIONE
+                Il modello del replay
+        
+        - on_stato_cambiato
+            TIPO
+                Callable[[Partita, str], None] | None
+            DESCRIZIONE
+                Callback opzionale chiamata ogni volta che lo stato del replay cambia.
+                Riceve lo stato corrente della partita e una stringa descrittiva della
+                mossa corrente. Viene lasciata a None finchè non viene impostata
+                dalla View.
+        
         ------ COSTANTI ------
         
         - COMANDO_AVANTI
@@ -49,10 +64,56 @@ class ReplayController:
             DESCRIZIONE
                 Imposta il callback chiamato ad ogni scabmio di stato.
                 Il callback deve accettare (partita: Partita, descrizione: str)
+                
+        - get_model(self) -> ReplayPartita
+            DESCRIZIONE
+                Restituisce il model del replay.
+                
+        ------ NAVIGAZIONE ------
         
-        
-        
-        
+        - avanza(self) -> bool:
+            DESCRIZIONE
+                Avanza al passo successivo. Chiama il callback se impostato.
+                Restituisce True se l'avanzamento è avvenuto.
+ 
+        - torna_indietro(self) -> bool:
+            DESCRIZIONE
+                Torna al passo precedente. Chiama il callback se impostato.
+                Restituisce True se il ritorno è avvenuto.
+ 
+        - vai_a_inizio(self):
+            DESCRIZIONE
+                Posiziona il replay allo stato iniziale.
+ 
+        - vai_a_fine(self):
+            DESCRIZIONE
+                Posiziona il replay all'ultimo stato.
+ 
+        - vai_a(self, indice: int) -> bool:
+            DESCRIZIONE
+                Posiziona il replay all'indice specificato.
+                Restituisce True se l'operazione ha avuto successo,
+                False altrimenti (indice non valido).
+ 
+        - get_stato_corrente(self) -> Partita:
+            DESCRIZIONE
+                Restituisce lo stato corrente della partita.
+ 
+        - get_descrizione_corrente(self) -> str:
+            DESCRIZIONE
+                Restituisce una stringa descrittiva del passo corrente.
+ 
+        - replay_inizio(self) -> bool:
+            DESCRIZIONE
+                True se il replay è allo stato iniziale.
+ 
+        - replay_fine(self) -> bool:
+            DESCRIZIONE
+                True se il replay è all'ultimo stato.
+ 
+        - get_totale_mosse(self) -> int:
+            DESCRIZIONE
+                Restituisce il numero totale di mosse nel replay.
         
         
     """
@@ -75,4 +136,64 @@ class ReplayController:
     def set_on_stato_cambiato(self, callback):
         self.__on_stato_cambiato = callback
         
+    def get_model(self) -> ReplayPartita:
+        return self.__model
+    
+    # ------ Navigazione ------ #
+    def avanza(self) -> bool:
+        avanzato = self.__model.avanza()
+        if avanzato:
+            self.__notifica_cambio_stato()
+        return avanzato
+    
+    def torna_indietro(self) -> bool: 
+        tornato = self.__model.torna_indietro()
+        if tornato:
+            self.__notifica_cambio_stato()
+        return tornato
+    
+    def vai_a_inizio(self):
+        self.__model.vai_a(0)
+        self.__notifica_cambio_stato()
         
+    def vai_a_fine(self):
+        self.__model.vai_a(self.__model.get_totale_mosse())
+        self.__notifica_cambio_stato()
+        
+    def vai_a(self, indice: int) -> bool:
+        try:
+            self.__model.vai_a(indice)
+            self.__notifica_cambio_stato()
+            return True
+        except ErroreReplay:
+            return False
+    
+    def get_stato_corrente(self) -> Partita:
+        return self.__model.get_stato_corrente()
+
+    def get_descrizione_corrente(self) -> str:
+        mossa_info = self.__model.get_mossa_corrente()
+        numero = self.__model.get_numero_mossa_corrente()
+        
+        if mossa_info is None:
+            return numero
+        
+        id_giocatore, mossa = mossa_info
+        return f"{numero} - {id_giocatore}: {mossa}"
+    
+    def replay_inizio(self) -> bool:
+        return self.__model.replay_inizio()
+    
+    def replay_fine(self) -> bool:
+        return self.__model.replay_fine()
+    
+    def get_totale_mosse(self) -> int:
+        return self.__model.get_totale_mosse()
+         
+    # ------ Privati ------ #
+    def __notifica_cambio_stato(self):
+        if self.__on_stato_cambiato is not None:
+            self.__on_stato_cambiato(
+                self.get_stato_corrente(), 
+                self.get_descrizione_corrente()
+                )
