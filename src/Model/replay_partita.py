@@ -20,38 +20,6 @@ class ReplayPartita:
 
     ATTRIBUTI:
 
-        ------ COSTANTI ------
-
-        - P1
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                ID del giocatore 1
-
-        - P2
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                ID del giocatore 2
-
-        - POSIZIONE_P1
-            TIPO
-                Privato, Tipo Nodo
-            DESCRIZIONE
-                Posizione iniziale del giocatore 1
-
-        - POSIZIONE_P2
-            TIPO
-                Privato, Tipo Nodo
-            DESCRIZIONE
-                Posizione iniziale del giocatore 2
-
-        - MURI_INIZIALI
-            TIPO
-                Privato, Tipo int
-            DESCRIZIONE
-                Numero di muri inizlai per ogni giocatore
-
         ------ VARIABILI ------
 
         - mosse_flat
@@ -63,6 +31,19 @@ class ReplayPartita:
                 eseguite durante la partita.
                 Esempio:
                     [("P1", "e2"), ("P2", "e8"), ("P1", "e3h"), ...]
+        - indice_corrente
+            TIPO
+                Privato, Tipo int
+            DESCRIZIONE
+                L'indice che traccia la posizione attuale all'interno della
+                sequenza degli stati del replay.
+                
+        - stati
+            TIPO 
+                Privato, Lista di oggetti Partita
+            DESCRIZIONE
+                La sequenza ordinata di tutti gli stati intermedi della partita, 
+                sono calcolati riproducendo cronologicamente le mosse.
 
     METODI:
         ------ COSTRUTTORI ------
