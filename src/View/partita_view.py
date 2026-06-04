@@ -206,6 +206,19 @@ class PartitaView:
         ║        • Muro 'v': Si inserisce nel bordo a DESTRA della     ║
         ║          casella e si estende per 2 spazi verso il BASSO.    ║
         ║                                                              ║
+        ║   -   TRASCRIZIONE E REPLAY:                                 ║
+        ║     • 'trascrizione' o 'mosse': Mostra l'elenco delle mosse  ║
+        ║     • 'replay': Avvia il replay a fine partita               ║
+        ║                                                              ║
+        ║             [COMANDI DI NAVIGAZIONE REPLAY]                  ║
+        ║     • Avanti:   'avanti', 'next', 'n' o premi [INVIO]        ║
+        ║     • Indietro: 'indietro', 'prev', 'p', 'back'              ║
+        ║     • Inizio:   'inizio', 'start', 'first'                   ║
+        ║     • Fine:     'fine', 'end', 'last'                        ║
+        ║     • Esci:     'esci', 'exit', 'quit', 'stop'               ║
+        ║                                                              ║
+        ║                                                              ║
+        ║                                                              ║
         ║  - AIUTO:                                                    ║
         ║     Scrivi 'help' o 'aiuto' per rileggere questo             ║
         ║      menu in ogni turno.                                     ║
