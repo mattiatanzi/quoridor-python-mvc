@@ -96,10 +96,11 @@ class Giocatore:
             new_id_giocatore: str = __DEF_ID,
             new_posizione = None,
             new_muri_disponibili: int = __DEF_MURI_DISPONIBILI,
+            new_tempo_iniziale: timedelta = __DEF_TEMPO_INIZIALE
         ):
             DESCRIZIONE
                 Costruttore di Base.
-                Dato un ID, una posizione e un numero di muri disponibili,
+                Dato un ID, una posizione, un numero di muri disponibili e un tempo iniziale,
                 restituisce un giocatore.
 
 
@@ -108,7 +109,6 @@ class Giocatore:
         def get_id(self) -> str:
             DESCRIZIONE
                 Restituisce l'ID del giocatore
-
 
         def set_id(self, new_id_giocatore: str):
             DESCRIZIONE
@@ -130,6 +130,13 @@ class Giocatore:
             DESCRIZIONE
                 Modifica numero di muri a disposizione
 
+        def get_tempo_residuo(self) -> timedelta:
+            DESCRIZIONE 
+                Restituisce il tempo residuo del giocatore come oggetto timedelta
+        def set_tempo_residuo(self, tempo: timedelta):
+            DESCRIZIONE
+                Imposta il timer del giocatore. Verifica che il tempo sia superiore o uguale a 1 minuto
+        
     """
 
     # Attributi
@@ -225,33 +232,32 @@ class Giocatore:
         self.__muriDisponibili = new_muri_disponibili
 
     def get_tempo_residuo(self) -> timedelta:
-        """Restituisce l'oggetto timedelta del tempo rimanente."""
         return self.__tempoResiduo
 
     def set_tempo_residuo(self, tempo: timedelta):
-        """Imposta il timer del giocatore. Verifica che il tempo sia superiore o uguale a 1 minuto"""
-
+       
         if not isinstance(tempo, timedelta):
             raise TypeError("Il tempo deve essere un oggetto timedelta")
 
         self.__tempoResiduo = tempo
 
-    def riduci_tempo(self, secondi_passati: int = 1) -> bool:
-        """
-        Sottrae i secondi passati dal timer del giocatore.
-        Restituisce True se il giocatore ha ancora tempo, False se il tempo è scaduto.
-        """
+    def riduci_tempo(self, secondi_passati: timedelta  = timedelta(seconds=1) ) -> bool:
+        if(secondi_passati < 0):
+            raise TempoScadutoException("I secondi passati devono essere un numero positivo")
+        
         delta_da_sottrarre = timedelta(seconds=secondi_passati)
-
+        
+        if self.get_tempo_residuo() == timedelta(seconds=0):
+            raise TempoScadutoException(f"Il tempo del giocatore {self.get_id()} è già scaduto")
+        
         if self.get_tempo_residuo() <= delta_da_sottrarre:
             self.set_tempo_residuo(timedelta(seconds = 0)) 
-            return False  # Tempo finito!
+            return False  # Tempo finito
         else:
             self.set_tempo_residuo(self.get_tempo_residuo() - delta_da_sottrarre) 
             return True  # C'è ancora tempo
 
     def get_tempo_formattato(self) -> str:
-        """Restituisce il tempo formattato in stringa (HH:MM:SS o MM:SS)."""
         # 1. Prendiamo i secondi totali rimasti (es. 305 secondi)
         secondi_totali = int(self.__tempoResiduo.total_seconds())
 
