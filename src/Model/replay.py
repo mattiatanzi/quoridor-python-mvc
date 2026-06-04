@@ -63,6 +63,13 @@ class ReplayPartita:
                     [("P1", "e2"), ("P2", "e8"), ("P1", "e3h"), ...]
                     
     METODI:
+        ------ COSTRUTTORI ------
+
+        def __init__(self, trascrizione: list[str])
+            DESCRIZIONE
+                Costruttore di Base.
+                Costruisce il replay della trascrizione della partita.
+                
         ------ COSTRUZIONE STATI ------
         
         - crea_partita_iniziale(self) -> Partita
@@ -98,6 +105,14 @@ class ReplayPartita:
     __MURI_INIZIALI = 10
     
     # Metodi
+    
+    # ------ Costruttori ------ #
+    def __init__(self, trascrizione: list[str]):
+        self.__mosse_flat = self.__parse_trascrizione(trascrizione)
+        self.__indice_corrente = 0
+        self.__stati = self.__build_stati()
+        
+    # ------ Utilità ------ #
     def __parse_trascrizione(self, trascrizione: list[str]) -> list[tuple[str, str]]:
         
         mosse_flat: list[tuple[str, str]] = []
@@ -116,23 +131,6 @@ class ReplayPartita:
                     
         return mosse_flat
     
-    def __crea_partita_iniziale(self) -> Partita:
-        # Assegnazioni per la creazione di una nuova partita
-        tavoliere = Tavoliere()
-        
-        g1 = Giocatore(
-            self.__P1, 
-            Nodo(self.__POSIZIONE_P1.get_valore_id_nodo()), 
-            self.__MURI_INIZIALI
-        )
-        g2 = Giocatore(
-            self.__P2, 
-            Nodo(self.__POSIZIONE_P2.get_valore_id_nodo()), 
-            self.__MURI_INIZIALI
-        )
-        
-        return Partita(tavoliere, {g1, g2})
-    
     def __build_stati(self) -> list[Partita]:
         stati: list[Partita] = []
         
@@ -145,7 +143,6 @@ class ReplayPartita:
             partita_step = self.__crea_partita_iniziale()
             n_mosse_da_eseguire = len(stati) # indice della mossa corrente
             
-            giocatore_corrente_id = self.__P1
             for i in range(n_mosse_da_eseguire):
                 id_g, m = self.__mosse_flat[i]
                 g = partita_step.get_giocatore(id_g)
@@ -163,5 +160,24 @@ class ReplayPartita:
             stati.append(partita_step)
         
         return stati
+    
+    # ------ Costruzione stati ------ #
+
+    def __crea_partita_iniziale(self) -> Partita:
+        # Assegnazioni per la creazione di una nuova partita
+        tavoliere = Tavoliere()
+        
+        g1 = Giocatore(
+            self.__P1, 
+            Nodo(self.__POSIZIONE_P1.get_valore_id_nodo()), 
+            self.__MURI_INIZIALI
+        )
+        g2 = Giocatore(
+            self.__P2, 
+            Nodo(self.__POSIZIONE_P2.get_valore_id_nodo()), 
+            self.__MURI_INIZIALI
+        )
+        
+        return Partita(tavoliere, {g1, g2})
     
     
