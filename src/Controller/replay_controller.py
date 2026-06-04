@@ -102,6 +102,8 @@ class ReplayController:
         - get_descrizione_corrente(self) -> str:
             DESCRIZIONE
                 Restituisce una stringa descrittiva del passo corrente.
+                
+                Formato: "Mossa N/TOT - <id_giocatore>: <mossa>" (passi > 0)
  
         - replay_inizio(self) -> bool:
             DESCRIZIONE
@@ -115,6 +117,22 @@ class ReplayController:
             DESCRIZIONE
                 Restituisce il numero totale di mosse nel replay.
         
+        ------ ESECUZIONE COMANDI TESTUALI ------
+        
+        - replay_ha_mosse(self) -> bool
+            DESCRIZIONE
+                Restituisce true se la partita ha avuto almeno una mossa.
+        
+        - esegui_comando(self, comando: str) -> bool
+            DESCRIZIONE
+                Interpreta ed esegue un comando testuale del replay.
+                
+                I comandi si riferiscono alle diverse costanti e fanno riferimento a:
+                - andare avanti
+                - andare indietro
+                - uscire
+                - andare al primo stato
+                - andare all'ultimo stato
         
     """
     
@@ -189,6 +207,28 @@ class ReplayController:
     
     def get_totale_mosse(self) -> int:
         return self.__model.get_totale_mosse()
+    
+    # ------ Esecuzione comandi testuali ------ #
+    def replay_ha_mosse(self) -> bool:
+        return self.__model.get_totale_mosse() > 0
+    
+    def esegui_comando(self, comando: str) -> bool:
+        cmd = comando.strip().lower()
+        
+        if cmd in self.COMANDI_ESCI:
+            return False
+        elif cmd in self.COMANDI_AVANTI:
+            self.avanza()
+        elif cmd in self.COMANDI_INDIETRO:
+            self.torna_indietro()
+        elif cmd in self.COMANDI_FINE:
+            self.vai_a_fine()
+        elif cmd in self.COMANDI_INIZIO:
+            self.vai_a_inizio()
+        # I comandi non riconosciuti sono ignorati
+        # Si potrebbe implementare un messaggio nella view per la questione
+        
+        return True
          
     # ------ Privati ------ #
     def __notifica_cambio_stato(self):
@@ -197,3 +237,5 @@ class ReplayController:
                 self.get_stato_corrente(), 
                 self.get_descrizione_corrente()
                 )
+    
+    
