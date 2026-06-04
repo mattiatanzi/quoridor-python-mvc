@@ -40,7 +40,7 @@ class PartitaController:
 
         - COMANDI_USCITA_GIOCO
             Tutti i comandi possibili per uscire dal gioco
-            
+
         - COMANDI_TRASCRIZIONE
             Tutti i comandi possibili per visualizzare la trascrizione delle mosse
 
@@ -181,10 +181,15 @@ class PartitaController:
                 input("---- Premi INVIO per tornare alla partita... ----")
                 # La richiesta di aiuto non incrementa il turno
                 continue
-            
+
             elif azione_pulita in self.__COMANDI_TRASCRIZIONE:
-                
-                input("---- Premi INVIO per tornare alla partita... ----")
+                if not self.__model.get_trascrizione():
+                    errore = "Errore: Trascrizione vuota"
+                else:
+                    self.__view.stampa_trascrizione(
+                    self.__model.get_trascrizione(), len(self.__model.get_giocatori())
+                    )
+                    input("---- Premi INVIO per tornare alla partita... ----")
 
             # Uscire dalla partita
             elif azione_pulita in self.__COMANDI_ABBANDONA_PARTITA:
@@ -260,8 +265,16 @@ class PartitaController:
                             )
 
                             # Stampa fin quando utente non decide di tornare al menù
-                            while scelta_pulita != "m":
+                            while (
+                                scelta_pulita != "m"
+                                or scelta_pulita in self.__COMANDI_TRASCRIZIONE
+                            ):
                                 self.get_view().stampa_vittoria(vincitore)
+                                if scelta_pulita in self.__COMANDI_TRASCRIZIONE:
+                                    self.__view.stampa_trascrizione(
+                                        self.__model.get_trascrizione(),
+                                        len(self.__model.get_giocatori()),
+                                    )
                                 scelta_pulita = (
                                     self.get_view()
                                     .chiedi_input_utente()
@@ -274,7 +287,6 @@ class PartitaController:
                         # Nessuna vittoria
                         self.__model.incrementa_turno()
 
-                    
                 else:
                     errore = "Formato errato: usa una lettera (a-i) e un numero (1-9)."
 

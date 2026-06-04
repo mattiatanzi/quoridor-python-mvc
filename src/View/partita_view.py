@@ -90,6 +90,9 @@ class PartitaView:
             DESCRIZIONE
                 Stampa a video l'interfaccia di vittoria
 
+        def stampa_trascrizione(self,trascrizione : list[str], num_giocatori: int):
+            DESCRIZIONE
+                Stampa a video la trascrizione della partita in corso
 
         ------ STAMPE ERRORI ------
 
@@ -216,9 +219,12 @@ class PartitaView:
         ║  -  ABBANDONARE LA PARTITA:                                  ║
         ║     Scrivi 'quit' o 'abbandona' per uscire dalla partita.    ║
         ║                                                              ║
+        ║  - TRASCRIZIONE DELLE MOSSE:                                 ║
+        ║    Scrivi 'trascrizione' o 'trascrizione mosse' o            ║
+        ║    'mosse' per visualizzare la trascrizione delle mosse      ║
         ╚══════════════════════════════════════════════════════════════╝
         """
-        
+
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
 
@@ -260,7 +266,11 @@ class PartitaView:
 
         # Stampa Opzioni per uscire
         print("\n")
-        print("[M] Menu", end="")
+        print("[M] Menu")
+        print(
+            "[Trascrizione],[Trascrizione mosse],[Mosse] Trascrizione delle mosse",
+            end="",
+        )
         print("\n")
 
         # Stampa ==============================
@@ -275,3 +285,14 @@ class PartitaView:
 
     def get_input(self) -> str:
         return self.chiedi_input_utente("Fai la tua mossa: ")
+
+    def stampa_trascrizione(self, trascrizione: list[str], num_giocatori: int):
+        stampa = "   "
+        for j in range(0, num_giocatori):
+            stampa += "P" + str(j + 1) + "  "
+        stampa += "\n\n"
+        i = len(trascrizione)
+        while i > 0:
+            stampa += trascrizione[i - 1] + "\n"
+            i -= 1
+        print(stampa)
