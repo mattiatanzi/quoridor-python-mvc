@@ -35,19 +35,19 @@ class ReplayController:
         
         ------ COSTANTI ------
         
-        - COMANDO_AVANTI
+        - COMANDI_AVANTI
             Set di stirnghe riconosciute per avanzare di un passo
         
-        - COMANDO_INDIETRO
+        - COMANDI_INDIETRO
             Set di stringhe riconosciute per tornare indietro di un passo
             
-        - COMANDO_FINE
+        - COMANDI_FINE
             Set di stringhe per saltare all'ultimo stato
         
-        - COMANDO_INIZIO
+        - COMANDI_INIZIO
             Set di stringhe per tornare allo stato iniziale
             
-        - COMANDO_ESCI
+        - COMANDI_ESCI
             Set di stringhe per uscire dal replay
             
     METODI
