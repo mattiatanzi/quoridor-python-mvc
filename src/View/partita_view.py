@@ -122,13 +122,17 @@ class PartitaView:
 
     # Costanti
     __LUNGHEZZA_DIVISORI = 70
+    __DEF_GIOCATORE_VIEW = GiocatoreView()
+    __DEF_TAVOLIERE_VIEW = TavoliereView()
 
     # Metodi
 
     # Costruttore
 
     def __init__(
-        self, new_giocatore_view: GiocatoreView, new_tavoliere_view: TavoliereView
+        self,
+        new_giocatore_view: GiocatoreView = __DEF_GIOCATORE_VIEW ,
+        new_tavoliere_view: TavoliereView = __DEF_TAVOLIERE_VIEW
     ):
         self.set_giocatore_view(new_giocatore_view)
         self.set_tavoliere_view(new_tavoliere_view)

@@ -1,4 +1,5 @@
 from src.View.funzioni_utili_stampa import pulisci_schermo, chiedi_input_utente
+from src.View.costanti_quoridor_view import CostantiQuoridorView
 
 
 class QuoridorView:
@@ -35,29 +36,29 @@ class QuoridorView:
         print(messaggio)
 
     def get_input_modalita_partita(self) -> str:
+
         pulisci_schermo()
-        messaggio = """Selezionare Una Modalità Di Gioco:
 
-        1. Partita con Timer
+        messaggio = "Selezionare Una Modalità Di Gioco:\n"
 
-        2. Partita senza Timer
+        for modalita in CostantiQuoridorView._POSSIBILI_SCELTE_MODALITA:
+            messaggio = messaggio + modalita
 
-        3. Torna Indietro
-        """
+        messaggio = messaggio + CostantiQuoridorView._SCELTA_TORNA_INDIETRO
 
         return chiedi_input_utente(messaggio)
 
     def get_input_limite_tempo(self) -> str:
+
         pulisci_schermo()
-        messaggio = """Selezionare Un Limite di Tempo:
 
-        1. 3 Minuti
+        messaggio = "Selezionare Un Limite di Tempo:"
 
-        2. 5 Minuti
+        for timer_scelto in CostantiQuoridorView._POSSIBILI_TIMER_DEFAULT:
+            messaggio = messaggio + timer_scelto
 
-        3. Torna Indietro
+        messaggio = messaggio + CostantiQuoridorView._SCELTA_TORNA_INDIETRO
 
-        (In alternativa, digitare il limite di tempo nel formato HH:MM:SS)
-        """
+        messaggio = messaggio + CostantiQuoridorView.__MESSAGGIO_ALTERNATIVO_SCELTA_TIMER
 
         return chiedi_input_utente(messaggio)

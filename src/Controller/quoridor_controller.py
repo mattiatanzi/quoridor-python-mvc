@@ -58,7 +58,6 @@ class QuoridorController:
 
 
     def gioca(self):
-        errore: str = ""
         continuare_gioco = True
         scelta: str
 
@@ -132,12 +131,13 @@ class QuoridorController:
                     self.__view.stampa_messaggio("Uscita in corso, alla prossima!")
                     continuare_gioco = False
             elif scelta in ("h", "help", "aiuto"):
-                PartitaView(GiocatoreView(), TavoliereView()).stampa_aiuto()
+                PartitaView().stampa_aiuto()
                 input("---- Premi INVIO per tornare al menu... ----")
             else:
-                errore = "Errore nell'inserimento della scelta, riprova"
-                self.get_view().stampa_messaggio(errore)
-                errore = ""
+                self.get_view().stampa_messaggio(
+                    "Errore nell'inserimento della scelta, riprova"
+                )
+
 
 
     def __stringa_to_tempo_limite(self, stringa_tempo: str) -> timedelta:
