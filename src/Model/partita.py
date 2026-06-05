@@ -1,3 +1,4 @@
+from src.Model import giocatore
 from src.Model.giocatore import ErrorePosizione, Giocatore
 from src.Model.nodo import Nodo
 from src.Model.tavoliere import Tavoliere
@@ -210,21 +211,21 @@ class Partita:
             DESCRIZIONE
                 Controlla la posizione dei pedoni per decretare la fine della partita.
                 Restituisce l'ID del vincitore.
-                
+
         def aggiungi_mossa_trascrizione(self, mossa: str)
             DESCRIZIONE
                 Aggiunge una mossa alla trascrizione della partita.
-        
+
         def get_trascrizione(self) -> list[str]:
             DESCRIZIONE
-                Restituisce una copia della trascrizione partita. La trascrizione 
+                Restituisce una copia della trascrizione partita. La trascrizione
                 avviene nel seguente modo:
                     -Per ogni turno viene creato un elemento nella lista trascrizioni
-                    - Ogni elemento della lista trascrizioni contiene le mosse svolte 
+                    - Ogni elemento della lista trascrizioni contiene le mosse svolte
                       da ogni giocatore in quel turno, ordinate per numero di giocatore
 
-                Esempio: La seguente lista indica che ci sono 2 giocatori e sono stati 
-                svolti due turni, in cui P1 si è mosso in a2 e poi in a3, 
+                Esempio: La seguente lista indica che ci sono 2 giocatori e sono stati
+                svolti due turni, in cui P1 si è mosso in a2 e poi in a3,
                 mentre P2 in b5 e poi b6. [1. a2 b5 , 2. a3 b6]
     """
 
@@ -277,18 +278,18 @@ class Partita:
 
     def get_id_giocatore_attivo(self):
         return self.__id_giocatore_attivo
-    
+
     def get_trascrizione(self) -> list[str]:
         return list(self.__trascrizione)
-    
+
     # Modificatori / Osservatori
-    
+
     # Aggiungere mossa nella trascrizione
     def aggiungi_mossa_trascrizione(self, mossa: str):
         if self.__id_giocatore_attivo == self.__ID_PRIMO_GIOCATORE_ATTIVO:
             numero = len(self.__trascrizione) + 1
             self.__trascrizione.append(f"{numero}. {mossa}")
-        else: 
+        else:
             self.__trascrizione[-1] += f" {mossa}"
 
     # Modificare / Restituire un Giocatore in Partita
@@ -327,6 +328,11 @@ class Partita:
                 f"Impossibile Rimuovere Giocatori (Numero giocatori: "
                 f"{numero_giocatori_partita}/{self.__TOTALE_GIOCATORI})"
             )
+
+    def elimina_giocatore(self, id):
+        giocatore_selezionato = self.get_giocatore(id)
+        giocatore_selezionato.set_attivo(False)
+
 
     # Cambiare Posizione di Giocatore in partita
 
@@ -400,17 +406,17 @@ class Partita:
 
         nodo_partenza = giocatore_attivo.get_posizione()
         nodo_arrivo = Nodo(azione)
-        
+
         # Riconoscere uno spostamento sulla medesima casella
         if nodo_partenza == nodo_arrivo:
             mess_err = f"Mossa non valida: Sei già sulla casella {azione}..."
             raise ErrorePosizione(mess_err)
         # Verifica dell'esistenza passaggio
         elif self.__tavoliere.mossa_permessa(nodo_partenza, nodo_arrivo):
-            
+
             # Evitiamo che ci si possa spostare su una casella occupata
             for avversario in self.get_giocatori():
-            
+
                 # Esclusione del giocatore attivo dal controllo
                 if avversario.get_id() == giocatore_attivo.get_id():
                     continue

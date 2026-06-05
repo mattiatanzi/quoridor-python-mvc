@@ -1,6 +1,5 @@
 from datetime import date, datetime
 
-from src.Model import giocatore
 from src.Model.giocatore import ErrorePosizione
 from src.Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from src.Model.tavoliere import ErroreTavoliere
@@ -175,13 +174,7 @@ class PartitaController:
                 giocatore_attivo = self.get_giocatore(id_giocatore_attivo)
 
                 # Inizio a cronometrare il giocatore
-
-                if (giocatore_attivo.ha_finito_tempo()):
-                   elimina_giocatore(giocatore_attivo)
-                   self.get_model().incrementa_turno()
-                else:
-
-
+                if (giocatore_attivo.is_attivo()):
                     if (giocatore_attivo.possiede_limite_tempo()):
                         tempo_inizio_turno = datetime.now()
 
@@ -249,6 +242,8 @@ class PartitaController:
                             if giocatore_attivo.possiede_limite_tempo():
                                 tempo_fine_turno = datetime.now()
                                 giocatore_attivo.riduci_tempo(tempo_fine_turno - tempo_inizio_turno)
+                                if giocatore_attivo.ha_finito_tempo():
+                                    self.get_model().elimina_giocatore(giocatore_attivo.get_id())
                             # Prima di incrementare il turno salva la trascrizione
                             self.__model.aggiungi_mossa_trascrizione(azione_pulita)
                             self.__model.incrementa_turno()
@@ -265,6 +260,8 @@ class PartitaController:
                                 if giocatore_attivo.possiede_limite_tempo():
                                     tempo_fine_turno = datetime.now()
                                     giocatore_attivo.riduci_tempo(tempo_fine_turno - tempo_inizio_turno)
+                                    if giocatore_attivo.ha_finito_tempo():
+                                        self.get_model().elimina_giocatore(giocatore_attivo.get_id())
                                 # Prima di eseguire le logiche della mossa salva la trascrizione
                                 self.__model.aggiungi_mossa_trascrizione(azione_pulita)
                                 # Controllo vittoria
@@ -296,10 +293,11 @@ class PartitaController:
                                     self.__model.incrementa_turno()
 
                         else:
-                            errore = "Formato errato: usa una lettera (a-i) e un numero (1-9)."
+                                errore = "Formato errato: usa una lettera (a-i) e un numero (1-9)."
 
-                    # Input sconosciuto
+                        # Input sconosciuto
                     else:
                         errore = "Comando non riconosciuto"
-
+                else:
+                    self.get_model().incrementa_turno()
             return continuare_gioco

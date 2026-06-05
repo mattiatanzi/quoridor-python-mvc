@@ -45,6 +45,12 @@ class GiocatoreView:
             print(f", Tempo Rimanente: {tempo_formattato}", end = "")
         print("")
 
+    def stampa_giocatore_eliminato(self, id, muri_disponibili, tempo_formattato = None):
+        print(f"Giocatore {id} ELIMINATO, Muri Disponibili: {muri_disponibili}", end = "")
+        if (tempo_formattato is not None):
+            print(f", Tempo Rimanente: {tempo_formattato}", end = "")
+        print("")
+
     # Stampe Errori
 
     def stampa_errore_giocatore(self, messaggio):

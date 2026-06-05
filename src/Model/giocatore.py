@@ -145,6 +145,7 @@ class Giocatore:
     __posizioneCorrente: Nodo
     __muriDisponibili: int
     __tempoResiduo: timedelta
+    __attivo: bool
 
     # Metodi
 
@@ -170,6 +171,7 @@ class Giocatore:
 
         self.set_tempo_residuo(new_tempo_iniziale)
 
+        self.set_attivo(True)
     # Accesso Attributi Privati
 
     def get_id(self) -> str:
@@ -231,6 +233,12 @@ class Giocatore:
     def set_tempo_residuo(self, tempo: timedelta):
         self.__tempoResiduo = tempo
 
+    def is_attivo(self):
+        return self.__attivo
+
+    def set_attivo(self, new_stato: bool):
+        self.__attivo = new_stato
+
     # Modificatori / Osservatori
 
 
@@ -268,7 +276,7 @@ class Giocatore:
 
     def ha_finito_tempo(self):
 
-        tempo_disponibile = True
+        tempo_disponibile = False
 
         if (self.possiede_limite_tempo()):
             tempo_disponibile = (self.get_tempo_residuo() == timedelta())
