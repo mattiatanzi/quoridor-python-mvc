@@ -104,7 +104,7 @@ class Partita:
             TIPO
                 Privato, Lista di tuple
             DESCRIZIONE
-                La lista che memorizza le mosse in modo puro sotto 
+                La lista che memorizza le mosse in modo puro sotto
                 forma di (id_giocatore, mossa).
 
     METODI:
@@ -211,11 +211,11 @@ class Partita:
             DESCRIZIONE
                 Controlla la posizione dei pedoni per decretare la fine della partita.
                 Restituisce l'ID del vincitore.
-                
+
         def aggiungi_mossa_trascrizione(self, mossa: str)
             DESCRIZIONE
                 Aggiunge una mossa alla trascrizione della partita.
-        
+
         def get_trascrizione(self) -> list[tuple[str, str]]:
             DESCRIZIONE
                 Restituisce una copia della trascrizione partita. sotto forma di lista
@@ -271,12 +271,12 @@ class Partita:
 
     def get_id_giocatore_attivo(self):
         return self.__id_giocatore_attivo
-    
+
     def get_trascrizione(self) -> list[tuple[str, str]]:
         return list(self.__trascrizione)
-    
+
     # Modificatori / Osservatori
-    
+
     # Aggiungere mossa nella trascrizione
     def aggiungi_mossa_trascrizione(self, mossa: str):
         self.__trascrizione.append((self.__id_giocatore_attivo, mossa))
@@ -390,17 +390,15 @@ class Partita:
 
         nodo_partenza = giocatore_attivo.get_posizione()
         nodo_arrivo = Nodo(azione)
-        
+
         # Riconoscere uno spostamento sulla medesima casella
         if nodo_partenza == nodo_arrivo:
             mess_err = f"Mossa non valida: Sei già sulla casella {azione}..."
             raise ErrorePosizione(mess_err)
         # Verifica dell'esistenza passaggio
         elif self.__tavoliere.mossa_permessa(nodo_partenza, nodo_arrivo):
-            
             # Evitiamo che ci si possa spostare su una casella occupata
             for avversario in self.get_giocatori():
-            
                 # Esclusione del giocatore attivo dal controllo
                 if avversario.get_id() == giocatore_attivo.get_id():
                     continue
