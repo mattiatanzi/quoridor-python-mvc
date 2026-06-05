@@ -1,7 +1,7 @@
 class CostantiQuoridorView:
 
     # Scelte di default nella stampa
-    _SCELTA_TORNA_INDIETRO = "3"
+    _SCELTA_TORNA_INDIETRO = "0"
 
     __TORNA_INDIETRO = {f"{_SCELTA_TORNA_INDIETRO}": "Torna Indietro"}
 
@@ -23,7 +23,7 @@ class CostantiQuoridorView:
     _SCELTA_TIMER_DEFAULT_2 = "2"
 
     _POSSIBILI_TIMER_DEFAULT = {
-        _SCELTA_TIMER_DEFAULT_1 : "3 Minuti",
-        _SCELTA_TIMER_DEFAULT_2 : "5 Minuti",
+        _SCELTA_TIMER_DEFAULT_1 : "Tempo Breve (3 Minuti)",
+        _SCELTA_TIMER_DEFAULT_2 : "Tempo Medio (5 Minuti)",
         **__TORNA_INDIETRO
     }

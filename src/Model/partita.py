@@ -434,16 +434,30 @@ class Partita:
     # Osservatore condizione di vittoria
 
     def verifica_vittoria(self):
+
+        giocatori_attivi = set()
+
         for giocatore in self.get_giocatori():
-            id_giocatore = giocatore.get_id()
 
-            # Estrazione carattere corrispondente alla riga
-            pos_giocatore = giocatore.get_posizione().get_valore_id_nodo()
-            riga = pos_giocatore[1]
+            if (giocatore.is_attivo()):
 
-            # Verifica raggiunta del traguardo
-            if self.__TRAGUARDI.get(id_giocatore) == riga:
-                return id_giocatore
+                giocatori_attivi.add(giocatore)
+
+                id_giocatore = giocatore.get_id()
+
+                # Estrazione carattere corrispondente alla riga
+                pos_giocatore = giocatore.get_posizione().get_valore_id_nodo()
+                riga = pos_giocatore[1]
+
+                # Verifica raggiunta del traguardo
+                if self.__TRAGUARDI.get(id_giocatore) == riga:
+                    return id_giocatore
+
+
+        # Caso in cui sia rimasto un giocatore
+        if len(giocatori_attivi) == 1:
+            vincitore = giocatori_attivi.pop()
+            return vincitore.get_id()
 
         # In caso non sia stato rilevato un vincitore
         return None

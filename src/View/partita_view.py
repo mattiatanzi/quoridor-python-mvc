@@ -256,7 +256,9 @@ class PartitaView:
 
         # Stampa descrizione della vittoria
         print("\n\n")
-        print(f"\tIl giocatore {idVincitore} ha raggiunto destinazione.", end="")
+        print(f"\tIl giocatore {idVincitore} ha raggiunto destinazione")
+        print("\toppure")
+        print("\tGli altri giocatori sono stati eliminati.")
         print("\n\n")
 
         # Stampa -------------------------------
