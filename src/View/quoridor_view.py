@@ -7,15 +7,27 @@ class QuoridorView:
 
     Metodi
     ------
-    nome: menu_base:
+    def __menu_base(self):
         Permette di stampare la base del menu che è solo visiva
 
-    nome: menu_di_gioco:
+    def menu_di_gioco(self):
         Permette di stampare il menu di base e restituisce l'input che riceve
         dall'utente
 
-    nome: stampa_messaggio:
+    def stampa_messaggio(self, messaggio: str):
         Permette di stampare un messaggio nella fase di menu
+
+    def get_input_modalita_partita(self) -> str:
+        DESCRIZIONE
+            Chiede all'utente se giocare ad una partita con limite di tempo o senza.
+            Permette all'utente anche di scegliere di tornare indietro
+
+    def get_input_limite_tempo(self) -> str:
+        DESCRIZIONE
+            Chiede all'utente quale limite di tempo usare.
+            Presenta anche dei limiti di tempo predefiniti, in alternativa
+            l'utente può digitare la stringa in un formato prestabilito.
+            Permette all'utente anche di scegliere di tornare indietro
     """
 
     def __menu_base(self):
