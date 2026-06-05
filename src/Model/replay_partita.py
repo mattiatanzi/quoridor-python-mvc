@@ -2,6 +2,7 @@ import copy
 
 from src.Model.partita import Partita
 
+
 class ErroreReplay(Exception):
     """Eccezione che gestisce errori durante il replay."""
 
