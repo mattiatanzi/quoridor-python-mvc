@@ -98,17 +98,6 @@ class PartitaView:
 
         ------ INPUT UTENTE ------
 
-        def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
-            DESCRIZIONE
-                Stampa un interfaccia con un eventuale messaggio di indicazioni in cui
-                viene chiesto all'utente di inserire un input. La funzione restituisce
-                l'input inserito dall'utente
-
-        def stampa_richiesta_input(self, indicazioni: str = ""):
-            DESCRIZIONE
-                Stampa un interfaccia con un eventuale messaggio di indicazioni in cui
-                viene chiesto all'utente di inserire un input.
-
         def get_input(self):
             DESCRIZIONE
                 Scrive un messaggio e prende e restituisce quello che scrive l'utente
@@ -275,10 +264,10 @@ class PartitaView:
             print("=", end="")
         print("\n")
 
+    def get_input(self) -> str:
+        return chiedi_input_utente("Fai la tua mossa: ")
+
     # Stampe Errori
 
     def stampa_errore_partita(self, messaggio):
         print(messaggio)
-
-    def get_input(self) -> str:
-        return chiedi_input_utente("Fai la tua mossa: ")
