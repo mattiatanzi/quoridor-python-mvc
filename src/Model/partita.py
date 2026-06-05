@@ -23,65 +23,6 @@ class Partita:
         Contiene informazioni relative alla partita in corso.
 
     ATTRIBUTI:
-
-        ------ COSTANTI ------
-
-        - TOTALE_GIOCATORI
-            TIPO
-                Privato, Tipo int
-            DESCRIZIONE
-                Il numero massimo dei giocatori amessi in partita
-
-        - ID_PRIMO_GIOCATORE_ATTIVO
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Indica l'id del primo giocatore attivo
-
-        - PRIMA_COLONNA
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Indica la prima colonna del tavoliere
-
-        - ULTIMA_COLONNA
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Indica l'ultima colonna del tavoliere
-
-        - PRIMA_RIGA
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Indica la prima riga del tavoliere
-
-        - ULTIMA_RIGA
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Indica l'ultima riga del tavoliere
-
-        - ORIZZONTALE
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Indica il carattere presente quando si legge un muro orizzontale
-
-        - VERTICALE
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Indica il carattere presente quando si legge un muro verticale
-
-        - TRAGUARDI
-            TIPO
-                Privato, Tipo Dizionario
-            DESCRIZIONE
-                E' un dizionario che ha per chiavi gli id dei giocatori e per valore
-                la riga di arrivo
-
-
         ------ VARIABILI ------
 
         - giocatori
@@ -166,6 +107,19 @@ class Partita:
                 Rimuove il giocatore con l'id in input dalla partita (Se il giocatore
                 risulta essere in partita).
 
+        def elimina_giocatore(self, id):
+            DESCRIZIONE
+                Elimina il giocatore con id in input dalla partita
+
+                ATTENZIONE
+                    Eliminare un Giocatore != Rimuovere un Giocatore
+                    Rimuovere un giocatore dalla partita vuol dire rimuoverlo
+                    dal set di giocatori presenti. Eliminare il giocatore dalla
+                    partita invece significa mantenerlo in partita, ma segnare con un
+                    flag che non può più giocare i propri turni.
+                    Per adesso l'eliminazione avviene soltanto nel momento in cui il
+                    giocatore finisce il limite di tempo
+
 
         def set_posizione_giocatore(self, id, new_posizione):
             DESCRIZIONE
@@ -210,6 +164,8 @@ class Partita:
         def verifica_vittoria(self)
             DESCRIZIONE
                 Controlla la posizione dei pedoni per decretare la fine della partita.
+                Controlla anche che in partita ci sia almeno un giocatore, altrimenti
+                l'ultimo giocatore è il vincitore.
                 Restituisce l'ID del vincitore.
 
         def aggiungi_mossa_trascrizione(self, mossa: str)
