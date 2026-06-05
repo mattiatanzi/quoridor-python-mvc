@@ -33,3 +33,13 @@ class QuoridorView:
 
     def stampa_messaggio(self, messaggio: str):
         print(messaggio)
+
+
+    def get_input_numero_giocatori(self) -> str:
+        pulisci_schermo()
+        print("Selezionare modalità di gioco: \n")
+        print("1.\t2 giocatori \n")
+        print("2.\t4 giocatori \n")
+        print("3.\tTorna indietro \n")
+        print("h - Aiuto (Comandi di gioco) \n")
+        
