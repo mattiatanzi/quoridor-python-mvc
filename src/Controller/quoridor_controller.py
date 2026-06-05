@@ -19,33 +19,50 @@ class QuoridorController:
 
     Attributi
     ---------
-    nome: menu
+    nome: view
         Oggetto di QuoridorView e permette di visualizzare il menu
         e di visualizzare se ci sono errori
 
-    Costanti
-    --------
-    nome: P1
-        Contiene il nome visualizzato del giocatore 1
-
-    nome: P2
-        Contiene il nome visualizzato del giocatore 2
-
-    nome: POSIZIONE_P1
-        Contiene la posizione iniziale di P1
-
-    nome: POSIZIONE_P2
-        Contiene la posizione iniziale di P2
-
-    nome: MURI_INIZIALI
-        Contiene i muri iniziali dei giocatori
-
-
     Metodi
-    -------
-    nome: gioca()
-        Esegue il menu principale e gestisce le scelte dell'utente
+
+    ------ ACCESSO ATTRIBUTI PRIVATI ------
+
+    def get_view(self) -> QuoridorView:
+        DESCRIZIONE
+            Restituisce il View di Quoridor contenuto nel Controller
+
+    def set_view(self, new_view: QuoridorView):
+        DESCRIZIONE
+            Modifica il View di Quoridor nel Controller
+
+    ------ MODIFICATORI / OSSERVATORI ------
+
+    def gioca():
+        DESCRIZIONE
+            Permette all'utente di scegliere in che modo giocare, mostrando a video
+            diversi menu e successivamente crea una partita con i parametri scelti.
+            È possibile viaggiare tra i menù con comandi mostrari a video.
+            Per ogni menù è possibile tornare indietro (tranne per menù principale).
+
+        Menù implementati:
+            1. Menu Principale
+            2. Menu Modalità Partita (Con / Senza Tempo)
+                2a. Menu Scelta Tempo (Tempo breve, tempo medio, ...)
+
+    def __stringa_to_tempo_limite(self, stringa_tempo: str) -> timedelta:
+        DESCRIZIONE
+            Riceve in input un tempo sotto forma di stringa e lo converte nel corretto
+            formato timedelta.
+            In caso di errore di conversione lancia un'eccezione
+
+            La stringa, per essere in formato corretto, deve essere nel formato
+            HH:MM:SS
+            Come indicato nel file delle costanti del Quoridor View
+
+
     """
+
+    __view: QuoridorView
 
     def __init__(self):
         self.set_view(QuoridorView())
