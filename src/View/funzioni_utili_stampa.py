@@ -24,6 +24,15 @@ def pulisci_schermo():
 
 
 def chiedi_input_utente(indicazioniInput: str = "") -> str:
+    """Funzione Generica di richiesta input.
+
+        DESCRIZIONE
+            Funzione che chiede all'utente un input, eventualmente specificando delle
+            indicazioni.
+            Dato che nel programma si richiede più volte un input, è stata pensata
+            questa funzione per evitare di riscrivere da zero ogni funzione
+
+    """
     # Stampa interfaccia Input
     __stampa_richiesta_input(indicazioniInput)
 
