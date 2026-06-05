@@ -1,4 +1,3 @@
-from src.Model import giocatore
 from src.Model.giocatore import ErrorePosizione, Giocatore
 from src.Model.nodo import Nodo
 from src.Model.tavoliere import Tavoliere
