@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from src.Controller.partita_controller import PartitaController
 from src.Model.costanti_giocatore import CostantiGiocatore
+from src.Model.costanti_partita import CostantiPartita
 from src.Model.giocatore import Giocatore
 from src.Model.nodo import Nodo
 from src.Model.partita import Partita
@@ -45,14 +46,6 @@ class QuoridorController:
         Esegue il menu principale e gestisce le scelte dell'utente
     """
 
-    __P1 = "P1"
-    __P2 = "P2"
-
-    __POSIZIONE_P1 = Nodo("e1")
-    __POSIZIONE_P2 = Nodo("e9")
-
-    __MURI_INIZIALI = 10
-
     def __init__(self):
         self.set_view(QuoridorView())
 
@@ -72,7 +65,7 @@ class QuoridorController:
         # continuare_gioco = True <=> Non uscire dal gioco
         while continuare_gioco:
 
-            # Chiedi all'utente se giocare, uscire dal gioco
+            # Chiedi all'utente se giocare o uscire dal gioco
             self.get_view().menu_di_gioco()
             scelta = self.get_view().get_input_menu()
 

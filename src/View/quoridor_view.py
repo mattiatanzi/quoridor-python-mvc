@@ -35,6 +35,7 @@ class QuoridorView:
         print(messaggio)
 
     def get_input_modalita_partita(self) -> str:
+        pulisci_schermo()
         messaggio = """Selezionare Una Modalità Di Gioco:
 
         1. Partita con Timer
@@ -47,6 +48,7 @@ class QuoridorView:
         return chiedi_input_utente(messaggio)
 
     def get_input_limite_tempo(self) -> str:
+        pulisci_schermo()
         messaggio = """Selezionare Un Limite di Tempo:
 
         1. 3 Minuti
