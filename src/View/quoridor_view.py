@@ -41,10 +41,8 @@ class QuoridorView:
 
         messaggio = "Selezionare Una Modalità Di Gioco:\n"
 
-        for modalita in CostantiQuoridorView._POSSIBILI_SCELTE_MODALITA:
-            messaggio = messaggio + modalita
-
-        messaggio = messaggio + CostantiQuoridorView._SCELTA_TORNA_INDIETRO
+        for chiave, descrizione in CostantiQuoridorView._POSSIBILI_SCELTE_MODALITA.items():
+            messaggio = messaggio + f"\n{chiave}. {descrizione}\n"
 
         return chiedi_input_utente(messaggio)
 
@@ -54,11 +52,9 @@ class QuoridorView:
 
         messaggio = "Selezionare Un Limite di Tempo:"
 
-        for timer_scelto in CostantiQuoridorView._POSSIBILI_TIMER_DEFAULT:
-            messaggio = messaggio + timer_scelto
+        for chiave, descrizione in CostantiQuoridorView._POSSIBILI_TIMER_DEFAULT.items():
+            messaggio = messaggio + f"\n{chiave}. {descrizione}\n"
 
-        messaggio = messaggio + CostantiQuoridorView._SCELTA_TORNA_INDIETRO
-
-        messaggio = messaggio + CostantiQuoridorView.__MESSAGGIO_ALTERNATIVO_SCELTA_TIMER
+        messaggio = messaggio + CostantiQuoridorView._MESSAGGIO_ALTERNATIVO_SCELTA_TIMER
 
         return chiedi_input_utente(messaggio)

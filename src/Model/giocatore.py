@@ -152,7 +152,7 @@ class Giocatore:
 
     def __init__(
         self,
-        new_id_giocatore: str = CostantiGiocatore._DEF_ID,
+        new_id_giocatore: str = CostantiGiocatore._POSSIBILI_ID_GIOCATORE[0],
         new_posizione=None,
         new_muri_disponibili: int = CostantiGiocatore._DEF_MURI_DISPONIBILI,
         new_tempo_iniziale: timedelta = CostantiGiocatore._DEF_SENZA_TIMER,
@@ -162,7 +162,7 @@ class Giocatore:
 
         # Caso in cui Posizione non viene specificata
         if new_posizione is None:
-            self.set_posizione(Nodo(self.__DEF_COORDINATE))
+            self.set_posizione(Nodo(CostantiGiocatore._DEF_COORDINATE))
         else:
             self.set_posizione(new_posizione)
 

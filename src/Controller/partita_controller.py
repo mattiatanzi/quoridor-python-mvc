@@ -200,8 +200,9 @@ class PartitaController:
                 elif azione_pulita in self.__COMANDI_ABBANDONA_PARTITA:
                     # Messaggi per chiedere conferma
                     messaggio_conferma = (
-                        "Uscita In Corso...\nSicuro di voler "
-                        "abbandonare la partita? [si/no]"
+                        "Uscita In Corso...\n"
+                        "Sicuro di voler abbandonare la partita?\n"
+                        "[si/no]"
                     )
                     risposta = ""
 
@@ -213,7 +214,7 @@ class PartitaController:
                             continuare_partita = False
 
                 # Uscire dal gioco
-                elif azione in self.__COMANDI_USCITA_GIOCO:
+                elif azione_pulita in self.__COMANDI_USCITA_GIOCO:
                     messaggio_conferma = (
                         "Uscita In Corso...\nSicuro di voler uscire dal gioco? [si/no]"
                     )
