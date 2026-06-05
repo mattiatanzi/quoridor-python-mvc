@@ -54,7 +54,7 @@ class ReplayPartita:
     METODI:
         ------ COSTRUTTORI ------
 
-        - def __init__(self, trascrizione: list[str], partita_iniziale)
+        - def __init__(self, trascrizione: list[tuple[str, str]], partita_iniziale)
             DESCRIZIONE
                 Costruttore di Base.
                 Data la trascrizione e lo snapshot della partita iniziale,
@@ -71,16 +71,6 @@ class ReplayPartita:
                 Restituisce il numero totale di mosse della partita.
 
         ------ UTILITÀ ------
-
-        - __parse_trascrizione(self, trascrizione: list[str]) -> list[tuple[str, str]]
-            DESRCIZIONE
-                Converte la trascrizione in una lista piatta
-                di (giocatore, mossa).
-
-                La trascrizione ha il formato: ["1. e2 e8", "2. e3h d7v", ...]
-                dove ogni elemento del turno può contenere 1 o 2 mosse
-                (la seconda mossa potrebbe mancare nell'ultimo turno se P2
-                non ha giocato prima della fine).
 
         - __build_stati(self, partita_iniziale: Partita) -> list[Partita]
             DESCRIZIONE
@@ -141,12 +131,12 @@ class ReplayPartita:
     # Metodi
 
     # ------ Costruttori ------ #
-    def __init__(self, trascrizione: list[str], partita_iniziale: Partita):
+    def __init__(self, trascrizione: list[tuple[str, str]], partita_iniziale: Partita):
         # Ricava gli ID ordinati dei partecipanti dallo snapshot
         self.__id_giocatori_ordinati = sorted(
             [g.get_id() for g in partita_iniziale.get_giocatori()]
             )
-        self.__mosse_flat = self.__parse_trascrizione(trascrizione)
+        self.__mosse_flat = list(trascrizione)
         self.__indice_corrente = 0
         self.__stati = self.__build_stati(partita_iniziale)
 
@@ -158,23 +148,7 @@ class ReplayPartita:
         return len(self.__mosse_flat)
 
     # ------ Utilità ------ #
-    def __parse_trascrizione(self, trascrizione: list[str]) -> list[tuple[str, str]]:
-        mosse_flat: list[tuple[str, str]] = []
-        for turno in trascrizione:
-            # Rimuove il numero del turno e divide le mosse
-            parti = turno.split(". ", 1)
-            if len(parti) < 2:
-                continue
-            mosse_turno = parti[1].split()
-
-            # P1 parte per primo
-            giocatori_turno = self.__id_giocatori_ordinati
-            for i, mossa in enumerate(mosse_turno):
-                if i < len(giocatori_turno):
-                    mosse_flat.append((giocatori_turno[i], mossa))
-
-        return mosse_flat
-
+    
     def __build_stati(self, partita_iniziale: Partita) -> list[Partita]:
         stati: list[Partita] = []
 
