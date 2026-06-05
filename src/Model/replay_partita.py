@@ -20,7 +20,7 @@ class ReplayPartita:
     ATTRIBUTI:
 
         ------ VARIABILI ------
-        
+
         - id_giocatori_ordinati
             TIPO
                 Privato, : Lista di stringhe
@@ -36,19 +36,19 @@ class ReplayPartita:
                 eseguite durante la partita.
                 Esempio:
                     [("P1", "e2"), ("P2", "e8"), ("P1", "e3h"), ...]
-                    
+
         - indice_corrente
             TIPO
                 Privato, Tipo int
             DESCRIZIONE
                 L'indice che traccia la posizione attuale all'interno della
                 sequenza degli stati del replay.
-                
+
         - stati
-            TIPO 
+            TIPO
                 Privato, Lista di oggetti Partita
             DESCRIZIONE
-                La sequenza ordinata di tutti gli stati intermedi della partita, 
+                La sequenza ordinata di tutti gli stati intermedi della partita,
                 sono calcolati riproducendo cronologicamente le mosse.
 
     METODI:
@@ -126,7 +126,6 @@ class ReplayPartita:
     __mosse_flat: list[tuple[str, str]]
     __indice_corrente: int
     __stati: list[Partita]
-    
 
     # Metodi
 
@@ -135,7 +134,7 @@ class ReplayPartita:
         # Ricava gli ID ordinati dei partecipanti dallo snapshot
         self.__id_giocatori_ordinati = sorted(
             [g.get_id() for g in partita_iniziale.get_giocatori()]
-            )
+        )
         self.__mosse_flat = list(trascrizione)
         self.__indice_corrente = 0
         self.__stati = self.__build_stati(partita_iniziale)
@@ -148,7 +147,7 @@ class ReplayPartita:
         return len(self.__mosse_flat)
 
     # ------ Utilità ------ #
-    
+
     def __build_stati(self, partita_iniziale: Partita) -> list[Partita]:
         stati: list[Partita] = []
 
@@ -162,15 +161,15 @@ class ReplayPartita:
             # Sincronizzazione del turno
             if stato_corrente.get_id_giocatore_attivo() != id_g:
                 stato_corrente.incrementa_turno()
-                
+
             if len(m) == 3:  # Muro
                 stato_corrente.piazza_muro(m, g)
                 stato_corrente.rimuovi_un_muro_giocatore(id_g)
             else:  # Pedone
                 stato_corrente.muovi_giocatore(m, g)
-                
+
             stato_corrente.incrementa_turno()
-            
+
             stati.append(copy.deepcopy(stato_corrente))
 
         return stati
