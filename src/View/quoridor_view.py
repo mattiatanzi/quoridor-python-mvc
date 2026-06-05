@@ -42,4 +42,6 @@ class QuoridorView:
         print("2.\t4 giocatori \n")
         print("3.\tTorna indietro \n")
         print("h - Aiuto (Comandi di gioco) \n")
+        return input("Seleziona una modalità: ")
+    
         
