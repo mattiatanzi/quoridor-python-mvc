@@ -1,3 +1,4 @@
+from src.Model.costanti_partita import CostantiPartita
 from src.Model.giocatore import ErrorePosizione, Giocatore
 from src.Model.nodo import Nodo
 from src.Model.tavoliere import Tavoliere
@@ -228,20 +229,6 @@ class Partita:
                 mentre P2 in b5 e poi b6. [1. a2 b5 , 2. a3 b6]
     """
 
-    # Costanti
-    __TOTALE_GIOCATORI = 2
-    __ID_PRIMO_GIOCATORE_ATTIVO = "P1"
-
-    __PRIMA_COLONNA = "a"
-    __ULTIMA_COLONNA = "i"
-    __PRIMA_RIGA = "1"
-    __ULTIMA_RIGA = "9"
-    __ORIZZONTALE = "h"
-    __VERTICALE = "v"
-
-    # Dizionario per gestire le vittorie
-    __TRAGUARDI = {"P1": "9", "P2": "1"}
-
     # Variabili
     __giocatori: set[Giocatore]
     __tavoliere: Tavoliere
@@ -255,7 +242,7 @@ class Partita:
     def __init__(self, new_tavoliere: Tavoliere, new_giocatori: set[Giocatore]):
         self.set_tavoliere(new_tavoliere)
         self.set_giocatori(new_giocatori)
-        self.set_id_giocatore_attivo(self.__ID_PRIMO_GIOCATORE_ATTIVO)
+        self.set_id_giocatore_attivo(CostantiPartita._ID_PRIMO_GIOCATORE_ATTIVO)
         self.__trascrizione = []
 
     # Accesso Attributi Privati
@@ -285,7 +272,7 @@ class Partita:
 
     # Aggiungere mossa nella trascrizione
     def aggiungi_mossa_trascrizione(self, mossa: str):
-        if self.__id_giocatore_attivo == self.__ID_PRIMO_GIOCATORE_ATTIVO:
+        if self.__id_giocatore_attivo == CostantiPartita._ID_PRIMO_GIOCATORE_ATTIVO:
             numero = len(self.__trascrizione) + 1
             self.__trascrizione.append(f"{numero}. {mossa}")
         else:
@@ -308,12 +295,12 @@ class Partita:
     def aggiungi_giocatore(self, new_giocatore: Giocatore):
         numero_giocatori_partita = len(self.get_giocatori())
 
-        if numero_giocatori_partita < self.__TOTALE_GIOCATORI:
+        if numero_giocatori_partita < CostantiPartita._TOTALE_GIOCATORI:
             self.get_giocatori().add(new_giocatore)
         else:
             raise ErrorePartita(
                 "Impossibile Aggiungere Giocatori (Numero giocatori: "
-                f"{numero_giocatori_partita}/{self.__TOTALE_GIOCATORI})"
+                f"{numero_giocatori_partita}/{CostantiPartita._TOTALE_GIOCATORI})"
             )
 
     def rimuovi_giocatore(self, id):
@@ -325,7 +312,7 @@ class Partita:
         else:
             raise ErrorePartita(
                 f"Impossibile Rimuovere Giocatori (Numero giocatori: "
-                f"{numero_giocatori_partita}/{self.__TOTALE_GIOCATORI})"
+                f"{numero_giocatori_partita}/{CostantiPartita._TOTALE_GIOCATORI})"
             )
 
     def elimina_giocatore(self, id):
@@ -365,7 +352,7 @@ class Partita:
 
         numeroGiocatore = int(id_giocatore_attivo[1]) + 1
 
-        if numeroGiocatore > self.__TOTALE_GIOCATORI:
+        if numeroGiocatore > CostantiPartita._TOTALE_GIOCATORI:
             numeroGiocatore = 1
 
         nuovo_id_giocatore_attivo = f"{id_giocatore_attivo[0]}{numeroGiocatore}"
@@ -376,11 +363,11 @@ class Partita:
         if giocatore_attivo.get_muri_disponibili() == 0:
             raise ErrorePartita("Errore: Muri da piazzare terminati")
 
-        if self.__PRIMA_COLONNA <= azione[0] <= self.__ULTIMA_COLONNA:
-            if self.__PRIMA_RIGA <= azione[1] <= self.__ULTIMA_RIGA:
-                if azione[2] == self.__ORIZZONTALE:
+        if CostantiPartita._PRIMA_COLONNA <= azione[0] <= CostantiPartita._ULTIMA_COLONNA:
+            if CostantiPartita._PRIMA_RIGA <= azione[1] <= CostantiPartita._ULTIMA_RIGA:
+                if azione[2] == CostantiPartita._ORIZZONTALE:
                     self.__tavoliere.piazza_muro_orizzontale(azione)
-                elif azione[2] == self.__VERTICALE:
+                elif azione[2] == CostantiPartita._VERTICALE:
                     self.__tavoliere.piazza_muro_verticale(azione)
                 else:
                     raise ErroreFormattazione(
@@ -398,8 +385,8 @@ class Partita:
 
     def muovi_giocatore(self, azione: str, giocatore_attivo: Giocatore):
         if not (
-            self.__PRIMA_COLONNA <= azione[0] <= self.__ULTIMA_COLONNA
-            and self.__PRIMA_RIGA <= azione[1] <= self.__ULTIMA_RIGA
+            CostantiPartita._PRIMA_COLONNA <= azione[0] <= CostantiPartita._ULTIMA_COLONNA
+            and CostantiPartita._PRIMA_RIGA <= azione[1] <= CostantiPartita._ULTIMA_RIGA
         ):
             raise ErrorePosizione(f"Coordinate fuori scacchiera: {azione}")
 
@@ -449,7 +436,7 @@ class Partita:
                 riga = pos_giocatore[1]
 
                 # Verifica raggiunta del traguardo
-                if self.__TRAGUARDI.get(id_giocatore) == riga:
+                if CostantiPartita._RIGHE_FINALI.get(id_giocatore) == riga:
                     return id_giocatore
 
 
