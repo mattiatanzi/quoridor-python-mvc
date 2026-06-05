@@ -3,6 +3,7 @@ from datetime import timedelta
 from src.Controller.partita_controller import PartitaController
 from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.costanti_partita import CostantiPartita
+from src.View.costanti_quoridor_view import CostantiQuoridorView
 from src.Model.giocatore import Giocatore
 from src.Model.nodo import Nodo
 from src.Model.partita import Partita
@@ -61,26 +62,34 @@ class QuoridorController:
         continuare_gioco = True
         scelta: str
 
-        # continuare_gioco = True <=> Non uscire dal gioco
+        # Menu Principale
         while continuare_gioco:
 
-            # Chiedi all'utente se giocare o uscire dal gioco
             self.get_view().menu_di_gioco()
             scelta = self.get_view().get_input_menu()
 
             tornaIndietro = False
 
-            # Scelta = 1 <=> Procedere con creazione Partita
+
             if scelta == "1":
+
+                # Menu Scelta Timer (Con o Senza)
                 while not tornaIndietro:
 
                     tornaIndietro = False
-                    # Chiedi all'utente se giocare con timer, senza, o tornare indietro
+
                     scelta_modalita_timer = self.get_view().get_input_modalita_partita()
-                    while (scelta_modalita_timer != "1" and scelta_modalita_timer != "2" and scelta_modalita_timer != "3" ):
+                    while (
+                        scelta_modalita_timer in CostantiQuoridorView._POSSIBILI_SCELTE_MODALITA
+                        and
+                        scelta_modalita_timer != CostantiQuoridorView._SCELTA_TORNA_INDIETRO
+                    ):
+
                         scelta_modalita_timer = self.get_view().get_input_modalita_partita()
 
-                    if (scelta_modalita_timer == "3"):
+                    if (
+                        scelta_modalita_timer == CostantiQuoridorView._SCELTA_TORNA_INDIETRO
+                    ):
                         tornaIndietro = True
 
                     # Se l'utente non vuole uscire dalla creazione partita
@@ -88,8 +97,9 @@ class QuoridorController:
 
                         limite_tempo_scelto = None
 
-                        # Caso Utente Sceglie Timer
-                        if scelta_modalita_timer == "1":
+                        if scelta_modalita_timer == CostantiQuoridorView._POSSIBILI_SCELTE_MODALITA[1]:
+
+                            # Menu Scelta Timer (Avvalorare il timer)
                             while (limite_tempo_scelto is None and not tornaIndietro):
                                 scelta_limite_tempo = self.get_view().get_input_limite_tempo()
                                 if (scelta_limite_tempo == "3"):
@@ -106,19 +116,22 @@ class QuoridorController:
                         if (not tornaIndietro):
                             tavoliere = Tavoliere()
 
-                            giocatore1 = Giocatore(
-                                self.__P1, self.__POSIZIONE_P1, self.__MURI_INIZIALI, limite_tempo_scelto
-                            )
-                            giocatore2 = Giocatore(
-                                self.__P2, self.__POSIZIONE_P2, self.__MURI_INIZIALI, limite_tempo_scelto
-                            )
-                            giocatori = {giocatore1, giocatore2}
+                            giocatori = set()
 
-                            view_giocatore = GiocatoreView()
-                            view_tavoliere = TavoliereView()
+                            for i in range(0, 2):
+
+                                id_assegnato = CostantiGiocatore._POSSIBILI_ID_GIOCATORE[i]
+
+                                giocatore = Giocatore(
+                                    new_id_giocatore = id_assegnato,
+                                    new_posizione = CostantiPartita._COORDINATE_INIZIALI[id_assegnato],
+                                    new_tempo_iniziale = limite_tempo_scelto
+                                )
+                                giocatori.add(giocatore)
+
                             partita = PartitaController(
                                 Partita(tavoliere, giocatori),
-                                PartitaView(view_giocatore, view_tavoliere),
+                                PartitaView(),
                             )
 
                             continuare_gioco = partita.gioca_partita()
