@@ -155,7 +155,7 @@ class Giocatore:
         new_id_giocatore: str = CostantiGiocatore._POSSIBILI_ID_GIOCATORE[0],
         new_posizione=None,
         new_muri_disponibili: int = CostantiGiocatore._DEF_MURI_DISPONIBILI,
-        new_tempo_iniziale: timedelta = CostantiGiocatore._DEF_SENZA_TIMER,
+        new_tempo_iniziale: timedelta = CostantiGiocatore._DEF_SENZA_LIMITE_TEMPO,
     ):
         self.set_id(new_id_giocatore)
 
@@ -264,4 +264,13 @@ class Giocatore:
             return f"Tempo rimasto: {minuti:02d}:{secondi:02d}"
 
     def possiede_limite_tempo(self):
-        return self.__tempoResiduo != CostantiGiocatore._DEF_SENZA_TIMER
+        return self.__tempoResiduo != CostantiGiocatore._DEF_SENZA_LIMITE_TEMPO
+
+    def ha_finito_tempo(self):
+
+        tempo_disponibile = True
+
+        if (self.possiede_limite_tempo()):
+            tempo_disponibile = (self.get_tempo_residuo() == timedelta())
+
+        return tempo_disponibile

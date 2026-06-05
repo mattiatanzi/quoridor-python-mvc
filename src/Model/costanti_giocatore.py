@@ -17,5 +17,5 @@ class CostantiGiocatore:
 
     # Costanti Limite Tempo
     _DEF_TEMPO_MINIMO = timedelta(minutes=1)
-    _DEF_SENZA_TIMER = timedelta.max
+    _DEF_SENZA_LIMITE_TEMPO = timedelta.max
     _DEF_TIMER_PREDEFINITI = [timedelta(minutes = 3), timedelta(minutes = 5)]

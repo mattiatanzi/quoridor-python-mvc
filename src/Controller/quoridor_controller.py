@@ -95,7 +95,7 @@ class QuoridorController:
                             limite_tempo_scelto = self.__stringa_to_tempo_limite(stringa_limite_tempo)
                     # Scelta = PARTITA SENZA TIMER
                     else:
-                        limite_tempo_scelto = CostantiGiocatore._DEF_SENZA_TIMER
+                        limite_tempo_scelto = CostantiGiocatore._DEF_SENZA_LIMITE_TEMPO
 
                     if not torna_indietro_da_timer and limite_tempo_scelto is not None:
                         # Inizializzazione Tavoliere e Giocatori
