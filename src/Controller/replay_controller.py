@@ -54,7 +54,7 @@ class ReplayController:
     
         ------ COSTRUTTORE ------
         
-        - __init__(self, trascrizione: list[str]):
+        - __init__(self, trascrizione: list[tuple[str, str]], partita_iniziale: Partita)
             DESCRIZIONE
                 Costruttore di Base.
                 Data la trascrizione di una partita crea il ReplayController.
@@ -153,8 +153,8 @@ class ReplayController:
     # Metodi
     
     # ------ Costruttori ------ #
-    def __init__(self, trascrizione: list[str]):
-        self.__model = ReplayPartita(trascrizione)
+    def __init__(self, trascrizione: list[tuple[str, str]], partita_iniziale: Partita):
+        self.__model = ReplayPartita(trascrizione, partita_iniziale)
         self.__on_stato_cambiato = None
         
     # ------ Accesso Attributi ------- #
