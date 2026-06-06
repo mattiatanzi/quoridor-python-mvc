@@ -1,3 +1,5 @@
+import copy
+
 from src.Model.giocatore import ErrorePosizione
 from src.Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from src.Model.tavoliere import ErroreTavoliere
@@ -25,6 +27,12 @@ class PartitaController:
 
             DESCRIZIONE
                 Responsabile della gestione di stampa e input della Partita
+                
+        - snapshot_iniziale
+            TIPO 
+                Privato, tipo Partita
+            DESCRIZIONE
+                Una copia dello stato iniziale del gioco
 
     COSTANTI:
         - LUNGHEZZA_COMANDO_MURO
@@ -73,6 +81,9 @@ class PartitaController:
             DESCRIZIONE
                 Modifica la classe responsabile del View di Partita contenuta nel
                 Controller
+        def get_snapshot_iniziale(self) -> Partita:
+            DESCRIZIONE
+                Restituisce la copia dello stato della partita
 
         ------ MODIFICATORI / OSSERVATORI ------
 
@@ -103,6 +114,7 @@ class PartitaController:
 
     __model: Partita
     __view: PartitaView
+    __snapshot_iniziale: Partita
 
     # Metodi
 
@@ -120,6 +132,7 @@ class PartitaController:
     def __init__(self, model: Partita, view: PartitaView):
         self.set_model(model)
         self.set_view(view)
+        self.__snapshot_iniziale = copy.deepcopy(model)
 
     # Accesso Attributi Privati
 
@@ -134,6 +147,9 @@ class PartitaController:
 
     def set_view(self, view: PartitaView):
         self.__view = view
+    
+    def get_snapshot_iniziale(self) -> Partita:
+        return self.__snapshot_iniziale
 
     # Modificatori / Osservatori
 

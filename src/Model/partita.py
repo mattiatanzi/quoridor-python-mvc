@@ -102,9 +102,10 @@ class Partita:
                 L'id del giocatore che sta svolgendo il turno
         - trascrizione
             TIPO
-                Privato, Lista di Stringhe
+                Privato, Lista di tuple
             DESCRIZIONE
-                La lista che memorizza le mosse
+                La lista che memorizza le mosse in modo puro sotto
+                forma di (id_giocatore, mossa).
 
     METODI:
 
@@ -210,22 +211,15 @@ class Partita:
             DESCRIZIONE
                 Controlla la posizione dei pedoni per decretare la fine della partita.
                 Restituisce l'ID del vincitore.
-                
+
         def aggiungi_mossa_trascrizione(self, mossa: str)
             DESCRIZIONE
                 Aggiunge una mossa alla trascrizione della partita.
-        
-        def get_trascrizione(self) -> list[str]:
-            DESCRIZIONE
-                Restituisce una copia della trascrizione partita. La trascrizione 
-                avviene nel seguente modo:
-                    -Per ogni turno viene creato un elemento nella lista trascrizioni
-                    - Ogni elemento della lista trascrizioni contiene le mosse svolte 
-                      da ogni giocatore in quel turno, ordinate per numero di giocatore
 
-                Esempio: La seguente lista indica che ci sono 2 giocatori e sono stati 
-                svolti due turni, in cui P1 si è mosso in a2 e poi in a3, 
-                mentre P2 in b5 e poi b6. [1. a2 b5 , 2. a3 b6]
+        def get_trascrizione(self) -> list[tuple[str, str]]:
+            DESCRIZIONE
+                Restituisce una copia della trascrizione partita. sotto forma di lista
+                piatta di tuple (id_giocatore, mossa).
     """
 
     # Costanti
@@ -246,7 +240,7 @@ class Partita:
     __giocatori: set[Giocatore]
     __tavoliere: Tavoliere
     __id_giocatore_attivo: str
-    __trascrizione: list[str]
+    __trascrizione: list[tuple[str, str]]
 
     # Metodi
 
@@ -277,19 +271,15 @@ class Partita:
 
     def get_id_giocatore_attivo(self):
         return self.__id_giocatore_attivo
-    
-    def get_trascrizione(self) -> list[str]:
+
+    def get_trascrizione(self) -> list[tuple[str, str]]:
         return list(self.__trascrizione)
-    
+
     # Modificatori / Osservatori
-    
+
     # Aggiungere mossa nella trascrizione
     def aggiungi_mossa_trascrizione(self, mossa: str):
-        if self.__id_giocatore_attivo == self.__ID_PRIMO_GIOCATORE_ATTIVO:
-            numero = len(self.__trascrizione) + 1
-            self.__trascrizione.append(f"{numero}. {mossa}")
-        else: 
-            self.__trascrizione[-1] += f" {mossa}"
+        self.__trascrizione.append((self.__id_giocatore_attivo, mossa))
 
     # Modificare / Restituire un Giocatore in Partita
 
@@ -400,17 +390,15 @@ class Partita:
 
         nodo_partenza = giocatore_attivo.get_posizione()
         nodo_arrivo = Nodo(azione)
-        
+
         # Riconoscere uno spostamento sulla medesima casella
         if nodo_partenza == nodo_arrivo:
             mess_err = f"Mossa non valida: Sei già sulla casella {azione}..."
             raise ErrorePosizione(mess_err)
         # Verifica dell'esistenza passaggio
         elif self.__tavoliere.mossa_permessa(nodo_partenza, nodo_arrivo):
-            
             # Evitiamo che ci si possa spostare su una casella occupata
             for avversario in self.get_giocatori():
-            
                 # Esclusione del giocatore attivo dal controllo
                 if avversario.get_id() == giocatore_attivo.get_id():
                     continue
