@@ -37,11 +37,13 @@ class QuoridorView:
 
     def get_input_numero_giocatori(self) -> str:
         pulisci_schermo()
-        print("Selezionare modalità di gioco: \n")
-        print("1.\t2 giocatori \n")
-        print("2.\t4 giocatori \n")
-        print("3.\tTorna indietro \n")
-        print("h - Aiuto (Comandi di gioco) \n")
-        return input("Seleziona una modalità: ")
+        menu="""
+        1.  2 giocatori
+        2.  4 giocatori
+        3.  Torna indietro
+        h - Aiuto
+        """
+        print(menu)
+        return input("Seleziona una modalità: ").strip().lower()
     
         
