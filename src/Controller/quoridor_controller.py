@@ -145,13 +145,3 @@ class QuoridorController:
                 self.get_view().stampa_messaggio(
                     "Errore nell'inserimento della scelta, riprova"
                 )
-
-
-
-    def __stringa_to_tempo_limite(self, stringa_tempo: str) -> timedelta:
-        try:
-            ore, minuti, secondi = map(int, stringa_tempo.split(":"))
-            return timedelta(hours = ore, minutes = minuti, seconds = secondi)
-        except ValueError:
-            self.get_view().stampa_messaggio("Errore Formato Tempo")
-            return None

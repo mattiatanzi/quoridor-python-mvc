@@ -289,21 +289,6 @@ class Giocatore:
             self.set_tempo_residuo(self.get_tempo_residuo() - tempo_trascorso)
             return True  # C'è ancora tempo
 
-    def get_tempo_formattato(self) -> str:
-        # 1. Prendiamo i secondi totali rimasti (es. 305 secondi)
-        secondi_totali = int(self.__tempoResiduo.total_seconds())
-
-        # 2. Calcoliamo matematicamente ore, minuti e secondi restanti
-        ore = secondi_totali // 3600
-        minuti = (secondi_totali % 3600) // 60
-        secondi = secondi_totali % 60
-
-        # 3. Scegliamo il formato di return corretto
-        if ore > 0:
-            return f"Tempo rimasto: {ore:02d}:{minuti:02d}:{secondi:02d}"
-        else:
-            return f"Tempo rimasto: {minuti:02d}:{secondi:02d}"
-
     def possiede_limite_tempo(self) -> bool:
         return self.__tempoResiduo != CostantiGiocatore._DEF_SENZA_LIMITE_TEMPO
 
