@@ -119,14 +119,9 @@ class PartitaView:
 
     # Costruttore
 
-    def __init__(
-        self,
-        new_giocatore_view: GiocatoreView = __DEF_GIOCATORE_VIEW ,
-        new_tavoliere_view: TavoliereView = __DEF_TAVOLIERE_VIEW
-    ):
-        self.set_giocatore_view(new_giocatore_view)
-        self.set_tavoliere_view(new_tavoliere_view)
-
+    def __init__(self, new_giocatore_view: GiocatoreView = None, new_tavoliere_view: TavoliereView = None):
+        self.set_giocatore_view(new_giocatore_view if new_giocatore_view is not None else GiocatoreView())
+        self.set_tavoliere_view(new_tavoliere_view if new_tavoliere_view is not None else TavoliereView())
     # Accesso Attributi Privati
 
     def set_tavoliere_view(self, new_tavoliere_view: TavoliereView):
