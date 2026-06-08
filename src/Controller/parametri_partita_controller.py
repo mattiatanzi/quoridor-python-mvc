@@ -40,6 +40,7 @@ class ParametriPartitaController:
         tornaMenuIniziale = False
         avvia_partita = True
         tempo_limite = None
+        mesasggioErrore = "\nInput Non Valido"
 
 
         while not tornaMenuIniziale:
@@ -50,7 +51,7 @@ class ParametriPartitaController:
                 scelta_interfaccia
                 not in CostantiQuoridorView._POSSIBILI_SCELTE_MODALITA
             ):
-                scelta_interfaccia = self.get_view().get_input_modalita_partita()
+                scelta_interfaccia = self.get_view().get_input_modalita_partita(mesasggioErrore)
 
             # TORNARE INDIETRO
             if scelta_interfaccia != CostantiQuoridorView._SCELTA_TORNA_INDIETRO:
@@ -76,7 +77,7 @@ class ParametriPartitaController:
                         and
                         funz_tempo.stringa_to_tempo_limite(scelta_interfaccia) is None
                     ):
-                        scelta_interfaccia = self.get_view().get_input_limite_tempo()
+                        scelta_interfaccia = self.get_view().get_input_limite_tempo(mesasggioErrore)
 
                     if scelta_interfaccia != CostantiQuoridorView._SCELTA_TORNA_INDIETRO:
 
