@@ -1,9 +1,12 @@
 import copy
+import time
 
+from src.Controller.replay_controller import ErroreReplay, ReplayController
 from src.Model.giocatore import ErrorePosizione
 from src.Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from src.Model.tavoliere import ErroreTavoliere
 from src.View.partita_view import PartitaView
+from src.View.replay_view import ReplayView
 
 
 class PartitaController:
@@ -27,9 +30,9 @@ class PartitaController:
 
             DESCRIZIONE
                 Responsabile della gestione di stampa e input della Partita
-                
+
         - snapshot_iniziale
-            TIPO 
+            TIPO
                 Privato, tipo Partita
             DESCRIZIONE
                 Una copia dello stato iniziale del gioco
@@ -108,6 +111,17 @@ class PartitaController:
                 Permette di avviare giocare una partita, stampa la partita in corso e
                 prende i dati di input dall'utente e gestice il dato (muovere il
                 giocatore, posizionare un muro, tornare al menu, abbandonare il gioco)
+
+        def __trasforma_trascrizione(self, trascrizione:list[str])->list[tuple[str,str]]
+            DESCRIZIONE
+                Permette di trasformare la trascrizione in una lista di tuple in modo
+                tale da stampare correttamente la mossa attualmente eseguita nel replay
+
+        def __ottieni_trascrizione_parziale(self,trascrizione_completa:list[str],
+            indice: int)-> list[str]:
+            DESCRIZIONE
+                Permette di trasformare la trascrizione in una lista in modo
+                tale da stampare correttamente la trascrizione pre il replay
     """
 
     # Attributi
@@ -126,7 +140,11 @@ class PartitaController:
     __COMANDI_ABBANDONA_PARTITA = {"quit", "abbandona"}
     __COMANDI_USCITA_GIOCO = {"exit", "esci"}
     __COMANDI_TRASCRIZIONE = {"trascrizione", "trascrizione mosse", "mosse"}
+    __COMANDI_REPLAY = {"replay", "r"}
+    __COMANDI_REPLAY_AUTOMATICO = {"replay automatico", "ra"}
 
+    __COMANDI_AVANTI = {"next", "avanti", "n", ""}
+    __COMANDI_INDIETRO = {"prev", "indietro", "p", "back"}
     # Costruttore
 
     def __init__(self, model: Partita, view: PartitaView):
@@ -147,7 +165,7 @@ class PartitaController:
 
     def set_view(self, view: PartitaView):
         self.__view = view
-    
+
     def get_snapshot_iniziale(self) -> Partita:
         return self.__snapshot_iniziale
 
@@ -203,7 +221,8 @@ class PartitaController:
                     errore = "Errore: Trascrizione vuota"
                 else:
                     self.__view.stampa_trascrizione(
-                    self.__model.get_trascrizione(), len(self.__model.get_giocatori())
+                        self.__model.get_trascrizione(),
+                        len(self.__model.get_giocatori()),
                     )
                     input("---- Premi INVIO per tornare alla partita... ----")
 
@@ -285,18 +304,114 @@ class PartitaController:
                                 scelta_pulita != "m"
                                 or scelta_pulita in self.__COMANDI_TRASCRIZIONE
                             ):
+                                errore = ""
                                 self.get_view().stampa_vittoria(vincitore)
                                 if scelta_pulita in self.__COMANDI_TRASCRIZIONE:
                                     self.__view.stampa_trascrizione(
                                         self.__model.get_trascrizione(),
                                         len(self.__model.get_giocatori()),
                                     )
-                                scelta_pulita = (
-                                    self.get_view()
-                                    .chiedi_input_utente()
-                                    .lower()
-                                    .strip()
-                                )
+                                if (
+                                    scelta_pulita in self.__COMANDI_REPLAY
+                                    or scelta_pulita in self.__COMANDI_REPLAY_AUTOMATICO
+                                ):
+                                    partita_replay = self.get_snapshot_iniziale()
+
+                                    trascrizione_replay = (
+                                        self.__model.get_trascrizione()
+                                    )
+
+                                    trascrizione_replay_flat = (
+                                        self.__trasforma_trascrizione(
+                                            trascrizione_replay
+                                        )
+                                    )
+
+                                    replay = ReplayController(
+                                        trascrizione_replay_flat, partita_replay
+                                    )
+
+                                    stampa_replay = ReplayView()
+                                    autoplay = False
+
+                                    def callback_aggiorna_schermo(
+                                        stato: Partita,
+                                        descrizione: str,
+                                        _rep=replay,
+                                        _trasc=trascrizione_replay,
+                                        _st_re=stampa_replay,
+                                        _auto=autoplay,
+                                    ):
+                                        # 1.Chiede al replay a che numero di mossa siamo
+                                        indice = _rep.get_indice_corrente()
+
+                                        # 2. Usa la tua funzione per tagliare la lista
+                                        lista_tagliata = (
+                                            self.__ottieni_trascrizione_parziale(
+                                                _trasc, indice
+                                            )
+                                        )
+
+                                        # 3. Manda alla View lo stato, la stringa in
+                                        # basso, e la lista di destra!
+                                        _st_re.stampa_replay(
+                                            stato, descrizione, lista_tagliata, _auto
+                                        )
+
+                                    replay.set_on_stato_cambiato(
+                                        callback_aggiorna_schermo
+                                    )
+
+                                    # Prima stampa per mostrare l'inizio
+                                    callback_aggiorna_schermo(
+                                        replay.get_stato_corrente(),
+                                        replay.get_descrizione_corrente(),
+                                    )
+                                    if scelta_pulita in self.__COMANDI_REPLAY:
+                                        ris = True
+
+                                        while ris:
+                                            scelta_replay = (
+                                                self.get_view().chiedi_input_utente()
+                                            )
+                                            n = replay.get_indice_corrente()
+                                            if (
+                                                n == replay.get_totale_mosse()
+                                                and ris == self.__COMANDI_AVANTI
+                                            ):
+                                                errore = (
+                                                    "Errore: Impossibile"
+                                                    " andare avanti, mosse terminate"
+                                                )
+                                            if (
+                                                n == 0
+                                                and ris == self.__COMANDI_INDIETRO
+                                            ):
+                                                errore = (
+                                                    "Errore: Impossibile "
+                                                    "andare indietro, stai ancora "
+                                                    "all'inizio del replay"
+                                                )
+                                        try:
+                                            ris = replay.esegui_comando(scelta_replay)
+                                        except ErroreReplay as err_com:
+                                            errore = err_com
+                                    else:
+                                        autoplay = True
+                                        while not replay.replay_fine():
+                                            replay.avanza()
+                                            time.sleep(1.5)
+
+                                    scelta_pulita = ""
+                                else:
+                                    self.get_view().stampa_errore_partita(errore)
+                                    scelta_pulita = (
+                                        self.get_view()
+                                        .chiedi_input_utente()
+                                        .lower()
+                                        .strip()
+                                    )
+
                             else:
                                 continuare_partita = False
 
