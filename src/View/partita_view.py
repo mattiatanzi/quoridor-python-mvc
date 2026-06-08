@@ -1,3 +1,5 @@
+import sys
+
 from src.Model.partita import Partita
 from src.View.giocatore_view import GiocatoreView
 from src.View.pulisci_schermo_view import pulisci_schermo
@@ -282,8 +284,9 @@ class PartitaView:
         print("[M] Menu")
         print(
             "[Trascrizione],[Trascrizione mosse],[Mosse] Trascrizione delle mosse",
-            end="",
         )
+        print("[replay], [r] Replay manuale")
+        print("[replay automatico],[ra] Replay automatico", end="")
         print("\n")
 
         # Stampa ==============================
@@ -299,13 +302,37 @@ class PartitaView:
     def get_input(self) -> str:
         return self.chiedi_input_utente("Fai la tua mossa: ")
 
-    def stampa_trascrizione(self, trascrizione: list[str], num_giocatori: int):
-        stampa = "   "
-        for j in range(0, num_giocatori):
-            stampa += "P" + str(j + 1) + "  "
-        stampa += "\n\n"
-        i = len(trascrizione)
-        while i > 0:
-            stampa += trascrizione[i - 1] + "\n"
-            i -= 1
-        print(stampa)
+    def stampa_trascrizione(
+        self, trascrizione: list[str], num_giocatori: int, replay: bool = False
+    ):
+        if not replay:
+            stampa = "   "
+            for j in range(0, num_giocatori):
+                stampa += "P" + str(j + 1) + "  "
+            stampa += "\n\n"
+            i = len(trascrizione)
+            while i > 0:
+                stampa += trascrizione[i - 1] + "\n"
+                i -= 1
+            print(stampa)
+        else:
+            RIGA_IN = 3
+            COLONNA_DESTRA = 55
+
+            sys.stdout.write("\033[s")  # memorizza la posizione del cursore in basso
+            sys.stdout.write(
+                f"\033[{RIGA_IN};{COLONNA_DESTRA}H\033[1m--- STORICO MOSSSE ---\033[0m"
+            )  # Sposta a destra e scrive STORICO MOSSE
+            intestazione = ""
+            for i in range(num_giocatori):
+                intestazione += "P" + str(i + 1) + "   "
+            sys.stdout.write(
+                f"\033[{RIGA_IN + 1};{COLONNA_DESTRA + 3}H\033[94m{intestazione}\033[0m"
+            )  # Sposta a destra e scrive l'intestazione ossia P1,P2 ...
+
+            for i, mossa in enumerate(trascrizione):
+                riga_attuale = RIGA_IN + 2 + i
+                sys.stdout.write(f"\033[{riga_attuale};{COLONNA_DESTRA}H\033[K{mossa}")
+
+            sys.stdout.write("\033[u")
+            sys.stdout.flush()
