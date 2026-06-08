@@ -21,7 +21,7 @@ class ParametriPartita:
         new_avvia_partita = True):
             self.set_limite_tempo(new_limite_tempo)
             self.set_avvia_partita(new_avvia_partita)
-            self.set_numero_giocatori(new_avvia_partita)
+            self.set_numero_giocatori(new_numero_giocatori)
 
 
 

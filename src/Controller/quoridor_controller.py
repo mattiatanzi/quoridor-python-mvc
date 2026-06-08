@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from src.Controller.parametri_partita_controller import ParametriPartitaController
 from src.Controller.partita_controller import PartitaController
 from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.costanti_partita import CostantiPartita
@@ -87,51 +88,28 @@ class QuoridorController:
             # Scelta = GIOCA
             if scelta == "1":
 
-                scelta_modalita_timer = self.get_view().get_input_modalita_partita()
 
-                # Scelta = TORNA INDIETRO
-                if scelta_modalita_timer != CostantiQuoridorView._SCELTA_TORNA_INDIETRO:
+                parametri = ParametriPartitaController().ottieni_parametri_utente()
 
-                    limite_tempo_scelto = None
-                    torna_indietro_da_timer = False
+                if (parametri.get_avvia_partita()):
 
-                    # Scelta = PARTITA CON TIMER
-                    if scelta_modalita_timer == CostantiQuoridorView._SCELTA_PARTITA_CON_TIMER:
 
-                        stringa_limite_tempo = self.get_view().get_input_limite_tempo()
-
-                        # Scelta = TORNA INDIETRO
-                        if stringa_limite_tempo == CostantiQuoridorView._SCELTA_TORNA_INDIETRO:
-                            torna_indietro_da_timer = True
-
-                        # Scelta = TIMER PREDEFINITO
-                        elif stringa_limite_tempo in CostantiQuoridorView._POSSIBILI_TIMER_DEFAULT.keys():
-                            limite_tempo_scelto = CostantiGiocatore._DEF_TIMER_PREDEFINITI[int(stringa_limite_tempo) - 1]
-                        # Scelta = TIMER PERSONALIZZATO
-                        else:
-                            limite_tempo_scelto = self.__stringa_to_tempo_limite(stringa_limite_tempo)
-                    # Scelta = PARTITA SENZA TIMER
-                    else:
-                        limite_tempo_scelto = CostantiGiocatore._DEF_SENZA_LIMITE_TEMPO
-
-                    if not torna_indietro_da_timer and limite_tempo_scelto is not None:
-                        # Inizializzazione Tavoliere e Giocatori
-                        tavoliere = Tavoliere()
-                        giocatori = set()
-                        for i in range(0, 2):
-                            id_assegnato = CostantiGiocatore._POSSIBILI_ID_GIOCATORE[i]
-                            giocatore = Giocatore(
-                                new_id_giocatore=id_assegnato,
-                                new_posizione=Nodo(CostantiPartita._COORDINATE_INIZIALI[id_assegnato]),
-                                new_tempo_iniziale=limite_tempo_scelto
-                            )
-                            giocatori.add(giocatore)
-
-                        partita = PartitaController(
-                            Partita(tavoliere, giocatori),
-                            PartitaView(),
+                    tavoliere = Tavoliere()
+                    giocatori = set()
+                    for i in range(0, parametri.get_numero_giocatori()):
+                        id_assegnato = CostantiGiocatore._POSSIBILI_ID_GIOCATORE[i]
+                        giocatore = Giocatore(
+                            new_id_giocatore=id_assegnato,
+                            new_posizione=Nodo(CostantiPartita._COORDINATE_INIZIALI[id_assegnato]),
+                            new_tempo_iniziale=parametri.get_limite_tempo()
                         )
-                        continuare_gioco = partita.gioca_partita()
+                        giocatori.add(giocatore)
+
+                    partita = PartitaController(
+                        Partita(tavoliere, giocatori),
+                        PartitaView(),
+                    )
+                    continuare_gioco = partita.gioca_partita()
 
 
             # Scelta = 0 <=> Esci dal gioco

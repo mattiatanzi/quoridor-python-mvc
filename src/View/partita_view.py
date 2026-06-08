@@ -1,4 +1,5 @@
 from src.Model.partita import Partita
+from src.Model.tempo import get_tempo_formattato
 from src.View.giocatore_view import GiocatoreView
 from src.View.funzioni_utili_stampa import pulisci_schermo, chiedi_input_utente
 from src.View.tavoliere_view import TavoliereView
@@ -151,7 +152,7 @@ class PartitaView:
             muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
 
             if (g.possiede_limite_tempo()):
-                stringa_tempo_rimanente = g.get_tempo_formattato()
+                stringa_tempo_rimanente = get_tempo_formattato(g.get_tempo_residuo())
             else:
                 stringa_tempo_rimanente = None
 
