@@ -244,6 +244,24 @@ class PartitaController:
                                 giocatore_attivo.riduci_tempo(tempo_fine_turno - tempo_inizio_turno)
                                 if giocatore_attivo.ha_finito_tempo():
                                     self.get_model().elimina_giocatore(giocatore_attivo.get_id())
+
+                                    id_vincitore = self.__model.verifica_vittoria()
+                                    if id_vincitore:
+                                        # Impostiamo il motivo richiesto
+                                        motivo_vincita = f"Il giocatore {id_vincitore} è l'unico rimasto in partita"
+
+                                        # Mostriamo la schermata di vittoria comune
+                                        self.__view.stampa_vittoria(id_vincitore, motivo_vincita)
+                                        # Richiedi input per tornare al menu
+                                        scelta_pulita = self.__view.get_input().lower().strip()
+                                        while scelta_pulita != "m":
+                                            self.__view.stampa_vittoria(id_vincitore, motivo_vincita)
+                                            scelta_pulita = self.__view.get_input().lower().strip()
+                                        else:
+                                            continuare_partita = False
+                                            continue
+
+
                             # Prima di incrementare il turno salva la trascrizione
                             self.__model.aggiungi_mossa_trascrizione(azione_pulita)
                             self.__model.incrementa_turno()
@@ -262,18 +280,36 @@ class PartitaController:
                                     giocatore_attivo.riduci_tempo(tempo_fine_turno - tempo_inizio_turno)
                                     if giocatore_attivo.ha_finito_tempo():
                                         self.get_model().elimina_giocatore(giocatore_attivo.get_id())
+
+                                        id_vincitore = self.__model.verifica_vittoria()
+                                        if id_vincitore:
+                                            # Impostiamo il motivo richiesto
+                                            motivo_vincita = f"Il giocatore {id_vincitore} è l'unico rimasto in partita"
+
+                                            # Mostriamo la schermata di vittoria comune
+                                            self.__view.stampa_vittoria(id_vincitore, motivo_vincita)
+                                            # Richiedi input per tornare al menu
+                                            scelta_pulita = self.__view.get_input().lower().strip()
+                                            while scelta_pulita != "m":
+                                                self.__view.stampa_vittoria(id_vincitore, motivo_vincita)
+                                                scelta_pulita = self.__view.get_input().lower().strip()
+                                            else:
+                                                continuare_partita = False
+                                                continue # Blocca l'esecuzione e termina il ciclo del turno corrente
+
                                 # Prima di eseguire le logiche della mossa salva la trascrizione
                                 self.__model.aggiungi_mossa_trascrizione(azione_pulita)
                                 # Controllo vittoria
-                                vincitore = self.__model.verifica_vittoria()
+                                id_vincitore = self.__model.verifica_vittoria()
 
                                 # Vittoria
-                                if vincitore is not None:
+                                if id_vincitore is not None:
                                     # Stampa tabellone per mostrare la mossa vincente
                                     self.__view.stampa_partita(self.__model)
 
                                     # Stampa vittoria
-                                    self.__view.stampa_vittoria(vincitore)
+                                    motivo_vincita = "Ha raggiunto con successo la linea di fondo avversaria!"
+                                    self.__view.stampa_vittoria(id_vincitore, motivo_vincita)
 
                                     # Richiedi input per tornare al menu
                                     scelta_pulita = (
@@ -282,7 +318,7 @@ class PartitaController:
 
                                     # Stampa fin quando utente non decide di tornare al menù
                                     while scelta_pulita != "m":
-                                        self.__view.stampa_vittoria(vincitore)
+                                        self.__view.stampa_vittoria(id_vincitore, motivo_vincita)
                                         scelta_pulita = (
                                             self.__view.get_input().lower().strip()
                                         )

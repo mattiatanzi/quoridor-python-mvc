@@ -217,7 +217,7 @@ class PartitaView:
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
 
-    def stampa_vittoria(self, idVincitore):
+    def stampa_vittoria(self, idVincitore, motivo_vittoria: str):
         # Stampa ==============================
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("=", end="")
@@ -244,11 +244,9 @@ class PartitaView:
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("=", end="")
 
-        # Stampa descrizione della vittoria
+        # Stampa descrizione della vittoria specifica
         print("\n\n")
-        print(f"\tIl giocatore {idVincitore} ha raggiunto destinazione")
-        print("\toppure")
-        print("\tGli altri giocatori sono stati eliminati.")
+        print(f"{motivo_vittoria:^{self.__LUNGHEZZA_DIVISORI}}")
         print("\n\n")
 
         # Stampa -------------------------------
