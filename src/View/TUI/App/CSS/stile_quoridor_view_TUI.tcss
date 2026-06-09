@@ -1,0 +1,31 @@
+Screen {
+    align: center middle;
+    background: $surface;
+}
+
+#menu-container {
+    width: 50;
+    height: auto;
+    border: double $accent;
+    padding: 1 2;
+    background: $panel;
+    align: center middle;
+}
+
+#menu-titolo {
+    text-align: center;
+    text-style: bold;
+    color: $text;
+    width: 100%;
+    margin-bottom: 2;
+}
+
+Button {
+    width: 100%;
+    margin-bottom: 1;
+}
+
+/* Il bottone 'Esci' lo facciamo diventare rosso al passaggio del mouse */
+#btn_Esci:hover {
+    background: $error;
+}

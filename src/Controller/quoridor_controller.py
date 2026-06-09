@@ -3,12 +3,9 @@ from src.Model.giocatore import Giocatore
 from src.Model.nodo import Nodo
 from src.Model.partita import Partita
 from src.Model.tavoliere import Tavoliere
-from src.View.giocatore_view_CLI import GiocatoreViewCLI
-from src.View.partita_view_CLI import PartitaViewCLI
-from src.View.quoridor_view_CLI import QuoridorViewCLI
-from src.View.quoridor_view_TUI import QuoridorViewTUI
-from src.View.tavoliere_view_CLI import TavoliereViewCLI
-
+from src.View.quoridor_view import QuoridorViewAstratta
+from src.View.partita_view import PartitaViewAstratta
+from src.View.giocatore_view import GiocatoreViewAstratta
 
 class QuoridorController:
     """Classe contenente l'esecuzione principale.
@@ -51,12 +48,9 @@ class QuoridorController:
 
     __MURI_INIZIALI = 10
 
-    def __init__(self,toi: bool):
-        if not toi:
-            self.__menu = QuoridorViewTUI()
-            
-        else:
-            self.__menu = QuoridorViewCLI()
+    def __init__(self, quoridor_view: QuoridorViewAstratta, partita_view : PartitaViewAstratta):
+        self.__menu = quoridor_view
+        self.__partita_view = partita_view
 
         # aggiungere else per view in Gui
     def gioca(self):
@@ -79,11 +73,9 @@ class QuoridorController:
                 )
                 giocatori = {giocatore1, giocatore2}
 
-                view_giocatore = GiocatoreViewCLI() # Se GUI si crea GiocatoreViewGUI
-                view_tavoliere = TavoliereViewCLI() # Se GUI si crea TavoliereViewGUI
                 partita = PartitaController(
                     Partita(tavoliere, giocatori),
-                    PartitaViewCLI(view_giocatore, view_tavoliere),# Se gui si cre aPartita View GuI
+                    self.__partita_view
                 )
                 continuare_gioco = partita.gioca_partita()
             elif scelta == "0":
