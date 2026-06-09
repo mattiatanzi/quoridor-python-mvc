@@ -30,13 +30,13 @@ class ReplayView:
     stampa_replay(self,stato_corrente: Partita,descrizione_mossa: str,
         trascrizione_parziale: list[str],automatico: bool = False)
         Stampa la partita con la sua trascrizione ogni volta che si sta guardando il
-        replay e si esegue una mossa
+        replay e si esegue una mossa. E' stato deciso per l'interfaccia CLI che 
+        per evitare che la stampa della trascrizione vada troppo sotto è stato
+        scelto di adottare un numero massimo di turni visibili durante
+        il replay che è: gli ultimi 15 turni presenti
 
 
     """
-
-    __RIGA_INIZIALE = 3
-    __COLONNA_DESTRA = 55
 
     def __init__(self):
         self.__stampa_tavoliere = TavoliereView()
