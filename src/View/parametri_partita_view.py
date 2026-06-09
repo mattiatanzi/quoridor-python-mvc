@@ -46,7 +46,7 @@ class ParametriPartitaView:
 
         messaggio = "Selezionare Una Modalità Di Gioco:\n"
 
-        for chiave, descrizione in CostantiQuoridorView._POSSIBILI_SCELTE_MODALITA.items():
+        for chiave, descrizione in CostantiQuoridorView.POSSIBILI_SCELTE_MODALITA.items():
             messaggio = messaggio + f"\n{chiave}. {descrizione}\n"
 
         messaggio = messaggio + "\nDigitare `help` o `aiuto` una breve guida"
@@ -63,10 +63,10 @@ class ParametriPartitaView:
 
         messaggio = "Selezionare Un Limite di Tempo:\n"
 
-        for chiave, descrizione in CostantiQuoridorView._POSSIBILI_TIMER_DEFAULT.items():
+        for chiave, descrizione in CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.items():
             messaggio = messaggio + f"\n{chiave}. {descrizione}\n"
 
-        messaggio = messaggio + CostantiQuoridorView._MESSAGGIO_ALTERNATIVO_SCELTA_TIMER
+        messaggio = messaggio + CostantiQuoridorView.MESSAGGIO_ALTERNATIVO_SCELTA_TIMER
 
         messaggio = messaggio + "Digitare `help` o `aiuto` una breve guida"
 
@@ -86,13 +86,13 @@ class ParametriPartitaView:
         In questo menu potrai selezionare se giocare una partita con timer o senza.
 
         Per selezionare una partita con timer, premere:
-            "{CostantiQuoridorView._SCELTA_PARTITA_CON_TIMER}"
+            "{CostantiQuoridorView.SCELTA_PARTITA_CON_TIMER}"
 
         Altrimenti premere:
-            "{CostantiQuoridorView._SCELTA_PARTITA_SENZA_TIMER}"
+            "{CostantiQuoridorView.SCELTA_PARTITA_SENZA_TIMER}"
 
         Per tornare indietro, premere:
-            "{CostantiQuoridorView._SCELTA_TORNA_INDIETRO}"
+            "{CostantiQuoridorView.SCELTA_TORNA_INDIETRO}"
 
         """
         # Questa notazione fa una stampa di color blu
@@ -111,19 +111,19 @@ class ParametriPartitaView:
         partita.
 
         Per selezionare una partita limite di tempo: {
-            CostantiQuoridorView._POSSIBILI_TIMER_DEFAULT[CostantiQuoridorView._SCELTA_TIMER_DEFAULT_1]
+            CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT[CostantiQuoridorView.SCELTA_TIMER_DEFAULT_1]
         }, digitare:
-            "{CostantiQuoridorView._SCELTA_TIMER_DEFAULT_1}"
+            "{CostantiQuoridorView.SCELTA_TIMER_DEFAULT_1}"
 
         Altrimenti, se si vuole usare un limite di tempo {
-            CostantiQuoridorView._POSSIBILI_TIMER_DEFAULT[CostantiQuoridorView._SCELTA_TIMER_DEFAULT_1]
+            CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT[CostantiQuoridorView.SCELTA_TIMER_DEFAULT_1]
         }, digitare:
-            "{CostantiQuoridorView._SCELTA_TIMER_DEFAULT_2}"
+            "{CostantiQuoridorView.SCELTA_TIMER_DEFAULT_2}"
 
         Infine, per usare un limite di tempo personalizzato, digitarlo nel formato HH:MM:SS
 
         Per tornare indietro, digitare:
-            "{CostantiQuoridorView._SCELTA_TORNA_INDIETRO}"
+            "{CostantiQuoridorView.SCELTA_TORNA_INDIETRO}"
         """
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")

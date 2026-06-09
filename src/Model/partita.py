@@ -198,7 +198,7 @@ class Partita:
     def __init__(self, new_tavoliere: Tavoliere, new_giocatori: set[Giocatore]):
         self.set_tavoliere(new_tavoliere)
         self.set_giocatori(new_giocatori)
-        self.set_id_giocatore_attivo(CostantiPartita._ID_PRIMO_GIOCATORE_ATTIVO)
+        self.set_id_giocatore_attivo(CostantiPartita.ID_PRIMO_GIOCATORE_ATTIVO)
         self.__trascrizione = []
 
     # Accesso Attributi Privati
@@ -228,7 +228,7 @@ class Partita:
 
     # Aggiungere mossa nella trascrizione
     def aggiungi_mossa_trascrizione(self, mossa: str):
-        if self.__id_giocatore_attivo == CostantiPartita._ID_PRIMO_GIOCATORE_ATTIVO:
+        if self.__id_giocatore_attivo == CostantiPartita.ID_PRIMO_GIOCATORE_ATTIVO:
             numero = len(self.__trascrizione) + 1
             self.__trascrizione.append(f"{numero}. {mossa}")
         else:
@@ -251,12 +251,12 @@ class Partita:
     def aggiungi_giocatore(self, new_giocatore: Giocatore):
         numero_giocatori_partita = len(self.get_giocatori())
 
-        if numero_giocatori_partita < CostantiPartita._TOTALE_GIOCATORI:
+        if numero_giocatori_partita < CostantiPartita.TOTALE_GIOCATORI:
             self.get_giocatori().add(new_giocatore)
         else:
             raise ErrorePartita(
                 "Impossibile Aggiungere Giocatori (Numero giocatori: "
-                f"{numero_giocatori_partita}/{CostantiPartita._TOTALE_GIOCATORI})"
+                f"{numero_giocatori_partita}/{CostantiPartita.TOTALE_GIOCATORI})"
             )
 
     def rimuovi_giocatore(self, id):
@@ -268,7 +268,7 @@ class Partita:
         else:
             raise ErrorePartita(
                 f"Impossibile Rimuovere Giocatori (Numero giocatori: "
-                f"{numero_giocatori_partita}/{CostantiPartita._TOTALE_GIOCATORI})"
+                f"{numero_giocatori_partita}/{CostantiPartita.TOTALE_GIOCATORI})"
             )
 
     def elimina_giocatore(self, id):
@@ -308,7 +308,7 @@ class Partita:
 
         numeroGiocatore = int(id_giocatore_attivo[1]) + 1
 
-        if numeroGiocatore > CostantiPartita._TOTALE_GIOCATORI:
+        if numeroGiocatore > CostantiPartita.TOTALE_GIOCATORI:
             numeroGiocatore = 1
 
         nuovo_id_giocatore_attivo = f"{id_giocatore_attivo[0]}{numeroGiocatore}"
@@ -319,11 +319,11 @@ class Partita:
         if giocatore_attivo.get_muri_disponibili() == 0:
             raise ErrorePartita("Errore: Muri da piazzare terminati")
 
-        if CostantiPartita._PRIMA_COLONNA <= azione[0] <= CostantiPartita._ULTIMA_COLONNA:
-            if CostantiPartita._PRIMA_RIGA <= azione[1] <= CostantiPartita._ULTIMA_RIGA:
-                if azione[2] == CostantiPartita._ORIZZONTALE:
+        if CostantiPartita.PRIMA_COLONNA <= azione[0] <= CostantiPartita.ULTIMA_COLONNA:
+            if CostantiPartita.PRIMA_RIGA <= azione[1] <= CostantiPartita.ULTIMA_RIGA:
+                if azione[2] == CostantiPartita.ORIZZONTALE:
                     self.__tavoliere.piazza_muro_orizzontale(azione)
-                elif azione[2] == CostantiPartita._VERTICALE:
+                elif azione[2] == CostantiPartita.VERTICALE:
                     self.__tavoliere.piazza_muro_verticale(azione)
                 else:
                     raise ErroreFormattazione(
@@ -341,8 +341,8 @@ class Partita:
 
     def muovi_giocatore(self, azione: str, giocatore_attivo: Giocatore):
         if not (
-            CostantiPartita._PRIMA_COLONNA <= azione[0] <= CostantiPartita._ULTIMA_COLONNA
-            and CostantiPartita._PRIMA_RIGA <= azione[1] <= CostantiPartita._ULTIMA_RIGA
+            CostantiPartita.PRIMA_COLONNA <= azione[0] <= CostantiPartita.ULTIMA_COLONNA
+            and CostantiPartita.PRIMA_RIGA <= azione[1] <= CostantiPartita.ULTIMA_RIGA
         ):
             raise ErrorePosizione(f"Coordinate fuori scacchiera: {azione}")
 
@@ -392,7 +392,7 @@ class Partita:
                 riga = pos_giocatore[1]
 
                 # Verifica raggiunta del traguardo
-                if CostantiPartita._RIGHE_FINALI.get(id_giocatore) == riga:
+                if CostantiPartita.RIGHE_FINALI.get(id_giocatore) == riga:
                     return id_giocatore
 
 

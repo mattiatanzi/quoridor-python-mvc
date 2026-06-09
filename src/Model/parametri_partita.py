@@ -98,8 +98,8 @@ class ParametriPartita:
     # Costruttore
     def __init__(
         self,
-        new_numero_giocatori: int = len(CostantiGiocatore._POSSIBILI_ID_GIOCATORE),
-        new_limite_tempo = CostantiGiocatore._DEF_TIMER_PREDEFINITI[0],
+        new_numero_giocatori: int = len(CostantiGiocatore.POSSIBILI_ID_GIOCATORE),
+        new_limite_tempo = CostantiGiocatore.DEF_TIMER_PREDEFINITI[0],
         new_avvia_partita = True
     ):
             self.set_limite_tempo(new_limite_tempo)

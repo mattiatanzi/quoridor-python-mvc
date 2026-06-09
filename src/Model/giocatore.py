@@ -186,17 +186,17 @@ class Giocatore:
 
     def __init__(
         self,
-        new_id_giocatore: str = CostantiGiocatore._POSSIBILI_ID_GIOCATORE[0],
+        new_id_giocatore: str = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0],
         new_posizione=None,
-        new_muri_disponibili: int = CostantiGiocatore._DEF_MURI_DISPONIBILI,
-        new_tempo_iniziale: timedelta = CostantiGiocatore._DEF_SENZA_LIMITE_TEMPO,
+        new_muri_disponibili: int = CostantiGiocatore.DEF_MURI_DISPONIBILI,
+        new_tempo_iniziale: timedelta = CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO,
     ):
         self.set_id(new_id_giocatore)
 
 
         # Caso in cui Posizione non viene specificata
         if new_posizione is None:
-            self.set_posizione(Nodo(CostantiGiocatore._DEF_COORDINATE))
+            self.set_posizione(Nodo(CostantiGiocatore.DEF_COORDINATE))
         else:
             self.set_posizione(new_posizione)
 
@@ -290,7 +290,7 @@ class Giocatore:
             return True  # C'è ancora tempo
 
     def possiede_limite_tempo(self) -> bool:
-        return self.__tempoResiduo != CostantiGiocatore._DEF_SENZA_LIMITE_TEMPO
+        return self.__tempoResiduo != CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO
 
     def ha_finito_tempo(self) -> bool:
 

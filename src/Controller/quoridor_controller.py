@@ -87,10 +87,10 @@ class QuoridorController:
                     tavoliere = Tavoliere()
                     giocatori = set()
                     for i in range(0, parametri.get_numero_giocatori()):
-                        id_assegnato = CostantiGiocatore._POSSIBILI_ID_GIOCATORE[i]
+                        id_assegnato = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]
                         giocatore = Giocatore(
                             new_id_giocatore=id_assegnato,
-                            new_posizione=Nodo(CostantiPartita._COORDINATE_INIZIALI[id_assegnato]),
+                            new_posizione=Nodo(CostantiPartita.COORDINATE_INIZIALI[id_assegnato]),
                             new_tempo_iniziale=parametri.get_limite_tempo()
                         )
                         giocatori.add(giocatore)

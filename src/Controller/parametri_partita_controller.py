@@ -111,7 +111,7 @@ class ParametriPartitaController:
 
             while (
                 scelta_interfaccia
-                not in CostantiQuoridorView._POSSIBILI_SCELTE_MODALITA
+                not in CostantiQuoridorView.POSSIBILI_SCELTE_MODALITA
             ):
                 if (scelta_interfaccia in ["help", "aiuto"]):
                     scelta_interfaccia = ""
@@ -122,26 +122,26 @@ class ParametriPartitaController:
                     scelta_interfaccia = self.get_view().get_input_modalita_partita(messaggio_errore)
 
             # TORNARE INDIETRO
-            if scelta_interfaccia != CostantiQuoridorView._SCELTA_TORNA_INDIETRO:
+            if scelta_interfaccia != CostantiQuoridorView.SCELTA_TORNA_INDIETRO:
                 # IF NOT TORNARE INDIETRO AND NO TIMER
                 if (
                     scelta_interfaccia
-                    == CostantiQuoridorView._SCELTA_PARTITA_SENZA_TIMER
+                    == CostantiQuoridorView.SCELTA_PARTITA_SENZA_TIMER
                 ):
-                    tempo_limite = CostantiGiocatore._DEF_SENZA_LIMITE_TEMPO
+                    tempo_limite = CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO
                     tornaMenuIniziale = True
 
                 # IF NOT TORNARE INDIETRO AND TIMER
                 if (
                     scelta_interfaccia
-                    == CostantiQuoridorView._SCELTA_PARTITA_CON_TIMER
+                    == CostantiQuoridorView.SCELTA_PARTITA_CON_TIMER
                 ):
                     # Interfaccia 2: Avvalorare Limite di Tempo
                     scelta_interfaccia = self.get_view().get_input_limite_tempo()
 
                     while (
                         scelta_interfaccia
-                        not in CostantiQuoridorView._POSSIBILI_TIMER_DEFAULT
+                        not in CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT
                         and
                         funz_tempo.stringa_to_tempo_limite(scelta_interfaccia) is None
                     ):
@@ -153,10 +153,10 @@ class ParametriPartitaController:
                         else:
                             scelta_interfaccia = self.get_view().get_input_limite_tempo(messaggio_errore)
 
-                    if scelta_interfaccia != CostantiQuoridorView._SCELTA_TORNA_INDIETRO:
+                    if scelta_interfaccia != CostantiQuoridorView.SCELTA_TORNA_INDIETRO:
 
-                        if scelta_interfaccia in CostantiQuoridorView._POSSIBILI_TIMER_DEFAULT:
-                            tempo_limite = CostantiGiocatore._DEF_TIMER_PREDEFINITI[int(scelta_interfaccia) - 1]
+                        if scelta_interfaccia in CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT:
+                            tempo_limite = CostantiGiocatore.DEF_TIMER_PREDEFINITI[int(scelta_interfaccia) - 1]
                         else:
                             tempo_limite = funz_tempo.stringa_to_tempo_limite(scelta_interfaccia)
 
