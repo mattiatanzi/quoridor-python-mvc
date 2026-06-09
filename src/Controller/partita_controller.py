@@ -1,11 +1,10 @@
-from datetime import date, datetime
+from datetime import datetime
 
 from src.Model.giocatore import ErrorePosizione
 from src.Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from src.Model.tavoliere import ErroreTavoliere
-from src.View.partita_view import PartitaView
 from src.View.funzioni_utili_stampa import chiedi_input_utente
-
+from src.View.partita_view import PartitaView
 
 
 class PartitaController:

@@ -4,8 +4,8 @@ from datetime import timedelta
 def stringa_to_tempo_limite(stringa_tempo: str) -> timedelta:
     """Funzione di conversione tempo: stringa -> timedelta.
 
-        DESCRIZIONE
-            Converte una stringa nel formato "HH:MM:SS" in un oggetto timedelta
+    DESCRIZIONE
+        Converte una stringa nel formato "HH:MM:SS" in un oggetto timedelta
 
     """
     try:
@@ -18,8 +18,8 @@ def stringa_to_tempo_limite(stringa_tempo: str) -> timedelta:
 def get_tempo_formattato(tempo: timedelta) -> str:
     """Funzione di conversione tempo: timedelta -> stringa.
 
-        DESCRIZIONE
-            Converte un oggetto timedelta in una stringa in formato "HH:MM:SS
+    DESCRIZIONE
+        Converte un oggetto timedelta in una stringa in formato "HH:MM:SS
 
     """
     # 1. Prendiamo i secondi totali rimasti (es. 305 secondi)

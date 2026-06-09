@@ -1,5 +1,5 @@
-from src.View.funzioni_utili_stampa import pulisci_schermo, chiedi_input_utente
 from src.View.costanti_quoridor_view import CostantiQuoridorView
+from src.View.funzioni_utili_stampa import chiedi_input_utente, pulisci_schermo
 
 
 class QuoridorView:

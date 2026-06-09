@@ -1,8 +1,9 @@
 from src.Model.partita import Partita
 from src.Model.tempo import get_tempo_formattato
+from src.View.funzioni_utili_stampa import chiedi_input_utente, pulisci_schermo
 from src.View.giocatore_view import GiocatoreView
-from src.View.funzioni_utili_stampa import pulisci_schermo, chiedi_input_utente
 from src.View.tavoliere_view import TavoliereView
+
 
 class PartitaView:
     """Classe PartitaView.

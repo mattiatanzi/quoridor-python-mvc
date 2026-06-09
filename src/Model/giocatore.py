@@ -1,4 +1,5 @@
 from datetime import timedelta
+
 from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.nodo import Nodo
 
