@@ -321,7 +321,7 @@ class PartitaView:
 
             sys.stdout.write("\033[s")  # memorizza la posizione del cursore in basso
             sys.stdout.write(
-                f"\033[{RIGA_IN};{COLONNA_DESTRA}H\033[1m--- STORICO MOSSSE ---\033[0m"
+                f"\033[{RIGA_IN};{COLONNA_DESTRA}H\033[1m--- STORICO MOSSE ---\033[0m"
             )  # Sposta a destra e scrive STORICO MOSSE
             intestazione = ""
             for i in range(num_giocatori):
