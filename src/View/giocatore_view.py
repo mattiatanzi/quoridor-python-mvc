@@ -12,7 +12,12 @@ class GiocatoreView:
             DESCRIZIONE
                 Stampa dell'id giocatore
 
-        def stampa_giocatore_attivo(self, id, muri_disponibili, tempo_formattato = None):
+        def stampa_giocatore_attivo(
+            self,
+            id,
+            muri_disponibili,
+            tempo_formattato = None
+        ):
             DESCRIZIONE
                 Stampa informazioni riguardanti il giocatore che ha il turno.
                 Se il giocatore ha i limiti di tempo, mostra quanto tempo gli rimane
@@ -24,7 +29,12 @@ class GiocatoreView:
                 Se il giocatore ha i limiti di tempo, mostra quanto tempo gli rimane
                 per il turno corrente.
 
-        def stampa_giocatore_eliminato(self, id, muri_disponibili, tempo_formattato = None):
+        def stampa_giocatore_eliminato(
+            self,
+            id,
+            muri_disponibili,
+            tempo_formattato = None
+        ):
             DESCRIZIONE
                 Stampa informazioni generali riguardo i giocatori eliminati.
                 Se il giocatore ha i limiti di tempo, mostra quanto tempo gli rimane

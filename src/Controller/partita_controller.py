@@ -250,8 +250,10 @@ class PartitaController:
                                 id_vincitore = self.__model.verifica_vittoria()
                                 if id_vincitore:
                                     # Impostiamo il motivo richiesto
-                                    motivo_vincita = f"Il giocatore {id_vincitore} è l'unico rimasto in partita"
-
+                                    motivo_vincita = (
+                                        f"Il giocatore {id_vincitore} "
+                                        "è l'unico rimasto in partita"
+                                    )
                                     # Mostriamo la schermata di vittoria comune
                                     self.__view.stampa_vittoria(
                                         id_vincitore, motivo_vincita
@@ -299,8 +301,10 @@ class PartitaController:
                                     id_vincitore = self.__model.verifica_vittoria()
                                     if id_vincitore:
                                         # Impostiamo il motivo richiesto
-                                        motivo_vincita = f"Il giocatore {id_vincitore} è l'unico rimasto in partita"
-
+                                        motivo_vincita = (
+                                            f"Il giocatore {id_vincitore} è l'unico"
+                                            "rimasto in partita"
+                                        )
                                         # Mostriamo la schermata di vittoria comune
                                         self.__view.stampa_vittoria(
                                             id_vincitore, motivo_vincita
@@ -318,9 +322,10 @@ class PartitaController:
                                             )
                                         else:
                                             continuare_partita = False
-                                            continue  # Blocca l'esecuzione e termina il ciclo del turno corrente
+                                            # Blocca Ciclo Turno Corrente
+                                            continue
 
-                            # Prima di eseguire le logiche della mossa salva la trascrizione
+                            # Salva Trascrizione Prima delle logiche della mossa
                             self.__model.aggiungi_mossa_trascrizione(azione_pulita)
                             # Controllo vittoria
                             id_vincitore = self.__model.verifica_vittoria()
@@ -331,7 +336,11 @@ class PartitaController:
                                 self.__view.stampa_partita(self.__model)
 
                                 # Stampa vittoria
-                                motivo_vincita = "Ha raggiunto con successo la linea di fondo avversaria!"
+                                motivo_vincita = (
+                                    "Ha raggiunto con successo la linea di fondo"
+                                    "avversaria!"
+                                )
+
                                 self.__view.stampa_vittoria(
                                     id_vincitore, motivo_vincita
                                 )

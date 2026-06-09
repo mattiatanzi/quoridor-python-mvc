@@ -4,11 +4,12 @@ import os
 def pulisci_schermo():
     """Pulisce il terminale in modo incrociato su tutti i SO e Shell.
 
-    Abbiamo notato che durante l'esecuzione sui terminali di Ubuntu e di Windows Powershell
-    non viene pulito lo schermo come avviene negli altri terminali, ma traliasciamo questo
-    problema in quanto di base Ubuntu e Powershell mantengono il buffer di scorrimento ma
-    ogni qual volta si richiama la funzione la stampa riporta sempre all'ultima stampa emessa
-    lasciando quindi come 'storico' i precedenti comandi e/o precedenti stampe a video
+    Abbiamo notato che durante l'esecuzione sui terminali di Ubuntu e di Windows
+    Powershell non viene pulito lo schermo come avviene negli altri terminali,
+    ma traliasciamo questo problema in quanto di base Ubuntu e Powershell mantengono
+    il buffer di scorrimento ma ogni qual volta si richiama la funzione la stampa
+    riporta sempre all'ultima stampa emessa lasciando quindi come 'storico'
+    i precedenti comandi e/o precedenti stampe a video
     """
     if os.name == "posix":
         # Sistemi nativi Unix (Linux e macOS)

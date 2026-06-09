@@ -82,7 +82,7 @@ class Giocatore:
                 Privato, Tipo bool
             DESCRIZIONE
                 Indica se il giocatore è stato eliminato dalla partita.
-                In una partita, se attivo = False (ovvero il giocatore è stato eliminato),
+                In una partita, se attivo = False (<=> giocatore eliminato),
                 non verrà stampato il suo pedone ma soltanto i muri che esso
                 ha posizionato. Per adesso il giocatore può essere eliminato soltanto
                 nel caso in cui, durante una partita con limite di tempo e il tempo
@@ -101,8 +101,8 @@ class Giocatore:
         ):
             DESCRIZIONE
                 Costruttore di Base.
-                Dato un ID, una posizione, un numero di muri disponibili e un tempo iniziale,
-                restituisce un giocatore.
+                Dato un ID, una posizione, un numero di muri disponibili e un tempo
+                iniziale, restituisce un giocatore.
 
 
         ------ ACCESSO METODI PRIVATI ------
@@ -154,7 +154,10 @@ class Giocatore:
 
         ------ MODIFICATORI / OSSERVATORI ------
 
-        def riduci_tempo(self, tempo_trascorso: timedelta  = timedelta(seconds = 1)) -> bool:
+        def riduci_tempo(
+            self,
+            tempo_trascorso: timedelta  = timedelta(seconds = 1)
+        ) -> bool:
             DESCRIZIONE
                 Sottrae il tempo in input al giocatore (se il giocatore ha un limite di
                 tempo).

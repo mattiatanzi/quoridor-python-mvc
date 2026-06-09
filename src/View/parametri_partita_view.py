@@ -30,8 +30,8 @@ class ParametriPartitaView:
                 Restituisce una scelta.
                 Eventualmente è possibile passare una stringa di errore da mostrare
                 per aiutare l'utente a inserire il giusto input.
-                In caso di tempo personalizzato l'utente deve inserire il tempo nel formato
-                HH:MM:SS
+                In caso di tempo personalizzato, l'utente deve inserire
+                il tempo nel formato: "HH:MM:SS"
 
 
     """
@@ -118,7 +118,8 @@ class ParametriPartitaView:
         }, digitare:
             "{CostantiQuoridorView.SCELTA_TIMER_DEFAULT_2}"
 
-        Infine, per usare un limite di tempo personalizzato, digitarlo nel formato HH:MM:SS
+        Infine, per usare un limite di tempo personalizzato,
+        digitarlo nel formato HH:MM:SS
 
         Per tornare indietro, digitare:
             "{CostantiQuoridorView.SCELTA_TORNA_INDIETRO}"

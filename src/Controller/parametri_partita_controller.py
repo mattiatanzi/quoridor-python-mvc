@@ -10,8 +10,8 @@ class ParametriPartitaController:
 
     DESCRIZIONE
         Classe che gestisce i parametri della partita.
-        Utile per la stampa dei menu che richiedono l'interazione dell'utente per settare la partita (
-        numero di giocatori, limite di tempo, ecc...)
+        Utile per la stampa dei menu che richiedono l'interazione dell'utente per
+        settare la partita (numero di giocatori, limite di tempo, ecc...)
 
     ATTRIBUTI:
 
@@ -61,9 +61,10 @@ class ParametriPartitaController:
 
         def ottieni_parametri_utente(self) -> ParametriPartita:
             DESCRIZIONE
-                Interagisce con l'utente per creare una classe contenente tutti i parametri della partita.
-                Per adesso chiede al giocatore se vuole una partita con limite di tempo (o meno) e quanto
-                limite di tempo intende utilizzare
+                Interagisce con l'utente per creare una classe contenente
+                tutti i parametri della partita. Per adesso chiede al giocatore se
+                vuole una partita con limite di tempo (o meno), e successivamente quanto
+                impostare di limite tempo
 
 
 
@@ -75,12 +76,12 @@ class ParametriPartitaController:
     # Costruttore
     def __init__(
         self,
-        new_model: ParametriPartita = ParametriPartita(),
-        new_view: ParametriPartitaView = ParametriPartitaView(),
+        new_model: ParametriPartita = None,
+        new_view: ParametriPartitaView = None,
     ):
-        self.set_view(new_view)
+        self.set_view(new_view if new_view is not None else ParametriPartitaView())
         try:
-            self.set_model(new_model)
+            self.set_model(new_model if new_model is not None else ParametriPartita())
         except ErroreParametriPartita as err:
             self.get_view().stampa_errore_parametri(err)
 
