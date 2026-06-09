@@ -1,12 +1,74 @@
 from src.Model import tempo as funz_tempo
 from src.Model.costanti_giocatore import CostantiGiocatore
-from src.Model.giocatore import Giocatore
 from src.Model.parametri_partita import ErroreParametriPartita, ParametriPartita
 from src.View.costanti_quoridor_view import CostantiQuoridorView
 from src.View.parametri_partita_view import ParametriPartitaView
 
 
 class ParametriPartitaController:
+    """Classe ParametriPartitaController.
+
+        DESCRIZIONE
+            Classe che gestisce i parametri della partita.
+            Utile per la stampa dei menu che richiedono l'interazione dell'utente per settare la partita (
+            numero di giocatori, limite di tempo, ecc...)
+
+        ATTRIBUTI:
+
+            - model
+                TIPO
+                    Privato, tipo ParametriPartita
+
+                DESCRIZIONE
+                    Il modello di ParametriPartita
+
+            - view
+                TIPO
+                    Privato, tipo ParametriPartitaView
+
+                DESCRIZIONE
+                    La view di ParametriPartita
+
+        METODI:
+
+            ------ COSTRUTTORI ------
+
+            def __init__(self, model: Partita, view: PartitaView):
+                DESCRIZIONE
+                    Costruttore di Base.
+                    Data un modello ParametriPartita e un ParametriPartitaView restituisce
+                    un ParametriPartitaController
+
+            ------ ACCESSO ATTRIBUTI PRIVATI ------
+
+            def get_model(self) -> ParametriPartita:
+                DESCRIZIONE
+                    Restituisce il Model di ParametriPartitaController
+
+            def set_model(self, model: ParametriPartita):
+                DESCRIZIONE
+                    Sostituisce il Model di ParametriPartitaController
+
+            def get_view(self) -> ParametriPartitaView:
+                DESCRIZIONE
+                    Restituisce il View di ParametriPartitaController
+
+            def set_view(self, view: PartitaView):
+                DESCRIZIONE
+                    Sostituisce il View di ParametriPartitaController
+
+            ------ MODIFICATORI / OSSERVATORI ------
+
+            def ottieni_parametri_utente(self) -> ParametriPartita:
+                DESCRIZIONE
+                    Interagisce con l'utente per creare una classe contenente tutti i parametri della partita.
+                    Per adesso chiede al giocatore se vuole una partita con limite di tempo (o meno) e quanto
+                    limite di tempo intende utilizzare
+
+
+
+    """
+
     __view: ParametriPartitaView
     __model: ParametriPartita
 
