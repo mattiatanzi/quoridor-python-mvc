@@ -113,7 +113,13 @@ class ParametriPartitaController:
                 scelta_interfaccia
                 not in CostantiQuoridorView._POSSIBILI_SCELTE_MODALITA
             ):
-                scelta_interfaccia = self.get_view().get_input_modalita_partita(messaggio_errore)
+                if (scelta_interfaccia in ["help", "aiuto"]):
+                    scelta_interfaccia = ""
+                    self.get_view().stampa_aiuto_modalita_partita()
+                    input("---- Premi INVIO per tornare alla partita... ----")
+                    scelta_interfaccia = self.get_view().get_input_modalita_partita()
+                else:
+                    scelta_interfaccia = self.get_view().get_input_modalita_partita(messaggio_errore)
 
             # TORNARE INDIETRO
             if scelta_interfaccia != CostantiQuoridorView._SCELTA_TORNA_INDIETRO:
@@ -139,7 +145,13 @@ class ParametriPartitaController:
                         and
                         funz_tempo.stringa_to_tempo_limite(scelta_interfaccia) is None
                     ):
-                        scelta_interfaccia = self.get_view().get_input_limite_tempo(messaggio_errore)
+                        if (scelta_interfaccia in ["help", "aiuto"]):
+                            scelta_interfaccia = ""
+                            self.get_view().stampa_aiuto_limite_tempo()
+                            input("---- Premi INVIO per tornare alla partita... ----")
+                            scelta_interfaccia = self.get_view().get_input_limite_tempo()
+                        else:
+                            scelta_interfaccia = self.get_view().get_input_limite_tempo(messaggio_errore)
 
                     if scelta_interfaccia != CostantiQuoridorView._SCELTA_TORNA_INDIETRO:
 
