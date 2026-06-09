@@ -3,10 +3,10 @@ from src.Model.giocatore import Giocatore
 from src.Model.nodo import Nodo
 from src.Model.partita import Partita
 from src.Model.tavoliere import Tavoliere
-from src.View.giocatore_view import GiocatoreView
-from src.View.partita_view import PartitaView
-from src.View.quoridor_view import QuoridorView
-from src.View.tavoliere_view import TavoliereView
+from src.View.giocatore_view_CLI import GiocatoreViewCLI
+from src.View.partita_view_CLI import PartitaViewCLI
+from src.View.quoridor_view_CLI import QuoridorViewCLI
+from src.View.tavoliere_view_CLI import TavoliereViewCLI
 
 
 class QuoridorController:
@@ -50,9 +50,10 @@ class QuoridorController:
 
     __MURI_INIZIALI = 10
 
-    def __init__(self):
-        self.__menu = QuoridorView()
-
+    def __init__(self,toi: bool):
+        if toi:
+            self.__menu = QuoridorViewCLI()
+        # aggiungere else per view in Gui
     def gioca(self):
         errore: str = ""
         continuare_gioco = True
@@ -73,11 +74,11 @@ class QuoridorController:
                 )
                 giocatori = {giocatore1, giocatore2}
 
-                view_giocatore = GiocatoreView()
-                view_tavoliere = TavoliereView()
+                view_giocatore = GiocatoreViewCLI() # Se GUI si crea GiocatoreViewGUI
+                view_tavoliere = TavoliereViewCLI() # Se GUI si crea TavoliereViewGUI
                 partita = PartitaController(
                     Partita(tavoliere, giocatori),
-                    PartitaView(view_giocatore, view_tavoliere),
+                    PartitaViewCLI(view_giocatore, view_tavoliere),# Se gui si cre aPartita View GuI
                 )
                 continuare_gioco = partita.gioca_partita()
             elif scelta == "0":

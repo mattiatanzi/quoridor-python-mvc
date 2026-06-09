@@ -1,7 +1,7 @@
-from src.View.pulisci_schermo_view import pulisci_schermo
+from abc import ABC, abstractmethod
 
 
-class QuoridorView:
+class QuoridorViewAstratta(ABC):
     """Stampa del menu di base.
 
     Metodi
@@ -16,18 +16,15 @@ class QuoridorView:
     nome: stampa_messaggio:
         Permette di stampare un messaggio nella fase di menu
     """
-
-    def __menu_base(self):
-        pulisci_schermo()
-        print("Benvenuto in Quoridor \n")
-        print("1 - Avvia una nuova partita \n")
-        print("0 - Esci dal gioco \n")
-
+    
+    @abstractmethod
     def menu_di_gioco(self):
-        self.__menu_base()
+        pass
 
+    @abstractmethod
     def get_input_menu(self) -> str:
-        return input("Seleziona un'opzione: ")
+        pass
 
-    def stampa_messaggio(self, messaggio: str):
-        print(messaggio)
+    @abstractmethod
+    def stampa_messaggio(self,messaggio: str):
+        pass

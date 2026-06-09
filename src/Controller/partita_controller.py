@@ -1,7 +1,7 @@
 from src.Model.giocatore import ErrorePosizione
 from src.Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from src.Model.tavoliere import ErroreTavoliere
-from src.View.partita_view import PartitaView
+from src.View.partita_view import PartitaViewAstratta
 
 
 class PartitaController:
@@ -99,7 +99,7 @@ class PartitaController:
     # Attributi
 
     __model: Partita
-    __view: PartitaView
+    __view: PartitaViewAstratta
 
     # Metodi
 
@@ -113,7 +113,7 @@ class PartitaController:
 
     # Costruttore
 
-    def __init__(self, model: Partita, view: PartitaView):
+    def __init__(self, model: Partita, view: PartitaViewAstratta):
         self.set_model(model)
         self.set_view(view)
 
@@ -125,10 +125,10 @@ class PartitaController:
     def set_model(self, model: Partita):
         self.__model = model
 
-    def get_view(self) -> PartitaView:
+    def get_view(self) -> PartitaViewAstratta:
         return self.__view
 
-    def set_view(self, view: PartitaView):
+    def set_view(self, view: PartitaViewAstratta):
         self.__view = view
 
     # Modificatori / Osservatori

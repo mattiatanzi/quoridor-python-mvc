@@ -1,4 +1,6 @@
-class GiocatoreView:
+from abc import ABC, abstractmethod
+
+class GiocatoreViewAstratta(ABC):
     """classe GiocatoreView.
 
     DESCRIZIONE
@@ -6,40 +8,43 @@ class GiocatoreView:
 
     METODI
 
-        ------ STAMPE ATTRIBUTI ------
+        ------ VISUALIZZAZIONE ATTRIBUTI ------
 
         def stampa_id_giocatore(self, id_giocatore):
             DESCRIZIONE
-                Stampa dell'id giocatore
+                Mostra dell'id giocatore
 
         def stampa_giocatore_attivo(self, id, muri_disponibili):
             DESCRIZIONE
-                Stampa informazioni riguardanti il giocatore che ha il turno
+                Mostra informazioni riguardanti il giocatore che ha il turno
 
         def stampa_info_giocatore(self, id, muri_disponibili):
             DESCRIZIONE
-                Stampa informazioni generali riguardanti un giocatore
+                Mostra informazioni generali riguardanti un giocatore
 
-        ------ STAMPE ERRORI ------
+        ------ VISUALIZZZIONI ERRORI ------
 
         def stampa_errore_giocatore(self, messaggio):
             DESCRIZIONE
-                Stampa il messaggio di errore in input relativo al giocatore
+                Mostra il messaggio di errore in input relativo al giocatore
 
     """
 
     # Stampe Video
 
+    @abstractmethod
     def stampa_id_giocatore(self, id_giocatore):
-        print(id_giocatore)
+        pass
 
+    @abstractmethod
     def stampa_giocatore_attivo(self, id, muri_disponibili):
-        print(f"Turno {id}, Muri Disponibili: {muri_disponibili}")
-
+        pass
+    
+    @abstractmethod
     def stampa_info_giocatore(self, id, muri_disponibili):
-        print(f"Giocatore {id}, Muri Disponibili: {muri_disponibili}")
+        pass
 
     # Stampe Errori
-
+    @abstractmethod
     def stampa_errore_giocatore(self, messaggio):
-        print(messaggio)
+        pass

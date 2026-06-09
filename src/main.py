@@ -7,7 +7,7 @@ def main():
     Crea un oggetto quoridor su cui richiama il menu iniziale dove ci saranno le
     scelte di gioco
     """
-    quoridor = QuoridorController()
+    quoridor = QuoridorController(True) # Da modificare con controllo GUI
     quoridor.gioca()
 
 

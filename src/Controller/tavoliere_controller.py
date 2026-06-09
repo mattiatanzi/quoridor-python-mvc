@@ -1,5 +1,5 @@
 from src.Model.tavoliere import Tavoliere
-from src.View.tavoliere_view import TavoliereView
+from src.View.tavoliere_view import TavoliereviewAstratta
 
 
 class TavoliereController:
@@ -27,18 +27,18 @@ class TavoliereController:
         Imposta il valore del view del tavoliere controller
     """
 
-    def __init__(self, model: Tavoliere, view: TavoliereView):
+    def __init__(self, model: Tavoliere, view: TavoliereviewAstratta):
         self.__model = model
         self.__view = view
 
     def get_model(self) -> Tavoliere:
         return self.__model
 
-    def get_view(self) -> TavoliereView:
+    def get_view(self) -> TavoliereviewAstratta:
         return self.__view
 
     def set_model(self, model: Tavoliere):
         self.__model = model
 
-    def set_view(self, view: TavoliereView):
+    def set_view(self, view: TavoliereviewAstratta):
         self.__view = view
