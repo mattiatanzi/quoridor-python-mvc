@@ -77,12 +77,14 @@ class QuoridorController:
 
 
     def gioca(self):
+        errore: str = ""
         continuare_gioco = True
 
         # Menu Principale
         while continuare_gioco:
 
             self.get_view().menu_di_gioco()
+            self.get_view().stampa_messaggio(errore)
             scelta = self.get_view().get_input_menu()
 
             # Scelta = GIOCA
@@ -120,6 +122,4 @@ class QuoridorController:
                 PartitaView().stampa_aiuto()
                 input("---- Premi INVIO per tornare al menu... ----")
             else:
-                self.get_view().stampa_messaggio(
-                    "Errore nell'inserimento della scelta, riprova"
-                )
+                errore = "Errore nell'inserimento della scelta, riprova\n"
