@@ -1,4 +1,5 @@
-from datetime import timedelta 
+from datetime import timedelta
+from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.nodo import Nodo
 
 
@@ -32,28 +33,6 @@ class Giocatore:
 
     ATTRIBUTI:
 
-        ------ COSTANTI ------
-
-        - DEF_COORDINATE
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Coordinate di default con cui creare la posizione in caso
-                non venisse specificata
-
-        - DEF_ID
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                id di default con cui creare un giocatore in caso
-                non venisse specificato
-
-        - DEF_MURI_DISPONIBILI
-            TIPO
-                Privato, Tipo int
-            DESCRIZIONE
-                Numero di muri disponibili all'inizio di ogni partita
-
         ------ ATTRIBUTI ------
 
         - idGiocatore
@@ -86,6 +65,25 @@ class Giocatore:
                 Ad inizio partita il giocatore ha a disposizione 10 muri.
                 Se un giocatore termina i muri a disposizioni, non potrà più piazzarne.
 
+        - tempoResiduo
+            TIPO
+                Privato, Tipo timedelta
+            DESCRIZIONE
+                Contiene il tempo rimasto al giocatore.
+                In caso il giocatore faccia parte di una partita senza limiti di tempo,
+                questo campo conterrà la costante DEF_SENZA_LIMITE_TEMPO, come indicato
+                nel file costanti_giocatore.py
+
+        - attivo
+            TIPO
+                Privato, Tipo bool
+            DESCRIZIONE
+                Indica se il giocatore è stato eliminato dalla partita.
+                In una partita, se attivo = False (ovvero il giocatore è stato eliminato),
+                non verrà stampato il suo pedone ma soltanto i muri che esso
+                ha posizionato. Per adesso il giocatore può essere eliminato soltanto
+                nel caso in cui, durante una partita con limite di tempo e il tempo
+                a sua disposizione fosse stato esaurito.
 
     METODI:
 
@@ -131,12 +129,48 @@ class Giocatore:
                 Modifica numero di muri a disposizione
 
         def get_tempo_residuo(self) -> timedelta:
-            DESCRIZIONE 
+            DESCRIZIONE
                 Restituisce il tempo residuo del giocatore come oggetto timedelta
+
         def set_tempo_residuo(self, tempo: timedelta):
             DESCRIZIONE
-                Imposta il timer del giocatore. Verifica che il tempo sia superiore o uguale a 1 minuto
-        
+                Imposta il tempo residuo nel giocatore.
+
+        def is_attivo(self) -> bool:
+            DESCRIZIONE
+                Restituisce True se il giocatore è attivo, False altrimenti.
+                Il significato di giocatore attivo è già stato discusso nella sezione
+                attributi.
+
+        def set_attivo(self, new_stato: bool):
+            DESCRIZIONE
+                Modifica il campo attivo del giocatore.
+                Il significato di giocatore attivo è già stato discusso nella sezione
+                attributi.
+
+
+        ------ MODIFICATORI / OSSERVATORI ------
+
+        def riduci_tempo(self, tempo_trascorso: timedelta  = timedelta(seconds = 1)) -> bool:
+            DESCRIZIONE
+                Sottrae il tempo in input al giocatore (se il giocatore ha un limite di
+                tempo).
+
+        def get_tempo_formattato(self) -> str:
+            DESCRIZIONE
+                Fornisce il tempo contenuto in un giocatore sotto forma di stringa
+
+        def possiede_limite_tempo(self) -> bool:
+            DESCRIZIONE
+                Restituisce True se il Giocatore ha un limite di tempo,
+                False se altrimenti non ha limite (fa parte di una partita senza
+                limite di tempo)
+
+        def ha_finito_tempo(self) -> bool:
+            DESCRIZIONE
+                Restituisce True se il Giocatore ha terminato il proprio tempo,
+                False se ha ancora tempo a disposizione oppure se non ha limiti di tempo
+
     """
 
     # Attributi
@@ -144,13 +178,7 @@ class Giocatore:
     __posizioneCorrente: Nodo
     __muriDisponibili: int
     __tempoResiduo: timedelta
-
-    # Costanti
-    __DEF_COORDINATE = "a1"
-    __DEF_ID = "P1"
-    __DEF_MURI_DISPONIBILI = 10
-    __DEF_TEMPO_MINIMO = timedelta(minutes=1)
-    __DEF_TEMPO_INIZIALE = timedelta(hours=0, minutes=5, seconds=0)
+    __attivo: bool
 
     # Metodi
 
@@ -158,17 +186,17 @@ class Giocatore:
 
     def __init__(
         self,
-        new_id_giocatore: str = __DEF_ID,
+        new_id_giocatore: str = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0],
         new_posizione=None,
-        new_muri_disponibili: int = __DEF_MURI_DISPONIBILI,
-        new_tempo_iniziale: timedelta = __DEF_TEMPO_INIZIALE,
+        new_muri_disponibili: int = CostantiGiocatore.DEF_MURI_DISPONIBILI,
+        new_tempo_iniziale: timedelta = CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO,
     ):
         self.set_id(new_id_giocatore)
-        
+
 
         # Caso in cui Posizione non viene specificata
         if new_posizione is None:
-            self.set_posizione(Nodo(self.__DEF_COORDINATE))
+            self.set_posizione(Nodo(CostantiGiocatore.DEF_COORDINATE))
         else:
             self.set_posizione(new_posizione)
 
@@ -176,7 +204,8 @@ class Giocatore:
 
         self.set_tempo_residuo(new_tempo_iniziale)
 
-    # Modificatori / Osservatori
+        self.set_attivo(True)
+    # Accesso Attributi Privati
 
     def get_id(self) -> str:
         return self.__idGiocatore
@@ -235,40 +264,39 @@ class Giocatore:
         return self.__tempoResiduo
 
     def set_tempo_residuo(self, tempo: timedelta):
-       
-        if not isinstance(tempo, timedelta):
-            raise TypeError("Il tempo deve essere un oggetto timedelta")
-
         self.__tempoResiduo = tempo
 
-    def riduci_tempo(self, secondi_passati: timedelta  = timedelta(seconds=1) ) -> bool:
-        if(secondi_passati < 0):
+    def is_attivo(self) -> bool:
+        return self.__attivo
+
+    def set_attivo(self, new_stato: bool):
+        self.__attivo = new_stato
+
+    # Modificatori / Osservatori
+
+
+    def riduci_tempo(self, tempo_trascorso: timedelta  = timedelta(seconds = 1)) -> bool:
+        if(tempo_trascorso.seconds < 0):
             raise TempoScadutoException("I secondi passati devono essere un numero positivo")
-        
-        delta_da_sottrarre = timedelta(seconds=secondi_passati)
-        
-        if self.get_tempo_residuo() == timedelta(seconds=0):
+
+        if self.ha_finito_tempo():
             raise TempoScadutoException(f"Il tempo del giocatore {self.get_id()} è già scaduto")
-        
-        if self.get_tempo_residuo() <= delta_da_sottrarre:
-            self.set_tempo_residuo(timedelta(seconds = 0)) 
+
+        if self.get_tempo_residuo() <= tempo_trascorso:
+            self.set_tempo_residuo(timedelta(seconds = 0))
             return False  # Tempo finito
         else:
-            self.set_tempo_residuo(self.get_tempo_residuo() - delta_da_sottrarre) 
+            self.set_tempo_residuo(self.get_tempo_residuo() - tempo_trascorso)
             return True  # C'è ancora tempo
 
-    def get_tempo_formattato(self) -> str:
-        # 1. Prendiamo i secondi totali rimasti (es. 305 secondi)
-        secondi_totali = int(self.__tempoResiduo.total_seconds())
+    def possiede_limite_tempo(self) -> bool:
+        return self.__tempoResiduo != CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO
 
-        # 2. Calcoliamo matematicamente ore, minuti e secondi restanti
-        ore = secondi_totali // 3600
-        minuti = (secondi_totali % 3600) // 60
-        secondi = secondi_totali % 60
+    def ha_finito_tempo(self) -> bool:
 
-        # 3. Scegliamo il formato di return corretto
-        if ore > 0:
-            return f"Tempo rimasto: {ore:02d}:{minuti:02d}:{secondi:02d}"
-        else:
-            return f"Tempo rimasto: {minuti:02d}:{secondi:02d}"
+        tempo_disponibile = False
 
+        if (self.possiede_limite_tempo()):
+            tempo_disponibile = (self.get_tempo_residuo() == timedelta())
+
+        return tempo_disponibile
