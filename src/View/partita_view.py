@@ -316,7 +316,7 @@ class PartitaView:
                 i -= 1
             print(stampa)
         else:
-            RIGA_IN = 3
+            RIGA_IN = 5
             COLONNA_DESTRA = 55
 
             sys.stdout.write("\033[s")  # memorizza la posizione del cursore in basso
@@ -330,7 +330,18 @@ class PartitaView:
                 f"\033[{RIGA_IN + 1};{COLONNA_DESTRA + 3}H\033[94m{intestazione}\033[0m"
             )  # Sposta a destra e scrive l'intestazione ossia P1,P2 ...
 
-            for i, mossa in enumerate(trascrizione):
+            MAX_MOSSE_VISIBILI = 15  # Il numero massimo di righe che vuoi occupare a
+            # destra
+            # Se la lista è più lunga di 15, taglia l'array mantenendo solo le ultime 15
+            # Per evitare di stampare troppe mosse insieme, così vengono mostrate le
+            # ultime 15 mosse
+            mosse_da_stampare = (
+                trascrizione[-MAX_MOSSE_VISIBILI:]
+                if len(trascrizione) > MAX_MOSSE_VISIBILI
+                else trascrizione
+            )
+
+            for i, mossa in enumerate(mosse_da_stampare):
                 riga_attuale = RIGA_IN + 2 + i
                 sys.stdout.write(f"\033[{riga_attuale};{COLONNA_DESTRA}H\033[K{mossa}")
 
