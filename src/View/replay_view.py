@@ -1,6 +1,7 @@
 from src.Model.partita import Partita
 from src.View.giocatore_view import GiocatoreView
 from src.View.partita_view import PartitaView
+from src.View.pulisci_schermo_view import pulisci_schermo
 from src.View.tavoliere_view import TavoliereView
 
 
@@ -50,6 +51,8 @@ class ReplayView:
         trascrizione_parziale: list[str],
         automatico: bool = False,
     ):
+        pulisci_schermo()
+        print("\n\n")
         print("--- REPLAY ---")
 
         self.__stampa_tavoliere.stampa_tavoliere(
@@ -73,6 +76,7 @@ class ReplayView:
             print("\n\n")
             print(" " * 10 + "[\033[92m Riproduzione Automatica in corso... \033[0m]")
             print("\n\n")
+        print ("Vengono mostrate per semplicità solo gli ultimi 15 turni")
         num_giocatori = len(stato_corrente.get_giocatori())
         self.__stampa_trascrizione.stampa_trascrizione(
             trascrizione_parziale, num_giocatori, True
