@@ -245,5 +245,8 @@ class ReplayController:
                 self.get_stato_corrente(), 
                 self.get_descrizione_corrente()
                 )
+            
+    def get_indice_corrente(self) -> int : 
+        return self.get_model().get_indice_corrente()
     
     
