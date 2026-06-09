@@ -1,18 +1,13 @@
-from datetime import timedelta
-
 from src.Controller.parametri_partita_controller import ParametriPartitaController
 from src.Controller.partita_controller import PartitaController
 from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.costanti_partita import CostantiPartita
-from src.View.costanti_quoridor_view import CostantiQuoridorView
 from src.Model.giocatore import Giocatore
 from src.Model.nodo import Nodo
 from src.Model.partita import Partita
 from src.Model.tavoliere import Tavoliere
-from src.View.giocatore_view import GiocatoreView
 from src.View.partita_view import PartitaView
 from src.View.quoridor_view import QuoridorView
-from src.View.tavoliere_view import TavoliereView
 
 
 class QuoridorController:

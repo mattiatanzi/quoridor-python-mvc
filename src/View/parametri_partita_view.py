@@ -4,6 +4,37 @@ from src.View.funzioni_utili_stampa import chiedi_input_utente, pulisci_schermo
 
 
 class ParametriPartitaView:
+    """Classe ParametriPartitaView.
+
+    DESCRIZIONE
+        Classe che gestisce stampa e input per ParametriPartita
+
+    METODI
+
+        def stampa_errore_parametri(self, errore: ErroreParametriPartita):
+            DESCRIZIONE
+                Stampa un errore riguardante i parametri della partita
+
+        def get_input_modalita_partita(self, err: str = "") -> str:
+            DESCRIZIONE
+                Stampa interfaccia per chiedere la modalità di partita
+                (con timer o senza timer)
+                Restituisce una scelta.
+                Eventualmente è possibile passare una stringa di errore da mostrare
+                per aiutare l'utente a inserire il giusto input
+
+        def get_input_limite_tempo(self, err: str = "") -> str:
+            DESCRIZIONE
+                Stampa interfaccia per chiedere quale limite di tempo usare in partita
+                (2 limiti tempo di default + tempo personalizzato)
+                Restituisce una scelta.
+                Eventualmente è possibile passare una stringa di errore da mostrare
+                per aiutare l'utente a inserire il giusto input.
+                In caso di tempo personalizzato l'utente deve inserire il tempo nel formato
+                HH:MM:SS
+
+
+    """
 
     def stampa_errore_parametri(self, errore: ErroreParametriPartita):
         print(f"Errore Parametri:  + {errore}")
