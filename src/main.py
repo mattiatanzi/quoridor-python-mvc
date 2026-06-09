@@ -1,3 +1,5 @@
+import sys
+
 from src.Controller.quoridor_controller import QuoridorController
 
 
@@ -7,7 +9,11 @@ def main():
     Crea un oggetto quoridor su cui richiama il menu iniziale dove ci saranno le
     scelte di gioco
     """
-    quoridor = QuoridorController(True) # Da modificare con controllo GUI
+    if len(sys.arv)>1 and sys.argv[1] in ("--gui"):
+        quoridor = QuoridorController(False) 
+    else:
+        quoridor = QuoridorController(True) 
+        
     quoridor.gioca()
 
 

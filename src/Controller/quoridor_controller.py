@@ -6,6 +6,7 @@ from src.Model.tavoliere import Tavoliere
 from src.View.giocatore_view_CLI import GiocatoreViewCLI
 from src.View.partita_view_CLI import PartitaViewCLI
 from src.View.quoridor_view_CLI import QuoridorViewCLI
+from src.View.quoridor_view_TUI import QuoridorViewTUI
 from src.View.tavoliere_view_CLI import TavoliereViewCLI
 
 
@@ -51,8 +52,12 @@ class QuoridorController:
     __MURI_INIZIALI = 10
 
     def __init__(self,toi: bool):
-        if toi:
+        if not toi:
+            self.__menu = QuoridorViewTUI()
+            
+        else:
             self.__menu = QuoridorViewCLI()
+
         # aggiungere else per view in Gui
     def gioca(self):
         errore: str = ""
