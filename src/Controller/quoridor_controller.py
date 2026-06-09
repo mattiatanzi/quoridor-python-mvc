@@ -35,15 +35,8 @@ class QuoridorController:
 
     def gioca():
         DESCRIZIONE
-            Permette all'utente di scegliere in che modo giocare, mostrando a video
-            diversi menu e successivamente crea una partita con i parametri scelti.
-            È possibile viaggiare tra i menù con comandi mostrari a video.
-            Per ogni menù è possibile tornare indietro (tranne per menù principale).
+            Permette all'utente di settare i parametri per una partita e giocare.
 
-        Menù implementati:
-            1. Menu Principale
-            2. Menu Modalità Partita (Con / Senza Tempo)
-                2a. Menu Scelta Tempo (Tempo breve, tempo medio, ...)
 
     def __stringa_to_tempo_limite(self, stringa_tempo: str) -> timedelta:
         DESCRIZIONE

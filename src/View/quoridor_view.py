@@ -17,17 +17,6 @@ class QuoridorView:
     def stampa_messaggio(self, messaggio: str):
         Permette di stampare un messaggio nella fase di menu
 
-    def get_input_modalita_partita(self) -> str:
-        DESCRIZIONE
-            Chiede all'utente se giocare ad una partita con limite di tempo o senza.
-            Permette all'utente anche di scegliere di tornare indietro
-
-    def get_input_limite_tempo(self) -> str:
-        DESCRIZIONE
-            Chiede all'utente quale limite di tempo usare.
-            Presenta anche dei limiti di tempo predefiniti, in alternativa
-            l'utente può digitare la stringa in un formato prestabilito.
-            Permette all'utente anche di scegliere di tornare indietro
     """
 
     def __menu_base(self):
