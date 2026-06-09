@@ -104,22 +104,22 @@ class ParametriPartitaController:
         tempo_limite = None
         messaggio_errore = "\nInput Non Valido"
 
-
         while not tornaMenuIniziale:
             # Interfaccia 1: Chiedere se usare limite di tempo per partita
             scelta_interfaccia = self.get_view().get_input_modalita_partita()
 
             while (
-                scelta_interfaccia
-                not in CostantiQuoridorView.POSSIBILI_SCELTE_MODALITA
+                scelta_interfaccia not in CostantiQuoridorView.POSSIBILI_SCELTE_MODALITA
             ):
-                if (scelta_interfaccia in ["help", "aiuto"]):
+                if scelta_interfaccia in ["help", "aiuto"]:
                     scelta_interfaccia = ""
                     self.get_view().stampa_aiuto_modalita_partita()
                     input("---- Premi INVIO per tornare alla partita... ----")
                     scelta_interfaccia = self.get_view().get_input_modalita_partita()
                 else:
-                    scelta_interfaccia = self.get_view().get_input_modalita_partita(messaggio_errore)
+                    scelta_interfaccia = self.get_view().get_input_modalita_partita(
+                        messaggio_errore
+                    )
 
             # TORNARE INDIETRO
             if scelta_interfaccia != CostantiQuoridorView.SCELTA_TORNA_INDIETRO:
@@ -132,33 +132,40 @@ class ParametriPartitaController:
                     tornaMenuIniziale = True
 
                 # IF NOT TORNARE INDIETRO AND TIMER
-                if (
-                    scelta_interfaccia
-                    == CostantiQuoridorView.SCELTA_PARTITA_CON_TIMER
-                ):
+                if scelta_interfaccia == CostantiQuoridorView.SCELTA_PARTITA_CON_TIMER:
                     # Interfaccia 2: Avvalorare Limite di Tempo
                     scelta_interfaccia = self.get_view().get_input_limite_tempo()
 
                     while (
                         scelta_interfaccia
                         not in CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT
-                        and
-                        funz_tempo.stringa_to_tempo_limite(scelta_interfaccia) is None
+                        and funz_tempo.stringa_to_tempo_limite(scelta_interfaccia)
+                        is None
                     ):
-                        if (scelta_interfaccia in ["help", "aiuto"]):
+                        if scelta_interfaccia in ["help", "aiuto"]:
                             scelta_interfaccia = ""
                             self.get_view().stampa_aiuto_limite_tempo()
                             input("---- Premi INVIO per tornare alla partita... ----")
-                            scelta_interfaccia = self.get_view().get_input_limite_tempo()
+                            scelta_interfaccia = (
+                                self.get_view().get_input_limite_tempo()
+                            )
                         else:
-                            scelta_interfaccia = self.get_view().get_input_limite_tempo(messaggio_errore)
+                            scelta_interfaccia = self.get_view().get_input_limite_tempo(
+                                messaggio_errore
+                            )
 
                     if scelta_interfaccia != CostantiQuoridorView.SCELTA_TORNA_INDIETRO:
-
-                        if scelta_interfaccia in CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT:
-                            tempo_limite = CostantiGiocatore.DEF_TIMER_PREDEFINITI[int(scelta_interfaccia) - 1]
+                        if (
+                            scelta_interfaccia
+                            in CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT
+                        ):
+                            tempo_limite = CostantiGiocatore.DEF_TIMER_PREDEFINITI[
+                                int(scelta_interfaccia) - 1
+                            ]
                         else:
-                            tempo_limite = funz_tempo.stringa_to_tempo_limite(scelta_interfaccia)
+                            tempo_limite = funz_tempo.stringa_to_tempo_limite(
+                                scelta_interfaccia
+                            )
 
                         tornaMenuIniziale = True
 
@@ -167,6 +174,5 @@ class ParametriPartitaController:
                 avvia_partita = False
 
         return ParametriPartita(
-            new_limite_tempo = tempo_limite,
-            new_avvia_partita = avvia_partita
+            new_limite_tempo=tempo_limite, new_avvia_partita=avvia_partita
         )

@@ -86,4 +86,5 @@ class CostantiPartita:
 
     RIGHE_FINALI = {
         CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]: "9",
-        CostantiGiocatore.POSSIBILI_ID_GIOCATORE[1]: "1"}
+        CostantiGiocatore.POSSIBILI_ID_GIOCATORE[1]: "1",
+    }

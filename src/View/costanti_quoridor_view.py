@@ -79,19 +79,21 @@ class CostantiQuoridorView:
     SCELTA_PARTITA_SENZA_TIMER = "2"
 
     POSSIBILI_SCELTE_MODALITA = {
-        SCELTA_PARTITA_CON_TIMER : "Partita con Timer",
-        SCELTA_PARTITA_SENZA_TIMER : "Partita senza Timer",
-        **__TORNA_INDIETRO
+        SCELTA_PARTITA_CON_TIMER: "Partita con Timer",
+        SCELTA_PARTITA_SENZA_TIMER: "Partita senza Timer",
+        **__TORNA_INDIETRO,
     }
     # Costanti riguardanti i possibili valori di timer selezionabili
 
-    MESSAGGIO_ALTERNATIVO_SCELTA_TIMER = "\n(In alternativa, digitare il limite di tempo nel formato HH:MM:SS)\n"
+    MESSAGGIO_ALTERNATIVO_SCELTA_TIMER = (
+        "\n(In alternativa, digitare il limite di tempo nel formato HH:MM:SS)\n"
+    )
 
     SCELTA_TIMER_DEFAULT_1 = "1"
     SCELTA_TIMER_DEFAULT_2 = "2"
 
     POSSIBILI_TIMER_DEFAULT = {
-        SCELTA_TIMER_DEFAULT_1 : "Tempo Breve (3 Minuti)",
-        SCELTA_TIMER_DEFAULT_2 : "Tempo Medio (5 Minuti)",
-        **__TORNA_INDIETRO
+        SCELTA_TIMER_DEFAULT_1: "Tempo Breve (3 Minuti)",
+        SCELTA_TIMER_DEFAULT_2: "Tempo Medio (5 Minuti)",
+        **__TORNA_INDIETRO,
     }

@@ -10,10 +10,11 @@ def stringa_to_tempo_limite(stringa_tempo: str) -> timedelta:
     """
     try:
         ore, minuti, secondi = map(int, stringa_tempo.split(":"))
-        return timedelta(hours = ore, minutes = minuti, seconds = secondi)
+        return timedelta(hours=ore, minutes=minuti, seconds=secondi)
     except ValueError:
         print("Errore Formato Tempo")
         return None
+
 
 def get_tempo_formattato(tempo: timedelta) -> str:
     """Funzione di conversione tempo: timedelta -> stringa.

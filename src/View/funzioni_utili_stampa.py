@@ -22,7 +22,6 @@ def pulisci_schermo():
             os.system("cls")  # Siamo su PowerShell o CMD
 
 
-
 def chiedi_input_utente(indicazioniInput: str = "") -> str:
     """Funzione Generica di richiesta input.
 
@@ -38,6 +37,7 @@ def chiedi_input_utente(indicazioniInput: str = "") -> str:
 
     # Richiedi input
     return input()
+
 
 def __stampa_richiesta_input(indicazioni: str = ""):
     print(f"\n{indicazioni}", end="\n\n")
