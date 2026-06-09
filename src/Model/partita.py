@@ -102,9 +102,10 @@ class Partita:
                 L'id del giocatore che sta svolgendo il turno
         - trascrizione
             TIPO
-                Privato, Lista di Stringhe
+                Privato, Lista di tuple
             DESCRIZIONE
-                La lista che memorizza le mosse
+                La lista che memorizza le mosse in modo puro sotto
+                forma di (id_giocatore, mossa).
 
     METODI:
 
@@ -246,7 +247,7 @@ class Partita:
     __giocatori: set[Giocatore]
     __tavoliere: Tavoliere
     __id_giocatore_attivo: str
-    __trascrizione: list[str]
+    __trascrizione: list[tuple[str, str]]
 
     # Metodi
 
