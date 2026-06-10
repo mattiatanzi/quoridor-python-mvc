@@ -17,7 +17,7 @@ def main():
         view = PartitaView(GiocatoreView(), TavoliereView())
         view.stampa_aiuto()
         return
-    
+
     quoridor = QuoridorController()
     quoridor.gioca()
 

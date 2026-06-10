@@ -1,7 +1,7 @@
 from src.Model.partita import Partita
 from src.View.giocatore_view import GiocatoreView
 from src.View.partita_view import PartitaView
-from src.View.pulisci_schermo_view import pulisci_schermo
+from src.View.funzioni_utili_stampa import pulisci_schermo
 from src.View.tavoliere_view import TavoliereView
 
 
@@ -30,7 +30,7 @@ class ReplayView:
     stampa_replay(self,stato_corrente: Partita,descrizione_mossa: str,
         trascrizione_parziale: list[str],automatico: bool = False)
         Stampa la partita con la sua trascrizione ogni volta che si sta guardando il
-        replay e si esegue una mossa. E' stato deciso per l'interfaccia CLI che 
+        replay e si esegue una mossa. E' stato deciso per l'interfaccia CLI che
         per evitare che la stampa della trascrizione vada troppo sotto è stato
         scelto di adottare un numero massimo di turni visibili durante
         il replay che è: gli ultimi 15 turni presenti

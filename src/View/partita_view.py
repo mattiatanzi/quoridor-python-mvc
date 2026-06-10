@@ -1,8 +1,9 @@
 import sys
 
 from src.Model.partita import Partita
+from src.Model.tempo import get_tempo_formattato
+from src.View.funzioni_utili_stampa import chiedi_input_utente, pulisci_schermo
 from src.View.giocatore_view import GiocatoreView
-from src.View.pulisci_schermo_view import pulisci_schermo
 from src.View.tavoliere_view import TavoliereView
 
 
@@ -104,17 +105,6 @@ class PartitaView:
 
         ------ INPUT UTENTE ------
 
-        def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
-            DESCRIZIONE
-                Stampa un interfaccia con un eventuale messaggio di indicazioni in cui
-                viene chiesto all'utente di inserire un input. La funzione restituisce
-                l'input inserito dall'utente
-
-        def stampa_richiesta_input(self, indicazioni: str = ""):
-            DESCRIZIONE
-                Stampa un interfaccia con un eventuale messaggio di indicazioni in cui
-                viene chiesto all'utente di inserire un input.
-
         def get_input(self):
             DESCRIZIONE
                 Scrive un messaggio e prende e restituisce quello che scrive l'utente
@@ -128,16 +118,24 @@ class PartitaView:
 
     # Costanti
     __LUNGHEZZA_DIVISORI = 70
+    __DEF_GIOCATORE_VIEW = GiocatoreView()
+    __DEF_TAVOLIERE_VIEW = TavoliereView()
 
     # Metodi
 
     # Costruttore
 
     def __init__(
-        self, new_giocatore_view: GiocatoreView, new_tavoliere_view: TavoliereView
+        self,
+        new_giocatore_view: GiocatoreView = None,
+        new_tavoliere_view: TavoliereView = None,
     ):
-        self.set_giocatore_view(new_giocatore_view)
-        self.set_tavoliere_view(new_tavoliere_view)
+        self.set_giocatore_view(
+            new_giocatore_view if new_giocatore_view is not None else GiocatoreView()
+        )
+        self.set_tavoliere_view(
+            new_tavoliere_view if new_tavoliere_view is not None else TavoliereView()
+        )
 
     # Accesso Attributi Privati
 
@@ -163,30 +161,29 @@ class PartitaView:
             id_selezionato = g.get_id()
             muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
 
-            if id_selezionato == partita.get_id_giocatore_attivo():
-                self.get_giocatore_view().stampa_giocatore_attivo(
-                    id_selezionato, muri_rimanenti
-                )
+            if g.possiede_limite_tempo():
+                stringa_tempo_rimanente = get_tempo_formattato(g.get_tempo_residuo())
             else:
-                self.get_giocatore_view().stampa_info_giocatore(
-                    id_selezionato, muri_rimanenti
+                stringa_tempo_rimanente = None
+
+            if g.is_attivo():
+                if id_selezionato == partita.get_id_giocatore_attivo():
+                    self.get_giocatore_view().stampa_giocatore_attivo(
+                        id_selezionato, muri_rimanenti, stringa_tempo_rimanente
+                    )
+                else:
+                    self.get_giocatore_view().stampa_info_giocatore(
+                        id_selezionato, muri_rimanenti, stringa_tempo_rimanente
+                    )
+            else:
+                self.get_giocatore_view().stampa_giocatore_eliminato(
+                    id_selezionato, muri_rimanenti, stringa_tempo_rimanente
                 )
 
         print("")
         self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
 
         print("\nSuggerimento -- Digitare 'help' per visualizzare i comandi\n")
-
-    def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
-        # Stampa interfaccia Input
-        self.stampa_richiesta_input(indicazioniInput)
-
-        # Richiedi input
-        return input()
-
-    def stampa_richiesta_input(self, indicazioni: str = ""):
-        print(indicazioni, end="\n\n")
-        print("Input: ", end="")
 
     def stampa_aiuto(self):
         aiuto = """
@@ -243,7 +240,7 @@ class PartitaView:
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
 
-    def stampa_vittoria(self, idVincitore):
+    def stampa_vittoria(self, idVincitore, motivo_vittoria: str):
         # Stampa ==============================
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("=", end="")
@@ -270,9 +267,9 @@ class PartitaView:
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("=", end="")
 
-        # Stampa descrizione della vittoria
+        # Stampa descrizione della vittoria specifica
         print("\n\n")
-        print(f"\tIl giocatore {idVincitore} ha raggiunto destinazione.", end="")
+        print(f"{motivo_vittoria:^{self.__LUNGHEZZA_DIVISORI}}")
         print("\n\n")
 
         # Stampa -------------------------------
@@ -293,6 +290,9 @@ class PartitaView:
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("=", end="")
         print("\n")
+
+    def get_input(self) -> str:
+        return chiedi_input_utente("Fai la tua mossa: ")
 
     # Stampe Errori
 
