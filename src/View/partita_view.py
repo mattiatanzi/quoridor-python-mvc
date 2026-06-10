@@ -6,40 +6,15 @@ from src.View.tavoliere_view import TavoliereviewAstratta
 
 
 class PartitaViewAstratta(ABC):
-    """Classe PartitaView.
+    """Classe PartitaViewAstratta.
 
     DESCRIZIONE
         Rappresenta la classe che gestisce operazioni di input / stampa per la
         Partita
 
+    MEDOTI
 
-    ATTRIButi    
-        giocatoreView
-            TIPO
-                Privato, Tipo GiocatoreViewAstratta
-            DESCRIZIONE
-                View della classe Giocatore astratta
-
-        tavoliereView
-            TIPO
-                Privato, Tipo TavoliereViewAstratta
-            DESCRIZIONE
-                View della classe Tavoliere astratta
-
-    METODI
-
-        ------ COSTRUTTORE ------
-
-        def __init__(
-            self, new_giocatore_view: GiocatoreView, new_tavoliere_view: TavoliereView
-        ):
-            DESCRIZIONE
-                Costruttore di base.
-                Data un modello GiocatoreView e un TavoliereView restituisce
-                un PartitaView
-
-
-        ------ ACCESSO ATTRIBUTI PRIVATI ------
+            ------ ACCESSO ATTRIBUTI PRIVATI ------
 
         def set_tavoliere_view(self, new_tavoliere_view: TavoliereViewAstratta):
             DESCRIZIONE
@@ -100,23 +75,23 @@ class PartitaViewAstratta(ABC):
 
     """
     
+    def __init__(self, new_giocatore_view: GiocatoreViewAstratta, new_tavoliere_view: TavoliereviewAstratta):
+        self.set_giocatore_view(new_giocatore_view)
+        self.set_tavoliere_view(new_tavoliere_view)
     # Accesso Attributi Privati
 
-    @abstractmethod
     def set_tavoliere_view(self, new_tavoliere_view: TavoliereviewAstratta):
-        pass
+        self.__tavoliereView = new_tavoliere_view
 
-    @abstractmethod
     def get_tavoliere_view(self):
-        pass
+        return self.__tavoliereView
 
-    @abstractmethod
     def set_giocatore_view(self, new_giocatore_view: GiocatoreViewAstratta):
-        pass
+        self.__giocatoreView = new_giocatore_view
 
-    @abstractmethod
     def get_giocatore_view(self):
-        pass
+        return self.__giocatoreView
+
     # Stampe Video
 
     @abstractmethod

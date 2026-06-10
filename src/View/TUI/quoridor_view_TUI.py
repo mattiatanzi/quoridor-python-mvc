@@ -31,15 +31,16 @@ class QuoridorViewTUI(QuoridorViewAstratta):
         DESCRIZIONE
         Fa partire il motore grafico
     """
+    
     def __init__(self):
         self.__coda_input = queue.Queue()
-        self.app = QuoridorViewApp(coda = self.__coda_input)
+        self.__app = QuoridorViewApp(coda = self.__coda_input)
     
     def menu_di_gioco(self):
         pass 
 
     def get_input_menu(self):
-        return self.__coda_input.get
+        return self.__coda_input.get()
     
     def stampa_messaggio(self, messaggio):
         if messaggio.strip():

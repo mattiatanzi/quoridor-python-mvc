@@ -132,22 +132,9 @@ class PartitaViewCLI(PartitaViewAstratta):
     def __init__(
         self, new_giocatore_view: GiocatoreViewAstratta, new_tavoliere_view: TavoliereviewAstratta
     ):
-        self.set_giocatore_view(new_giocatore_view)
-        self.set_tavoliere_view(new_tavoliere_view)
+        super.__init__(new_giocatore_view,new_tavoliere_view)
 
     # Accesso Attributi Privati
-
-    def set_tavoliere_view(self, new_tavoliere_view: TavoliereviewAstratta):
-        self.__tavoliereView = new_tavoliere_view
-
-    def get_tavoliere_view(self):
-        return self.__tavoliereView
-
-    def set_giocatore_view(self, new_giocatore_view: GiocatoreViewAstratta):
-        self.__giocatoreView = new_giocatore_view
-
-    def get_giocatore_view(self):
-        return self.__giocatoreView
 
     # Stampe Video
 
