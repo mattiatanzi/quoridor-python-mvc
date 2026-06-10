@@ -383,7 +383,7 @@ class PartitaController:
                                     if id_vincitore:
                                         # Impostiamo il motivo richiesto
                                         motivo_vincita = (
-                                            f"Il giocatore {id_vincitore} è l'unico"
+                                            f"Il giocatore {id_vincitore} è l'unico "
                                             "rimasto in partita"
                                         )
                                         # Mostriamo la schermata di vittoria comune
@@ -433,7 +433,7 @@ class PartitaController:
                                 # Ciclo fin quando l'utente non decide di tornare al menù
                                 while scelta_pulita != "m":
                                     errore = ""
-                                    
+
                                     # --- GESTIONE REPLAY ---
                                     if (
                                         scelta_pulita in self.__COMANDI_REPLAY
@@ -486,7 +486,7 @@ class PartitaController:
                                                     )
                                                     self.__view.stampa_errore_partita(errore)
                                                     errore = ""
-                                                
+
                                                 scelta_replay = self.get_view().chiedi_input_utente()
                                                 try:
                                                     ris = replay.esegui_comando(scelta_replay)
@@ -507,7 +507,7 @@ class PartitaController:
                                             while not replay.replay_fine():
                                                 replay.avanza()
                                                 time.sleep(1.5)
-                                        
+
                                         # Alla fine del replay, svuotiamo la scelta per richiedere nuovamente input
                                         scelta_pulita = ""
 
@@ -524,11 +524,11 @@ class PartitaController:
                                     else:
                                         if scelta_pulita != "":
                                             self.__view.stampa_errore_partita("Comando non riconosciuto. Inserisci 'm' per il menù, 'r' per il replay o 'mosse' per la trascrizione.")
-                                        
+
                                         # Ristampa la schermata di vittoria e aspetta un nuovo comando
                                         self.__view.stampa_vittoria(id_vincitore, motivo_vincita)
                                         scelta_pulita = self.__view.get_input().lower().strip()
-                                        
+
                                 else:
                                     # L'utente ha premuto "m"
                                     continuare_partita = False

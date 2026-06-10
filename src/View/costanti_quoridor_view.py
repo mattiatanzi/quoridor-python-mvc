@@ -88,7 +88,7 @@ class CostantiQuoridorView:
     # Costanti riguardanti i possibili valori di timer selezionabili
 
     MESSAGGIO_ALTERNATIVO_SCELTA_TIMER = (
-        "\n(In alternativa, digitare il limite di tempo nel formato HH:MM:SS)\n"
+        "\n(In alternativa, digitare il limite di tempo nel formato HH:MM:SS)\n\n"
     )
 
     SCELTA_TIMER_DEFAULT_1 = "1"

@@ -137,7 +137,7 @@ class ParametriPartitaView:
             "{CostantiQuoridorView.SCELTA_TIMER_DEFAULT_2}"
 
         Infine, per usare un limite di tempo personalizzato,
-        digitarlo nel formato HH:MM:SS
+        digitarlo nel formato HH:MM:SS\n
 
         Per tornare indietro, digitare:
             "{CostantiQuoridorView.SCELTA_TORNA_INDIETRO}"
@@ -146,24 +146,25 @@ class ParametriPartitaView:
         print(f"\033[94m{aiuto}\033[0m")
 
 
-def stampa_aiuto_numero_giocatori(self):
-    pulisci_schermo()
+    def stampa_aiuto_numero_giocatori(self):
+        pulisci_schermo()
 
-    aiuto = f"""
+        aiuto = f"""
 
-    -- AIUTO SCELTA NUMERO GIOCATORI --
+        -- AIUTO SCELTA NUMERO GIOCATORI --
 
-    In questo menu potrai selezionare quanti giocatori introdurre in
-    partita.
+        In questo menu potrai selezionare quanti giocatori introdurre in
+        partita.
 
-    Per selezionare 2 Giocatori, digitare:
-        "{CostantiQuoridorView.SCELTA_2_GIOCATORI}"
+        Per selezionare 2 Giocatori, digitare:
+            "{CostantiQuoridorView.SCELTA_2_GIOCATORI}"
 
-    Altrimenti, se si vuole giocare con 4 Giocatori, digitare:
-        "{CostantiQuoridorView.SCELTA_4_GIOCATORI}"
+        Altrimenti, se si vuole giocare con 4 Giocatori, digitare:
+            "{CostantiQuoridorView.SCELTA_4_GIOCATORI}"
 
-    Per tornare indietro, digitare:
-        "{CostantiQuoridorView.SCELTA_TORNA_INDIETRO}"
-    """
-    # Questa notazione fa una stampa di color blu
-    print(f"\033[94m{aiuto}\033[0m")
+        Per tornare indietro, digitare:
+            "{CostantiQuoridorView.SCELTA_TORNA_INDIETRO}"
+
+        """
+        # Questa notazione fa una stampa di color blu
+        print(f"\033[94m{aiuto}\033[0m")
