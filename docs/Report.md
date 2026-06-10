@@ -229,6 +229,11 @@ S2_5. **Nuova interfaccia avanzata**: In qualità di giocatore, voglio interagir
 - **RNF3** (Robustezza): Per qualunque input inaspettato l'applicazione non deve mai andare in crash.
 
 - **RNF4** (Normalizzazione comandi): La Command Line Interface (CLI) deve accettare notazioni testuali compatte (es. `e2` per il pedone, `e3h` per i muri).
+
+*In più, seguono tre nuovi requisiti non funzionali da rispettare (oltre ai quattro già presenti), essi sono stati individuati per lo sprint 2:*
+- **RNF5** (Usabilità): Un utente nuovo non deve avere indecisioni, tutto dev’essere chiarito soprattutto in luogo delle nuove funzionalità che riguardano il gioco. Dunque tutte le nuove istruzioni si riflettono nel comando help.
+- **RNF6** (Flessibilità di interazione): Nonostante la nuova interfaccia avanzata dev’essere possibile inserire i comandi anche da prompt testuale con notazione compatta come avveniva prima. 
+- **RNF7** (Testabilità logica): I test automatici, devono essere eseguiti secondo la logica di gioco, evitando di gestire input del giocatore o output testuale, che invece possono cambiare nel tempo. 
   
   ## 4. System Design
   
