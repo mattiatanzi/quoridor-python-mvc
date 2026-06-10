@@ -37,7 +37,7 @@ class ParametriPartitaView:
     """
 
     def stampa_errore_parametri(self, errore: ErroreParametriPartita):
-        print(f"Errore Parametri:  + {errore}")
+        print(f"Errore Parametri:  {errore}")
 
     def get_input_modalita_partita(self, err: str = "") -> str:
         pulisci_schermo()
@@ -50,7 +50,7 @@ class ParametriPartitaView:
         ) in CostantiQuoridorView.POSSIBILI_SCELTE_MODALITA.items():
             messaggio = messaggio + f"\n{chiave}. {descrizione}\n"
 
-        messaggio = messaggio + "\nDigitare `help` o `aiuto` una breve guida"
+        messaggio = messaggio + "\nDigitare `help` o `aiuto` per una breve guida"
 
         messaggio = messaggio + err
 
@@ -66,7 +66,7 @@ class ParametriPartitaView:
 
         messaggio = messaggio + CostantiQuoridorView.MESSAGGIO_ALTERNATIVO_SCELTA_TIMER
 
-        messaggio = messaggio + "Digitare `help` o `aiuto` una breve guida"
+        messaggio = messaggio + "Digitare `help` o `aiuto` per una breve guida"
 
         messaggio = messaggio + err
 
@@ -101,7 +101,7 @@ class ParametriPartitaView:
 
         -- AIUTO SCELTA LIMITE TEMPO --
 
-        In questo menu potrai selezionare se quale limite di tempo usare nella
+        In questo menu potrai selezionare quale limite di tempo usare nella
         partita.
 
         Per selezionare una partita limite di tempo: {

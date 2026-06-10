@@ -16,7 +16,7 @@ class CostantiPartita:
             TIPO
                 Pubblico, Tipo int
             DESCRIZIONE
-                Il numero massimo dei giocatori amessi in partita
+                Il numero massimo dei giocatori ammessi in partita
 
         - ID_PRIMO_GIOCATORE_ATTIVO
             TIPO

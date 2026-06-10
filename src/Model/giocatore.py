@@ -162,10 +162,6 @@ class Giocatore:
                 Sottrae il tempo in input al giocatore (se il giocatore ha un limite di
                 tempo).
 
-        def get_tempo_formattato(self) -> str:
-            DESCRIZIONE
-                Fornisce il tempo contenuto in un giocatore sotto forma di stringa
-
         def possiede_limite_tempo(self) -> bool:
             DESCRIZIONE
                 Restituisce True se il Giocatore ha un limite di tempo,

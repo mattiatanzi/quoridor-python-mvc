@@ -6,7 +6,7 @@ def pulisci_schermo():
 
     Abbiamo notato che durante l'esecuzione sui terminali di Ubuntu e di Windows
     Powershell non viene pulito lo schermo come avviene negli altri terminali,
-    ma traliasciamo questo problema in quanto di base Ubuntu e Powershell mantengono
+    ma tralasciamo questo problema in quanto di base Ubuntu e Powershell mantengono
     il buffer di scorrimento ma ogni qual volta si richiama la funzione la stampa
     riporta sempre all'ultima stampa emessa lasciando quindi come 'storico'
     i precedenti comandi e/o precedenti stampe a video

@@ -32,7 +32,4 @@ def get_tempo_formattato(tempo: timedelta) -> str:
     secondi = secondi_totali % 60
 
     # 3. Scegliamo il formato di return corretto
-    if ore > 0:
-        return f"{ore:02d}:{minuti:02d}:{secondi:02d}"
-    else:
-        return f"{minuti:02d}:{secondi:02d}"
+    return f"{ore:02d}:{minuti:02d}:{secondi:02d}"
