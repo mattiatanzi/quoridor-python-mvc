@@ -22,7 +22,7 @@ class ErrorePosizione(Exception):
     pass
 
 
-class TempoScadutoException(Exception):
+class TempoException(Exception):
     """Eccezione che gestisce errori riguardanti il tempo di gioco."""
 
     pass
@@ -277,22 +277,28 @@ class Giocatore:
     # Modificatori / Osservatori
 
     def riduci_tempo(self, tempo_trascorso: timedelta = timedelta(seconds=1)) -> bool:
-        if tempo_trascorso.seconds < 0:
-            raise TempoScadutoException(
-                "I secondi passati devono essere un numero positivo"
-            )
+        if self.possiede_limite_tempo():
+            if tempo_trascorso.seconds < 0:
+                raise TempoException(
+                    "I secondi passati devono essere un numero positivo"
+                )
 
-        if self.ha_finito_tempo():
-            raise TempoScadutoException(
-                f"Il tempo del giocatore {self.get_id()} è già scaduto"
-            )
+            if self.ha_finito_tempo():
+                raise TempoException(
+                    f"Il tempo del giocatore {self.get_id()} è già scaduto"
+                )
 
-        if self.get_tempo_residuo() <= tempo_trascorso:
-            self.set_tempo_residuo(timedelta(seconds=0))
-            return False  # Tempo finito
+            if self.get_tempo_residuo() <= tempo_trascorso:
+                self.set_tempo_residuo(timedelta(seconds=0))
+                return False  # Tempo finito
+            else:
+                self.set_tempo_residuo(self.get_tempo_residuo() - tempo_trascorso)
+                return True  # C'è ancora tempo
         else:
-            self.set_tempo_residuo(self.get_tempo_residuo() - tempo_trascorso)
-            return True  # C'è ancora tempo
+            raise TempoException(
+                f"Impossibile Ridurre il tempo, il Giocatore {self.get_id()}"
+                "non ha limiti di tempo"
+            )
 
     def possiede_limite_tempo(self) -> bool:
         return self.__tempoResiduo != CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO
