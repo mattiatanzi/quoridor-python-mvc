@@ -3,6 +3,7 @@ from textual.widgets import Button, Label, Header, Footer
 from textual.screen import Screen
 from textual.containers import Vertical, Center
 
+
 class QuoridorViewScreen(Screen):
     """Parte grafica che effettuata con Textual.
     
@@ -34,8 +35,8 @@ class QuoridorViewScreen(Screen):
         id_premuto = event.button.id
 
         if id_premuto == "btn-avviaPart":
-            # Da togliere, è utile solo per la stampa del tavoliere
             comando = "1"
+            
 
         elif id_premuto == "btn-avviaHelp":
             comando = "h"

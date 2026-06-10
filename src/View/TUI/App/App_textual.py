@@ -4,7 +4,7 @@ import queue  # Aggiunto perché così non andiamo a rompere l'input richiesto i
 from textual.app import App
 
 from src.View.TUI.Screen.quoridor_view_Screen import QuoridorViewScreen
-
+from src.View.TUI.Screen.partita_view_Screen import PartitaViewScreen
 
 class QuoridorViewApp(App):
     """Gestice cosa viene mostrato a video, ossia quale screen.
@@ -36,3 +36,12 @@ class QuoridorViewApp(App):
     def invia_comando(self, comando: str):
         self.__coda_input.put(comando)
 
+    def mostra_schermo_partita(self, ids_giocatori: list[str]) -> None:
+        self.push_screen(PartitaViewScreen(self.__coda_input, ids_giocatori))
+        
+    def torna_al_menu(self):
+        """Chiude lo schermo della partita rivelando nuovamente il menu."""
+        self.pop_screen()
+
+    def get_coda_input(self):
+        return self.__coda_input

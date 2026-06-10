@@ -1,11 +1,11 @@
 import sys
 
 from src.Model.partita import Partita
-from src.View.giocatore_view import GiocatoreViewAstratta
-from src.View.partita_view import PartitaViewAstratta
 from src.Model.tempo import get_tempo_formattato
 from src.View.funzioni_utili_stampa import chiedi_input_utente, pulisci_schermo
+from src.View.giocatore_view import GiocatoreViewAstratta
 from src.View.tavoliere_view import TavoliereviewAstratta
+from src.View.partita_view import PartitaViewAstratta
 
 
 class PartitaViewCLI(PartitaViewAstratta):
@@ -106,17 +106,6 @@ class PartitaViewCLI(PartitaViewAstratta):
 
         ------ INPUT UTENTE ------
 
-        def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
-            DESCRIZIONE
-                Stampa un interfaccia con un eventuale messaggio di indicazioni in cui
-                viene chiesto all'utente di inserire un input. La funzione restituisce
-                l'input inserito dall'utente
-
-        def stampa_richiesta_input(self, indicazioni: str = ""):
-            DESCRIZIONE
-                Stampa un interfaccia con un eventuale messaggio di indicazioni in cui
-                viene chiesto all'utente di inserire un input.
-
         def get_input(self):
             DESCRIZIONE
                 Scrive un messaggio e prende e restituisce quello che scrive l'utente
@@ -131,48 +120,36 @@ class PartitaViewCLI(PartitaViewAstratta):
     # Costanti
     __LUNGHEZZA_DIVISORI = 70
 
+
     # Metodi
 
     # Costruttore
 
     def __init__(
-        self, new_giocatore_view: GiocatoreViewAstratta, new_tavoliere_view: TavoliereviewAstratta
+        self,
+        new_giocatore_view: GiocatoreViewAstratta = None,
+        new_tavoliere_view: TavoliereviewAstratta = None,
     ):
-        super().__init__(new_giocatore_view,new_tavoliere_view)
+        self.__giocatoreView = new_giocatore_view
+        self.__tavoliereView = new_tavoliere_view
 
-    
+    # Accesso Attributi Privati
+
+    def set_tavoliere_view(self, new_tavoliere_view: TavoliereviewAstratta):
+        self.__tavoliereView = new_tavoliere_view
+
+    def get_tavoliere_view(self):
+        return self.__tavoliereView
+
+    def set_giocatore_view(self, new_giocatore_view: GiocatoreViewAstratta):
+        self.__giocatoreView = new_giocatore_view
+
+    def get_giocatore_view(self):
+        return self.__giocatoreView
+
     # Stampe Video
 
     def stampa_partita(self, partita: Partita):
-        pulisci_schermo()
-        giocatori = partita.get_giocatori()
-        tavoliere = partita.get_tavoliere()
-        for g in giocatori:
-            id_selezionato = g.get_id()
-            muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
-
-            if id_selezionato == partita.get_id_giocatore_attivo():
-                self.get_giocatore_view().stampa_giocatore_attivo(
-                    id_selezionato, muri_rimanenti
-                )
-            else:
-                self.get_giocatore_view().stampa_info_giocatore(
-                    id_selezionato, muri_rimanenti
-                )
-
-        print("")
-        self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
-
-        print("\nSuggerimento -- Digitare 'help' per visualizzare i comandi\n")
-
-    def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
-        # Stampa interfaccia Input
-        self.stampa_richiesta_input(indicazioniInput)
-
-        # Richiedi input
-        return input()
-
-    def stampa_richiesta_input(self, partita: Partita):
         pulisci_schermo()
         giocatori = partita.get_giocatori()
         tavoliere = partita.get_tavoliere()
@@ -258,7 +235,6 @@ class PartitaViewCLI(PartitaViewAstratta):
 
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
-        input("---- Premi INVIO per tornare al menu... ----")
 
     def stampa_vittoria(self, idVincitore, motivo_vittoria: str):
         # Stampa ==============================
@@ -314,14 +290,13 @@ class PartitaViewCLI(PartitaViewAstratta):
     def get_input(self) -> str:
         return chiedi_input_utente("Fai la tua mossa: ")
 
-
     # Stampe Errori
 
     def stampa_errore_partita(self, messaggio):
         print(messaggio)
 
     def get_input(self) -> str:
-        return self.chiedi_input_utente("Fai la tua mossa: ")
+        return chiedi_input_utente("Fai la tua mossa: ")
 
     def stampa_trascrizione(
         self, trascrizione: list[str], num_giocatori: int, replay: bool = False
@@ -368,3 +343,9 @@ class PartitaViewCLI(PartitaViewAstratta):
 
             sys.stdout.write("\033[u")
             sys.stdout.flush()
+
+    def avvia_interfaccia_partita(self, ids_giocatori: list[str]) -> None:
+        pass   # nella CLI non serve cambiare schermo
+
+    def torna_al_menu(self):
+        pass

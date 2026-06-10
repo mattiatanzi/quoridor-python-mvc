@@ -1,132 +1,121 @@
 from src.Model.partita import Partita
+from src.Model.tempo import get_tempo_formattato
 from src.View.giocatore_view import GiocatoreViewAstratta
 from src.View.partita_view import PartitaViewAstratta
 from src.View.tavoliere_view import TavoliereviewAstratta
+from src.View.TUI.Screen.partita_view_Screen import PartitaViewScreen
+
 
 class PartitaViewTUI(PartitaViewAstratta):
-    """Classe PartitaViewTUI.
-    
-    DESCRIZIONE
-        Rappresenta la classe che gestisce operazioni di input / stampa per la
-        Partita con la interfaccia TUI
+    """Implementazione TUI della view della partita.
 
+    Non stampa nulla direttamente: aggiorna i widget
+    già montati nella PartitaViewScreen tramite call_from_thread.
 
-    ATTRIButi    
-        giocatoreView
-            TIPO
-                Privato, Tipo GiocatoreViewAstratta
-            DESCRIZIONE
-                View della classe Giocatore astratta
-
-        tavoliereView
-            TIPO
-                Privato, Tipo TavoliereViewAstratta
-            DESCRIZIONE
-                View della classe Tavoliere astratta
-
-    METODI
-
-        ------ COSTRUTTORE ------
-
-        def __init__(
-            self, new_giocatore_view: GiocatoreView, new_tavoliere_view: TavoliereView
-        ):
-            DESCRIZIONE
-                Costruttore di base.
-                Data un modello GiocatoreView e un TavoliereView restituisce
-                un PartitaView
-
-
-        ------ ACCESSO ATTRIBUTI PRIVATI ------
-
-        def set_tavoliere_view(self, new_tavoliere_view: TavoliereViewAstratta):
-            DESCRIZIONE
-                Modifica il tavoliereView contenuto in PartitaView
-
-        def get_tavoliere_view(self) -> TavoliereViewAstratta:
-            DESCRIZIONE
-                Restituisce il tavoliereView contenuto in PartitaView
-
-        def set_giocatore_view(self, new_giocatore_view: GiocatoreViewAstratta):
-            DESCRIZIONE
-                Modifica il GiocatoreView contenuto in PartitaView
-
-        def get_giocatore_view(self):
-            DESCRIZIONE
-                Restituisce il GiocatoreView contenuto in PartitaView
-
-
-        ------ STAMPE VIDEO ------
-
-        def stampa_partita(self, partita: Partita):
-            DESCRIZIONE
-            Mostra la partita corrente, ossia tavoliere di gioco e info sui
-            giocatori
-
-        def stampa_aiuto(self)
-            DESCRIZIONE
-            Mostra la guida riassuntiva dei comandi disponibili.
-
-        def stampa_vittoria(self, idVincitore):
-            DESCRIZIONE
-                Mostra l'interfaccia di vittoria
-
-
-        ------ STAMPE ERRORI ------
-
-        def stampa_errore_partita(self, messaggio):
-            DESCRIZIONE
-                Mostra il messaggio di errore in input relativo alla partita
-
-        ------ INPUT UTENTE ------
-
-        def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
-            DESCRIZIONE
-                Mostra un interfaccia con un eventuale messaggio di indicazioni in cui
-                viene chiesto all'utente di inserire un input. La funzione restituisce
-                l'input inserito dall'utente
-
-        def stampa_richiesta_input(self, indicazioni: str = ""):
-            DESCRIZIONE
-                Mostra un interfaccia con un eventuale messaggio di indicazioni in cui
-                viene chiesto all'utente di inserire un input.
-
-        def get_input(self):
-            DESCRIZIONE
-                Mostra un messaggio e prende e restituisce quello che scrive l'utente
-                in input.
-
+    ATTRIBUTI
+        _app : QuoridorViewApp
+            Riferimento all'app Textual condivisa
     """
-    
-    def __init__(self, new_giocatore_view: GiocatoreViewAstratta, new_tavoliere_view: TavoliereviewAstratta, app_condivisa):
 
-        super().__init__(new_giocatore_view,new_tavoliere_view)
-        self.__app_condivisa= app_condivisa
-     
+    def __init__(
+        self,
+        new_giocatore_view: GiocatoreViewAstratta,
+        new_tavoliere_view: TavoliereviewAstratta,
+        app_condivisa,
+    ):
+        super().__init__(new_giocatore_view, new_tavoliere_view)
+        self._app = app_condivisa
+
+    # ------ Stampe Video ------ #
+
     def stampa_partita(self, partita: Partita):
-        schermo = self.__app_condivisa.screen
+        giocatori = partita.get_giocatori()
+        tavoliere = partita.get_tavoliere()
 
-    
-    def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
-        pass
+        for g in giocatori:
+            id_sel = g.get_id()
+            muri = partita.get_muri_disponibili_giocatore(id_sel)
+            tempo_fmt = (
+                get_tempo_formattato(g.get_tempo_residuo())
+                if g.possiede_limite_tempo()
+                else None
+            )
 
-    
-    def stampa_richiesta_input(self, indicazioni: str = ""):
-       pass
+            if g.is_attivo():
+                if id_sel == partita.get_id_giocatore_attivo():
+                    self.get_giocatore_view().stampa_giocatore_attivo(
+                        id_sel, muri, tempo_fmt
+                    )
+                else:
+                    self.get_giocatore_view().stampa_info_giocatore(
+                        id_sel, muri, tempo_fmt
+                    )
+            else:
+                self.get_giocatore_view().stampa_giocatore_eliminato(
+                    id_sel, muri, tempo_fmt
+                )
 
-
-    def stampa_aiuto(self):
-        pass
-
-    
-    def stampa_vittoria(self, idVincitore):
-        pass
-    
-    # Stampe Errori
+        # Il tavoliere aggiorna i widget già montati nella screen
+        self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
 
     def stampa_errore_partita(self, messaggio):
-        pass
+        def _aggiorna():
+            try:
+                self._app.screen.aggiorna_label_errore(str(messaggio))
+            except Exception:
+                pass
+        self._app.call_from_thread(_aggiorna)
+
+    def stampa_aiuto(self):
+        # Nella TUI l'aiuto viene mostrato come notifica overlay
+        testo = (
+            "MOSSA: <col><riga> es. e5 — "
+            "MURO: <col><riga><h/v> es. e5h — "
+            "quit: abbandona — exit: esci"
+        )
+        self._app.call_from_thread(self._app.notify, testo, timeout=8)
+
+    def stampa_vittoria(self, id_vincitore, motivo_vittoria: str):
+        testo = f"🏆 {id_vincitore} HA VINTO — {motivo_vittoria}"
+        self._app.call_from_thread(
+            self._app.notify, testo, severity="information", timeout=10
+        )
+
+    def stampa_trascrizione(
+        self, trascrizione: list[str], num_giocatori: int, replay: bool = False
+    ):
+        # Nella TUI la trascrizione sarà nel pannello laterale della
+        # ReplayViewScreen; durante la partita usiamo una notifica
+        if not replay:
+            testo = "\n".join(reversed(trascrizione[-15:]))
+            self._app.call_from_thread(self._app.notify, testo, timeout=10)
+
+    def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
+        # Il controller chiama questo metodo per leggere dalla coda,
+        # che viene popolata da on_input_submitted nella screen
+        return self._app.get_coda_input().get()
 
     def get_input(self) -> str:
-        pass
+        return self.chiedi_input_utente()
 
+    def stampa_richiesta_input(self, indicazioni: str = ""):
+        # Aggiorna il label hint sopra il campo input
+        def _aggiorna():
+            try:
+                self._app.screen.query_one(
+                    "#label-input-hint"
+                ).update(indicazioni or "Fai la tua mossa:")
+            except Exception:
+                pass
+        self._app.call_from_thread(_aggiorna)
+
+    def avvia_interfaccia_partita(self, ids_giocatori: list[str]):
+        """Dice a Textual di montare lo schermo della partita."""
+        def cambia_schermo():
+            # Chiama il metodo che fa push_screen sull'App
+            self._app.mostra_schermo_partita(ids_giocatori)
+            
+        self._app.call_from_thread(cambia_schermo)
+
+    def torna_al_menu(self):
+        self._app.torna_al_menu()   # era self.__app

@@ -8,7 +8,7 @@ from src.Model.giocatore import ErrorePosizione
 from src.Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from src.Model.tavoliere import ErroreTavoliere
 from src.View.partita_view import PartitaViewAstratta
-from src.View.replay_view import ReplayViewAstratta
+from src.View.CLI.replay_view_CLI import ReplayViewCLI 
 from src.View.funzioni_utili_stampa import chiedi_input_utente
 
 
@@ -238,6 +238,10 @@ class PartitaController:
         return risultato
 
     def gioca_partita(self) -> bool:
+        ids_giocatori = [g.get_id() for g in self.get_model().get_giocatori()]
+        # Dice alla view (e quindi all'App) di montare lo schermo della partita
+        self.get_view().avvia_interfaccia_partita(ids_giocatori)
+        
         errore = ""
         continuare_partita = True
         continuare_gioco = True
@@ -345,7 +349,7 @@ class PartitaController:
                                         trascrizione_replay_flat, partita_replay
                                     )
 
-                                    stampa_replay = ReplayViewAstratta()
+                                    stampa_replay = ReplayViewCLI()
                                     autoplay = {"autoplay": False}  # Modificato in
                                     # dizionario perché in python i booleani non sono
                                     # oggetti mutable, mentre i dizionari lo sono
@@ -525,7 +529,7 @@ class PartitaController:
                                     "avversaria!"
                                 )
 
-# Stampa vittoria e motivo
+                                # Stampa vittoria e motivo
                                 self.__view.stampa_vittoria(
                                     id_vincitore, motivo_vincita
                                 )
@@ -551,7 +555,7 @@ class PartitaController:
                                         replay = ReplayController(
                                             trascrizione_replay_flat, partita_replay
                                         )
-                                        stampa_replay = ReplayView()
+                                        stampa_replay = ReplayViewCLI(self.__view.get_tavoliere_view(),self.__view) # da implementare con scelta TUI
                                         autoplay = {"autoplay": False}
 
                                         def callback_aggiorna_schermo(

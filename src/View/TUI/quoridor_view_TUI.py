@@ -52,3 +52,9 @@ class QuoridorViewTUI(QuoridorViewAstratta):
     def get_app(self) -> QuoridorViewApp:
         return self.__app    
 
+    def get_coda_input(self):
+        return self.__coda_input
+
+    
+    def is_tui(self) -> bool:
+        return True

@@ -1,5 +1,5 @@
 from src.Model.partita import Partita
-from src.View.pulisci_schermo_view import pulisci_schermo
+from src.View.funzioni_utili_stampa import pulisci_schermo
 from src.View.replay_view import ReplayViewAstratta
 
 
@@ -36,8 +36,8 @@ class ReplayViewCLI(ReplayViewAstratta):
 
     """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, stampa_tavoliere, stampa_trascrizione):
+        super().__init__(stampa_tavoliere, stampa_trascrizione)
 
     def stampa_replay(
         self,
@@ -50,7 +50,7 @@ class ReplayViewCLI(ReplayViewAstratta):
         print("\n\n")
         print("--- REPLAY ---")
 
-        self.__stampa_tavoliere.stampa_tavoliere(
+        self._ReplayViewAstratta__stampa_tavoliere.stampa_tavoliere(# Messo ReplayViewAstratta perché se no altrimenti dava errore
             stato_corrente.get_tavoliere(), stato_corrente.get_giocatori()
         )
 
@@ -73,6 +73,6 @@ class ReplayViewCLI(ReplayViewAstratta):
             print("\n\n")
         print ("Vengono mostrate per semplicità solo gli ultimi 15 turni")
         num_giocatori = len(stato_corrente.get_giocatori())
-        self.__stampa_trascrizione.stampa_trascrizione(
+        self._ReplayViewAstratta__stampa_trascrizione.stampa_trascrizione(
             trascrizione_parziale, num_giocatori, True
         )

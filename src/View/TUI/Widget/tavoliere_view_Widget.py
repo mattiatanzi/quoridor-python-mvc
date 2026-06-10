@@ -1,9 +1,9 @@
 from textual.app import ComposeResult
-from textual.screen import Screen
+from textual.widget import Widget 
 from textual.widgets import Button, Label
 from textual.containers import Grid
 
-class TavoliereViewScreen(Screen):
+class TavoliereViewWidget(Widget):
     def compose(self) -> ComposeResult:
         # Creiamo una griglia
         with Grid(id="griglia-tavoliere"):

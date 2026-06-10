@@ -99,14 +99,6 @@ class PartitaViewAstratta(ABC):
         pass
 
     @abstractmethod
-    def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
-        pass
-
-    @abstractmethod
-    def stampa_richiesta_input(self, indicazioni: str = ""):
-       pass
-
-    @abstractmethod
     def stampa_aiuto(self):
         pass
 
@@ -121,4 +113,13 @@ class PartitaViewAstratta(ABC):
 
     @abstractmethod
     def get_input(self) -> str:
+        pass
+
+    @abstractmethod
+    def avvia_interfaccia_partita(self, ids_giocatori: list[str]) -> None:
+        """Prepara la vista per mostrare la partita (cambia schermo in TUI, niente in CLI)."""
+        pass
+
+    @abstractmethod
+    def torna_al_menu(self):
         pass

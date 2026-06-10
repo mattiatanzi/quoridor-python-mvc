@@ -58,3 +58,7 @@ class QuoridorViewCLI(QuoridorViewAstratta):
         messaggio = messaggio + CostantiQuoridorView.MESSAGGIO_ALTERNATIVO_SCELTA_TIMER
 
         return chiedi_input_utente(messaggio)
+    
+    
+    def is_tui(self) -> bool:
+        return False

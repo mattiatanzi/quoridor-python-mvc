@@ -29,3 +29,7 @@ class QuoridorViewAstratta(ABC):
     @abstractmethod
     def stampa_messaggio(self,messaggio: str):
         pass
+
+    @abstractmethod
+    def is_tui(self) -> bool:
+        pass
