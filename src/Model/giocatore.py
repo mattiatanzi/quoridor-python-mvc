@@ -1,4 +1,5 @@
 from datetime import timedelta
+
 from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.nodo import Nodo
 
@@ -20,10 +21,12 @@ class ErrorePosizione(Exception):
 
     pass
 
+
 class TempoScadutoException(Exception):
     """Eccezione che gestisce errori riguardanti il tempo di gioco."""
 
     pass
+
 
 class Giocatore:
     """Classe Giocatore.
@@ -79,7 +82,7 @@ class Giocatore:
                 Privato, Tipo bool
             DESCRIZIONE
                 Indica se il giocatore è stato eliminato dalla partita.
-                In una partita, se attivo = False (ovvero il giocatore è stato eliminato),
+                In una partita, se attivo = False (<=> giocatore eliminato),
                 non verrà stampato il suo pedone ma soltanto i muri che esso
                 ha posizionato. Per adesso il giocatore può essere eliminato soltanto
                 nel caso in cui, durante una partita con limite di tempo e il tempo
@@ -98,8 +101,8 @@ class Giocatore:
         ):
             DESCRIZIONE
                 Costruttore di Base.
-                Dato un ID, una posizione, un numero di muri disponibili e un tempo iniziale,
-                restituisce un giocatore.
+                Dato un ID, una posizione, un numero di muri disponibili e un tempo
+                iniziale, restituisce un giocatore.
 
 
         ------ ACCESSO METODI PRIVATI ------
@@ -151,7 +154,10 @@ class Giocatore:
 
         ------ MODIFICATORI / OSSERVATORI ------
 
-        def riduci_tempo(self, tempo_trascorso: timedelta  = timedelta(seconds = 1)) -> bool:
+        def riduci_tempo(
+            self,
+            tempo_trascorso: timedelta  = timedelta(seconds = 1)
+        ) -> bool:
             DESCRIZIONE
                 Sottrae il tempo in input al giocatore (se il giocatore ha un limite di
                 tempo).
@@ -193,7 +199,6 @@ class Giocatore:
     ):
         self.set_id(new_id_giocatore)
 
-
         # Caso in cui Posizione non viene specificata
         if new_posizione is None:
             self.set_posizione(Nodo(CostantiGiocatore.DEF_COORDINATE))
@@ -205,6 +210,7 @@ class Giocatore:
         self.set_tempo_residuo(new_tempo_iniziale)
 
         self.set_attivo(True)
+
     # Accesso Attributi Privati
 
     def get_id(self) -> str:
@@ -274,16 +280,19 @@ class Giocatore:
 
     # Modificatori / Osservatori
 
-
-    def riduci_tempo(self, tempo_trascorso: timedelta  = timedelta(seconds = 1)) -> bool:
-        if(tempo_trascorso.seconds < 0):
-            raise TempoScadutoException("I secondi passati devono essere un numero positivo")
+    def riduci_tempo(self, tempo_trascorso: timedelta = timedelta(seconds=1)) -> bool:
+        if tempo_trascorso.seconds < 0:
+            raise TempoScadutoException(
+                "I secondi passati devono essere un numero positivo"
+            )
 
         if self.ha_finito_tempo():
-            raise TempoScadutoException(f"Il tempo del giocatore {self.get_id()} è già scaduto")
+            raise TempoScadutoException(
+                f"Il tempo del giocatore {self.get_id()} è già scaduto"
+            )
 
         if self.get_tempo_residuo() <= tempo_trascorso:
-            self.set_tempo_residuo(timedelta(seconds = 0))
+            self.set_tempo_residuo(timedelta(seconds=0))
             return False  # Tempo finito
         else:
             self.set_tempo_residuo(self.get_tempo_residuo() - tempo_trascorso)
@@ -293,10 +302,9 @@ class Giocatore:
         return self.__tempoResiduo != CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO
 
     def ha_finito_tempo(self) -> bool:
-
         tempo_disponibile = False
 
-        if (self.possiede_limite_tempo()):
-            tempo_disponibile = (self.get_tempo_residuo() == timedelta())
+        if self.possiede_limite_tempo():
+            tempo_disponibile = self.get_tempo_residuo() == timedelta()
 
         return tempo_disponibile

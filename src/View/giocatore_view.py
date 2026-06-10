@@ -12,7 +12,12 @@ class GiocatoreView:
             DESCRIZIONE
                 Stampa dell'id giocatore
 
-        def stampa_giocatore_attivo(self, id, muri_disponibili, tempo_formattato = None):
+        def stampa_giocatore_attivo(
+            self,
+            id,
+            muri_disponibili,
+            tempo_formattato = None
+        ):
             DESCRIZIONE
                 Stampa informazioni riguardanti il giocatore che ha il turno.
                 Se il giocatore ha i limiti di tempo, mostra quanto tempo gli rimane
@@ -24,7 +29,12 @@ class GiocatoreView:
                 Se il giocatore ha i limiti di tempo, mostra quanto tempo gli rimane
                 per il turno corrente.
 
-        def stampa_giocatore_eliminato(self, id, muri_disponibili, tempo_formattato = None):
+        def stampa_giocatore_eliminato(
+            self,
+            id,
+            muri_disponibili,
+            tempo_formattato = None
+        ):
             DESCRIZIONE
                 Stampa informazioni generali riguardo i giocatori eliminati.
                 Se il giocatore ha i limiti di tempo, mostra quanto tempo gli rimane
@@ -45,22 +55,22 @@ class GiocatoreView:
     def stampa_id_giocatore(self, id_giocatore):
         print(id_giocatore)
 
-    def stampa_giocatore_attivo(self, id, muri_disponibili, tempo_formattato = None):
-        print(f"Turno {id}, Muri Disponibili: {muri_disponibili}", end = "")
-        if (tempo_formattato is not None):
-            print(f", Tempo Rimanente: {tempo_formattato}", end = "")
+    def stampa_giocatore_attivo(self, id, muri_disponibili, tempo_formattato=None):
+        print(f"Turno {id}, Muri Disponibili: {muri_disponibili}", end="")
+        if tempo_formattato is not None:
+            print(f", Tempo Rimanente: {tempo_formattato}", end="")
         print("")
 
-    def stampa_info_giocatore(self, id, muri_disponibili, tempo_formattato = None):
-        print(f"Giocatore {id}, Muri Disponibili: {muri_disponibili}", end = "")
-        if (tempo_formattato is not None):
-            print(f", Tempo Rimanente: {tempo_formattato}", end = "")
+    def stampa_info_giocatore(self, id, muri_disponibili, tempo_formattato=None):
+        print(f"Giocatore {id}, Muri Disponibili: {muri_disponibili}", end="")
+        if tempo_formattato is not None:
+            print(f", Tempo Rimanente: {tempo_formattato}", end="")
         print("")
 
-    def stampa_giocatore_eliminato(self, id, muri_disponibili, tempo_formattato = None):
-        print(f"Giocatore {id} ELIMINATO, Muri Disponibili: {muri_disponibili}", end = "")
-        if (tempo_formattato is not None):
-            print(f", Tempo Rimanente: {tempo_formattato}", end = "")
+    def stampa_giocatore_eliminato(self, id, muri_disponibili, tempo_formattato=None):
+        print(f"Giocatore {id} ELIMINATO, Muri Disponibili: {muri_disponibili}", end="")
+        if tempo_formattato is not None:
+            print(f", Tempo Rimanente: {tempo_formattato}", end="")
         print("")
 
     # Stampe Errori

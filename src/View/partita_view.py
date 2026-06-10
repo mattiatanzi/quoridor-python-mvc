@@ -1,8 +1,9 @@
 from src.Model.partita import Partita
 from src.Model.tempo import get_tempo_formattato
+from src.View.funzioni_utili_stampa import chiedi_input_utente, pulisci_schermo
 from src.View.giocatore_view import GiocatoreView
-from src.View.funzioni_utili_stampa import pulisci_schermo, chiedi_input_utente
 from src.View.tavoliere_view import TavoliereView
+
 
 class PartitaView:
     """Classe PartitaView.
@@ -119,9 +120,18 @@ class PartitaView:
 
     # Costruttore
 
-    def __init__(self, new_giocatore_view: GiocatoreView = None, new_tavoliere_view: TavoliereView = None):
-        self.set_giocatore_view(new_giocatore_view if new_giocatore_view is not None else GiocatoreView())
-        self.set_tavoliere_view(new_tavoliere_view if new_tavoliere_view is not None else TavoliereView())
+    def __init__(
+        self,
+        new_giocatore_view: GiocatoreView = None,
+        new_tavoliere_view: TavoliereView = None,
+    ):
+        self.set_giocatore_view(
+            new_giocatore_view if new_giocatore_view is not None else GiocatoreView()
+        )
+        self.set_tavoliere_view(
+            new_tavoliere_view if new_tavoliere_view is not None else TavoliereView()
+        )
+
     # Accesso Attributi Privati
 
     def set_tavoliere_view(self, new_tavoliere_view: TavoliereView):
@@ -146,7 +156,7 @@ class PartitaView:
             id_selezionato = g.get_id()
             muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
 
-            if (g.possiede_limite_tempo()):
+            if g.possiede_limite_tempo():
                 stringa_tempo_rimanente = get_tempo_formattato(g.get_tempo_residuo())
             else:
                 stringa_tempo_rimanente = None
@@ -165,13 +175,10 @@ class PartitaView:
                     id_selezionato, muri_rimanenti, stringa_tempo_rimanente
                 )
 
-
         print("")
         self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
 
         print("\nSuggerimento -- Digitare 'help' per visualizzare i comandi\n")
-
-
 
     def stampa_aiuto(self):
         aiuto = """

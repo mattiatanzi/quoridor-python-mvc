@@ -30,8 +30,8 @@ class ParametriPartitaView:
                 Restituisce una scelta.
                 Eventualmente è possibile passare una stringa di errore da mostrare
                 per aiutare l'utente a inserire il giusto input.
-                In caso di tempo personalizzato l'utente deve inserire il tempo nel formato
-                HH:MM:SS
+                In caso di tempo personalizzato, l'utente deve inserire
+                il tempo nel formato: "HH:MM:SS"
 
 
     """
@@ -39,14 +39,15 @@ class ParametriPartitaView:
     def stampa_errore_parametri(self, errore: ErroreParametriPartita):
         print(f"Errore Parametri:  + {errore}")
 
-
     def get_input_modalita_partita(self, err: str = "") -> str:
-
         pulisci_schermo()
 
         messaggio = "Selezionare Una Modalità Di Gioco:\n"
 
-        for chiave, descrizione in CostantiQuoridorView.POSSIBILI_SCELTE_MODALITA.items():
+        for (
+            chiave,
+            descrizione,
+        ) in CostantiQuoridorView.POSSIBILI_SCELTE_MODALITA.items():
             messaggio = messaggio + f"\n{chiave}. {descrizione}\n"
 
         messaggio = messaggio + "\nDigitare `help` o `aiuto` una breve guida"
@@ -55,10 +56,7 @@ class ParametriPartitaView:
 
         return chiedi_input_utente(messaggio)
 
-
-
     def get_input_limite_tempo(self, err: str = "") -> str:
-
         pulisci_schermo()
 
         messaggio = "Selezionare Un Limite di Tempo:\n"
@@ -74,9 +72,7 @@ class ParametriPartitaView:
 
         return chiedi_input_utente(messaggio)
 
-
     def stampa_aiuto_modalita_partita(self):
-
         pulisci_schermo()
 
         aiuto = f"""
@@ -98,9 +94,7 @@ class ParametriPartitaView:
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
 
-
     def stampa_aiuto_limite_tempo(self):
-
         pulisci_schermo()
 
         aiuto = f"""
@@ -111,16 +105,21 @@ class ParametriPartitaView:
         partita.
 
         Per selezionare una partita limite di tempo: {
-            CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT[CostantiQuoridorView.SCELTA_TIMER_DEFAULT_1]
+            CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT[
+                CostantiQuoridorView.SCELTA_TIMER_DEFAULT_1
+            ]
         }, digitare:
             "{CostantiQuoridorView.SCELTA_TIMER_DEFAULT_1}"
 
         Altrimenti, se si vuole usare un limite di tempo {
-            CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT[CostantiQuoridorView.SCELTA_TIMER_DEFAULT_1]
+            CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT[
+                CostantiQuoridorView.SCELTA_TIMER_DEFAULT_1
+            ]
         }, digitare:
             "{CostantiQuoridorView.SCELTA_TIMER_DEFAULT_2}"
 
-        Infine, per usare un limite di tempo personalizzato, digitarlo nel formato HH:MM:SS
+        Infine, per usare un limite di tempo personalizzato,
+        digitarlo nel formato HH:MM:SS
 
         Per tornare indietro, digitare:
             "{CostantiQuoridorView.SCELTA_TORNA_INDIETRO}"

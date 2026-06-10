@@ -56,13 +56,11 @@ class QuoridorController:
     def __init__(self):
         self.set_view(QuoridorView())
 
-
     def get_view(self):
         return self.__view
 
     def set_view(self, new_view: QuoridorView):
         self.__view = new_view
-
 
     def gioca(self):
         errore: str = ""
@@ -70,28 +68,25 @@ class QuoridorController:
 
         # Menu Principale
         while continuare_gioco:
-
             self.get_view().menu_di_gioco()
             self.get_view().stampa_messaggio(errore)
             scelta = self.get_view().get_input_menu()
 
             # Scelta = GIOCA
             if scelta == "1":
-
-
                 parametri = ParametriPartitaController().ottieni_parametri_utente()
 
-                if (parametri.get_avvia_partita()):
-
-
+                if parametri.get_avvia_partita():
                     tavoliere = Tavoliere()
                     giocatori = set()
                     for i in range(0, parametri.get_numero_giocatori()):
                         id_assegnato = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]
                         giocatore = Giocatore(
                             new_id_giocatore=id_assegnato,
-                            new_posizione=Nodo(CostantiPartita.COORDINATE_INIZIALI[id_assegnato]),
-                            new_tempo_iniziale=parametri.get_limite_tempo()
+                            new_posizione=Nodo(
+                                CostantiPartita.COORDINATE_INIZIALI[id_assegnato]
+                            ),
+                            new_tempo_iniziale=parametri.get_limite_tempo(),
                         )
                         giocatori.add(giocatore)
 
@@ -101,11 +96,10 @@ class QuoridorController:
                     )
                     continuare_gioco = partita.gioca_partita()
 
-
             # Scelta = 0 <=> Esci dal gioco
             elif scelta == "0":
-                    self.__view.stampa_messaggio("Uscita in corso, alla prossima!")
-                    continuare_gioco = False
+                self.__view.stampa_messaggio("Uscita in corso, alla prossima!")
+                continuare_gioco = False
             elif scelta in ("h", "help", "aiuto"):
                 PartitaView().stampa_aiuto()
                 input("---- Premi INVIO per tornare al menu... ----")

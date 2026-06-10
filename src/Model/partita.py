@@ -275,7 +275,6 @@ class Partita:
         giocatore_selezionato = self.get_giocatore(id)
         giocatore_selezionato.set_attivo(False)
 
-
     # Cambiare Posizione di Giocatore in partita
 
     def get_posizione_giocatore(self, id):
@@ -355,10 +354,8 @@ class Partita:
             raise ErrorePosizione(mess_err)
         # Verifica dell'esistenza passaggio
         elif self.__tavoliere.mossa_permessa(nodo_partenza, nodo_arrivo):
-
             # Evitiamo che ci si possa spostare su una casella occupata
             for avversario in self.get_giocatori():
-
                 # Esclusione del giocatore attivo dal controllo
                 if avversario.get_id() == giocatore_attivo.get_id():
                     continue
@@ -376,13 +373,10 @@ class Partita:
     # Osservatore condizione di vittoria
 
     def verifica_vittoria(self):
-
         giocatori_attivi = set()
 
         for giocatore in self.get_giocatori():
-
-            if (giocatore.is_attivo()):
-
+            if giocatore.is_attivo():
                 giocatori_attivi.add(giocatore)
 
                 id_giocatore = giocatore.get_id()
@@ -394,7 +388,6 @@ class Partita:
                 # Verifica raggiunta del traguardo
                 if CostantiPartita.RIGHE_FINALI.get(id_giocatore) == riga:
                     return id_giocatore
-
 
         # Caso in cui sia rimasto un giocatore
         if len(giocatori_attivi) == 1:

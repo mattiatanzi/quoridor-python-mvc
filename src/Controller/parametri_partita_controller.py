@@ -8,62 +8,63 @@ from src.View.parametri_partita_view import ParametriPartitaView
 class ParametriPartitaController:
     """Classe ParametriPartitaController.
 
-        DESCRIZIONE
-            Classe che gestisce i parametri della partita.
-            Utile per la stampa dei menu che richiedono l'interazione dell'utente per settare la partita (
-            numero di giocatori, limite di tempo, ecc...)
+    DESCRIZIONE
+        Classe che gestisce i parametri della partita.
+        Utile per la stampa dei menu che richiedono l'interazione dell'utente per
+        settare la partita (numero di giocatori, limite di tempo, ecc...)
 
-        ATTRIBUTI:
+    ATTRIBUTI:
 
-            - model
-                TIPO
-                    Privato, tipo ParametriPartita
+        - model
+            TIPO
+                Privato, tipo ParametriPartita
 
-                DESCRIZIONE
-                    Il modello di ParametriPartita
+            DESCRIZIONE
+                Il modello di ParametriPartita
 
-            - view
-                TIPO
-                    Privato, tipo ParametriPartitaView
+        - view
+            TIPO
+                Privato, tipo ParametriPartitaView
 
-                DESCRIZIONE
-                    La view di ParametriPartita
+            DESCRIZIONE
+                La view di ParametriPartita
 
-        METODI:
+    METODI:
 
-            ------ COSTRUTTORI ------
+        ------ COSTRUTTORI ------
 
-            def __init__(self, model: Partita, view: PartitaView):
-                DESCRIZIONE
-                    Costruttore di Base.
-                    Data un modello ParametriPartita e un ParametriPartitaView restituisce
-                    un ParametriPartitaController
+        def __init__(self, model: Partita, view: PartitaView):
+            DESCRIZIONE
+                Costruttore di Base.
+                Data un modello ParametriPartita e un ParametriPartitaView restituisce
+                un ParametriPartitaController
 
-            ------ ACCESSO ATTRIBUTI PRIVATI ------
+        ------ ACCESSO ATTRIBUTI PRIVATI ------
 
-            def get_model(self) -> ParametriPartita:
-                DESCRIZIONE
-                    Restituisce il Model di ParametriPartitaController
+        def get_model(self) -> ParametriPartita:
+            DESCRIZIONE
+                Restituisce il Model di ParametriPartitaController
 
-            def set_model(self, model: ParametriPartita):
-                DESCRIZIONE
-                    Sostituisce il Model di ParametriPartitaController
+        def set_model(self, model: ParametriPartita):
+            DESCRIZIONE
+                Sostituisce il Model di ParametriPartitaController
 
-            def get_view(self) -> ParametriPartitaView:
-                DESCRIZIONE
-                    Restituisce il View di ParametriPartitaController
+        def get_view(self) -> ParametriPartitaView:
+            DESCRIZIONE
+                Restituisce il View di ParametriPartitaController
 
-            def set_view(self, view: PartitaView):
-                DESCRIZIONE
-                    Sostituisce il View di ParametriPartitaController
+        def set_view(self, view: PartitaView):
+            DESCRIZIONE
+                Sostituisce il View di ParametriPartitaController
 
-            ------ MODIFICATORI / OSSERVATORI ------
+        ------ MODIFICATORI / OSSERVATORI ------
 
-            def ottieni_parametri_utente(self) -> ParametriPartita:
-                DESCRIZIONE
-                    Interagisce con l'utente per creare una classe contenente tutti i parametri della partita.
-                    Per adesso chiede al giocatore se vuole una partita con limite di tempo (o meno) e quanto
-                    limite di tempo intende utilizzare
+        def ottieni_parametri_utente(self) -> ParametriPartita:
+            DESCRIZIONE
+                Interagisce con l'utente per creare una classe contenente
+                tutti i parametri della partita. Per adesso chiede al giocatore se
+                vuole una partita con limite di tempo (o meno), e successivamente quanto
+                impostare di limite tempo
 
 
 
@@ -75,12 +76,12 @@ class ParametriPartitaController:
     # Costruttore
     def __init__(
         self,
-        new_model: ParametriPartita = ParametriPartita(),
-        new_view: ParametriPartitaView = ParametriPartitaView(),
+        new_model: ParametriPartita = None,
+        new_view: ParametriPartitaView = None,
     ):
-        self.set_view(new_view)
+        self.set_view(new_view if new_view is not None else ParametriPartitaView())
         try:
-            self.set_model(new_model)
+            self.set_model(new_model if new_model is not None else ParametriPartita())
         except ErroreParametriPartita as err:
             self.get_view().stampa_errore_parametri(err)
 
@@ -104,22 +105,22 @@ class ParametriPartitaController:
         tempo_limite = None
         messaggio_errore = "\nInput Non Valido"
 
-
         while not tornaMenuIniziale:
             # Interfaccia 1: Chiedere se usare limite di tempo per partita
             scelta_interfaccia = self.get_view().get_input_modalita_partita()
 
             while (
-                scelta_interfaccia
-                not in CostantiQuoridorView.POSSIBILI_SCELTE_MODALITA
+                scelta_interfaccia not in CostantiQuoridorView.POSSIBILI_SCELTE_MODALITA
             ):
-                if (scelta_interfaccia in ["help", "aiuto"]):
+                if scelta_interfaccia in ["help", "aiuto"]:
                     scelta_interfaccia = ""
                     self.get_view().stampa_aiuto_modalita_partita()
                     input("---- Premi INVIO per tornare alla partita... ----")
                     scelta_interfaccia = self.get_view().get_input_modalita_partita()
                 else:
-                    scelta_interfaccia = self.get_view().get_input_modalita_partita(messaggio_errore)
+                    scelta_interfaccia = self.get_view().get_input_modalita_partita(
+                        messaggio_errore
+                    )
 
             # TORNARE INDIETRO
             if scelta_interfaccia != CostantiQuoridorView.SCELTA_TORNA_INDIETRO:
@@ -132,33 +133,40 @@ class ParametriPartitaController:
                     tornaMenuIniziale = True
 
                 # IF NOT TORNARE INDIETRO AND TIMER
-                if (
-                    scelta_interfaccia
-                    == CostantiQuoridorView.SCELTA_PARTITA_CON_TIMER
-                ):
+                if scelta_interfaccia == CostantiQuoridorView.SCELTA_PARTITA_CON_TIMER:
                     # Interfaccia 2: Avvalorare Limite di Tempo
                     scelta_interfaccia = self.get_view().get_input_limite_tempo()
 
                     while (
                         scelta_interfaccia
                         not in CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT
-                        and
-                        funz_tempo.stringa_to_tempo_limite(scelta_interfaccia) is None
+                        and funz_tempo.stringa_to_tempo_limite(scelta_interfaccia)
+                        is None
                     ):
-                        if (scelta_interfaccia in ["help", "aiuto"]):
+                        if scelta_interfaccia in ["help", "aiuto"]:
                             scelta_interfaccia = ""
                             self.get_view().stampa_aiuto_limite_tempo()
                             input("---- Premi INVIO per tornare alla partita... ----")
-                            scelta_interfaccia = self.get_view().get_input_limite_tempo()
+                            scelta_interfaccia = (
+                                self.get_view().get_input_limite_tempo()
+                            )
                         else:
-                            scelta_interfaccia = self.get_view().get_input_limite_tempo(messaggio_errore)
+                            scelta_interfaccia = self.get_view().get_input_limite_tempo(
+                                messaggio_errore
+                            )
 
                     if scelta_interfaccia != CostantiQuoridorView.SCELTA_TORNA_INDIETRO:
-
-                        if scelta_interfaccia in CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT:
-                            tempo_limite = CostantiGiocatore.DEF_TIMER_PREDEFINITI[int(scelta_interfaccia) - 1]
+                        if (
+                            scelta_interfaccia
+                            in CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT
+                        ):
+                            tempo_limite = CostantiGiocatore.DEF_TIMER_PREDEFINITI[
+                                int(scelta_interfaccia) - 1
+                            ]
                         else:
-                            tempo_limite = funz_tempo.stringa_to_tempo_limite(scelta_interfaccia)
+                            tempo_limite = funz_tempo.stringa_to_tempo_limite(
+                                scelta_interfaccia
+                            )
 
                         tornaMenuIniziale = True
 
@@ -167,6 +175,5 @@ class ParametriPartitaController:
                 avvia_partita = False
 
         return ParametriPartita(
-            new_limite_tempo = tempo_limite,
-            new_avvia_partita = avvia_partita
+            new_limite_tempo=tempo_limite, new_avvia_partita=avvia_partita
         )
