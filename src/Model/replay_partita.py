@@ -130,14 +130,22 @@ class ReplayPartita:
     # Metodi
 
     # ------ Costruttori ------ #
-    def __init__(self, trascrizione: list[tuple[str, str]], partita_iniziale: Partita):
-        # Ricava gli ID ordinati dei partecipanti dallo snapshot
-        self.__id_giocatori_ordinati = sorted(
-            [g.get_id() for g in partita_iniziale.get_giocatori()]
-        )
-        self.__mosse_flat = list(trascrizione)
-        self.__indice_corrente = 0
-        self.__stati = self.__build_stati(partita_iniziale)
+    def __init__(self, trascrizione: list[str], partita_iniziale: Partita):
+            # Ricava gli ID ordinati dei partecipanti dallo snapshot
+            self.__id_giocatori_ordinati = sorted(
+                [g.get_id() for g in partita_iniziale.get_giocatori()]
+            )
+
+            # Estraiamo la lista lineare di tutte le mosse testuali (es: ['e2', 'e8'])
+            self.__mosse_pure = []
+            for turno in trascrizione:
+                parti = turno.split(". ", 1)
+                if len(parti) >= 2:
+                    self.__mosse_pure.extend(parti[1].split())
+
+            self.__indice_corrente = 0
+            self.__mosse_flat = []  # Sarà popolata dinamicamente da __build_stati
+            self.__stati = self.__build_stati(partita_iniziale)
 
     # ------ Accesso attributi ------ #
     def get_indice_corrente(self) -> int:
@@ -150,26 +158,42 @@ class ReplayPartita:
 
     def __build_stati(self, partita_iniziale: Partita) -> list[Partita]:
         stati: list[Partita] = []
+        self.__mosse_flat = []  # Resettiamo la lista delle tuple (id_giocatore, mossa)
 
-        # Stato 0 con snapshot: la partita iniziale
+        # Stato 0: la partita iniziale prima di qualsiasi mossa
         stato_corrente = copy.deepcopy(partita_iniziale)
         stati.append(copy.deepcopy(stato_corrente))
 
-        for id_g, m in self.__mosse_flat:
-            g = stato_corrente.get_giocatore(id_g)
-
-            # Sincronizzazione del turno
-            if stato_corrente.get_id_giocatore_attivo() != id_g:
+        for m in self.__mosse_pure:
+            # Sincronizzazione dinamica: se il giocatore di turno NON è attivo (eliminato),
+            # facciamo scorrere i turni finché non troviamo il giocatore attivo corretto.
+            while True:
+                id_g = stato_corrente.get_id_giocatore_attivo()
+                giocatore = stato_corrente.get_giocatore(id_g)
+                if giocatore.is_attivo():
+                    break
                 stato_corrente.incrementa_turno()
 
+            # Adesso memorizziamo l'accoppiamento corretto trovato in tempo reale
+            self.__mosse_flat.append((id_g, m))
+            g = stato_corrente.get_giocatore(id_g)
+
+            # Esecuzione della mossa sullo stato simulato
             if len(m) == 3:  # Muro
                 stato_corrente.piazza_muro(m, g)
                 stato_corrente.rimuovi_un_muro_giocatore(id_g)
             else:  # Pedone
                 stato_corrente.muovi_giocatore(m, g)
 
-            stato_corrente.incrementa_turno()
+            # IMPORTANTE: Dopo la mossa simuliamo anche il controllo eliminazione tempo!
+            # Nella partita reale P1 e P2 si sono mossi MA sono stati subito eliminati.
+            # Per riflettere questo nel replay, controlliamo se il giocatore reale ha finito il tempo.
+            # Siccome lo snapshot iniziale clona i timer reali, verifichiamo lo stato del tempo:
+            if giocatore.possiede_limite_tempo() and giocatore.ha_finito_tempo():
+                stato_corrente.elimina_giocatore(id_g)
 
+            # Passiamo il turno al giocatore successivo
+            stato_corrente.incrementa_turno()
             stati.append(copy.deepcopy(stato_corrente))
 
         return stati
