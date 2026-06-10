@@ -69,8 +69,14 @@ class CostantiPartita:
     """
 
     # Costanti
-    GIOCATORI_TOTALI_2 = 2
-    GIOCATORI_TOTALI_4 = 4
+    GIOCATORI_TOTALI_2 = "2"
+    GIOCATORI_TOTALI_4 = "4"
+
+    MURI_DISPONIBILI = {
+        GIOCATORI_TOTALI_2 : 10,
+        GIOCATORI_TOTALI_4 : 5
+    }
+
     ID_PRIMO_GIOCATORE_ATTIVO = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]
 
     PRIMA_COLONNA = "a"

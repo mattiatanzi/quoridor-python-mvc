@@ -195,9 +195,9 @@ class ParametriPartitaController:
 
                     if scelta_interfaccia != CostantiQuoridorView.SCELTA_TORNA_INDIETRO:
                         if (scelta_interfaccia == CostantiQuoridorView.SCELTA_2_GIOCATORI):
-                            numero_giocatori = CostantiPartita.GIOCATORI_TOTALI_2
+                            numero_giocatori = int(CostantiPartita.GIOCATORI_TOTALI_2)
                         elif (scelta_interfaccia == CostantiQuoridorView.SCELTA_4_GIOCATORI):
-                            numero_giocatori = CostantiPartita.GIOCATORI_TOTALI_4
+                            numero_giocatori = int(CostantiPartita.GIOCATORI_TOTALI_4)
 
                     else:
                         avvia_partita = False
