@@ -1,5 +1,9 @@
 from datetime import datetime
 
+import copy
+import time
+
+from src.Controller.replay_controller import ErroreReplay, ReplayController
 from src.Model.giocatore import ErrorePosizione
 from src.Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from src.Model.tavoliere import ErroreTavoliere
@@ -191,8 +195,14 @@ class PartitaController:
                     continue
 
                 elif azione_pulita in self.__COMANDI_TRASCRIZIONE:
-                    input("---- Premi INVIO per tornare alla partita... ----")
-                    continue
+                    if not self.__model.get_trascrizione():
+                        errore = "Errore: Trascrizione vuota"
+                    else:
+                        self.__view.stampa_trascrizione(
+                            self.__model.get_trascrizione(),
+                            len(self.__model.get_giocatori()),
+                        )
+                        input("---- Premi INVIO per tornare alla partita... ----")
 
                 # Uscire dalla partita
                 elif azione_pulita in self.__COMANDI_ABBANDONA_PARTITA:
