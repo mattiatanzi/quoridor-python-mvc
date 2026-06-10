@@ -176,8 +176,11 @@ classDiagram
 ### 3.2 Requisiti non funzionali
 
 - **RNF1** (Robustezza): Il sistema deve essere eseguibile in un container **Docker**.
+
 - **RNF2** (Portabilità): I terminali supportati devono essere: Terminal di Linux, Terminal di MacOS, PowerShell di Windows, Git Bash di Windows. 
+
 - **RNF3** (Robustezza): Per qualunque input inaspettato l'applicazione non deve mai andare in crash.
+
 - **RNF4** (Normalizzazione comandi): La Command Line Interface (CLI) deve accettare notazioni testuali compatte (es. `e2` per il pedone, `e3h` per i muri).
   
   ## 4. System Design
@@ -196,6 +199,7 @@ classDiagram
 Abbiamo scelto di progettare il `Tavoliere` tramite `Grafo`. Si è infatti scelto di implementare la griglia di gioco non come una semplice matrice, ma come un **grafo basato sulle liste di adiacenze**, il Grafo è composto da oggetti `Nodo`. In particolare è un Grafo basato su un dizionario con:
 
 - chiavi: oggetti `Nodo` (prima citati), che indicano le celle del tavoliere
+
 - valore: lista di adiacenza, cioè liste di Nodi con i relativi riferimenti che mantengono l'informazione sulle caselle adiacenti (e accessibli) rispetto il nodo ispezionato (la chiave), abbiamo scelto anche un particolare pattern di memorizzione: *Adiacente sopra, Adiacente Sotto, Adiacente Sinistra e Adiacente Destra*. Questa scelta permette di implementare in modo elegante le regole del Quoridor, ad esempio: 
   
   > *il piazzamento di un muro da parte di un giocatore si traduce semplicemente nella rimozione dell'arco (quello del legame di adiacenza) dalla lista di adiacenza del Nodo in questione e dalla lista di adiacenza dell'altro Nodo interessato.*  
@@ -254,7 +258,6 @@ Il principio DRY è stato applicato in diverse parti del progetto
       def gioca_partita_con_timer()
       def gioca_partita_no_Timer()
       
-      
       # Soluzione 2
       def gioca_partita() {
           ...
@@ -263,10 +266,26 @@ Il principio DRY è stato applicato in diverse parti del progetto
           ...
       }
       ```
+
+Nel primo caso verrebbe violato il principio DRY, in quanto la maggior parte del codice verrebbe ripetuto per entrambe le funzioni, con la sola differenza che in una delle due funzioni viene sottratto anche tempo al giocatore.
+
+La seconda soluzione invece controlla ad ogni ciclo se il giocatore ha un timer, e in questo caso tiene conto del tempo iniziale e finale, e dopo ogni mossa lo sottrae al giocatore col turno corrente.
+
+### Principi SOLID
+
+1. #### SRP
+   
+   1. Nel nostro progetto abbiamo applicato il principio di singola responsabilità (SRP) assicurandoci che ogni classe abbia un solo e ben definito compito all'interno del sistema, separando nettamente le diverse fasi e logiche del gioco.
       
-      Nel primo caso verrebbe violato il principio DRY, in quanto la maggior parte del codice verrebbe ripetuto per entrambe le funzioni, con la sola differenza che in una delle due funzioni viene sottratto anche tempo al giocatore.
+      Un esempio evidente di questa applicazione riguarda la gestione della configurazione iniziale della partita. Invece di sovraccaricare le classi principali (`QuoridorController` o `PartitaController`) con la logica necessaria a richiedere e validare le preferenze dell'utente (come la scelta di giocare con o senza timer e la durata dello stesso), abbiamo delegato questa responsabilità a un set di classi dedicate, seguendo rigorosamente il pattern MVC:
       
-      La seconda soluzione invece controlla ad ogni ciclo se il giocatore ha un timer, e in questo caso tiene conto del tempo iniziale e finale, e dopo ogni mossa lo sottrae al giocatore col turno corrente.
+      - **`ParametriPartita` (Model):** Ha l'unica responsabilità di memorizzare e validare lo stato della configurazione iniziale (es. limite di tempo selezionato, numero di giocatori, flag di avvio partita).
+      
+      - **`ParametriPartitaView` (View):** Si occupa esclusivamente di mostrare a video i menu per le scelte iniziali e catturare l'input dell'utente, fornendo gli opportuni messaggi di aiuto o di errore.
+      
+      - **`ParametriPartitaController` (Controller):** Ha il solo compito di orchestrare la fase di setup pre-partita, facendo dialogare la View e il Model per ottenere un oggetto contenente i parametri definitivi.
+      
+      Isolando il dominio della "configurazione" da quello dell'"esecuzione della partita", abbiamo ottenuto un codice più coeso, facilmente testabile e manutenibile, dove eventuali future modifiche ai menu di avvio non andranno a intaccare in alcun modo le logiche centrali del gioco.
 
 ## 8. Analisi retrospettiva
 
