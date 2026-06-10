@@ -3,6 +3,7 @@ from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.costanti_partita import CostantiPartita
 from src.Model.parametri_partita import ErroreParametriPartita, ParametriPartita
 from src.View.costanti_quoridor_view import CostantiQuoridorView
+from src.View.funzioni_utili_stampa import chiedi_input_utente
 from src.View.parametri_partita_view import ParametriPartitaView
 
 
@@ -150,7 +151,7 @@ class ParametriPartitaController:
                         if scelta_interfaccia in ["help", "aiuto"]:
                             scelta_interfaccia = ""
                             self.get_view().stampa_aiuto_limite_tempo()
-                            input("---- Premi INVIO per tornare alla partita... ----")
+                            chiedi_input_utente("---- Premi INVIO per tornare alla partita... ----")
                             scelta_interfaccia = (
                                 self.get_view().get_input_limite_tempo()
                             )
@@ -185,7 +186,7 @@ class ParametriPartitaController:
                         if scelta_interfaccia in ["help", "aiuto"]:
                             scelta_interfaccia = ""
                             self.get_view().stampa_aiuto_numero_giocatori()
-                            input("---- Premi INVIO per tornare alla partita... ----")
+                            chiedi_input_utente("---- Premi INVIO per tornare alla partita... ----")
                             scelta_interfaccia = self.get_view().get_input_numero_giocatori()
                         else:
                             scelta_interfaccia = self.get_view().get_input_numero_giocatori(
