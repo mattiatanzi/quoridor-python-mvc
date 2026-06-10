@@ -325,7 +325,7 @@ class PartitaView:
             )  # Sposta a destra e scrive STORICO MOSSE
             intestazione = ""
             for i in range(num_giocatori):
-                intestazione += "P" + str(i + 1) + "   "
+                intestazione += "P" + str(i + 1) + "\t"
             sys.stdout.write(
                 f"\033[{RIGA_IN + 1};{COLONNA_DESTRA + 3}H\033[94m{intestazione}\033[0m"
             )  # Sposta a destra e scrive l'intestazione ossia P1,P2 ...
@@ -343,7 +343,11 @@ class PartitaView:
 
             for i, mossa in enumerate(mosse_da_stampare):
                 riga_attuale = RIGA_IN + 2 + i
-                sys.stdout.write(f"\033[{riga_attuale};{COLONNA_DESTRA}H\033[K{mossa}")
+
+                # Sostituisci TUTTI gli spazi con tab
+                mossa_con_tab = mossa.replace(" ", "\t")
+
+                sys.stdout.write(f"\033[{riga_attuale};{COLONNA_DESTRA}H\033[K{mossa_con_tab}\t")
 
             sys.stdout.write("\033[u")
             sys.stdout.flush()

@@ -219,20 +219,44 @@ class PartitaController:
     def __ottieni_trascrizione_parziale(
         self, trascrizione_completa: list[str], indice: int
     ) -> list[str]:
+        """Restituisce la trascrizione parziale fino all'indice specificato.
+
+        Args:
+            trascrizione_completa: Lista di stringhe, una per turno (es. ["1. e2 e8 e4 e6", "2. a3 b6 c4 d8"])
+            indice: Numero di mosse singole eseguite (0 = nessuna mossa)
+
+        Returns:
+            Lista di stringhe che rappresentano la trascrizione parziale
+        """
         if indice == 0:
             return []
+
+        num_giocatori = len(self.__model.get_giocatori())
         risultato = []
-        turni_completi = indice // 2
+
+        # Calcola quanti turni completi sono stati eseguiti
+        turni_completi = indice // num_giocatori
+        mosse_parziali = indice % num_giocatori
 
         # Aggiunge tutti i turni completati
         for i in range(turni_completi):
-            risultato.append(trascrizione_completa[i])
+            if i < len(trascrizione_completa):
+                risultato.append(trascrizione_completa[i])
 
-        # Se il turno è a metà (ha mosso solo P1), spezza l'ultima stringa
-        if indice % 2 != 0:
-            parti = trascrizione_completa[turni_completi].split()
-            # Ricostruisce la riga con solo la mossa del giocatore 1 (es. "1. e2")
-            risultato.append(f"{parti[0]} {parti[1]}")
+        # Se ci sono mosse parziali nell'ultimo turno
+        if mosse_parziali > 0 and turni_completi < len(trascrizione_completa):
+            turno_corrente = trascrizione_completa[turni_completi]
+            parti = turno_corrente.split(". ", 1)
+
+            if len(parti) >= 2:
+                numero_turno = parti[0]
+                mosse = parti[1].split()
+
+                # Prendi solo le prime 'mosse_parziali' mosse
+                mosse_mostrate = mosse[:mosse_parziali]
+
+                # Ricostruisci la riga del turno parziale
+                risultato.append(f"{numero_turno}. {' '.join(mosse_mostrate)}")
 
         return risultato
 
