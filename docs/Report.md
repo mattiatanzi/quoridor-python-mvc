@@ -198,6 +198,28 @@ S2_3. **Visualizzare il Replay**: In qualità di giocatore, voglio poter far par
 - Non c'è persistenza dei dati del replay, essi risiedono solo in memoria e vengono persi alla chiusura della partita (o dell'applicazione).
 - Qualunque input inaspettato inserito durante la fase di replay non causa il crash del sistema.
 
+S2_4. **Giocare anche in 4**: In qualità di giocatore, voglio poter avviare e giocare una partita con 4 giocatori totali, in modo tale da poter sfidare più persone contemporaneamente e provare diverse modalità e strategie di gioco.  
+**Criteri di accettazione**: 
+- L'utente deve poter selezione la modalità a 4 giocatori a partire dal menù iniziale
+
+- La configurazione deve essere adatta alla modalità a 4 giocatori (come stabilito nel meeting, in caso di partita a 4 giocatori, a ognuno viene assegnato uno dei 4 lati del tavoliere, e ognuno ha a disposizione 5 muri piazzabili)
+
+- Durante la partita, il sistema deve gestire correttamente la successione dei turni ciclica tra i 4 giocatori (es. P1 -> P2 -> P3 -> P4 -> P1) e mostrare a video il giocatore di turno
+
+- Il gioco deve saper riconoscere la vittoria non appena uno dei 4 giocatori raggiunge il lato opposto del tavoliere rispetto a quello di partenza
+
+- Durante la partita, se uno dei 4 giocatori abbandona il gioco viene eliminato, come stabilito nel meeting (viene rimosso il pedone e i muri piazzati rimangono), e il turno viene passato al giocatore successivo, proseguendo così la partita. Se i giocatori in partita sono solo 2 e uno di questi abbandona, la vittoria viene assegnata all'unico giocatore rimasto.
+
+S2_5. **Nuova interfaccia avanzata**: In qualità di giocatore, voglio interagire con il gioco tramite un'interfaccia avanzata in modo tale da avere un'esperienza visiva più moderna e intuitiva, potendo usare sia il mouse che la tastiera.  
+**Criteri di accettazione**:
+- Flessibilità di interazione: L'utente può usare i click del mouse sulle caselle, ma è sempre presente una barra/prompt per inserire i comandi con la notazione compatta (es. e2, e3h).
+
+- Usabilità: Le istruzioni base e i controlli della UI sono sempre visibili o facilmente richiamabili tramite un widget di help dedicato per non creare indecisioni ai nuovi giocatori.
+
+- Zero Crash: Eventuali errori (es. click fuori dalla scacchiera o su bottoni inattivi) vengono gestiti internamente senza far terminare il processo di Textual.
+
+- Presentazione Separata: Nessuna logica di gioco (validazione mosse, controllo ostacoli) è scritta dentro i file della View. La TUI si limita a tradurre gli eventi (click/testo) in chiamate al Controller.
+
 ### 3.2 Requisiti non funzionali
 
 - **RNF1** (Robustezza): Il sistema deve essere eseguibile in un container **Docker**.
