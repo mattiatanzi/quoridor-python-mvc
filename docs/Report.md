@@ -333,3 +333,23 @@ Pur non avendo riscontrato criticità, per ottimizzare ulteriormente il lavoro i
 
 > Segue una foto della lavagna utilizzata durante il meeting dal team:
 > ![Analisi retrospettiva](./img/retrospettivaSprint1'.png)
+
+### 8.2 Sprint 1
+
+Anche questa volta, al termine dello Sprint 1, il team si è riunito per effettuare il meeting di revisione del processo (Sprint Retrospective). La discussione si è concentrata, sulle metodologie di collaborazione e gestione del lavoro.
+
+**Analisi del processo:**
+
+* **Cosa ha funzionato:** *Siamo stati in grado di lavorare insieme utilizzando tutti i criteri stabiliti nel vecchio meeting di retrospettiva e aumentando i controlli.*
+* **Aree di riflessione:** *Abbiamo precisato alcune migliorie sul nostro stile di lavoro per quanto riguarda task generali e inoltre sono emersi alcuni dettagli su come gestire le parti più tecniche del progetto.* 
+
+**Sintesi delle azioni correttive (Miglioramenti per lo Sprint 2):**
+Pur non avendo riscontrato criticità, per ottimizzare ulteriormente il lavoro in questo Sprint 2 il team ha deciso di intraprendere le seguenti azioni organizzative:
+
+1. Cambiare approccio per la risoluzione di task generali.
+2. Aumentare i controlli sul lavoro svolto.
+
+**Lavagna di Retrospettiva**
+
+> Segue una foto della lavagna utilizzata durante il meeting dal team:
+> ![Analisi retrospettiva](./img/sprint_1.png)
