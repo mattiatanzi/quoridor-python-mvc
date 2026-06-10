@@ -5,6 +5,7 @@ from src.Model.giocatore import Giocatore
 from src.Model.nodo import Nodo
 from src.Model.partita import Partita
 from src.Model.tavoliere import Tavoliere
+from src.Model.partita import ErroreFormattazione
 
 
 # Utilizziamo una fixture per preparare un'istanza "pulita" della partita
@@ -42,3 +43,27 @@ def test_aggiungi_mossa_trascrizione_valida(partita_iniziale):
     assert len(trascrizione_aggiornata) == 1
     # La mossa del P2 si accoda sulla stessa riga, separata dallo spazio
     assert trascrizione_aggiornata[0] == "1. e2  e3h"
+    
+# TEST 2: Classe di equivalenza NON VALIDA (Formattazione errata su piazzamento muro)
+def test_piazza_muro_formato_errato(partita_iniziale):
+    """Verifica input anomali sul piazzmento muro."""
+    giocatore_attivo = partita_iniziale.get_giocatore("P1")
+    
+    with pytest.raises(ErroreFormattazione):
+        # Manca l'orientamento h/v
+        partita_iniziale.piazza_muro("e5", giocatore_attivo)
+        
+    with pytest.raises(ErroreFormattazione):
+        # Lettera fuori dalla scacchiera (es. z)
+        partita_iniziale.piazza_muro("z5h", giocatore_attivo)
+        
+# TEST 3: Classe non valida (Valore nullo o vuoto)
+def test_aggiungi_mossa_trascrizione_stringa_vuota(partita_iniziale):
+    """Verifica che una stringa vuota blocchi l'esecuzione."""
+    partita_iniziale.set_id_giocatore_attivo(CostantiPartita.ID_PRIMO_GIOCATORE_ATTIVO)
+    
+    with pytest.raises(ErroreFormattazione):
+        partita_iniziale.aggiungi_mossa_trascrizione("")
+        
+    # Verifica fondamentale: nessuna riga di turno inutile creata
+    assert len(partita_iniziale.get_trascrizione()) == 0
