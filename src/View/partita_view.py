@@ -303,9 +303,9 @@ class PartitaView:
         return chiedi_input_utente("Fai la tua mossa: ")
 
     def stampa_trascrizione(self, trascrizione: list[str], num_giocatori: int):
-            stampa = "   "
+            stampa = "\t"
             for j in range(0, num_giocatori):
-                stampa += "P" + str(j + 1) + "  "
+                stampa += f"P{j + 1}\t"
             stampa += "\n\n"
             i = len(trascrizione)
             while i > 0:

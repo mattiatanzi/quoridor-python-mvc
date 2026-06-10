@@ -68,17 +68,14 @@ class ReplayView:
         for i, riga_turno in enumerate(mosse_da_stampare):
             riga_attuale = RIGA_IN + 2 + i
 
-            # Dividiamo il prefisso "N. " dal resto delle mosse dei giocatori
-            parti = riga_turno.split(". ", 1)
+            # Splittiamo sulla sequenza ".\t" che separa il numero del turno dalle mosse
+            parti = riga_turno.split(".\t", 1)
             if len(parti) >= 2:
                 num_turno = parti[0] + "."              # es: "1."
-                mosse_lista = parti[1].split()          # es: ["e2", "e8"]
-                stringa_mosse = "\t".join(mosse_lista)  # es: "e2\te8"
+                stringa_mosse = parti[1]                # es: "e2\te8\tb5" (già tabulata!)
 
-                # Stampiamo prima il numero del turno, e distanziato di 5 spazi partono le colonne reali
                 sys.stdout.write(f"\033[{riga_attuale};{COLONNA_DESTRA}H\033[K{num_turno:<4} {stringa_mosse}\t")
             else:
-                # Fallback di sicurezza se la stringa è formattata diversamente
                 sys.stdout.write(f"\033[{riga_attuale};{COLONNA_DESTRA}H\033[K{riga_turno}\t")
 
         sys.stdout.write("\033[u")  # Ripristina il cursore originale

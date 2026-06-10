@@ -131,21 +131,23 @@ class ReplayPartita:
 
     # ------ Costruttori ------ #
     def __init__(self, trascrizione: list[str], partita_iniziale: Partita):
-            # Ricava gli ID ordinati dei partecipanti dallo snapshot
-            self.__id_giocatori_ordinati = sorted(
-                [g.get_id() for g in partita_iniziale.get_giocatori()]
-            )
+        self.__id_giocatori_ordinati = sorted(
+            [g.get_id() for g in partita_iniziale.get_giocatori()]
+        )
 
-            # Estraiamo la lista lineare di tutte le mosse testuali (es: ['e2', 'e8'])
-            self.__mosse_pure = []
-            for turno in trascrizione:
-                parti = turno.split(". ", 1)
-                if len(parti) >= 2:
-                    self.__mosse_pure.extend(parti[1].split())
+        # Estraiamo la lista delle sole mosse reali, scartando i segnaposto dei turni saltati
+        self.__mosse_pure = []
+        for turno in trascrizione:
+            parti = turno.split(".\t", 1)
+            if len(parti) >= 2:
+                for m in parti[1].split("\t"):
+                    # Se m è un salto "---" o uno spazio vuoto, lo ignoriamo nel flusso delle azioni del replay
+                    if m != "---" and m.strip() != "":
+                        self.__mosse_pure.append(m)
 
-            self.__indice_corrente = 0
-            self.__mosse_flat = []  # Sarà popolata dinamicamente da __build_stati
-            self.__stati = self.__build_stati(partita_iniziale)
+        self.__indice_corrente = 0
+        self.__mosse_flat = []
+        self.__stati = self.__build_stati(partita_iniziale)
 
     # ------ Accesso attributi ------ #
     def get_indice_corrente(self) -> int:
@@ -158,41 +160,49 @@ class ReplayPartita:
 
     def __build_stati(self, partita_iniziale: Partita) -> list[Partita]:
         stati: list[Partita] = []
-        self.__mosse_flat = []  # Resettiamo la lista delle tuple (id_giocatore, mossa)
+        self.__mosse_flat = []
 
-        # Stato 0: la partita iniziale prima di qualsiasi mossa
+        # Stato 0: Configurazione iniziale clone dello snapshot
         stato_corrente = copy.deepcopy(partita_iniziale)
         stati.append(copy.deepcopy(stato_corrente))
 
         for m in self.__mosse_pure:
-            # Sincronizzazione dinamica: se il giocatore di turno NON è attivo (eliminato),
-            # facciamo scorrere i turni finché non troviamo il giocatore attivo corretto.
+            # Ciclo di sincronizzazione del turno:
+            # se per lo stato corrente del Replay il giocatore di turno non è attivo,
+            # facciamo avanzare il contatore finché non intercettiamo il giocatore corretto.
             while True:
                 id_g = stato_corrente.get_id_giocatore_attivo()
-                giocatore = stato_corrente.get_giocatore(id_g)
-                if giocatore.is_attivo():
+                giocatore_simulato = stato_corrente.get_giocatore(id_g)
+
+                if giocatore_simulato.is_attivo():
                     break
                 stato_corrente.incrementa_turno()
 
-            # Adesso memorizziamo l'accoppiamento corretto trovato in tempo reale
+            # Registriamo l'accoppiamento corretto trovato in tempo reale
             self.__mosse_flat.append((id_g, m))
             g = stato_corrente.get_giocatore(id_g)
 
-            # Esecuzione della mossa sullo stato simulato
+            # Esecuzione della mossa sulla scacchiera simulata
             if len(m) == 3:  # Muro
                 stato_corrente.piazza_muro(m, g)
                 stato_corrente.rimuovi_un_muro_giocatore(id_g)
             else:  # Pedone
                 stato_corrente.muovi_giocatore(m, g)
 
-            # IMPORTANTE: Dopo la mossa simuliamo anche il controllo eliminazione tempo!
-            # Nella partita reale P1 e P2 si sono mossi MA sono stati subito eliminati.
-            # Per riflettere questo nel replay, controlliamo se il giocatore reale ha finito il tempo.
-            # Siccome lo snapshot iniziale clona i timer reali, verifichiamo lo stato del tempo:
-            if giocatore.possiede_limite_tempo() and giocatore.ha_finito_tempo():
+            # --- CORREZIONE CRASH ELIMINAZIONE ---
+            # Non interpelliamo più partita_iniziale.
+            # Se la mossa corrente era l'ultima mossa legale prima dell'eliminazione per tempo,
+            # controlliamo se il giocatore simulato ha ridotto a zero il suo tempo,
+            # oppure se nella scacchiera simulata scatta la condizione per cui deve essere rimosso.
+            # Per farlo in modo blindato, simuliamo la riduzione del tempo o verifichiamo lo stato:
+            if stato_corrente.get_giocatore(id_g).possiede_limite_tempo() and stato_corrente.get_giocatore(id_g).ha_finito_tempo():
                 stato_corrente.elimina_giocatore(id_g)
 
-            # Passiamo il turno al giocatore successivo
+            # Se la partita reale prevedeva un'eliminazione forzata registrata a fine turno:
+            # possiamo verificare se l'eliminazione avviene per abbandono esaminando i flag.
+            # Per sicurezza, per evitare eccezioni su get_giocatore, rimuoviamo i controlli cross-object obsoleti.
+
+            # Passiamo al turno successivo
             stato_corrente.incrementa_turno()
             stati.append(copy.deepcopy(stato_corrente))
 
