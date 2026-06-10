@@ -278,7 +278,7 @@ class Giocatore:
 
     def riduci_tempo(self, tempo_trascorso: timedelta = timedelta(seconds=1)) -> bool:
         if self.possiede_limite_tempo():
-            if tempo_trascorso.seconds < 0:
+            if tempo_trascorso < timedelta(0):
                 raise TempoException(
                     "I secondi passati devono essere un numero positivo"
                 )
