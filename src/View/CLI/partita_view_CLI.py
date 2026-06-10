@@ -3,7 +3,8 @@ import sys
 from src.Model.partita import Partita
 from src.View.giocatore_view import GiocatoreViewAstratta
 from src.View.partita_view import PartitaViewAstratta
-from src.View.pulisci_schermo_view import pulisci_schermo
+from src.Model.tempo import get_tempo_formattato
+from src.View.funzioni_utili_stampa import chiedi_input_utente, pulisci_schermo
 from src.View.tavoliere_view import TavoliereviewAstratta
 
 
@@ -171,9 +172,37 @@ class PartitaViewCLI(PartitaViewAstratta):
         # Richiedi input
         return input()
 
-    def stampa_richiesta_input(self, indicazioni: str = ""):
-        print(indicazioni, end="\n\n")
-        print("Input: ", end="")
+    def stampa_richiesta_input(self, partita: Partita):
+        pulisci_schermo()
+        giocatori = partita.get_giocatori()
+        tavoliere = partita.get_tavoliere()
+        for g in giocatori:
+            id_selezionato = g.get_id()
+            muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
+
+            if g.possiede_limite_tempo():
+                stringa_tempo_rimanente = get_tempo_formattato(g.get_tempo_residuo())
+            else:
+                stringa_tempo_rimanente = None
+
+            if g.is_attivo():
+                if id_selezionato == partita.get_id_giocatore_attivo():
+                    self.get_giocatore_view().stampa_giocatore_attivo(
+                        id_selezionato, muri_rimanenti, stringa_tempo_rimanente
+                    )
+                else:
+                    self.get_giocatore_view().stampa_info_giocatore(
+                        id_selezionato, muri_rimanenti, stringa_tempo_rimanente
+                    )
+            else:
+                self.get_giocatore_view().stampa_giocatore_eliminato(
+                    id_selezionato, muri_rimanenti, stringa_tempo_rimanente
+                )
+
+        print("")
+        self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
+
+        print("\nSuggerimento -- Digitare 'help' per visualizzare i comandi\n")
 
     def stampa_aiuto(self):
         aiuto = """
@@ -231,7 +260,7 @@ class PartitaViewCLI(PartitaViewAstratta):
         print(f"\033[94m{aiuto}\033[0m")
         input("---- Premi INVIO per tornare al menu... ----")
 
-    def stampa_vittoria(self, idVincitore):
+    def stampa_vittoria(self, idVincitore, motivo_vittoria: str):
         # Stampa ==============================
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("=", end="")
@@ -258,9 +287,9 @@ class PartitaViewCLI(PartitaViewAstratta):
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("=", end="")
 
-        # Stampa descrizione della vittoria
+        # Stampa descrizione della vittoria specifica
         print("\n\n")
-        print(f"\tIl giocatore {idVincitore} ha raggiunto destinazione.", end="")
+        print(f"{motivo_vittoria:^{self.__LUNGHEZZA_DIVISORI}}")
         print("\n\n")
 
         # Stampa -------------------------------
@@ -281,6 +310,10 @@ class PartitaViewCLI(PartitaViewAstratta):
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("=", end="")
         print("\n")
+
+    def get_input(self) -> str:
+        return chiedi_input_utente("Fai la tua mossa: ")
+
 
     # Stampe Errori
 

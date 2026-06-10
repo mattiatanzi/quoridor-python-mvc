@@ -104,7 +104,7 @@ class PartitaViewTUI(PartitaViewAstratta):
         self.__app_condivisa= app_condivisa
      
     def stampa_partita(self, partita: Partita):
-        pass
+        schermo = self.__app_condivisa.screen
 
     
     def chiedi_input_utente(self, indicazioniInput: str = "") -> str:

@@ -60,17 +60,6 @@ class PartitaViewAstratta(ABC):
 
         ------ INPUT UTENTE ------
 
-        def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
-            DESCRIZIONE
-                Mostra un interfaccia con un eventuale messaggio di indicazioni in cui
-                viene chiesto all'utente di inserire un input. La funzione restituisce
-                l'input inserito dall'utente
-
-        def stampa_richiesta_input(self, indicazioni: str = ""):
-            DESCRIZIONE
-                Mostra un interfaccia con un eventuale messaggio di indicazioni in cui
-                viene chiesto all'utente di inserire un input.
-
         def get_input(self):
             DESCRIZIONE
                 Mostra un messaggio e prende e restituisce quello che scrive l'utente
@@ -78,9 +67,17 @@ class PartitaViewAstratta(ABC):
 
     """
     
-    def __init__(self, new_giocatore_view: GiocatoreViewAstratta, new_tavoliere_view: TavoliereviewAstratta):
-        self.set_giocatore_view(new_giocatore_view)
-        self.set_tavoliere_view(new_tavoliere_view)
+    def __init__(
+        self,
+        new_giocatore_view: GiocatoreViewAstratta = None,
+        new_tavoliere_view: TavoliereviewAstratta = None,
+        ):
+        self.set_giocatore_view(
+            new_giocatore_view if new_giocatore_view is not None else GiocatoreViewAstratta()
+        )
+        self.set_tavoliere_view(
+            new_tavoliere_view if new_tavoliere_view is not None else TavoliereviewAstratta()
+        )
     # Accesso Attributi Privati
 
     def set_tavoliere_view(self, new_tavoliere_view: TavoliereviewAstratta):

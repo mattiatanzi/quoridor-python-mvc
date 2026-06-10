@@ -1,4 +1,5 @@
-from src.View.pulisci_schermo_view import pulisci_schermo
+from src.View.costanti_quoridor_view import CostantiQuoridorView
+from src.View.funzioni_utili_stampa import chiedi_input_utente, pulisci_schermo
 from src.View.quoridor_view import QuoridorViewAstratta
 
 
@@ -34,3 +35,26 @@ class QuoridorViewCLI(QuoridorViewAstratta):
 
     def stampa_messaggio(self, messaggio: str):
         print(messaggio)
+    
+    def get_input_modalita_partita(self) -> str:
+        pulisci_schermo()
+
+        messaggio = "Selezionare Una Modalità Di Gioco:\n"
+
+        for (
+            chiave,
+            descrizione,
+        ) in CostantiQuoridorView.POSSIBILI_SCELTE_MODALITA.items():
+            messaggio = messaggio + f"\n{chiave}. {descrizione}\n"
+        
+    def get_input_limite_tempo(self) -> str:
+        pulisci_schermo()
+
+        messaggio = "Selezionare Un Limite di Tempo:"
+
+        for chiave, descrizione in CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.items():
+            messaggio = messaggio + f"\n{chiave}. {descrizione}\n"
+
+        messaggio = messaggio + CostantiQuoridorView.MESSAGGIO_ALTERNATIVO_SCELTA_TIMER
+
+        return chiedi_input_utente(messaggio)

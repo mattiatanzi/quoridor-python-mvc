@@ -1,4 +1,4 @@
-from src.Model.costanti import Costanti
+from src.Model.costanti_tavoliere import Costanti
 from src.Model.giocatore import Giocatore
 from src.Model.nodo import Nodo
 from src.Model.tavoliere import Tavoliere

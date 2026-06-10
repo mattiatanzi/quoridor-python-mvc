@@ -6,15 +6,16 @@ class QuoridorViewAstratta(ABC):
 
     Metodi
     ------
-    nome: menu_base:
+    def __menu_base(self):
         Permette di stampare la base del menu che è solo visiva
 
-    nome: menu_di_gioco:
+    def menu_di_gioco(self):
         Permette di stampare il menu di base e restituisce l'input che riceve
         dall'utente
 
-    nome: stampa_messaggio:
+    def stampa_messaggio(self, messaggio: str):
         Permette di stampare un messaggio nella fase di menu
+
     """
     
     @abstractmethod

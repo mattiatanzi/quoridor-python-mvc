@@ -14,14 +14,28 @@ class GiocatoreViewAstratta(ABC):
             DESCRIZIONE
                 Mostra dell'id giocatore
 
-        def stampa_giocatore_attivo(self, id, muri_disponibili):
+        def stampa_giocatore_attivo(
+            self,
+            id,
+            muri_disponibili,
+            tempo_formattato = None
+        ):
             DESCRIZIONE
                 Mostra informazioni riguardanti il giocatore che ha il turno
 
-        def stampa_info_giocatore(self, id, muri_disponibili):
+        def stampa_info_giocatore(self, id, muri_disponibili, tempo_formattato = None):
             DESCRIZIONE
                 Mostra informazioni generali riguardanti un giocatore
 
+
+        def stampa_giocatore_eliminato(
+            self,
+            id,
+            muri_disponibili,
+            tempo_formattato = None
+        ):
+            DESCRIZIONE
+            Mostra intormazioni generali riguardanti i giocatori.
         ------ VISUALIZZZIONI ERRORI ------
 
         def stampa_errore_giocatore(self, messaggio):
@@ -44,6 +58,9 @@ class GiocatoreViewAstratta(ABC):
     def stampa_info_giocatore(self, id, muri_disponibili):
         pass
 
+    @abstractmethod
+    def stampa_giocatore_eliminato(self, id, muri_disponibili, tempo_formattato=None):
+        pass
     # Stampe Errori
     @abstractmethod
     def stampa_errore_giocatore(self, messaggio):
