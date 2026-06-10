@@ -173,6 +173,29 @@ classDiagram
 - Se il comando viene inserito mentre una partita è in corso, la partita viene interrotta istantaneamente senza salvataggio.
 - Il sistema gestisce l'uscita restituendo correttamente il controllo al terminale (o al container Docker) senza mai generare eccezioni non gestite o crash dell'applicazione.
 
+#### Sprint 2
+
+2.  **Trascrizione partita**:**User Story** In qualità di giocatore, voglio poter visualizzare la trascrizione completa delle mosse in qualunque momento, in modo tale da poter tenere traccia dell'evoluzione della partita e analizzare le azioni compiute.
+
+**Criteri di accettazione**
+
+- Esiste un comando specifico invocabile dall'utente per richiedere la visualizzazione della trascrizione.
+- Il comando funziona in qualunque momento della partita, anche in caso di annuncio di un vincitore o di patta.
+- Le mosse trascritte sono numerate progressivamente (simile alla notazione standard degli scacchi).
+- La trascrizione utilizza fedelmente la notazione testuale compatta (es. `e2` per un movimento pedone o `e3h` per un piazzamento di un muro).
+- Se il comando viene invocato prima che sia stata effettuata una mossa, il sistema restituisce un messaggio esplicativo senza bloccarsi o fare una stampa vuota.
+- Eventuali errori di digitazione nella chiamata del comando vengono intercettati e gestiti senza interrompere l'applicazione.
+
+3. **Visualizzare il Replay**:**User Story** In qualità di giocatore, voglio poter far partire il replay di una partita appena conclusa, in modo tale da rivedere l'evoluzione del tavoliere mossa dopo mossa e studiare le strategie adottate.
+
+**Criteri di accettazione**
+
+- C'è un comando specifico per avviare il replay, ed esso è disponibile solo per le partite appena concluse
+- Il replay è animato: riproduce visivamente sul tavoliere la sequenza delle mosse, mostrando i movimenti dei pedoni e il piazzamento dei muri, esattamente come sono avvenute nella partita appena conclusa.
+- L'avanzamento del replay è gestito in modo chiaro per l'utente, tramite avanzamento automatico a tempo o tramite comandi manuali (es. `next` / `prev`).
+- Non c'è persistenza dei dati del replay, essi risiedono solo in memoria e vengono persi alla chiusura della partita (o dell'applicazione).
+- Qualunque input inaspettato inserito durante la fase di replay non causa il crash del sistema.
+
 ### 3.2 Requisiti non funzionali
 
 - **RNF1** (Robustezza): Il sistema deve essere eseguibile in un container **Docker**.

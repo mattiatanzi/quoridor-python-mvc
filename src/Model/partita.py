@@ -44,9 +44,10 @@ class Partita:
                 L'id del giocatore che sta svolgendo il turno
         - trascrizione
             TIPO
-                Privato, Lista di Stringhe
+                Privato, Lista di tuple
             DESCRIZIONE
-                La lista che memorizza le mosse
+                La lista che memorizza le mosse in modo puro sotto
+                forma di (id_giocatore, mossa).
 
     METODI:
 
@@ -189,7 +190,7 @@ class Partita:
     __giocatori: set[Giocatore]
     __tavoliere: Tavoliere
     __id_giocatore_attivo: str
-    __trascrizione: list[str]
+    __trascrizione: list[tuple[str, str]]
 
     # Metodi
 
@@ -230,6 +231,8 @@ class Partita:
     def aggiungi_mossa_trascrizione(self, mossa: str):
         if self.__id_giocatore_attivo == CostantiPartita.ID_PRIMO_GIOCATORE_ATTIVO:
             numero = len(self.__trascrizione) + 1
+            if len(mossa) == 2:
+                mossa += " "
             self.__trascrizione.append(f"{numero}. {mossa}")
         else:
             self.__trascrizione[-1] += f" {mossa}"
