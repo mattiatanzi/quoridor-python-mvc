@@ -1,6 +1,9 @@
+import sys
+
 from src.Model.partita import Partita
+from src.Model.tempo import get_tempo_formattato
+from src.View.funzioni_utili_stampa import chiedi_input_utente, pulisci_schermo
 from src.View.giocatore_view import GiocatoreView
-from src.View.pulisci_schermo_view import pulisci_schermo
 from src.View.tavoliere_view import TavoliereView
 
 
@@ -90,6 +93,9 @@ class PartitaView:
             DESCRIZIONE
                 Stampa a video l'interfaccia di vittoria
 
+        def stampa_trascrizione(self,trascrizione : list[str], num_giocatori: int):
+            DESCRIZIONE
+                Stampa a video la trascrizione della partita in corso
 
         ------ STAMPE ERRORI ------
 
@@ -98,17 +104,6 @@ class PartitaView:
                 Stampa il messaggio di errore in input relativo alla partita
 
         ------ INPUT UTENTE ------
-
-        def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
-            DESCRIZIONE
-                Stampa un interfaccia con un eventuale messaggio di indicazioni in cui
-                viene chiesto all'utente di inserire un input. La funzione restituisce
-                l'input inserito dall'utente
-
-        def stampa_richiesta_input(self, indicazioni: str = ""):
-            DESCRIZIONE
-                Stampa un interfaccia con un eventuale messaggio di indicazioni in cui
-                viene chiesto all'utente di inserire un input.
 
         def get_input(self):
             DESCRIZIONE
@@ -123,16 +118,24 @@ class PartitaView:
 
     # Costanti
     __LUNGHEZZA_DIVISORI = 70
+    __DEF_GIOCATORE_VIEW = GiocatoreView()
+    __DEF_TAVOLIERE_VIEW = TavoliereView()
 
     # Metodi
 
     # Costruttore
 
     def __init__(
-        self, new_giocatore_view: GiocatoreView, new_tavoliere_view: TavoliereView
+        self,
+        new_giocatore_view: GiocatoreView = None,
+        new_tavoliere_view: TavoliereView = None,
     ):
-        self.set_giocatore_view(new_giocatore_view)
-        self.set_tavoliere_view(new_tavoliere_view)
+        self.set_giocatore_view(
+            new_giocatore_view if new_giocatore_view is not None else GiocatoreView()
+        )
+        self.set_tavoliere_view(
+            new_tavoliere_view if new_tavoliere_view is not None else TavoliereView()
+        )
 
     # Accesso Attributi Privati
 
@@ -158,30 +161,29 @@ class PartitaView:
             id_selezionato = g.get_id()
             muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
 
-            if id_selezionato == partita.get_id_giocatore_attivo():
-                self.get_giocatore_view().stampa_giocatore_attivo(
-                    id_selezionato, muri_rimanenti
-                )
+            if g.possiede_limite_tempo():
+                stringa_tempo_rimanente = get_tempo_formattato(g.get_tempo_residuo())
             else:
-                self.get_giocatore_view().stampa_info_giocatore(
-                    id_selezionato, muri_rimanenti
+                stringa_tempo_rimanente = None
+
+            if g.is_attivo():
+                if id_selezionato == partita.get_id_giocatore_attivo():
+                    self.get_giocatore_view().stampa_giocatore_attivo(
+                        id_selezionato, muri_rimanenti, stringa_tempo_rimanente
+                    )
+                else:
+                    self.get_giocatore_view().stampa_info_giocatore(
+                        id_selezionato, muri_rimanenti, stringa_tempo_rimanente
+                    )
+            else:
+                self.get_giocatore_view().stampa_giocatore_eliminato(
+                    id_selezionato, muri_rimanenti, stringa_tempo_rimanente
                 )
 
         print("")
         self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
 
         print("\nSuggerimento -- Digitare 'help' per visualizzare i comandi\n")
-
-    def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
-        # Stampa interfaccia Input
-        self.stampa_richiesta_input(indicazioniInput)
-
-        # Richiedi input
-        return input()
-
-    def stampa_richiesta_input(self, indicazioni: str = ""):
-        print(indicazioni, end="\n\n")
-        print("Input: ", end="")
 
     def stampa_aiuto(self):
         aiuto = """
@@ -206,6 +208,19 @@ class PartitaView:
         ║        • Muro 'v': Si inserisce nel bordo a DESTRA della     ║
         ║          casella e si estende per 2 spazi verso il BASSO.    ║
         ║                                                              ║
+        ║   -   TRASCRIZIONE E REPLAY:                                 ║
+        ║     • 'trascrizione' o 'mosse': Mostra l'elenco delle mosse  ║
+        ║     • 'replay': Avvia il replay a fine partita               ║
+        ║                                                              ║
+        ║             [COMANDI DI NAVIGAZIONE REPLAY]                  ║
+        ║     • Avanti:   'avanti', 'next', 'n' o premi [INVIO]        ║
+        ║     • Indietro: 'indietro', 'prev', 'p', 'back'              ║
+        ║     • Inizio:   'inizio', 'start', 'first'                   ║
+        ║     • Fine:     'fine', 'end', 'last'                        ║
+        ║     • Esci:     'esci', 'exit', 'quit', 'stop'               ║
+        ║                                                              ║
+        ║                                                              ║
+        ║                                                              ║
         ║  - AIUTO:                                                    ║
         ║     Scrivi 'help' o 'aiuto' per rileggere questo             ║
         ║      menu in ogni turno.                                     ║
@@ -216,13 +231,16 @@ class PartitaView:
         ║  -  ABBANDONARE LA PARTITA:                                  ║
         ║     Scrivi 'quit' o 'abbandona' per uscire dalla partita.    ║
         ║                                                              ║
+        ║  - TRASCRIZIONE DELLE MOSSE:                                 ║
+        ║    Scrivi 'trascrizione' o 'trascrizione mosse' o            ║
+        ║    'mosse' per visualizzare la trascrizione delle mosse      ║
         ╚══════════════════════════════════════════════════════════════╝
         """
-        
+
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
 
-    def stampa_vittoria(self, idVincitore):
+    def stampa_vittoria(self, idVincitore, motivo_vittoria: str):
         # Stampa ==============================
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("=", end="")
@@ -249,9 +267,9 @@ class PartitaView:
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("=", end="")
 
-        # Stampa descrizione della vittoria
+        # Stampa descrizione della vittoria specifica
         print("\n\n")
-        print(f"\tIl giocatore {idVincitore} ha raggiunto destinazione.", end="")
+        print(f"{motivo_vittoria:^{self.__LUNGHEZZA_DIVISORI}}")
         print("\n\n")
 
         # Stampa -------------------------------
@@ -260,13 +278,21 @@ class PartitaView:
 
         # Stampa Opzioni per uscire
         print("\n")
-        print("[M] Menu", end="")
+        print("[M] Menu")
+        print(
+            "[Trascrizione],[Trascrizione mosse],[Mosse] Trascrizione delle mosse",
+        )
+        print("[replay], [r] Replay manuale")
+        print("[replay automatico],[ra] Replay automatico", end="")
         print("\n")
 
         # Stampa ==============================
         for _ in range(0, self.__LUNGHEZZA_DIVISORI):
             print("=", end="")
         print("\n")
+
+    def get_input(self) -> str:
+        return chiedi_input_utente("Fai la tua mossa: ")
 
     # Stampe Errori
 
@@ -275,3 +301,49 @@ class PartitaView:
 
     def get_input(self) -> str:
         return self.chiedi_input_utente("Fai la tua mossa: ")
+
+    def stampa_trascrizione(
+        self, trascrizione: list[str], num_giocatori: int, replay: bool = False
+    ):
+        if not replay:
+            stampa = "   "
+            for j in range(0, num_giocatori):
+                stampa += "P" + str(j + 1) + "  "
+            stampa += "\n\n"
+            i = len(trascrizione)
+            while i > 0:
+                stampa += trascrizione[i - 1] + "\n"
+                i -= 1
+            print(stampa)
+        else:
+            RIGA_IN = 5
+            COLONNA_DESTRA = 55
+
+            sys.stdout.write("\033[s")  # memorizza la posizione del cursore in basso
+            sys.stdout.write(
+                f"\033[{RIGA_IN};{COLONNA_DESTRA}H\033[1m--- STORICO MOSSE ---\033[0m"
+            )  # Sposta a destra e scrive STORICO MOSSE
+            intestazione = ""
+            for i in range(num_giocatori):
+                intestazione += "P" + str(i + 1) + "   "
+            sys.stdout.write(
+                f"\033[{RIGA_IN + 1};{COLONNA_DESTRA + 3}H\033[94m{intestazione}\033[0m"
+            )  # Sposta a destra e scrive l'intestazione ossia P1,P2 ...
+
+            MAX_MOSSE_VISIBILI = 15  # Il numero massimo di righe che vuoi occupare a
+            # destra
+            # Se la lista è più lunga di 15, taglia l'array mantenendo solo le ultime 15
+            # Per evitare di stampare troppe mosse insieme, così vengono mostrate le
+            # ultime 15 mosse
+            mosse_da_stampare = (
+                trascrizione[-MAX_MOSSE_VISIBILI:]
+                if len(trascrizione) > MAX_MOSSE_VISIBILI
+                else trascrizione
+            )
+
+            for i, mossa in enumerate(mosse_da_stampare):
+                riga_attuale = RIGA_IN + 2 + i
+                sys.stdout.write(f"\033[{riga_attuale};{COLONNA_DESTRA}H\033[K{mossa}")
+
+            sys.stdout.write("\033[u")
+            sys.stdout.flush()

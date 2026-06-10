@@ -1,3 +1,4 @@
+from src.Model.costanti_partita import CostantiPartita
 from src.Model.giocatore import ErrorePosizione, Giocatore
 from src.Model.nodo import Nodo
 from src.Model.tavoliere import Tavoliere
@@ -22,65 +23,6 @@ class Partita:
         Contiene informazioni relative alla partita in corso.
 
     ATTRIBUTI:
-
-        ------ COSTANTI ------
-
-        - TOTALE_GIOCATORI
-            TIPO
-                Privato, Tipo int
-            DESCRIZIONE
-                Il numero massimo dei giocatori amessi in partita
-
-        - ID_PRIMO_GIOCATORE_ATTIVO
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Indica l'id del primo giocatore attivo
-
-        - PRIMA_COLONNA
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Indica la prima colonna del tavoliere
-
-        - ULTIMA_COLONNA
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Indica l'ultima colonna del tavoliere
-
-        - PRIMA_RIGA
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Indica la prima riga del tavoliere
-
-        - ULTIMA_RIGA
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Indica l'ultima riga del tavoliere
-
-        - ORIZZONTALE
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Indica il carattere presente quando si legge un muro orizzontale
-
-        - VERTICALE
-            TIPO
-                Privato, Tipo str
-            DESCRIZIONE
-                Indica il carattere presente quando si legge un muro verticale
-
-        - TRAGUARDI
-            TIPO
-                Privato, Tipo Dizionario
-            DESCRIZIONE
-                E' un dizionario che ha per chiavi gli id dei giocatori e per valore
-                la riga di arrivo
-
-
         ------ VARIABILI ------
 
         - giocatori
@@ -102,9 +44,10 @@ class Partita:
                 L'id del giocatore che sta svolgendo il turno
         - trascrizione
             TIPO
-                Privato, Lista di Stringhe
+                Privato, Lista di tuple
             DESCRIZIONE
-                La lista che memorizza le mosse
+                La lista che memorizza le mosse in modo puro sotto
+                forma di (id_giocatore, mossa).
 
     METODI:
 
@@ -165,6 +108,19 @@ class Partita:
                 Rimuove il giocatore con l'id in input dalla partita (Se il giocatore
                 risulta essere in partita).
 
+        def elimina_giocatore(self, id):
+            DESCRIZIONE
+                Elimina il giocatore con id in input dalla partita
+
+                ATTENZIONE
+                    Eliminare un Giocatore != Rimuovere un Giocatore
+                    Rimuovere un giocatore dalla partita vuol dire rimuoverlo
+                    dal set di giocatori presenti. Eliminare il giocatore dalla
+                    partita invece significa mantenerlo in partita, ma segnare con un
+                    flag che non può più giocare i propri turni.
+                    Per adesso l'eliminazione avviene soltanto nel momento in cui il
+                    giocatore finisce il limite di tempo
+
 
         def set_posizione_giocatore(self, id, new_posizione):
             DESCRIZIONE
@@ -209,44 +165,32 @@ class Partita:
         def verifica_vittoria(self)
             DESCRIZIONE
                 Controlla la posizione dei pedoni per decretare la fine della partita.
+                Controlla anche che in partita ci sia almeno un giocatore, altrimenti
+                l'ultimo giocatore è il vincitore.
                 Restituisce l'ID del vincitore.
-                
+
         def aggiungi_mossa_trascrizione(self, mossa: str)
             DESCRIZIONE
                 Aggiunge una mossa alla trascrizione della partita.
-        
+
         def get_trascrizione(self) -> list[str]:
             DESCRIZIONE
-                Restituisce una copia della trascrizione partita. La trascrizione 
+                Restituisce una copia della trascrizione partita. La trascrizione
                 avviene nel seguente modo:
                     -Per ogni turno viene creato un elemento nella lista trascrizioni
-                    - Ogni elemento della lista trascrizioni contiene le mosse svolte 
+                    - Ogni elemento della lista trascrizioni contiene le mosse svolte
                       da ogni giocatore in quel turno, ordinate per numero di giocatore
 
-                Esempio: La seguente lista indica che ci sono 2 giocatori e sono stati 
-                svolti due turni, in cui P1 si è mosso in a2 e poi in a3, 
+                Esempio: La seguente lista indica che ci sono 2 giocatori e sono stati
+                svolti due turni, in cui P1 si è mosso in a2 e poi in a3,
                 mentre P2 in b5 e poi b6. [1. a2 b5 , 2. a3 b6]
     """
-
-    # Costanti
-    __TOTALE_GIOCATORI = 2
-    __ID_PRIMO_GIOCATORE_ATTIVO = "P1"
-
-    __PRIMA_COLONNA = "a"
-    __ULTIMA_COLONNA = "i"
-    __PRIMA_RIGA = "1"
-    __ULTIMA_RIGA = "9"
-    __ORIZZONTALE = "h"
-    __VERTICALE = "v"
-
-    # Dizionario per gestire le vittorie
-    __TRAGUARDI = {"P1": "9", "P2": "1"}
 
     # Variabili
     __giocatori: set[Giocatore]
     __tavoliere: Tavoliere
     __id_giocatore_attivo: str
-    __trascrizione: list[str]
+    __trascrizione: list[tuple[str, str]]
 
     # Metodi
 
@@ -255,7 +199,7 @@ class Partita:
     def __init__(self, new_tavoliere: Tavoliere, new_giocatori: set[Giocatore]):
         self.set_tavoliere(new_tavoliere)
         self.set_giocatori(new_giocatori)
-        self.set_id_giocatore_attivo(self.__ID_PRIMO_GIOCATORE_ATTIVO)
+        self.set_id_giocatore_attivo(CostantiPartita.ID_PRIMO_GIOCATORE_ATTIVO)
         self.__trascrizione = []
 
     # Accesso Attributi Privati
@@ -277,18 +221,20 @@ class Partita:
 
     def get_id_giocatore_attivo(self):
         return self.__id_giocatore_attivo
-    
+
     def get_trascrizione(self) -> list[str]:
         return list(self.__trascrizione)
-    
+
     # Modificatori / Osservatori
-    
+
     # Aggiungere mossa nella trascrizione
     def aggiungi_mossa_trascrizione(self, mossa: str):
-        if self.__id_giocatore_attivo == self.__ID_PRIMO_GIOCATORE_ATTIVO:
+        if self.__id_giocatore_attivo == CostantiPartita.ID_PRIMO_GIOCATORE_ATTIVO:
             numero = len(self.__trascrizione) + 1
+            if len(mossa) == 2:
+                mossa += " "
             self.__trascrizione.append(f"{numero}. {mossa}")
-        else: 
+        else:
             self.__trascrizione[-1] += f" {mossa}"
 
     # Modificare / Restituire un Giocatore in Partita
@@ -308,12 +254,12 @@ class Partita:
     def aggiungi_giocatore(self, new_giocatore: Giocatore):
         numero_giocatori_partita = len(self.get_giocatori())
 
-        if numero_giocatori_partita < self.__TOTALE_GIOCATORI:
+        if numero_giocatori_partita < CostantiPartita.TOTALE_GIOCATORI:
             self.get_giocatori().add(new_giocatore)
         else:
             raise ErrorePartita(
                 "Impossibile Aggiungere Giocatori (Numero giocatori: "
-                f"{numero_giocatori_partita}/{self.__TOTALE_GIOCATORI})"
+                f"{numero_giocatori_partita}/{CostantiPartita.TOTALE_GIOCATORI})"
             )
 
     def rimuovi_giocatore(self, id):
@@ -325,8 +271,12 @@ class Partita:
         else:
             raise ErrorePartita(
                 f"Impossibile Rimuovere Giocatori (Numero giocatori: "
-                f"{numero_giocatori_partita}/{self.__TOTALE_GIOCATORI})"
+                f"{numero_giocatori_partita}/{CostantiPartita.TOTALE_GIOCATORI})"
             )
+
+    def elimina_giocatore(self, id):
+        giocatore_selezionato = self.get_giocatore(id)
+        giocatore_selezionato.set_attivo(False)
 
     # Cambiare Posizione di Giocatore in partita
 
@@ -360,7 +310,7 @@ class Partita:
 
         numeroGiocatore = int(id_giocatore_attivo[1]) + 1
 
-        if numeroGiocatore > self.__TOTALE_GIOCATORI:
+        if numeroGiocatore > CostantiPartita.TOTALE_GIOCATORI:
             numeroGiocatore = 1
 
         nuovo_id_giocatore_attivo = f"{id_giocatore_attivo[0]}{numeroGiocatore}"
@@ -371,11 +321,11 @@ class Partita:
         if giocatore_attivo.get_muri_disponibili() == 0:
             raise ErrorePartita("Errore: Muri da piazzare terminati")
 
-        if self.__PRIMA_COLONNA <= azione[0] <= self.__ULTIMA_COLONNA:
-            if self.__PRIMA_RIGA <= azione[1] <= self.__ULTIMA_RIGA:
-                if azione[2] == self.__ORIZZONTALE:
+        if CostantiPartita.PRIMA_COLONNA <= azione[0] <= CostantiPartita.ULTIMA_COLONNA:
+            if CostantiPartita.PRIMA_RIGA <= azione[1] <= CostantiPartita.ULTIMA_RIGA:
+                if azione[2] == CostantiPartita.ORIZZONTALE:
                     self.__tavoliere.piazza_muro_orizzontale(azione)
-                elif azione[2] == self.__VERTICALE:
+                elif azione[2] == CostantiPartita.VERTICALE:
                     self.__tavoliere.piazza_muro_verticale(azione)
                 else:
                     raise ErroreFormattazione(
@@ -393,24 +343,22 @@ class Partita:
 
     def muovi_giocatore(self, azione: str, giocatore_attivo: Giocatore):
         if not (
-            self.__PRIMA_COLONNA <= azione[0] <= self.__ULTIMA_COLONNA
-            and self.__PRIMA_RIGA <= azione[1] <= self.__ULTIMA_RIGA
+            CostantiPartita.PRIMA_COLONNA <= azione[0] <= CostantiPartita.ULTIMA_COLONNA
+            and CostantiPartita.PRIMA_RIGA <= azione[1] <= CostantiPartita.ULTIMA_RIGA
         ):
             raise ErrorePosizione(f"Coordinate fuori scacchiera: {azione}")
 
         nodo_partenza = giocatore_attivo.get_posizione()
         nodo_arrivo = Nodo(azione)
-        
+
         # Riconoscere uno spostamento sulla medesima casella
         if nodo_partenza == nodo_arrivo:
             mess_err = f"Mossa non valida: Sei già sulla casella {azione}..."
             raise ErrorePosizione(mess_err)
         # Verifica dell'esistenza passaggio
         elif self.__tavoliere.mossa_permessa(nodo_partenza, nodo_arrivo):
-            
             # Evitiamo che ci si possa spostare su una casella occupata
             for avversario in self.get_giocatori():
-            
                 # Esclusione del giocatore attivo dal controllo
                 if avversario.get_id() == giocatore_attivo.get_id():
                     continue
@@ -428,16 +376,26 @@ class Partita:
     # Osservatore condizione di vittoria
 
     def verifica_vittoria(self):
+        giocatori_attivi = set()
+
         for giocatore in self.get_giocatori():
-            id_giocatore = giocatore.get_id()
+            if giocatore.is_attivo():
+                giocatori_attivi.add(giocatore)
 
-            # Estrazione carattere corrispondente alla riga
-            pos_giocatore = giocatore.get_posizione().get_valore_id_nodo()
-            riga = pos_giocatore[1]
+                id_giocatore = giocatore.get_id()
 
-            # Verifica raggiunta del traguardo
-            if self.__TRAGUARDI.get(id_giocatore) == riga:
-                return id_giocatore
+                # Estrazione carattere corrispondente alla riga
+                pos_giocatore = giocatore.get_posizione().get_valore_id_nodo()
+                riga = pos_giocatore[1]
+
+                # Verifica raggiunta del traguardo
+                if CostantiPartita.RIGHE_FINALI.get(id_giocatore) == riga:
+                    return id_giocatore
+
+        # Caso in cui sia rimasto un giocatore
+        if len(giocatori_attivi) == 1:
+            vincitore = giocatori_attivi.pop()
+            return vincitore.get_id()
 
         # In caso non sia stato rilevato un vincitore
         return None
