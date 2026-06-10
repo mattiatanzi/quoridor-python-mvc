@@ -300,7 +300,7 @@ class PartitaView:
         print(messaggio)
 
     def get_input(self) -> str:
-        return self.chiedi_input_utente("Fai la tua mossa: ")
+        return chiedi_input_utente("Fai la tua mossa: ")
 
     def stampa_trascrizione(
         self, trascrizione: list[str], num_giocatori: int, replay: bool = False
