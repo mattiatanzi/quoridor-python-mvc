@@ -46,10 +46,15 @@ class CostantiGiocatore:
     # Costanti ID
     __DEF_ID_P1 = "P1"
     __DEF_ID_P2 = "P2"
+    __DEF_ID_P3 = "P3"
+    __DEF_ID_P4 = "P4"
 
     POSSIBILI_ID_GIOCATORE = [
         __DEF_ID_P1,
         __DEF_ID_P2,
+        __DEF_ID_P3,
+        __DEF_ID_P4
+
     ]
     DEF_MURI_DISPONIBILI = 10
 

@@ -221,11 +221,10 @@ class Giocatore:
         if new_id_giocatore[0] != "P":
             raise ErroreId("L'id deve avere come primo carattere 'P'")
 
-        # id deve terminare con 1 o 2 (Giocatore 1 o 2)
-        if new_id_giocatore[1] != "2" and new_id_giocatore[1] != "1":
+        if new_id_giocatore not in CostantiGiocatore.POSSIBILI_ID_GIOCATORE:
             raise ErroreId(
-                "L'id deve avere come secondo carattere '1' o '2', "
-                "in base al numero del giocatore"
+                f"L'id deve essere uno tra: "
+                f"{', '.join(CostantiGiocatore.POSSIBILI_ID_GIOCATORE)}"
             )
 
         # Se l'id rispetta i criteri può essere inserito nel giocatore
