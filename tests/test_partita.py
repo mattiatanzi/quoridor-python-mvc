@@ -3,9 +3,8 @@ import pytest
 from src.Model.costanti_partita import CostantiPartita
 from src.Model.giocatore import Giocatore
 from src.Model.nodo import Nodo
-from src.Model.partita import Partita
+from src.Model.partita import ErroreFormattazione, Partita
 from src.Model.tavoliere import Tavoliere
-from src.Model.partita import ErroreFormattazione
 
 
 # Utilizziamo una fixture per preparare un'istanza "pulita" della partita
