@@ -1,7 +1,7 @@
 from textual.app import ComposeResult
 from textual.widgets import Button, Label, Header, Footer
 from textual.screen import Screen
-from textual.containers import Vertical, Center
+from textual.containers import Vertical, Center,Horizontal
 
 
 class QuoridorViewScreen(Screen):
@@ -21,28 +21,28 @@ class QuoridorViewScreen(Screen):
     def compose(self) -> ComposeResult:
         yield Header()
 
-        with Center():
-            with Vertical(id = "menu-container"):
-                yield Label("Benvenuto in Quoridor", id = "menu-titolo")
 
-                yield Button("1 - Avvia una nuova partita", id = "btn-avviaPart")
-                yield Button("h - Aiuto (Comandi di gioco)", id = "btn-avviaHelp")
+        # Sostituisci il blocco with Center(): con questo:
+        with Horizontal(classes="layout-menu-aiuto"):
+            with Vertical(id="menu-container"):
+                yield Label("Benvenuto in Quoridor", id="menu-titolo")
+                yield Button("1 - Avvia una nuova partita", id="btn-avviaPart")
+                yield Button("h - Aiuto (Comandi di gioco)", id="btn-avviaHelp")
                 yield Button("0 - Esci dal gioco", id="btn-Esci", variant="error")
-
-            yield Footer()
+            
+            # Pannello laterale per l'aiuto
+            yield Label("", id="pannello-aiuto")
+        yield Footer()
 
     def on_button_pressed(self, event: Button.Pressed):
         id_premuto = event.button.id
 
         if id_premuto == "btn-avviaPart":
             comando = "1"
-            
-
         elif id_premuto == "btn-avviaHelp":
             comando = "h"
         elif id_premuto == "btn-Esci":
             comando = "0"
-            self.app.invia_comando(comando)
 
             self.set_timer(1.5, self.app.exit) # Con questo comando indichiamo che 
             # se premuto 0 aspetta 1,5 secondi poi chiude l'interfaccia grafica

@@ -94,6 +94,7 @@ class ParametriPartitaViewCLI(ParametriPartitaView):
         """
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
+        input("---- Premi INVIO per tornare alla partita... ----")
 
     def stampa_aiuto_limite_tempo(self):
         pulisci_schermo()
@@ -127,3 +128,4 @@ class ParametriPartitaViewCLI(ParametriPartitaView):
         """
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
+        input("---- Premi INVIO per tornare alla partita... ----")

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from src.View.TUI.App.App_textual import QuoridorViewApp
 
 class QuoridorViewAstratta(ABC):
     """Stampa del menu di base.
@@ -33,3 +33,11 @@ class QuoridorViewAstratta(ABC):
     @abstractmethod
     def is_tui(self) -> bool:
         pass
+
+    @abstractmethod
+    def get_app(self) -> QuoridorViewApp:
+        return self.__app    
+
+    @abstractmethod
+    def get_coda_input(self):
+        return self.__coda_input

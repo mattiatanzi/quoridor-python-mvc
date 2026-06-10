@@ -1,18 +1,35 @@
+/* ======================================================== */
+/* QUORIDOR TUI - STILE COMPLETO                            */
+/* ======================================================== */
+
+/* -------------------------------------------------------- */
+/* 1. IMPOSTAZIONI GENERALI                                 */
+/* -------------------------------------------------------- */
 Screen {
     align: center middle;
     background: $surface;
 }
 
-#menu-container {
+/* -------------------------------------------------------- */
+/* 2. MENU E PANNELLO AIUTO (Stile Unificato per i 3 Menu)  */
+/* -------------------------------------------------------- */
+
+.layout-menu-aiuto {
+    width: auto;     /* FONDAMENTALE: fa restringere il container alla dimensione esatta dei suoi figli */
+    height: auto;    /* FONDAMENTALE: altezza dinamica */
+    layout: horizontal;
+}
+
+#menu-container, #menu-modalita-container, #menu-timer-container {
     width: 50;
     height: auto;
-    border: double $accent;
+    border: heavy $accent;    
     padding: 1 2;
-    background: $panel;
+    background: $panel;       
     align: center middle;
 }
 
-#menu-titolo {
+#menu-titolo, #titolo-modalita, #titolo-timer {
     text-align: center;
     text-style: bold;
     color: $text;
@@ -25,101 +42,78 @@ Button {
     margin-bottom: 1;
 }
 
-/* Il bottone 'Esci' lo facciamo diventare rosso al passaggio del mouse */
-#btn_Esci:hover {
-    background: $error;
+Button:hover {
+    background: $accent-darken-1;
 }
 
-/*---------------------------------*/
-/* CSS per griglia del tavoliere*/
+#btn-Esci, #btn-indietro {
+    background: $error;
+    color: $text;
+}
 
-/* Stile base delle caselle del tabellone */
-.casella {
+#btn-Esci:hover, #btn-indietro:hover {
+    background: $error-darken-2;
+}
+
+Input {
+    width: 100%;
+    margin-bottom: 1;
+}
+
+#pannello-aiuto {
+    width: 45;
+    height: auto;
+    min-height: 15;
+    margin-left: 4;
+    padding: 1 2;
+    border: solid $success;
+    background: $surface-lighten-1;
+    display: none; 
+}
+
+#pannello-aiuto.visibile {
+    display: block;
+}
+
+/* -------------------------------------------------------- */
+/* 3. LAYOUT SCHERMATA DELLA PARTITA                        */
+/* -------------------------------------------------------- */
+
+#partita-container, #layout-partita {
+    layout: horizontal;
     width: 100%;
     height: 100%;
-    background: $surface-lighten-3; /* Colore di sfondo della casella vuota */
-    border: none;               /* Di base, nessun muro! */
 }
 
-/* Effetto quando passi il mouse sopra una casella vuota */
-.casella:hover {
-    background: $accent-muted;
-}
-
-/* =========================================
-   LA MAGIA DEI MURI: Il Trucco dei Bordi
-========================================= */
-
-/* Se il nodo non ha l'arco SOTTO, accendiamo il bordo inferiore */
-.casella.muro-sotto {
-    border-bottom: heavy $warning; /* Bordo spesso e giallo/arancione */
-}
-
-/* Se il nodo non ha l'arco DESTRA, accendiamo il bordo destro */
-.casella.muro-destra {
-    border-right: heavy $warning; 
-}
-
-/* Nel caso raro (ma possibile in Quoridor) di un incrocio con due muri */
-.casella.muro-sotto.muro-destra {
-    border-bottom: heavy $warning;
-    border-right: heavy $warning;
-}
-
-/* Colori delle pedine dei giocatori */
-.casella.giocatore-1 { 
-    background: #FF5555; /* Rosso per il Player 1 */
-    color: white; 
-    text-style: bold; 
-}
-
-.casella.giocatore-2 { 
-    background: #5555FF; /* Blu per il Player 2 */
-    color: white; 
-    text-style: bold; 
-}
-
-
-.casella.giocatore-3 { 
-    background: #55ff82; /* Verde per il Player 3 */
-    color: white; 
-    text-style: bold; 
-}
-
-.casella.giocatore-4 { 
-    background: #ddff55; /* Giallo per il Player 4 */
-    color: white; 
-    text-style: bold; 
-}
-/* -------------------------------- */
-/* Widget Tavoliere                 */
-/* -------------------------------- */
+/* -------------------------------------------------------- */
+/* 4. TAVOLIERE E GRIGLIA CASELLE                           */
+/* -------------------------------------------------------- */
 
 TavoliereViewWidget {
-    width: 1fr;         /* Occupa tutto lo spazio orizzontale rimanente */
+    width: 1fr;           
     height: 100%;
     align: center middle;
-    padding: 1 2;
+    padding: 1 4;         
 }
 
 #griglia-tavoliere {
-    /* Definisce una griglia esatta di 10x10 */
+    layout: grid;
     grid-size: 10 10;
     
-    /* Definisce le larghezze: la colonna dei numeri fissa a 4 char, le altre si espandono ugualmente (1fr) */
     grid-columns: 4 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    
-    /* Definisce le altezze: la riga delle lettere fissa a 2 char, le altre si espandono ugualmente (1fr) */
     grid-rows: 2 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     
     width: 100%;
     height: 100%;
     
-    /* Rimuove lo spazio vuoto tra le caselle, fondamentale per far "toccare" i bordi dei muri */
-    grid-gutter: 0 0; 
+    /* Gutter a 0 fa toccare i bordi, essenziale per i muri! */
+    grid-gutter: 0 0;
+    
+    border: round $primary-muted; 
+    padding: 1 2;
+    background: $surface-darken-1;
 }
 
-/* Stile per centrare perfettamente i numeri e le lettere a lato della griglia */
 #griglia-tavoliere > Label {
     width: 100%;
     height: 100%;
@@ -127,74 +121,107 @@ TavoliereViewWidget {
     text-style: bold;
     color: $text-muted;
 }
-/* Fine CSS tavoliere*/
-/*--------------------------*/
 
-/*--------------------------*/
+/* -------------------------------------------------------- */
+/* 5. LE CASELLE E GLI HOVER (Illuminazione Movimento/Muro) */
+/* -------------------------------------------------------- */
 
-
-/* -------------------------------- */
-/* Layout principale della partita  */
-/* -------------------------------- */
-
-#partita-container {
+.casella {
     width: 100%;
     height: 100%;
+    background: $surface-lighten-2;
+    /* Mettiamo un bordo trasparente per riservare lo spazio ed evitare salti grafici */
+    border: heavy transparent; 
+    content-align: center middle;
+    text-style: bold;
 }
 
-/* Pannello laterale sinistro */
-#pannello-laterale {
-    width: 28;
+/* Effetto Mouse-Hover: 
+   Sfondo azzurro/accent (Pedone) + Bordi verdi (Slot per il Muro) */
+.casella:hover {
+    background: $accent;
+    color: $text;
+    text-style: bold italic;
+    
+    /* Questa è la magia: illumina lo spazio TRA le caselle a destra e in basso */
+    border-right: heavy $success;
+    border-bottom: heavy $success;
+}
+
+/* -------------------------------------------------------- */
+/* 6. GESTIONE GRAFICA DEI MURI EFFETTIVI                   */
+/* -------------------------------------------------------- */
+
+/* Muri reali piazzati dai giocatori (Spessi e di colore Arancio/Giallo) */
+.muro-top { border-top: heavy $warning !important; }
+.muro-bottom { border-bottom: heavy $warning !important; }
+.muro-left { border-left: heavy $warning !important; }
+.muro-right { border-right: heavy $warning !important; }
+
+/* Muri di anteprima (opzionale): 
+   Se da Python vuoi illuminare l'intera fessura lunga due caselle prima del click,
+   puoi aggiungere queste classi via codice.
+*/
+.muro-preview-top { border-top: heavy $success-muted !important; }
+.muro-preview-bottom { border-bottom: heavy $success-muted !important; }
+.muro-preview-left { border-left: heavy $success-muted !important; }
+.muro-preview-right { border-right: heavy $success-muted !important; }
+
+/* -------------------------------------------------------- */
+/* 7. PANNELLO DEI GIOCATORI (A Destra)                     */
+/* -------------------------------------------------------- */
+
+#pannello-giocatori, #pannello-laterale {
+    width: 35;                   
     height: 100%;
-    border-right: solid $accent;
-    padding: 1 1;
+    border-left: heavy $primary; 
+    padding: 1 2;
     background: $panel;
 }
 
 #label-titolo-giocatori {
-    text-style: bold;
     text-align: center;
+    text-style: bold;
     width: 100%;
     margin-bottom: 1;
     color: $accent;
 }
 
+.giocatore-box {
+    width: 100%;
+    height: auto;
+    padding: 1;
+    border: round $surface-lighten-2;
+    margin-bottom: 1;
+    background: $surface;
+}
+
+/* Colori ritoccati: Il giocatore di turno è molto visibile (Bordo doppio verde) */
+.giocatore-attivo .giocatore-box, .giocatore-box.attivo {
+    border: double $success;
+    background: $success-muted;
+}
+
+.giocatore-eliminato .giocatore-box, .giocatore-box.eliminato {
+    border: dashed $error;
+    background: $surface-darken-1;
+    color: $text-muted;
+}
+
 #label-input-hint {
     margin-top: 1;
-    color: $text-muted;
+    text-style: bold;
 }
 
 #input-mossa {
     width: 100%;
-    margin-top: 0;
+    margin-bottom: 1;
 }
 
 .label-errore {
     color: $error;
-    width: 100%;
-    height: auto;
+    text-style: bold;
     margin-top: 1;
-}
-
-/* -------------------------------- */
-/* Widget singolo giocatore         */
-/* -------------------------------- */
-
-.giocatore-box {
     width: 100%;
-    padding: 0 1;
-    border: solid $surface-lighten-2;
-    margin-bottom: 1;
-    height: auto;
+    text-align: center;
 }
-
-.giocatore-attivo > .giocatore-box {
-    border: solid $accent;
-    background: $surface-lighten-1;
-}
-
-.giocatore-eliminato > .giocatore-box {
-    color: $text-muted;
-    background: $surface-darken-1;
-}
-/*-----------------*/

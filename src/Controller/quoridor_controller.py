@@ -11,6 +11,7 @@ from src.View.partita_view import PartitaViewAstratta
 from src.View.TUI.parametri_partita_view_TUI import ParametriPartitaViewTUI
 
 
+
 class QuoridorController:
     """Classe contenente l'esecuzione principale.
 
@@ -77,6 +78,7 @@ class QuoridorController:
                     parametri_ctrl = ParametriPartitaController(
                         new_view=ParametriPartitaViewTUI(app, coda)
                     )
+                    self.__menu.stampa_messaggio("NERO")
                 else:
                     parametri_ctrl = ParametriPartitaController()
                 parametri = parametri_ctrl.ottieni_parametri_utente()
@@ -108,6 +110,7 @@ class QuoridorController:
                 self.__menu.stampa_messaggio("Uscita in corso, alla prossima!")
                 continuare_gioco = False
             elif scelta in ("h", "help", "aiuto"):
-                self.__partita_view.stampa_aiuto()
+                testo_aiuto = "=== GUIDA COMANDI ===\n\n1 - Avvia una nuova partita\n0 - Esci dal gioco"
+                self.__menu.stampa_messaggio(testo_aiuto)
             else:
                 errore = "Errore nell'inserimento della scelta, riprova\n"

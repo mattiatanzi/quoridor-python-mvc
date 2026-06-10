@@ -2,6 +2,7 @@ import queue # Aggiunto perché così non andiamo a rompere l'input richiesto in
 # di gioco, infatti vengono salvati in una coda i comandi eseguiti
 from src.View.quoridor_view import QuoridorViewAstratta
 from src.View.TUI.App.App_textual import QuoridorViewApp
+from textual.widgets import Label
 
 class QuoridorViewTUI(QuoridorViewAstratta):
     """Classe TUI che gestisce l'interfaccia TUI.
@@ -44,8 +45,17 @@ class QuoridorViewTUI(QuoridorViewAstratta):
     
     def stampa_messaggio(self, messaggio):
         if messaggio.strip():
-            self.__app.call_from_thread(self.__app.notify, messaggio)
-    
+            def aggiorna_aiuto():
+                try:
+                    # Cerca il pannello a destra e ci inietta il testo dell'aiuto
+                    pannello = self.__app.screen.query_one("#pannello-aiuto", Label)
+                    pannello.update(messaggio)
+                    pannello.add_class("visibile") # Lo fa apparire
+                except Exception:
+                    self.__app.notify(messaggio) # Fail-safe se il widget non si trova
+            
+            self.__app.call_from_thread(aggiorna_aiuto)
+
     def avvia_gui(self):
         self.__app.run()
 

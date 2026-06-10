@@ -7,6 +7,7 @@ from src.View.giocatore_view import GiocatoreViewAstratta
 from src.View.partita_view import PartitaViewAstratta
 from src.View.tavoliere_view import TavoliereviewAstratta
 from src.View.TUI.Screen.partita_view_Screen import PartitaViewScreen
+from textual.widgets import Label
 
 
 class PartitaViewTUI(PartitaViewAstratta):
@@ -70,13 +71,65 @@ class PartitaViewTUI(PartitaViewAstratta):
         self._app.call_from_thread(_aggiorna)
 
     def stampa_aiuto(self):
-        # Nella TUI l'aiuto viene mostrato come notifica overlay
-        testo = (
-            "MOSSA: <col><riga> es. e5 — "
-            "MURO: <col><riga><h/v> es. e5h — "
-            "quit: abbandona — exit: esci"
-        )
-        self._app.call_from_thread(self._app.notify, testo, timeout=8)
+        messaggio = """
+        ╔══════════════════════════════════════════════════════════════╗
+        ║             QUORIDOR: GUIDA AI COMANDI PRINCIPALI            ║
+        ╠══════════════════════════════════════════════════════════════╣
+        ║  SEI IN DIFFICOLTÀ?                                          ║
+        ║   Ecco per te un elenco dei comandi principali:              ║
+        ║                                                              ║
+        ║  - MOSSA PEDONE:                                             ║
+        ║     Inserisci le coordinate della casella di destinazione    ║
+        ║     Formato: <colonna><riga>  (es. 'e2', 'e3')               ║
+        ║                                                              ║
+        ║  - PIAZZAMENTO MURO:                                         ║
+        ║     Inserisci coordinate e orientamento (h=orizz, v=vert).   ║
+        ║     Formato: <colonna><riga><h/v>  (es. 'e2h', 'a4v')        ║
+        ║                                                              ║
+        ║   [!] REGOLA DI PIAZZAMENTO:                                 ║
+        ║        La coordinata indica la casella di ancoraggio.        ║
+        ║        • Muro 'h': Si inserisce nel bordo in BASSO della     ║
+        ║          casella e si estende per 2 spazi verso DESTRA.      ║
+        ║        • Muro 'v': Si inserisce nel bordo a DESTRA della     ║
+        ║          casella e si estende per 2 spazi verso il BASSO.    ║
+        ║                                                              ║
+        ║   -   TRASCRIZIONE E REPLAY:                                 ║
+        ║     • 'trascrizione' o 'mosse': Mostra l'elenco delle mosse  ║
+        ║     • 'replay': Avvia il replay a fine partita               ║
+        ║                                                              ║
+        ║             [COMANDI DI NAVIGAZIONE REPLAY]                  ║
+        ║     • Avanti:   'avanti', 'next', 'n' o premi [INVIO]        ║
+        ║     • Indietro: 'indietro', 'prev', 'p', 'back'              ║
+        ║     • Inizio:   'inizio', 'start', 'first'                   ║
+        ║     • Fine:     'fine', 'end', 'last'                        ║
+        ║     • Esci:     'esci', 'exit', 'quit', 'stop'               ║
+        ║                                                              ║
+        ║                                                              ║
+        ║                                                              ║
+        ║  - AIUTO:                                                    ║
+        ║     Scrivi 'help' o 'aiuto' per rileggere questo             ║
+        ║      menu in ogni turno.                                     ║
+        ║                                                              ║
+        ║  - USCIRE DAL GIOCO:                                         ║
+        ║     Scrivi 'exit' o 'esci' per uscire dal gioco.             ║
+        ║                                                              ║
+        ║  -  ABBANDONARE LA PARTITA:                                  ║
+        ║     Scrivi 'quit' o 'abbandona' per uscire dalla partita.    ║
+        ║                                                              ║
+        ║  - TRASCRIZIONE DELLE MOSSE:                                 ║
+        ║    Scrivi 'trascrizione' o 'trascrizione mosse' o            ║
+        ║    'mosse' per visualizzare la trascrizione delle mosse      ║
+        ╚══════════════════════════════════════════════════════════════╝
+        """
+        def aggiorna_aiuto():
+            try:
+                # Cerca il pannello sullo schermo attuale
+                pannello = self.__app.screen.query_one("#pannello-aiuto", Label)
+                pannello.update(messaggio)
+                pannello.add_class("visibile") # Lo fa comparire
+            except Exception:
+                self.__app.notify(messaggio) # Sicurezza se il widget non esiste
+        self.__app.call_from_thread(aggiorna_aiuto)
 
     def stampa_vittoria(self, id_vincitore, motivo_vittoria: str):
         testo = f"🏆 {id_vincitore} HA VINTO — {motivo_vittoria}"

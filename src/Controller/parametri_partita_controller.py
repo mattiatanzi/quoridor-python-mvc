@@ -3,6 +3,7 @@ from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.parametri_partita import ErroreParametriPartita, ParametriPartita
 from src.View.costanti_quoridor_view import CostantiQuoridorView
 from src.View.parametri_partita_view import ParametriPartitaView
+from src.View.CLI.parametri_partita_view_CLI import ParametriPartitaViewCLI
 
 
 class ParametriPartitaController:
@@ -79,7 +80,7 @@ class ParametriPartitaController:
         new_model: ParametriPartita = None,
         new_view: ParametriPartitaView = None,
     ):
-        self.set_view(new_view if new_view is not None else ParametriPartitaView())
+        self.set_view(new_view if new_view is not None else ParametriPartitaViewCLI())
         try:
             self.set_model(new_model if new_model is not None else ParametriPartita())
         except ErroreParametriPartita as err:
@@ -115,7 +116,7 @@ class ParametriPartitaController:
                 if scelta_interfaccia in ["help", "aiuto"]:
                     scelta_interfaccia = ""
                     self.get_view().stampa_aiuto_modalita_partita()
-                    input("---- Premi INVIO per tornare alla partita... ----")
+                    
                     scelta_interfaccia = self.get_view().get_input_modalita_partita()
                 else:
                     scelta_interfaccia = self.get_view().get_input_modalita_partita(
@@ -146,7 +147,6 @@ class ParametriPartitaController:
                         if scelta_interfaccia in ["help", "aiuto"]:
                             scelta_interfaccia = ""
                             self.get_view().stampa_aiuto_limite_tempo()
-                            input("---- Premi INVIO per tornare alla partita... ----")
                             scelta_interfaccia = (
                                 self.get_view().get_input_limite_tempo()
                             )
