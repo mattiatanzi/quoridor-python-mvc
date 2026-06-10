@@ -48,6 +48,9 @@ class PartitaViewAstratta(ABC):
             DESCRIZIONE
                 Mostra l'interfaccia di vittoria
 
+        def stampa_trascrizione(self,trascrizione : list[str], num_giocatori: int):
+            DESCRIZIONE
+                Stampa a video la trascrizione della partita in corso
 
         ------ STAMPE ERRORI ------
 

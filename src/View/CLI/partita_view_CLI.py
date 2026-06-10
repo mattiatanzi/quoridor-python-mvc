@@ -1,3 +1,5 @@
+import sys
+
 from src.Model.partita import Partita
 from src.View.giocatore_view import GiocatoreViewAstratta
 from src.View.partita_view import PartitaViewAstratta
@@ -91,6 +93,9 @@ class PartitaViewCLI(PartitaViewAstratta):
             DESCRIZIONE
                 Stampa a video l'interfaccia di vittoria
 
+        def stampa_trascrizione(self,trascrizione : list[str], num_giocatori: int):
+            DESCRIZIONE
+                Stampa a video la trascrizione della partita in corso
 
         ------ STAMPE ERRORI ------
 
@@ -134,8 +139,7 @@ class PartitaViewCLI(PartitaViewAstratta):
     ):
         super.__init__(new_giocatore_view,new_tavoliere_view)
 
-    # Accesso Attributi Privati
-
+    
     # Stampe Video
 
     def stampa_partita(self, partita: Partita):
@@ -194,6 +198,19 @@ class PartitaViewCLI(PartitaViewAstratta):
         ║        • Muro 'v': Si inserisce nel bordo a DESTRA della     ║
         ║          casella e si estende per 2 spazi verso il BASSO.    ║
         ║                                                              ║
+        ║   -   TRASCRIZIONE E REPLAY:                                 ║
+        ║     • 'trascrizione' o 'mosse': Mostra l'elenco delle mosse  ║
+        ║     • 'replay': Avvia il replay a fine partita               ║
+        ║                                                              ║
+        ║             [COMANDI DI NAVIGAZIONE REPLAY]                  ║
+        ║     • Avanti:   'avanti', 'next', 'n' o premi [INVIO]        ║
+        ║     • Indietro: 'indietro', 'prev', 'p', 'back'              ║
+        ║     • Inizio:   'inizio', 'start', 'first'                   ║
+        ║     • Fine:     'fine', 'end', 'last'                        ║
+        ║     • Esci:     'esci', 'exit', 'quit', 'stop'               ║
+        ║                                                              ║
+        ║                                                              ║
+        ║                                                              ║
         ║  - AIUTO:                                                    ║
         ║     Scrivi 'help' o 'aiuto' per rileggere questo             ║
         ║      menu in ogni turno.                                     ║
@@ -204,9 +221,12 @@ class PartitaViewCLI(PartitaViewAstratta):
         ║  -  ABBANDONARE LA PARTITA:                                  ║
         ║     Scrivi 'quit' o 'abbandona' per uscire dalla partita.    ║
         ║                                                              ║
+        ║  - TRASCRIZIONE DELLE MOSSE:                                 ║
+        ║    Scrivi 'trascrizione' o 'trascrizione mosse' o            ║
+        ║    'mosse' per visualizzare la trascrizione delle mosse      ║
         ╚══════════════════════════════════════════════════════════════╝
         """
-        
+
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
 
@@ -248,7 +268,12 @@ class PartitaViewCLI(PartitaViewAstratta):
 
         # Stampa Opzioni per uscire
         print("\n")
-        print("[M] Menu", end="")
+        print("[M] Menu")
+        print(
+            "[Trascrizione],[Trascrizione mosse],[Mosse] Trascrizione delle mosse",
+        )
+        print("[replay], [r] Replay manuale")
+        print("[replay automatico],[ra] Replay automatico", end="")
         print("\n")
 
         # Stampa ==============================
@@ -263,3 +288,49 @@ class PartitaViewCLI(PartitaViewAstratta):
 
     def get_input(self) -> str:
         return self.chiedi_input_utente("Fai la tua mossa: ")
+
+    def stampa_trascrizione(
+        self, trascrizione: list[str], num_giocatori: int, replay: bool = False
+    ):
+        if not replay:
+            stampa = "   "
+            for j in range(0, num_giocatori):
+                stampa += "P" + str(j + 1) + "  "
+            stampa += "\n\n"
+            i = len(trascrizione)
+            while i > 0:
+                stampa += trascrizione[i - 1] + "\n"
+                i -= 1
+            print(stampa)
+        else:
+            RIGA_IN = 5
+            COLONNA_DESTRA = 55
+
+            sys.stdout.write("\033[s")  # memorizza la posizione del cursore in basso
+            sys.stdout.write(
+                f"\033[{RIGA_IN};{COLONNA_DESTRA}H\033[1m--- STORICO MOSSE ---\033[0m"
+            )  # Sposta a destra e scrive STORICO MOSSE
+            intestazione = ""
+            for i in range(num_giocatori):
+                intestazione += "P" + str(i + 1) + "   "
+            sys.stdout.write(
+                f"\033[{RIGA_IN + 1};{COLONNA_DESTRA + 3}H\033[94m{intestazione}\033[0m"
+            )  # Sposta a destra e scrive l'intestazione ossia P1,P2 ...
+
+            MAX_MOSSE_VISIBILI = 15  # Il numero massimo di righe che vuoi occupare a
+            # destra
+            # Se la lista è più lunga di 15, taglia l'array mantenendo solo le ultime 15
+            # Per evitare di stampare troppe mosse insieme, così vengono mostrate le
+            # ultime 15 mosse
+            mosse_da_stampare = (
+                trascrizione[-MAX_MOSSE_VISIBILI:]
+                if len(trascrizione) > MAX_MOSSE_VISIBILI
+                else trascrizione
+            )
+
+            for i, mossa in enumerate(mosse_da_stampare):
+                riga_attuale = RIGA_IN + 2 + i
+                sys.stdout.write(f"\033[{riga_attuale};{COLONNA_DESTRA}H\033[K{mossa}")
+
+            sys.stdout.write("\033[u")
+            sys.stdout.flush()

@@ -57,19 +57,116 @@ classDiagram
 ```
 ## 3. Requisiti specifici
 ### 3.1 Requisiti funzionali
-1. Visualizzare la scacchiera
-2. Muovere il pedone
-3. Piazzare un muro orizzontale
-4. Piazzare un muro verticale
-5. Verificare la vittoria
-6. Abbandonare la partita
-7. Mostrare un messaggio di aiuto
-8. Uscire dal gioco
+#### Sprint 1
+1. **Visualizzare la scacchiera**: **User Story**
+Come giocatore voglio vedere la scacchiera 9x9 con le posizioni dei pedoni e dei muri sul terminale, in modo da poter decidere la prossima mossa.
+
+**Criteri di Accettazione**
+- La scacchiera mostra una griglia 9x9 con le colonne etichettate da a a i e le righe da 1 a 9.
+- Il pedone del Giocatore 1 è visualizzato nella posizione corrente con il simbolo P1, il pedone del Giocatore 2 con P2.
+- Le caselle vuote sono rappresentate dal simbolo “.” (punto).
+- I muri orizzontali e verticali piazzati sono visibili sulla scacchiera e distinguibili tra loro.
+- Per ciascun giocatore è indicato il numero di muri ancora disponibili.
+- È indicato di chi è il turno corrente.
+- La scacchiera viene ristampata dopo ogni mossa valida.
+
+2. **Muovere il pedone**: **User Story**
+Come giocatore, voglio poter muovere il mio pedone digitando le coordinate della casella di destinazione, in modo tale da avanzare verso la linea di fondo avversaria.
+
+**Criteri di Accettazione**
+- Il sistema riconosce e accetta l'input per il movimento tramite notazione testuale compatta, inserendo solo la casella di destinazione (es. `e2`)
+- Il sistema convalida la mossa verificando che il pedone si sposti di una sola casella alla volta in orizzontale o in verticale
+- Il sistema impedisce movimenti in diagonale (non consentiti per il movimento base)
+- Il sistema verifica la presenza di ostacoli, impedendo al pedone di attraversare un muro
+- Il sistema impedisce al pedone di muoversi al di fuori dei confini della griglia 9x9.
+- A fronte di qualsiasi input non valido (formato errato, mossa illegale o casella occupata), il sistema rifiuta l'azione senza mai andare in crash, permettendo all'utente di riprovare
+- Dopo una mossa valida, la posizione del pedone si aggiorna, la scacchiera viene ristampata e il turno passa all'avversario
+
+3. **Piazzare un muro orizzontale**:**User Story**
+Come giocatore, voglio poter piazzare un muro orizzontale digitando le coordinate apposite, in modo tale da ostacolare e allungare il percorso del pedone avversario verso la mia linea di fondo.
+
+**Criteri di Accettazione**
+- Il sistema riconosce l'input per il piazzamento orizzontale tramite la notazione testuale a 3 caratteri (intersezione + orientamento), ad esempio `e3h`.
+- Il sistema verifica che il giocatore di turno abbia ancora muri a disposizione nel proprio inventario prima di accettare la mossa.
+- Il sistema impedisce di posizionare il muro al di fuori dei limiti consentiti dalla griglia della scacchiera.
+- Il sistema impedisce di posizionare un muro orizzontale se l'intersezione è già occupata, evitando conflitti o sovrapposizioni con altri muri.
+- A fronte di qualsiasi input non valido (sintassi errata, incrocio occupato), il sistema rifiuta passivamente l'azione senza mai andare in crash, richiedendo un nuovo inserimento.
+- Dopo una mossa valida, la disponibilità dei muri del giocatore scende di 1, la scacchiera viene aggiornata e ristampata, e il turno passa all'avversario.
+
+4. **Piazzare un muro verticale**:**User Story**
+Come giocatore, voglio poter piazzare un muro verticale digitando le coordinate apposite, in modo tale da ostacolare e allungare il percorso del pedone avversario verso la mia linea di fondo.
+
+**Criteri di Accettazione**
+- Il sistema riconosce e accetta l'input per il piazzamento verticale tramite la notazione testuale compatta a 3 caratteri (intersezione + orientamento), ad esempio `d5v`.
+- Il sistema verifica che il giocatore di turno possieda ancora muri disponibili nel proprio inventario prima di convalidare la mossa.
+- Il sistema impedisce di posizionare il muro al di fuori dei limiti consentiti dalla griglia 9x9.
+- Il sistema impedisce di posizionare un muro verticale se la coordinata specificata è già occupata da un altro muro, evitando sovrapposizioni.
+- A fronte di qualsiasi input non valido (formato errato, incrocio occupato, tentativo di blocco totale o muri esauriti), il sistema rifiuta passivamente l'azione senza mai andare in crash, permettendo all'utente di inserire un nuovo comando.
+- Dopo una mossa valida, la disponibilità dei muri del giocatore di turno scende di 1, la scacchiera viene aggiornata e ristampata, e il turno passa all'avversario.
+5. **Verificare la vittoria**:**User Story**
+Come giocatore, voglio che il sistema verifichi se ho raggiunto la linea di fondo avversaria e decreti la fine della partita, per poi decretare il vincitore.
+
+**Criteri di Accettazione**
+- Il sistema controlla in modo automatico la posizione dei pedoni dopo ogni mossa valida.
+- Il sistema riconosce la vittoria del Giocatore 1 (P1) se il suo pedone raggiunge una qualsiasi delle 9 caselle della linea di fondo opposta (riga 9).
+- Il sistema riconosce la vittoria del Giocatore 2 (P2) se il suo pedone raggiunge una qualsiasi delle 9 caselle della sua linea di fondo opposta (riga 1).
+- Al raggiungimento delle condizioni di vittoria, il sistema stampa a terminale un messaggio ben visibile che dichiara ufficialmente quale giocatore ha vinto la partita.
+- Dopo la dichiarazione della vittoria, il sistema interrompe il ciclo dei turni e termina correttamente la partita in corso, senza presentare errori o crash.
+6. **Abbandonare la partita**:**User Story**
+Come giocatore, voglio poter interrompere e abbandonare la partita in corso in qualsiasi momento tramite un comando testuale, concedendo la vittoria al mio avversario.
+
+**Criteri di Accettazione**
+- Il sistema riconosce e accetta un comando testuale specifico per l'abbandono (es. `abbandona` o `resa`) inserito al posto delle coordinate di mossa.
+- Al momento dell'inserimento del comando, e al suo invio, il sistema interrompe immediatamente il ciclo dei turni della partita corrente.
+- Il sistema gestisce l'interruzione in modo controllato, chiudendo la partita e ritornando al menu principale (o uscendo dal gioco) senza mai andare in crash o generare errori imprevisti.
+
+7. **Mostrare un messaggio di aiuto**:**User Story**
+Come giocatore, voglio poter richiedere e visualizzare un messaggio di aiuto esplicativo, in modo tale da comprendere rapidamente la sintassi corretta dei comandi necessari per giocare tramite linea di comando.
+
+**Criteri di Accettazione**
+- Il sistema riconosce e accetta un comando testuale specifico (es. `help` o `aiuto`) inserito al prompt dei comandi.
+- Il sistema stampa a terminale un riepilogo chiaro e conciso della sintassi da usare per le mosse valide (es. `e2` per muovere il pedone, `e3h` o `d5v` per piazzare i muri) e per le altre azioni di gioco (es. abbandonare o uscire).
+- La visualizzazione del messaggio di aiuto non avanza il turno né altera lo stato della scacchiera, permettendo al giocatore di inserire la sua mossa subito dopo.
+- Le istruzioni mostrate riflettono direttamente le funzionalità della CLI, senza rimandare l'utente a file di testo esterni.
+- Come per ogni altro input, un'eventuale sintassi errata nel richiamare l'aiuto viene gestita passivamente e non causa mai il crash dell'applicazione.
+
+8. **Uscire dal gioco**:**User Story**
+Come giocatore, voglio poter uscire completamente dal gioco tramite un comando testuale, in modo tale da chiudere l'applicazione in modo sicuro e tornare al terminale.
+
+**Criteri di Accettazione**
+- Il sistema riconosce e accetta un comando testuale specifico per l'uscita (es. `esci`, `quit` o `exit`) inserito al prompt dei comandi.
+- Al momento dell'inserimento del comando, l'applicazione si chiude immediatamente e in modo pulito.
+- Se il comando viene inserito mentre una partita è in corso, la partita viene interrotta istantaneamente senza salvataggio.
+- Il sistema gestisce l'uscita restituendo correttamente il controllo al terminale (o al container Docker) senza mai generare eccezioni non gestite o crash dell'applicazione.
+
+#### Sprint 2
+
+2.  **Trascrizione partita**:**User Story** In qualità di giocatore, voglio poter visualizzare la trascrizione completa delle mosse in qualunque momento, in modo tale da poter tenere traccia dell'evoluzione della partita e analizzare le azioni compiute.
+
+**Criteri di accettazione**
+
+- Esiste un comando specifico invocabile dall'utente per richiedere la visualizzazione della trascrizione.
+- Il comando funziona in qualunque momento della partita, anche in caso di annuncio di un vincitore o di patta.
+- Le mosse trascritte sono numerate progressivamente (simile alla notazione standard degli scacchi).
+- La trascrizione utilizza fedelmente la notazione testuale compatta (es. `e2` per un movimento pedone o `e3h` per un piazzamento di un muro).
+- Se il comando viene invocato prima che sia stata effettuata una mossa, il sistema restituisce un messaggio esplicativo senza bloccarsi o fare una stampa vuota.
+- Eventuali errori di digitazione nella chiamata del comando vengono intercettati e gestiti senza interrompere l'applicazione.
+
+3. **Visualizzare il Replay**:**User Story** In qualità di giocatore, voglio poter far partire il replay di una partita appena conclusa, in modo tale da rivedere l'evoluzione del tavoliere mossa dopo mossa e studiare le strategie adottate.
+
+**Criteri di accettazione**
+
+- C'è un comando specifico per avviare il replay, ed esso è disponibile solo per le partite appena concluse
+- Il replay è animato: riproduce visivamente sul tavoliere la sequenza delle mosse, mostrando i movimenti dei pedoni e il piazzamento dei muri, esattamente come sono avvenute nella partita appena conclusa.
+- L'avanzamento del replay è gestito in modo chiaro per l'utente, tramite avanzamento automatico a tempo o tramite comandi manuali (es. `next` / `prev`).
+- Non c'è persistenza dei dati del replay, essi risiedono solo in memoria e vengono persi alla chiusura della partita (o dell'applicazione).
+- Qualunque input inaspettato inserito durante la fase di replay non causa il crash del sistema.
+
 ### 3.2 Requisiti non funzionali
-- Il sistema deve essere eseguibile in un container **Docker**.
-- I terminali supportati devono essere: Terminal di Linux, Terminal di MacOS, PowerShell di Windows, Git Bash di Windows. 
-- **Robustezza:** Per qualunque input inaspettato l'applicazione non deve mai andare in crash.
-- La Command Line Interface (CLI) deve accettare notazioni testuali compatte (es. `e2` per il pedone, `e3h` per i muri).
+- **RNF1** (Robustezza): Il sistema deve essere eseguibile in un container **Docker**.
+- **RNF2** (Portabilità): I terminali supportati devono essere: Terminal di Linux, Terminal di MacOS, PowerShell di Windows, Git Bash di Windows. 
+- **RNF3** (Robustezza): Per qualunque input inaspettato l'applicazione non deve mai andare in crash.
+- **RNF4** (Normalizzazione comandi): La Command Line Interface (CLI) deve accettare notazioni testuali compatte (es. `e2` per il pedone, `e3h` per i muri).
 ## 4. System Design
 ### Stile architetturale MVC
 > L'architettura del software è fondata sullo stile **Model-View-Controller (MVC)**, strutturata per separare nettamente le logiche di back-end dall'interfaccia utente in CLI. Ecco come sono state gestite le rispettive parti del modello:
@@ -77,8 +174,6 @@ classDiagram
 2. **Controller:** Il Controller comprende i file di controllo come `partita_controller.py` o `quoridor_controller.py`, questi fungono da intermediari tra l'esperienza dell'utente e le effettive logiche di gioco, cioè hanno la responsabilità di fare un parsing dell'input, richiamare i Model e catturare tramite dei blocchi `try...except` le eventuali eccezioni sollevate. Grazie al loro lavoro il programma non va in 'crash' ma fornisce all'utente una View specifica per l'errore.
 3. **View:** La View è il livello di presentazione, vi abbiamo file come `partita_view`. Questi non hanno alcuna logica decisionale, bensì si limitano a fare stampe (es: stampare il tavoliere o messaggi di errore per l'utente) garantendo una comunicazione con l'utente in CLI e talvolta incapsulando le richieste di input mostrando i relativi errori ricevuti dal Controller.
 
-#### Traduzione del modello di dominio (**forward engineering**)
-Nel nostro progetto, la transizione dal Modello di Dominio all'implementazione software rispetta rigorosamente i principi dell'Object-Oriented Design, tenendo conto che un diagramma concettuale non impone una traduzione 1:1 in termini di classi strutturali. Ad esempio, nel modello di dominio è presente il `Pedone` come una **classe concettuale** che nel software è stato implementato sotto forma di stato interno incapsulato all'interno della classe Giocatore (tramite la sua posizione). Poiché la responsabilità del pedone è legata unicamente alla sua posizione sui nodi del Grafo, la creazione di una classe dedicata Pedone avrebbe aumentato la complessità senza aggiungere logica di business significativa. Pertanto, si è scelto di mantenere questo dato come attributo riservato del Giocatore, nascondendo i dettagli implementativi all'esterno.L'esistenza e la posizione del pedone non sono mai definite in modo implicito nella CLI; al contrario, risiedono in modo autorevole e univoco all'interno del livello Model. La View si limita esclusivamente ad assolvere al suo ruolo di "impiattamento": essa interroga lo stato spaziale fornito dal Giocatore (Model) e lo traduce visivamente sul terminale stampando i simboli 'P1' o 'P2'. In questo modo, abbiamo garantito il totale isolamento della logica di dominio dall'interfaccia utente, impedendo che informazioni di business vengano gestite dallo strato di presentazione. Una simile traduzione è stata fatta per i muri che non trovano una corrispondenza diretta con una classe software ma solo nelle logiche di gioco.
 ### Principi di progettazione
 #### Struttura dati
 Abbiamo scelto di progettare il `Tavoliere` tramite `Grafo`. Si è infatti scelto di implementare la griglia di gioco non come una semplice matrice, ma come un **grafo basato sulle liste di adiacenze**, il Grafo è composto da oggetti `Nodo`. In particolare è un Grafo basato su un dizionario con:
@@ -87,22 +182,31 @@ Abbiamo scelto di progettare il `Tavoliere` tramite `Grafo`. Si è infatti scelt
 > *il piazzamento di un muro da parte di un giocatore si traduce semplicemente nella rimozione dell'arco (quello del legame di adiacenza) dalla lista di adiacenza del Nodo in questione e dalla lista di adiacenza dell'altro Nodo interessato.*  
 
 La scelta di questa struttura dati permetterà anche in futuro di implementare, per funzionalità avanzate, tramite algoritmi BFS o DFS, come verificare che un muro non blocchi completamente il percorso del giocatore.
-#### Gestione del sistema
-> Il sistema è stato disegnato per limitare il debito tecnico e facilitare la sua manutenzione, applicando i seguenti principi:
-- **Presentazione separata:** *Nessuna istruzione di I/O risiede nel model, il dominio di gioco è totalemnte ignaro dell'interfaccia CLI, il che permetterebbe in futuro di modificare l'interfaccia testuale senza dover modificare le logiche di gioco.*
-- **Alta coesione e Basso Accoppiamento:** *Le responsabilità sono state distribuite assegnandole in modo tale da limitare l'impatto dei cambiamenti e ottenere classi con compiti ben definiti, ad esempio `Tavoliere` gestisce solo la struttura spaziale del grafo, mentre `Partita` orchestra il flusso dei turni, evitando che una modifica ad un componente si propaghi agli altri.*
-- **Information Hiding:** *Ogni componente custodisce dati privati al suo interno, questi sono di fatto incapsulati garantendo uno stato 'segreto' con variabili di istanza private accessibili solo tramite metodi specifici, i dettagli implementativi sono quindi nascosti all'esterno.*
-### Gestione dei requisiti non funzionali e vincoli
+
+### Gestione dei requisiti non funzionali
 > L'architettura risponde ai vincoli operativi e di qualità specificati:
-- **Vincolo di tolleranza ai guasti:** Per qualunque input l'applicazione non va in crash, questo è stato garantito, a livello architetturale nel nostro software, attraverso una rigida regola interna nel nostro pattern MVC: le classi del `Model` si occupano di validare i dati e si limitano a sollevare eccezioni (che sono personalizzate e tipizzate) in caso di mosse non valide. Invece i `Controller` hanno la responsabilità di catturarle con blocchi `try...except` delegando alla `View` il compito di stampare il messaggio di errore.
-- **Vincolo di usabilità CLI (notazione compatta):** Il sistema garantisce l'interazione tramite CLI inoltre l'azione viene dedotta unicamente dalla sintassi testuale compatta, fornita in input secondo una griglia 9x9. Il `Controller` differenzia inoltre un movimento dal piazzamento di un muro.
-- **Vincolo di portabilità multi-piattaforma:** Per garantire l'esecuzione uniforme sui terminali richiesti, azzerando i conflitti legati agli OS, il software è incapsulato in un container **Docker**. Di seguito si riporta una prova del corretto funzionamento del sistema all'interno del container **Docker**, per confermarne la portabilità:
+- **RNF1 e RNF2** Per garantire l'esecuzione uniforme sui terminali richiesti, azzerando i conflitti legati agli OS, il software è incapsulato in un container **Docker**. Di seguito si riporta una prova del corretto funzionamento del sistema all'interno del container **Docker**, per confermarne la portabilità:
 ![Test Esecuzione Docker](img/test_esecuzione_docker.jpeg)
+- **RNF3:** Per qualunque input l'applicazione non va in crash, questo è stato garantito, a livello architetturale nel nostro software, attraverso una rigida regola interna nel nostro pattern MVC: le classi del `Model` si occupano di validare i dati e si limitano a sollevare eccezioni (che sono personalizzate e tipizzate) in caso di mosse non valide. Invece i `Controller` hanno la responsabilità di catturarle con blocchi `try...except` delegando alla `View` il compito di stampare il messaggio di errore.
+- **RNF4** Il sistema garantisce l'interazione tramite CLI inoltre l'azione viene dedotta unicamente dalla sintassi testuale compatta, fornita in input secondo una griglia 9x9. Il `Controller` differenzia inoltre un movimento dal piazzamento di un muro.
+
 ### Diagrammi
 #### Diagramma dei package 
 ![DiagrammaPackage](./img/DiagrammaPackage.png)
 #### Diagramma dei componenti
 ![DiagrammaComponenti](./img/DiagrammaComponenti.png)
+
+## 5. OO Design
+
+### Le nostre scelte
+#### Traduzione del modello di dominio (**forward engineering**)
+Nel nostro progetto, la transizione dal Modello di Dominio all'implementazione software rispetta rigorosamente i principi dell'Object-Oriented Design, tenendo conto che un diagramma concettuale non impone una traduzione 1:1 in termini di classi strutturali. Ad esempio, nel modello di dominio è presente il `Pedone` come una **classe concettuale** che nel software è stato implementato sotto forma di stato interno incapsulato all'interno della classe Giocatore (tramite la sua posizione). Poiché la responsabilità del pedone è legata unicamente alla sua posizione sui nodi del Grafo, la creazione di una classe dedicata Pedone avrebbe aumentato la complessità senza aggiungere logica di business significativa. Pertanto, si è scelto di mantenere questo dato come attributo riservato del Giocatore, nascondendo i dettagli implementativi all'esterno.L'esistenza e la posizione del pedone non sono mai definite in modo implicito nella CLI; al contrario, risiedono in modo autorevole e univoco all'interno del livello Model. La View si limita esclusivamente ad assolvere al suo ruolo di "impiattamento": essa interroga lo stato spaziale fornito dal Giocatore (Model) e lo traduce visivamente sul terminale stampando i simboli 'P1' o 'P2'. In questo modo, abbiamo garantito il totale isolamento della logica di dominio dall'interfaccia utente, impedendo che informazioni di business vengano gestite dallo strato di presentazione. Una simile traduzione è stata fatta per i muri che non trovano una corrispondenza diretta con una classe software ma solo nelle logiche di gioco.
+
+#### Gestione del sistema
+> Il sistema è stato disegnato per limitare il debito tecnico e facilitare la sua manutenzione, applicando i seguenti principi:
+- **Presentazione separata:** *Nessuna istruzione di I/O risiede nel model, il dominio di gioco è totalmente ignaro dell'interfaccia CLI, il che permetterebbe in futuro di modificare l'interfaccia testuale senza dover modificare le logiche di gioco.*
+- **Alta coesione e Basso Accoppiamento:** *Le responsabilità sono state distribuite assegnandole in modo tale da limitare l'impatto dei cambiamenti e ottenere classi con compiti ben definiti, ad esempio `Tavoliere` gestisce solo la struttura spaziale del grafo, mentre `Partita` orchestra il flusso dei turni, evitando che una modifica ad un componente si propaghi agli altri.*
+- **Information Hiding:** *Ogni componente custodisce dati privati al suo interno, questi sono di fatto incapsulati garantendo uno stato 'segreto' con variabili di istanza private accessibili solo tramite metodi specifici, i dettagli implementativi sono quindi nascosti all'esterno.*
 
 ## 8. Analisi retrospettiva
 ### 8.1 Sprint 0

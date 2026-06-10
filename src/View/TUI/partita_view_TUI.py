@@ -97,9 +97,25 @@ class PartitaViewTUI(PartitaViewAstratta):
                 in input.
 
     """
-    def __init__(self, new_giocatore_view: GiocatoreViewAstratta, new_tavoliere_view: TavoliereviewAstratta):
-        self.set_giocatore_view(new_giocatore_view)
-        self.set_tavoliere_view(new_tavoliere_view)
-
     
+    def __init__(self, new_giocatore_view: GiocatoreViewAstratta, new_tavoliere_view: TavoliereviewAstratta)
+        super.__init__(new_giocatore_view,new_tavoliere_view)
+
+    def stampa_partita(self, partita: Partita):
+        pass
+
+    def chiedi_input_utente(self, indicazioniInput: str = ""):
+        pass
+    
+    def stampa_aiuto(self):
+        pass
+
+    def stampa_vittoria(self, idVincitore):
+        pass
+
+    def stampa_errore_partita(self, messaggio):
+        pass
+
+    def get_intpu(self) -> str:
+        pass
 
