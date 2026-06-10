@@ -98,7 +98,7 @@ class PartitaViewTUI(PartitaViewAstratta):
 
     """
     
-    def __init__(self, new_giocatore_view: GiocatoreViewAstratta, new_tavoliere_view: TavoliereviewAstratta)
+    def __init__(self, new_giocatore_view: GiocatoreViewAstratta, new_tavoliere_view: TavoliereviewAstratta):
         super.__init__(new_giocatore_view,new_tavoliere_view)
 
     def stampa_partita(self, partita: Partita):

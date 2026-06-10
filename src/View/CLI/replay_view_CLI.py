@@ -39,10 +39,7 @@ class ReplayView:
     """
 
     def __init__(self):
-        self.__stampa_tavoliere = TavoliereView()
-        self.__stampa_trascrizione = PartitaView(
-            self.__stampa_tavoliere, GiocatoreView()
-        )
+        super.__init__()
 
     def stampa_replay(
         self,

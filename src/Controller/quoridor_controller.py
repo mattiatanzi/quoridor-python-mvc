@@ -6,6 +6,7 @@ from src.Model.tavoliere import Tavoliere
 from src.View.quoridor_view import QuoridorViewAstratta
 from src.View.partita_view import PartitaViewAstratta
 from src.View.giocatore_view import GiocatoreViewAstratta
+from src.View.tavoliere_view import TavoliereviewAstratta
 
 class QuoridorController:
     """Classe contenente l'esecuzione principale.
@@ -82,7 +83,7 @@ class QuoridorController:
                 self.__menu.stampa_messaggio("Uscita in corso, alla prossima!")
                 return
             elif scelta in ("h", "help", "aiuto"):
-                PartitaView(GiocatoreView(), TavoliereView()).stampa_aiuto()
+                PartitaViewAstratta(GiocatoreViewAstratta(), TavoliereviewAstratta()).stampa_aiuto()
                 input("---- Premi INVIO per tornare al menu... ----")
             else:
                 errore = "Errore nell'inserimento della scelta, riprova"
