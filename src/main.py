@@ -8,6 +8,8 @@ from src.View.TUI.partita_view_TUI import PartitaViewTUI
 from src.View.CLI.partita_view_CLI import PartitaViewCLI
 from src.View.CLI.giocatore_view_CLI import GiocatoreViewCLI
 from src.View.CLI.tavoliere_view_CLI import TavoliereViewCLI
+from src.View.TUI.giocatore_view_TUI import GiocatoreViewTUI
+from src.View.TUI.tavoliere_view_TUI import TavoliereViewTUI
 
 
 def main():
@@ -18,9 +20,9 @@ def main():
     """
     if len(sys.argv)>1 and sys.argv[1] in ("--gui"):
         quoridor_view = QuoridorViewTUI()
-        partita_view = PartitaViewTUI()
+        app_condivisa = quoridor_view.get_app()
+        partita_view = PartitaViewTUI(GiocatoreViewTUI(app_condivisa),TavoliereViewTUI(app_condivisa),app_condivisa)
         quoridor = QuoridorController(quoridor_view,partita_view)
-
         thread_gioc = threading.Thread(target=quoridor.gioca,daemon=True)
         thread_gioc.start()
         quoridor_view.avvia_gui()
@@ -31,7 +33,7 @@ def main():
         return
     else:
         quoridor_view = QuoridorViewCLI()
-        partita_view = PartitaViewCLI()
+        partita_view = PartitaViewCLI(GiocatoreViewCLI(),TavoliereViewCLI())
         quoridor = QuoridorController(quoridor_view,partita_view)
         quoridor.gioca()
 

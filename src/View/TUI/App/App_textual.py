@@ -24,7 +24,7 @@ class QuoridorViewApp(App):
         non andare a modificare tutti i metodi già precedentemente creati
     """
 
-    CSS_PATH = "CSS/stile_quoridor_view_TUI.tcss"
+    CSS_PATH = "stile_quoridor_view_TUI.tcss"
 
     def __init__(self, coda_input: queue.Queue, **kwargs):
         super().__init__(**kwargs)

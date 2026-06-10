@@ -3,7 +3,6 @@ from textual.widgets import Button, Label, Header, Footer
 from textual.screen import Screen
 from textual.containers import Vertical, Center
 
-
 class QuoridorViewScreen(Screen):
     """Parte grafica che effettuata con Textual.
     
@@ -35,11 +34,18 @@ class QuoridorViewScreen(Screen):
         id_premuto = event.button.id
 
         if id_premuto == "btn-avviaPart":
+            # Da togliere, è utile solo per la stampa del tavoliere
             comando = "1"
+
         elif id_premuto == "btn-avviaHelp":
-            comando = "2"
+            comando = "h"
         elif id_premuto == "btn-Esci":
             comando = "0"
+            self.app.invia_comando(comando)
+
+            self.set_timer(1.5, self.app.exit) # Con questo comando indichiamo che 
+            # se premuto 0 aspetta 1,5 secondi poi chiude l'interfaccia grafica
+            # altrimenti rimarrebbe attivo il thread dell'interfaccia grafica
         else:
             comando = ""
         

@@ -1,11 +1,9 @@
 from src.Model.partita import Partita
-from src.View.giocatore_view import GiocatoreView
-from src.View.partita_view import PartitaView
 from src.View.pulisci_schermo_view import pulisci_schermo
-from src.View.tavoliere_view import TavoliereView
+from src.View.replay_view import ReplayViewAstratta
 
 
-class ReplayView:
+class ReplayViewCLI(ReplayViewAstratta):
     """Classe view del replay.
 
     Attributi:
@@ -39,7 +37,7 @@ class ReplayView:
     """
 
     def __init__(self):
-        super.__init__()
+        super().__init__()
 
     def stampa_replay(
         self,

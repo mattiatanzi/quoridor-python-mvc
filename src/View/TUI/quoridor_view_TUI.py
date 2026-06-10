@@ -1,7 +1,7 @@
 import queue # Aggiunto perché così non andiamo a rompere l'input richiesto in fase 
 # di gioco, infatti vengono salvati in una coda i comandi eseguiti
 from src.View.quoridor_view import QuoridorViewAstratta
-from src.View.TUI.App.quoridor_view_App import QuoridorViewApp
+from src.View.TUI.App.App_textual import QuoridorViewApp
 
 class QuoridorViewTUI(QuoridorViewAstratta):
     """Classe TUI che gestisce l'interfaccia TUI.
@@ -34,7 +34,7 @@ class QuoridorViewTUI(QuoridorViewAstratta):
     
     def __init__(self):
         self.__coda_input = queue.Queue()
-        self.__app = QuoridorViewApp(coda = self.__coda_input)
+        self.__app = QuoridorViewApp(coda_input=self.__coda_input)
     
     def menu_di_gioco(self):
         pass 
@@ -48,5 +48,7 @@ class QuoridorViewTUI(QuoridorViewAstratta):
     
     def avvia_gui(self):
         self.__app.run()
-    
+
+    def get_app(self) -> QuoridorViewApp:
+        return self.__app    
 

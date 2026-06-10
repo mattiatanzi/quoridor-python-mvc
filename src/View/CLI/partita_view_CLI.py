@@ -137,7 +137,7 @@ class PartitaViewCLI(PartitaViewAstratta):
     def __init__(
         self, new_giocatore_view: GiocatoreViewAstratta, new_tavoliere_view: TavoliereviewAstratta
     ):
-        super.__init__(new_giocatore_view,new_tavoliere_view)
+        super().__init__(new_giocatore_view,new_tavoliere_view)
 
     
     # Stampe Video
@@ -229,6 +229,7 @@ class PartitaViewCLI(PartitaViewAstratta):
 
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
+        input("---- Premi INVIO per tornare al menu... ----")
 
     def stampa_vittoria(self, idVincitore):
         # Stampa ==============================

@@ -6,7 +6,7 @@ from src.Model.giocatore import ErrorePosizione
 from src.Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from src.Model.tavoliere import ErroreTavoliere
 from src.View.partita_view import PartitaViewAstratta
-from src.View.replay_view import ReplayView
+from src.View.replay_view import ReplayViewAstratta
 
 
 class PartitaController:
@@ -366,7 +366,7 @@ class PartitaController:
                                         trascrizione_replay_flat, partita_replay
                                     )
 
-                                    stampa_replay = ReplayView()
+                                    stampa_replay = ReplayViewAstratta()
                                     autoplay = {"autoplay": False}  # Modificato in
                                     # dizionario perché in python i booleani non sono
                                     # oggetti mutable, mentre i dizionari lo sono

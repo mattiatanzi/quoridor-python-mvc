@@ -83,7 +83,6 @@ class QuoridorController:
                 self.__menu.stampa_messaggio("Uscita in corso, alla prossima!")
                 return
             elif scelta in ("h", "help", "aiuto"):
-                PartitaViewAstratta(GiocatoreViewAstratta(), TavoliereviewAstratta()).stampa_aiuto()
-                input("---- Premi INVIO per tornare al menu... ----")
+                self.__partita_view.stampa_aiuto()
             else:
                 errore = "Errore nell'inserimento della scelta, riprova"
