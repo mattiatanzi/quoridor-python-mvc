@@ -1,3 +1,6 @@
+from threading import Event
+import time
+
 from src.Model.partita import Partita
 from src.Model.tempo import get_tempo_formattato
 from src.View.giocatore_view import GiocatoreViewAstratta
@@ -109,13 +112,25 @@ class PartitaViewTUI(PartitaViewAstratta):
                 pass
         self._app.call_from_thread(_aggiorna)
 
-    def avvia_interfaccia_partita(self, ids_giocatori: list[str]):
-        """Dice a Textual di montare lo schermo della partita."""
-        def cambia_schermo():
-            # Chiama il metodo che fa push_screen sull'App
+    def avvia_interfaccia_partita(self, ids_giocatori: list[str]) -> None:
+        """Chiede all'app Textual di mostrare la schermata di partita e attende che sia pronta."""
+        evento = Event()
+        
+        def _cambia_schermo():
             self._app.mostra_schermo_partita(ids_giocatori)
-            
-        self._app.call_from_thread(cambia_schermo)
+            evento.set()
+
+        # Esegue il push_screen nel thread principale (sicuro per Textual)
+        self._app.call_from_thread(_cambia_schermo)
+        
+        # Blocca il Controller finché Textual non ha completato l'operazione
+        evento.wait()
+        
+        # Una piccola pausa (100 millisecondi) per dare tempo a Textual 
+        # di costruire materialmente i widget nel DOM prima della stampa successiva
+        time.sleep(0.1)
 
     def torna_al_menu(self):
-        self._app.torna_al_menu()   # era self.__app
+        """Rimuove lo schermo della partita e torna al menu."""
+        # Anche le operazioni di chiusura (pop_screen) devono passare dal thread principale
+        self._app.call_from_thread(self._app.torna_al_menu)

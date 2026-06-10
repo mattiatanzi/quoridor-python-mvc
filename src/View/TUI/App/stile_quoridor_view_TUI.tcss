@@ -91,30 +91,45 @@ Button {
     color: white; 
     text-style: bold; 
 }
+/* -------------------------------- */
+/* Widget Tavoliere                 */
+/* -------------------------------- */
+
+TavoliereViewWidget {
+    width: 1fr;         /* Occupa tutto lo spazio orizzontale rimanente */
+    height: 100%;
+    align: center middle;
+    padding: 1 2;
+}
+
+#griglia-tavoliere {
+    /* Definisce una griglia esatta di 10x10 */
+    grid-size: 10 10;
+    
+    /* Definisce le larghezze: la colonna dei numeri fissa a 4 char, le altre si espandono ugualmente (1fr) */
+    grid-columns: 4 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    
+    /* Definisce le altezze: la riga delle lettere fissa a 2 char, le altre si espandono ugualmente (1fr) */
+    grid-rows: 2 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    
+    width: 100%;
+    height: 100%;
+    
+    /* Rimuove lo spazio vuoto tra le caselle, fondamentale per far "toccare" i bordi dei muri */
+    grid-gutter: 0 0; 
+}
+
+/* Stile per centrare perfettamente i numeri e le lettere a lato della griglia */
+#griglia-tavoliere > Label {
+    width: 100%;
+    height: 100%;
+    content-align: center middle;
+    text-style: bold;
+    color: $text-muted;
+}
 /* Fine CSS tavoliere*/
 /*--------------------------*/
 
-/*--------------------------*/
-/* CSS Giocatori*/
-/* Pannello di un singolo giocatore */
-.giocatore-box {
-    width: 100%;
-    padding: 0 1;
-    border: solid $surface-lighten-2;
-    margin-bottom: 1;
-}
-
-/* Giocatore di turno: bordo evidenziato */
-.giocatore-attivo .giocatore-box {
-    border: solid $accent;
-    background: $surface-lighten-1;
-}
-
-/* Giocatore eliminato: testo spento */
-.giocatore-eliminato .giocatore-box {
-    color: $text-muted;
-    background: $surface-darken-1;
-}
 /*--------------------------*/
 
 
