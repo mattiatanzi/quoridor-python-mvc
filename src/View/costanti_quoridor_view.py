@@ -83,6 +83,8 @@ class CostantiQuoridorView:
         SCELTA_PARTITA_SENZA_TIMER: "Partita senza Timer",
         **__TORNA_INDIETRO,
     }
+
+
     # Costanti riguardanti i possibili valori di timer selezionabili
 
     MESSAGGIO_ALTERNATIVO_SCELTA_TIMER = (
@@ -95,5 +97,17 @@ class CostantiQuoridorView:
     POSSIBILI_TIMER_DEFAULT = {
         SCELTA_TIMER_DEFAULT_1: "Tempo Breve (3 Minuti)",
         SCELTA_TIMER_DEFAULT_2: "Tempo Medio (5 Minuti)",
+        **__TORNA_INDIETRO,
+    }
+
+
+    # Costanti riguardanti possibili numeri di giocatori selezionabili
+
+    SCELTA_2_GIOCATORI = "1"
+    SCELTA_4_GIOCATORI = "2"
+
+    POSSIBILI_NUMERO_GIOCATORI = {
+        SCELTA_2_GIOCATORI: "Partita con 2 Giocatori",
+        SCELTA_4_GIOCATORI: "Partita con 4 Giocatori",
         **__TORNA_INDIETRO,
     }
