@@ -1,3 +1,4 @@
+from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.costanti_partita import CostantiPartita
 from src.Model.giocatore import ErrorePosizione, Giocatore
 from src.Model.nodo import Nodo
@@ -190,7 +191,7 @@ class Partita:
     __giocatori: set[Giocatore]
     __tavoliere: Tavoliere
     __id_giocatore_attivo: str
-    __trascrizione: list[tuple[str, str]]
+    __trascrizione: list[str]
 
     # Metodi
 
@@ -229,13 +230,60 @@ class Partita:
 
     # Aggiungere mossa nella trascrizione
     def aggiungi_mossa_trascrizione(self, mossa: str):
-        if self.__id_giocatore_attivo == CostantiPartita.ID_PRIMO_GIOCATORE_ATTIVO:
-            numero = len(self.__trascrizione) + 1
-            if len(mossa) == 2:
-                mossa += " "
-            self.__trascrizione.append(f"{numero}. {mossa}")
+        """Aggiunge una mossa alla trascrizione assegnandola alla colonna corretta del giocatore."""
+        # Otteniamo l'ID del giocatore che sta eseguendo la mossa (es: "P1", "P2", "P3", "P4")
+        id_attivo = self.get_id_giocatore_attivo()
+
+        # Generiamo la lista ordinata degli ID dei giocatori partecipanti (es: ["P1", "P2", "P3", "P4"])
+        giocatori_ordinati = sorted([g.get_id() for g in self.get_giocatori()])
+        num_giocatori = len(giocatori_ordinati)
+
+        # Troviamo l'indice della colonna spettante al giocatore attivo (P1->0, P2->1, P3->2, P4->3)
+        indice_colonna_attiva = giocatori_ordinati.index(id_attivo)
+
+        # Se la trascrizione è ancora completamente vuota, inizializziamo il turno 1
+        if not self.__trascrizione:
+            # Se a muovere per primo non è il primo giocatore (es. per eliminazioni immediate),
+            # riempiamo le colonne precedenti con dei segnaposto
+            mosse_iniziali = ["---"] * indice_colonna_attiva
+            mosse_iniziali.append(mossa)
+            stringa_unita = "\t".join(mosse_iniziali)
+            self.__trascrizione.append(f"{len(self.__trascrizione) + 1}.\t{stringa_unita}")
+            return
+
+        # Leggiamo lo stato dell'ultimo turno memorizzato
+        ultimo_turno = self.__trascrizione[-1]
+        parti = ultimo_turno.split(".\t", 1)
+        num_turno = int(parti[0])
+        mosse_attuali = parti[1].split("\t")
+
+        # Se l'ultimo turno ha già raggiunto il numero massimo di colonne, creiamo un nuovo turno
+        if len(mosse_attuali) == num_giocatori:
+            num_turno += 1
+            mosse_nuove = ["---"] * indice_colonna_attiva
+            mosse_nuove.append(mossa)
+            stringa_unita = "\t".join(mosse_nuove)
+            self.__trascrizione.append(f"{num_turno}.\t{stringa_unita}")
         else:
-            self.__trascrizione[-1] += f" {mossa}"
+            # Altrimenti stiamo ancora inserendo mosse nel turno corrente.
+            # Se il giocatore attivo appartiene a una colonna successiva rispetto a dove siamo arrivati,
+            # riempiamo i buchi intermedi lasciati dai giocatori eliminati/saltati con "---"
+            while len(mosse_attuali) < indice_colonna_attiva:
+                mosse_attuali.append("---")
+
+            # Se per via dei salti di turno l'indice corrente della colonna attiva è già stato superato
+            # (ovvero il turno è ricominciato daccapo per una riga non completata), apriamo un nuovo turno
+            if len(mosse_attuali) > indice_colonna_attiva:
+                num_turno += 1
+                mosse_nuove = ["---"] * indice_colonna_attiva
+                mosse_nuove.append(mossa)
+                stringa_unita = "\t".join(mosse_nuove)
+                self.__trascrizione.append(f"{num_turno}.\t{stringa_unita}")
+            else:
+                # Caso standard: inseriamo la mossa nella sua colonna corretta
+                mosse_attuali.append(mossa)
+                stringa_unita = "\t".join(mosse_attuali)
+                self.__trascrizione[-1] = f"{num_turno}.\t{stringa_unita}"
 
     # Modificare / Restituire un Giocatore in Partita
 
@@ -310,7 +358,7 @@ class Partita:
 
         numeroGiocatore = int(id_giocatore_attivo[1]) + 1
 
-        if numeroGiocatore > CostantiPartita.TOTALE_GIOCATORI:
+        if numeroGiocatore > len(self.get_giocatori()):
             numeroGiocatore = 1
 
         nuovo_id_giocatore_attivo = f"{id_giocatore_attivo[0]}{numeroGiocatore}"
@@ -386,11 +434,18 @@ class Partita:
 
                 # Estrazione carattere corrispondente alla riga
                 pos_giocatore = giocatore.get_posizione().get_valore_id_nodo()
-                riga = pos_giocatore[1]
 
-                # Verifica raggiunta del traguardo
-                if CostantiPartita.RIGHE_FINALI.get(id_giocatore) == riga:
-                    return id_giocatore
+                dupla_traguardo = CostantiPartita.TRAGUARDI_FINALI.get(id_giocatore)
+
+                if (dupla_traguardo[0] == "riga"):
+                    if pos_giocatore[1] == dupla_traguardo[1]:
+                        return id_giocatore
+                else:
+                    if pos_giocatore[0] == dupla_traguardo[1]:
+                        return id_giocatore
+
+
+
 
         # Caso in cui sia rimasto un giocatore
         if len(giocatori_attivi) == 1:
