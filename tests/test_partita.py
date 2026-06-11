@@ -23,8 +23,10 @@ def partita_iniziale_due_giocatori():
 class TestPartitaTrascrizione:
     """Suite di test funzionali per la trascrizione delle mosse in Partita."""
 
-    def test_aggiungi_mossa_trascrizione_base(self, partita_iniziale_due_giocatori):
-        r"""Verifica che una mossa venga aggiunta e formattata correttamente allo storico.
+    def test_aggiungi_mossa_trascrizione_base(
+        self, partita_iniziale_due_giocatori
+    ):
+        r"""Verifica che una mossa venga aggiunta correttamente allo storico.
 
         Classi di equivalenza:
             Input di aggiungi_mossa_trascrizione():
@@ -57,14 +59,15 @@ class TestPartitaTrascrizione:
         assert trascrizione_aggiornata[0] == "1.\te2\te3h"
 
     def test_aggiungi_mossa_salto_turno(self):
-        """Verifica la trascrizione quando un giocatore è stato eliminato e salta il turno.
+        """Verifica la trascrizione quando un giocatore eliminato salta il turno.
         
         Classi di equivalenza:
             Input di aggiungi_mossa_trascrizione() in partita a 4 giocatori:
                 CE1: P2 salta il turno, muove direttamente P3
                 
         Oracolo:
-            CE1 => Il sistema inserisce un segnaposto "---" nella colonna del giocatore mancante.
+            CE1 => Il sistema inserisce un segnaposto "---" nella colonna del
+                   giocatore mancante.
         """
         # Setup rapido partita a 4 giocatori
         g1 = Giocatore("P1")
