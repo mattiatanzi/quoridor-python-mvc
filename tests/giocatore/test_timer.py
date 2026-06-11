@@ -7,10 +7,10 @@ from src.Model.giocatore import Giocatore, TempoException
 
 
 class TestGiocatoreRiduciTempo:
-    """Classe TestGiocatoreTimer.
+    """Classe TestGiocatoreRiduciTempo.
 
     DESCRIZIONE
-        Suite di test funzionali per le meccaniche del timer del Giocatore.
+        Suite di test funzionali per la funzione riduci_tempo()
     """
 
     def test_giocatore_limite_tempo_regolare(self):
@@ -141,3 +141,40 @@ class TestGiocatoreRiduciTempo:
             giocatore_creato.riduci_tempo(tempo_da_ridurre)
 
 class TestGiocatorePossiedeLimiteTempo:
+    """Classe TestGiocatoreRiduciTempo.
+
+    DESCRIZIONE
+        Suite di test funzionali per la funzione possiede_limite_tempo()
+    """
+
+    def test_giocatore_limite_tempo_regolare(self):
+        """Verifica possiede_limite_tempo() in caso di Giocatore con tempo limite regolare.
+
+        Condizioni particolari
+            CP1: tempo_iniziale = 0
+
+
+        Oracolo:
+            Caso Generale => restituisce True
+            CP1 => restitusce True (il timer è presente ed è finito)
+
+        """
+        # Caso Generale
+        giocatore_creato = Giocatore(new_tempo_iniziale = timedelta(minutes = 5))
+        assert giocatore_creato.possiede_limite_tempo() is True
+
+        # CP1
+        giocatore_creato = Giocatore(new_tempo_iniziale = timedelta(0))
+        assert giocatore_creato.possiede_limite_tempo() is True
+
+
+    def test_giocatore_senza_limite_tempo(self):
+        """Verifica possiede_limite_tempo() in caso di Giocatore con tempo limite nullo.
+
+        Oracolo:
+            Caso Generale => restituisce False
+
+        """
+        giocatore_creato = Giocatore(new_tempo_iniziale = CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO)
+
+        assert giocatore_creato.possiede_limite_tempo() is False
