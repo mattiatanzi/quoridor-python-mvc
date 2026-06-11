@@ -1,5 +1,6 @@
 from threading import Event
 import time
+import traceback
 
 from src.Model.partita import Partita
 from src.Model.tempo import get_tempo_formattato
@@ -44,11 +45,20 @@ class PartitaViewTUI(PartitaViewAstratta):
         for g in giocatori:
             id_sel = g.get_id()
             muri = partita.get_muri_disponibili_giocatore(id_sel)
-            tempo_fmt = (
-                get_tempo_formattato(g.get_tempo_residuo())
-                if g.possiede_limite_tempo()
-                else None
-            )
+            
+            # ==========================================
+            # PROTEZIONE DEL CALCOLO DEL TEMPO
+            # ==========================================
+            tempo_fmt = None
+            if g.possiede_limite_tempo():
+                try:
+                    tempo_fmt = get_tempo_formattato(g.get_tempo_residuo())
+                except Exception as e:
+                    # Invece di far morire il thread, catturiamo l'errore e lo scriviamo su file!
+                    with open("debug_crash.txt", "a") as f:
+                        self._app.log(f"--- ERRORE TEMPO ---\n{traceback.format_exc()}\n")
+                    # Diamo un valore di fallback così la UI non impazzisce
+                    tempo_fmt = "Err Tempo"
 
             if g.is_attivo():
                 if id_sel == partita.get_id_giocatore_attivo():
