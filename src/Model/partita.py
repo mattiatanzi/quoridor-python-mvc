@@ -301,13 +301,14 @@ class Partita:
 
     def aggiungi_giocatore(self, new_giocatore: Giocatore):
         numero_giocatori_partita = len(self.get_giocatori())
+        max_giocatori = int(CostantiPartita.MAX_GIOCATORI_AMMESSI)
 
-        if numero_giocatori_partita < CostantiPartita.TOTALE_GIOCATORI:
+        if numero_giocatori_partita < max_giocatori:
             self.get_giocatori().add(new_giocatore)
         else:
             raise ErrorePartita(
                 "Impossibile Aggiungere Giocatori (Numero giocatori: "
-                f"{numero_giocatori_partita}/{CostantiPartita.TOTALE_GIOCATORI})"
+                f"{numero_giocatori_partita}/{max_giocatori})"
             )
 
     def rimuovi_giocatore(self, id):
