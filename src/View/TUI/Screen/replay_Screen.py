@@ -29,11 +29,11 @@ class ReplayScreen(Screen):
                 
         # IN BASSO: Bottoni di navigazione
         with Horizontal(id="replay-nav-buttons"):
-            yield Button("I<< Inizio", id="btn-inizio", variant="primary")
-            yield Button("< Indietro", id="btn-indietro", variant="primary")
-            yield Button("Avanti >", id="btn-avanti", variant="primary")
-            yield Button("Fine >>I", id="btn-fine", variant="primary")
-            yield Button("Esci", id="btn-esci-replay", variant="error")
+            yield Button("I<< Inizio", id="btn-inizio", variant="primary" , classes= "btn-menu")
+            yield Button("< Indietro", id="btn-indietro", variant="primary" , classes= "btn-menu")
+            yield Button("Avanti >", id="btn-avanti", variant="primary" , classes= "btn-menu")
+            yield Button("Fine >>I", id="btn-fine", variant="primary" , classes= "btn-menu")
+            yield Button("Esci", id="btn-esci-replay", variant="error" , classes= "btn-menu")
 
     def on_button_pressed(self, event: Button.Pressed):
         """Invia i comandi esatti che il ReplayController si aspetta!"""
