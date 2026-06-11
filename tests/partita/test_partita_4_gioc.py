@@ -1,5 +1,6 @@
 import pytest
 
+from src.Controller.partita_controller import PartitaController
 from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.costanti_partita import CostantiPartita
 from src.Model.giocatore import Giocatore
@@ -44,13 +45,12 @@ class TestPartitaAggiungiGiocatore:
         giocatori_partita = set([
                 Giocatore(
                     new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]
-                ) for i in range(0, classi_equivalenza[0]
-                )
+                ) for i in range(0, classi_equivalenza[0])
             ]
         )
         partita_creata = Partita(Tavoliere(), giocatori_partita)
         id_nuovo_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[
-            len(partita_creata.get_giocatori()) + 1
+            len(partita_creata.get_giocatori())
         ]
         nuovo_giocatore = Giocatore(
             new_id_giocatore = id_nuovo_giocatore
@@ -353,3 +353,80 @@ class TestPartitaEliminaGiocatore:
 
         # Controllo che il giocatore non abbia subito cambiamenti nello stato
         assert len(partita_creata.get_giocatori()) == 0
+
+
+class TestPartitaIncrementaTurno:
+    """Classe TestPartitaIncrementaTurno.
+
+    DESCRIZIONE
+        Suite di test funzionali per la funzione incrementa_turno()
+    """
+
+    def test_partita_incrementa_turno_con_giocatori(self):
+        """Verifica elimina_giocatore() con partita con numero di giocatori > 0.
+
+        Classi di equivalenza
+
+            Stato della partita:
+                CE1 : numero_giocatori > 0, turno_corrente in formato corretto
+                CE2 : numero_giocatori > 0, turno_corrente in formato errato
+
+        Oracolo:
+            CE1 => incrementa turno prendendo prossimo giocatore
+            CE2 => asserisci turno al primo giocatore
+        """
+        classi_equivalenza = [
+            CostantiGiocatore.POSSIBILI_ID_GIOCATORE[2],
+            ""
+        ]
+
+        # CE1
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]
+                ) for i in range(0, len(CostantiGiocatore.POSSIBILI_ID_GIOCATORE))
+            ]
+        )
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        id_nuovo_giocatore_attivo = classi_equivalenza[0]
+        partita_creata.set_id_giocatore_attivo(id_nuovo_giocatore_attivo)
+
+        id_prossimo_giocatore_attivo = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[3]
+        partita_creata.incrementa_turno()
+        assert partita_creata.get_id_giocatore_attivo() == id_prossimo_giocatore_attivo
+
+
+        # CE2
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]
+                ) for i in range(0, len(CostantiGiocatore.POSSIBILI_ID_GIOCATORE))
+            ]
+        )
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        id_nuovo_giocatore_attivo = ""
+        partita_creata.set_id_giocatore_attivo(id_nuovo_giocatore_attivo)
+
+        partita_creata.incrementa_turno()
+        assert partita_creata.get_id_giocatore_attivo() == CostantiPartita.ID_PRIMO_GIOCATORE_ATTIVO
+
+
+    def test_partita_incrementa_turno_senza_giocatori(self):
+        """Verifica elimina_giocatore() con partita con numero di giocatori = 0.
+
+        Classi di equivalenza
+
+            Stato della partita:
+                CE1 : numero_giocatori = 0
+
+        Oracolo:
+            CE1 => Raise errore (non si può incrementare turno in partita senza giocatori)
+        """
+        # CE1
+        giocatori_partita = set()
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        with pytest.raises(ErrorePartita):
+            partita_creata.incrementa_turno()

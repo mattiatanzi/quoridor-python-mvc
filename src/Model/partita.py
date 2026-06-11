@@ -1,3 +1,4 @@
+from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.costanti_partita import CostantiPartita
 from src.Model.giocatore import ErrorePosizione, Giocatore
 from src.Model.nodo import Nodo
@@ -362,14 +363,26 @@ class Partita:
     def incrementa_turno(self):
         id_giocatore_attivo = self.get_id_giocatore_attivo()
 
-        numeroGiocatore = int(id_giocatore_attivo[1]) + 1
+        totale_giocatori = len(self.get_giocatori())
 
-        if numeroGiocatore > len(self.get_giocatori()):
-            numeroGiocatore = 1
+        if (totale_giocatori != 0):
 
-        nuovo_id_giocatore_attivo = f"{id_giocatore_attivo[0]}{numeroGiocatore}"
+            if (id_giocatore_attivo in CostantiGiocatore.POSSIBILI_ID_GIOCATORE):
+                numeroGiocatore = int(id_giocatore_attivo[1]) + 1
 
-        self.set_id_giocatore_attivo(nuovo_id_giocatore_attivo)
+                if numeroGiocatore > totale_giocatori:
+                    numeroGiocatore = 1
+
+                nuovo_id_giocatore_attivo = f"{id_giocatore_attivo[0]}{numeroGiocatore}"
+            else:
+                nuovo_id_giocatore_attivo = CostantiPartita.ID_PRIMO_GIOCATORE_ATTIVO
+
+            self.set_id_giocatore_attivo(nuovo_id_giocatore_attivo)
+
+        else:
+            raise ErrorePartita(
+                "Impossibile Incrementare Turno, Nessun Giocatore in Partita"
+            )
 
     def piazza_muro(self, azione: str, giocatore_attivo: Giocatore):
         if giocatore_attivo.get_muri_disponibili() == 0:
