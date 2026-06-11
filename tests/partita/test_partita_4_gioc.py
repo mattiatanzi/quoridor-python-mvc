@@ -4,6 +4,7 @@ from src.Controller.partita_controller import PartitaController
 from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.costanti_partita import CostantiPartita
 from src.Model.giocatore import Giocatore
+from src.Model.nodo import Nodo
 from src.Model.partita import ErrorePartita, Partita
 from src.Model.tavoliere import Tavoliere
 
@@ -430,3 +431,163 @@ class TestPartitaIncrementaTurno:
 
         with pytest.raises(ErrorePartita):
             partita_creata.incrementa_turno()
+
+class TestPartitaVerificaVittoria:
+    """Classe TestPartitaVerificaVittoria.
+
+    DESCRIZIONE
+        Suite di test funzionali per la funzione verifica_vittoria()
+    """
+
+    def test_partita_verifica_vittoria_con_giocatori(self):
+        """Verifica elimina_giocatore() con partita con numero di giocatori > 0.
+
+        Classi di equivalenza
+
+            Stato della partita:
+                CE1 : numero_giocatori > 0, un giocatore arrivato al traguardo
+                CE2 : numero_giocatori > 0, un giocatore non eliminato rimasto in partita
+                CE3 : numero_giocatori > 0, zero giocatori arrivati al traguardo
+                CE4 : numero_giocatori > 0, più di un giocatore non eliminato rimasto in partita
+
+        Condizioni particolari
+
+            Stato della partita:
+                CP1 : numero_giocatori > 0, almeno 2 giocatori arrivati al traguardo
+
+        Oracolo:
+            CE1 => restituisci il giocatore arrivato al traguardo
+            CE2 => restituisci il giocatore rimasto
+            CE3 => restituisci None
+            CE4 => restituisci None
+            CP1 => restituisci giocatore con turno corrente arrivato al traguardo
+        """
+        # CE1
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]
+                ) for i in range(0, len(CostantiGiocatore.POSSIBILI_ID_GIOCATORE))
+        ])
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+
+
+        giocatore_vincitore = partita_creata.get_giocatore(CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0])
+        dupla_traguardo = CostantiPartita.TRAGUARDI_FINALI.get(giocatore_vincitore.get_id())
+
+        for g in partita_creata.get_giocatori():
+                if g.get_id() != giocatore_vincitore.get_id():
+                    # Li mettiamo a riga 5, dove nessuno ha il traguardo di riga
+                    partita_creata.set_posizione_giocatore(g.get_id(), Nodo("e5"))
+
+        pos_attuale = giocatore_vincitore.get_posizione().get_valore_id_nodo()
+
+        if (dupla_traguardo[0] == "riga"):
+            coordinata_traguardo = pos_attuale[0] + dupla_traguardo[1]
+        else:
+            coordinata_traguardo = dupla_traguardo[1] + pos_attuale[1]
+
+        partita_creata.set_posizione_giocatore(giocatore_vincitore.get_id(), Nodo(coordinata_traguardo))
+
+        assert partita_creata.verifica_vittoria() == giocatore_vincitore.get_id()
+
+
+        # CE2
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]
+                ) for i in range(0, len(CostantiGiocatore.POSSIBILI_ID_GIOCATORE))
+        ])
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+
+
+        giocatore_vincitore = partita_creata.get_giocatore(CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0])
+        dupla_traguardo = CostantiPartita.TRAGUARDI_FINALI.get(giocatore_vincitore.get_id())
+
+        for g in partita_creata.get_giocatori():
+                if g.get_id() != giocatore_vincitore.get_id():
+                    # Li mettiamo a riga 5, dove nessuno ha il traguardo di riga
+                    partita_creata.elimina_giocatore(g.get_id())
+
+        assert partita_creata.verifica_vittoria() == giocatore_vincitore.get_id()
+
+
+        # CE3
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i],
+                    new_posizione = Nodo(
+                        CostantiPartita.COORDINATE_INIZIALI.get(CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i])
+                    )
+                ) for i in range(0, len(CostantiGiocatore.POSSIBILI_ID_GIOCATORE))
+        ])
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        assert partita_creata.verifica_vittoria() == None
+
+        # CE4
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i],
+                    new_posizione = Nodo(
+                        CostantiPartita.COORDINATE_INIZIALI.get(CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i])
+                    )
+                ) for i in range(0, len(CostantiGiocatore.POSSIBILI_ID_GIOCATORE))
+        ])
+
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        assert partita_creata.verifica_vittoria() == None
+
+
+        # CP1
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]
+                ) for i in range(0, len(CostantiGiocatore.POSSIBILI_ID_GIOCATORE))
+        ])
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        # Creo una lista di due vincitori e rispettivi traguardi
+        totale_vincitori = 2
+        giocatori_vincitori = [partita_creata.get_giocatore(CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]) for i in range(totale_vincitori)]
+
+        duple_traguardo = [CostantiPartita.TRAGUARDI_FINALI.get(giocatore_vincitore.get_id()) for giocatore_vincitore in giocatori_vincitori]
+
+
+        for g in partita_creata.get_giocatori():
+                if g not in giocatori_vincitori:
+                    # Li mettiamo a riga 5, dove nessuno ha il traguardo di riga
+                    partita_creata.set_posizione_giocatore(g.get_id(), Nodo("e5"))
+
+        for i in range(len(giocatori_vincitori)):
+            pos_attuale = giocatori_vincitori[i].get_posizione().get_valore_id_nodo()
+
+            if (duple_traguardo[i][0] == "riga"):
+                coordinata_traguardo = pos_attuale[0] + duple_traguardo[i][1]
+            else:
+                coordinata_traguardo = duple_traguardo[i][1] + pos_attuale[1]
+
+            partita_creata.set_posizione_giocatore(giocatori_vincitori[i].get_id(), Nodo(coordinata_traguardo))
+
+        assert partita_creata.verifica_vittoria() == partita_creata.get_id_giocatore_attivo()
+
+
+
+    def test_partita_verifica_vittoria_senza_giocatori(self):
+        """Verifica verifica_vittoria() con partita con numero di giocatori = 0.
+
+        Classi di equivalenza
+
+            Stato della partita:
+                CE1 : numero_giocatori = 0
+
+        Oracolo:
+            CE1 => Restituisce None (nessun giocatore ha vinto partita)
+        """
+        # CE1
+        giocatori_partita = set()
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        assert partita_creata.verifica_vittoria() is None
