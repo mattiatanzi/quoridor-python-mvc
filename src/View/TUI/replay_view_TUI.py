@@ -38,7 +38,9 @@ class ReplayViewTUI(ReplayViewAstratta):
                 # LA PARTE DEI GIOCATORI RESTA QUI DENTRO!
                 # (Perché usa 'schermo.query_one' che tocca direttamente la grafica)
                 giocatori = stato_corrente.get_giocatori()
-                for indice, g in enumerate(giocatori, start=1):
+                
+                giocatori_ordinati = sorted(giocatori, key=lambda g: g.get_id())
+                for indice, g in enumerate(giocatori_ordinati, start=1):
                     pos = g.get_posizione().get_valore_id_nodo()
                     id_casella = f"#btn-{pos}" 
                     try:
@@ -54,6 +56,7 @@ class ReplayViewTUI(ReplayViewAstratta):
                     schermo.query_one("#btn-indietro").display = False
                     schermo.query_one("#btn-avanti").display = False
                     schermo.query_one("#btn-fine").display = False
+                    schermo.query_one("#btn-esci-replay").display = False
                     
             except NoMatches:
                 self._app.set_timer(0.05, _aggiorna)

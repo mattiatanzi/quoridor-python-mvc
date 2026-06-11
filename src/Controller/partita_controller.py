@@ -197,22 +197,31 @@ class PartitaController:
 
 
     def __ottieni_trascrizione_parziale(
-        self, trascrizione_completa: list[str], indice: int
+        self, trascrizione_completa: list[str], indice: int,num_giocatori: int
     ) -> list[str]:
         if indice == 0:
             return []
+    
         risultato = []
-        turni_completi = indice // 2
+        # Calcoliamo quanti round interi di mosse sono stati completati
+        round_completi = indice // num_giocatori
+        # Calcoliamo quante mosse sono state fatte nel round parziale corrente
+        mosse_parziali = indice % num_giocatori
 
-        # Aggiunge tutti i turni completati
-        for i in range(turni_completi):
+        # 1. Aggiunge tutti i round (stringhe) interamente completati
+        for i in range(round_completi):
             risultato.append(trascrizione_completa[i])
 
-        # Se il turno è a metà (ha mosso solo P1), spezza l'ultima stringa
-        if indice % 2 != 0:
-            parti = trascrizione_completa[turni_completi].split()
-            # Ricostruisce la riga con solo la mossa del giocatore 1 (es. "1. e2")
-            risultato.append(f"{parti[0]} {parti[1]}")
+        # 2. Se ci sono mosse fatte nel round corrente ma non completato
+        if mosse_parziali > 0 and round_completi < len(trascrizione_completa):
+            linea_corrente = trascrizione_completa[round_completi]
+            parti = linea_corrente.split()
+            
+            # parti[0] è il numero del turno (es: "1."), parti[1:] sono le mosse.
+            # Ricostruiamo la riga prendendo il numero turno + le mosse parziali.
+            # Es: Se ho fatto 2 mosse su 4, prendo parti[0] (turno) + parti[1] + parti[2]
+            nuova_linea = [parti[0]] + parti[1:mosse_parziali + 1]
+            risultato.append(" ".join(nuova_linea))
 
         return risultato
     def gioca_partita(self) -> bool:
@@ -537,8 +546,9 @@ class PartitaController:
             _auto=autoplay,
         ):
             indice = _rep.get_indice_corrente()
+            num_giocatori = len(stato.get_giocatori())
             lista_tagliata = self.__ottieni_trascrizione_parziale(
-                _trasc, indice
+                _trasc, indice,num_giocatori=num_giocatori
             )
             _st_re.stampa_replay(
                 stato,

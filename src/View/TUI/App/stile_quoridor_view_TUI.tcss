@@ -17,7 +17,6 @@ Screen {
 }
 
 /* Contenitori centrali dei bottoni */
-/* Contenitori centrali dei bottoni */
 #menu-container, #menu-modalita-container, #menu-timer-container, #menu-giocatori-container,#menu-vittoria-container {
     width: 1fr;
     height: 100%;
@@ -47,13 +46,14 @@ Button {
     border-left: blank;
     padding: 0;
     content-align: left top;
-    transition: width 0.3s in_out_cubic; /* Effetto slide morbido */
+    transition: width 0.3s in_out_cubic;
+    /* Effetto slide morbido */
 }
 
 /* Quando il controller aggiunge la classe 'visibile' il pannello si apre */
 #pannello-aiuto.visibile {
     width: 40;
-    border-left: heavy $primary;
+    border-left: heavy ansi_cyan; /* Colore ANSI forte per separazione visibile in Docker */
     padding: 2;
 }
 
@@ -68,18 +68,17 @@ Button {
     height: 100%;
 }
 
-/* Colonna sinistra per l'elenco giocatori */
 /* Colonna SINISTRA per l'elenco giocatori */
 #pannello-giocatori {
     width: 35;
     height: 100%;
-    border-right: heavy $primary; 
+    border-right: heavy ansi_cyan; /* ANSI forte per Docker */
     padding: 1 2;
     background: $panel;
-    
-    /* AGGIUNGI QUESTE DUE RIGHE */
-    overflow-y: auto;      /* Attiva la scrollbar se necessario */
-    scrollbar-gutter: stable; /* Mantiene lo spazio per la scrollbar */
+    overflow-y: auto;
+    /* Attiva la scrollbar se necessario */
+    scrollbar-gutter: stable;
+    /* Mantiene lo spazio per la scrollbar */
 }
 
 #label-titolo-giocatori {
@@ -103,25 +102,27 @@ GiocatoreViewWidget {
     width: 100%;
     height: auto;
     padding: 1;
-    border: round ;
-    background: $surface;
+    border: round ansi_cyan; /* Bordo esplicito per non confonderli con lo sfondo */
+    background: black; /* Sfondo scuro esplicito */
 }
 
 /* IL SEGNO DEL TURNO: Quando tocca a lui si illumina! */
 GiocatoreViewWidget.giocatore-attivo > .giocatore-box {
-    border: double $warning; /* Bordo doppio e dorato */
-    background: $surface-lighten-2; /* Sfondo che risalta */
+    border: double ansi_yellow;
+    /* Bordo doppio e dorato puro */
+    background: ansi_bright_black;
+    /* Sfondo grigio brillante per massimo stacco */
 }
 
 /* Colora di dorato la scritta "► P1 - TURNO" */
 GiocatoreViewWidget.giocatore-attivo .giocatore-label-stato {
-    color: $warning;
+    color: ansi_yellow;
     text-style: bold italic;
 }
 
 /* Oscura e tratteggia i giocatori eliminati o arresi */
 GiocatoreViewWidget.giocatore-eliminato > .giocatore-box {
-    border: dashed $error;
+    border: dashed ansi_red;
     opacity: 0.5;
 }
 
@@ -178,7 +179,7 @@ GiocatoreViewWidget.giocatore-eliminato > .giocatore-box {
     width: 100%;
     content-align: right middle;
     margin-bottom: 1; /* Esattamente l'altezza del muro orizzontale */
-    color: $text-muted;
+    color: ansi_bright_white; /* Bianco forte invece di testo muto */
     text-style: bold;
 }
 
@@ -186,8 +187,10 @@ GiocatoreViewWidget.giocatore-eliminato > .giocatore-box {
 #riga-lettere {
     width: 90; 
     height: 1;
-    margin-left: 3; /* Salta la colonna numeri e il bordo sinistro */
-    margin-bottom: 1; /* Crea lo spazio tra le lettere e il tetto del tavoliere */
+    margin-left: 3;
+    /* Salta la colonna numeri e il bordo sinistro */
+    margin-bottom: 1;
+    /* Crea lo spazio tra le lettere e il tetto del tavoliere */
     layout: horizontal;
 }
 
@@ -196,7 +199,7 @@ GiocatoreViewWidget.giocatore-eliminato > .giocatore-box {
     height: 100%;
     content-align: center top;
     margin-right: 2; /* Esattamente la larghezza del muro verticale */
-    color: $text-muted;
+    color: ansi_bright_white; /* Bianco forte invece di testo muto */
     text-style: bold;
 }
 
@@ -211,33 +214,31 @@ GiocatoreViewWidget.giocatore-eliminato > .giocatore-box {
     /* IL SEGRETO: Fissiamo le dimensioni di ogni singola colonna e riga! */
     /* Colonne: Casella(8) Muro(2) Casella(8) Muro(2) ... */
     grid-columns: 8 2 8 2 8 2 8 2 8 2 8 2 8 2 8 2 8;
-    
     /* Righe: Casella(3) Muro(1) Casella(3) Muro(1) ... */
     grid-rows: 3 1 3 1 3 1 3 1 3 1 3 1 3 1 3 1 3;
-    
     grid-gutter: 0 0;
     
     /* (9 * 8) + (8 * 2) = 88 + 2 di bordi = 90 esatti */
-    width: 90; min-width: 90;
+    width: 90;
+    min-width: 90;
     
     /* (9 * 3) + (8 * 1) = 35 + 2 di bordi = 37 esatti */
-    height: 37; min-height: 37;
+    height: 37;
+    min-height: 37;
     
-    border: heavy $primary;
-    background: $surface-darken-2;
+    border: heavy ansi_cyan; /* ANSI visibile su Docker */
+    background: black; /* Sfondo del tabellone PURAMENTE NERO per contrasto assoluto */
 }
 
-/* 1. Caselle: Il quadrato perfetto (6x3) centrato nello slot da 8 */
-/* 1. Caselle: Il quadrato perfetto (6x3) centrato nello slot da 8 */
 /* 1. Caselle: Il quadrato perfetto (6x3) centrato nello slot da 8 */
 .casella { 
     width: 6; min-width: 6; 
     height: 3; min-height: 3; 
     margin: 0 1; /* Questo annulla il margine globale in automatico */
     padding: 0 !important;
-    background: $surface-lighten-2; 
+    background: ansi_bright_black; /* GRIGIO FORTE per spiccare sul nero di Docker */
     border: none; 
-    color: white; 
+    color: ansi_white; 
     text-style: bold; 
 }
 
@@ -245,7 +246,7 @@ GiocatoreViewWidget.giocatore-eliminato > .giocatore-box {
 .muro-v { 
     width: 2; min-width: 2;
     height: 3; min-height: 3; 
-    background: $surface-darken-1; 
+    background: black; /* Vuoto assoluto fino a quando non è piazzato */
     border: none; 
     margin: 0 !important; /* IMMUNIZZAZIONE */
     padding: 0 !important; /* Rimuove lo spessore interno del bottone Textual */
@@ -255,7 +256,7 @@ GiocatoreViewWidget.giocatore-eliminato > .giocatore-box {
 .muro-h { 
     width: 8; min-width: 8;
     height: 1; min-height: 1; 
-    background: $surface-darken-1; 
+    background: black; /* Vuoto assoluto */
     border: none;
     margin: 0 !important; /* IMMUNIZZAZIONE DAL MARGINE GLOBALE */
     padding: 0 !important; /* Forza l'altezza a 1 riga esatta */
@@ -265,19 +266,21 @@ GiocatoreViewWidget.giocatore-eliminato > .giocatore-box {
 .intersezione { 
     width: 2; min-width: 2;
     height: 1; min-height: 1; 
-    background: $surface-darken-3; 
+    background: black; 
     margin: 0 !important;
     padding: 0 !important;
 }
-/* Hover e Colori (Invariati) */
-.casella:hover { background: $accent; }
-.muro-v:hover, .muro-h:hover { background: $success-muted; }
-.muro-piazzato { background: $warning !important; }
 
-.giocatore-1 { background: $error; color: white;}
-.giocatore-2 { background: $secondary; color: white;}
-.giocatore-3 { background: $success; color: white;}
-.giocatore-4 { background: $primary; color: white;}
+/* Hover e Colori (ANSI nativi ad altissimo contrasto) */
+.casella:hover { background: ansi_white; color: black; }
+.muro-v:hover, .muro-h:hover { background: ansi_bright_green; }
+.muro-piazzato { background: ansi_yellow !important; }
+
+/* Giocatori: Colori puri ANSI per visibilità massima */
+.giocatore-1 { background: ansi_red !important; color: ansi_white !important;}
+.giocatore-2 { background: ansi_blue !important; color: ansi_white !important;}
+.giocatore-3 { background: ansi_green !important; color: black !important;}
+.giocatore-4 { background: ansi_magenta !important; color: ansi_white !important;}
 
 /* -------------------------------------------------------- */
 /* SCHERMATA CRASH PYTHON (ModalScreen per Errori Fatali)   */
@@ -291,28 +294,28 @@ ErroreFataleScreen {
 #pannello-crash {
     width: 80%;
     height: auto;
-    background: $error-darken-3;
-    border: heavy $error;
+    background: ansi_red; /* Colore ANSI puro per alert fatali */
+    border: heavy ansi_bright_white;
     padding: 1 2;
 }
 
 #titolo-crash {
     text-style: bold;
-    color: white;
+    color: ansi_bright_white;
     width: 100%;
     text-align: center;
 }
 
 #sottotitolo-crash {
-    color: $warning;
+    color: ansi_yellow;
     text-style: italic;
     margin-bottom: 1;
 }
 
 #testo-crash {
-    color: white;
-    background: $surface;
-    border: solid;
+    color: black;
+    background: ansi_bright_white;
+    border: solid black;
     padding: 1;
     margin-bottom: 2;
     height: auto;
@@ -321,7 +324,7 @@ ErroreFataleScreen {
 #btn-chiudi-crash {
     width: 100%;
     margin-bottom: 0;
-/* Rimuove il margine solo per il pulsante d'emergenza */
+    /* Rimuove il margine solo per il pulsante d'emergenza */
 }
 
 
@@ -336,16 +339,17 @@ TrascrizioneScreen {
 
 #pannello-trascrizione {
     width: 60;
-    height: 80%; /* Occupa l'80% dell'altezza dello schermo */
+    height: 80%;
+    /* Occupa l'80% dell'altezza dello schermo */
     background: $panel;
-    border: heavy $success;
+    border: heavy ansi_green; /* Bordo forte in ANSI */
     padding: 1 2;
     align: center top;
 }
 
 #titolo-trascrizione {
     text-style: bold;
-    color: $success;
+    color: ansi_bright_green;
     margin-bottom: 1;
     width: 100%;
     text-align: center;
@@ -354,9 +358,10 @@ TrascrizioneScreen {
 /* Stile per il Widget Riutilizzabile */
 TrascrizioneWidget {
     width: 100%;
-    height: 1fr; /* Prende tutto lo spazio in altezza lasciato libero */
-    border: solid;
-    background: $surface;
+    height: 1fr;
+    /* Prende tutto lo spazio in altezza lasciato libero */
+    border: solid ansi_cyan;
+    background: black; /* Sfondo nero per massimo contrasto testo */
     margin-bottom: 1;
 }
 
@@ -369,6 +374,7 @@ TrascrizioneWidget {
     width: 100%;
     height: auto;
     padding: 1;
+    color: ansi_bright_white; /* Testo leggibile */
 }
 
 /* -------------------------------------------------------- */
@@ -378,18 +384,21 @@ TrascrizioneWidget {
 VittoriaModalScreen {
     align: center middle;
     /* Oscura leggermente il tabellone dietro, ma lo lascia ben visibile */
-    background: rgba(0, 0, 0, 0.35);
+    background: rgba(0, 0, 0, 0.50);
+}
+
+#menu-vittoria-container {
+    border: heavy ansi_yellow; /* Cornice dorata visibile in Docker */
+    background: $panel;
 }
 
 /* Posiziona il bottoncino di ritorno in cima allo schermo */
 #btn-ripristina-vittoria {
     position: absolute;
-    
-    
-    offset: 82% 1; 
-    
+    offset: 82% 1;
     width: auto;      /* Si stringe attorno al testo */
-    min-width: 12;    /* Dimensione minima protetta */
+    min-width: 12;
+    /* Dimensione minima protetta */
     text-style: bold;
 }
 
@@ -417,18 +426,18 @@ VittoriaModalScreen {
 #replay-destra {
     width: 35%;
     height: 100%;
-    border-left: heavy $primary;
+    border-left: heavy ansi_cyan; /* Bordo visibile */
     padding: 1 2;
 }
 
 #replay-titolo {
     text-style: bold;
-    color: $warning;
+    color: ansi_yellow; /* Visibile su Docker */
     margin-bottom: 1;
 }
 
 #replay-descrizione-mossa {
-    color: $success;
+    color: ansi_bright_green; /* Visibile su Docker */
     text-style: bold italic;
     margin-bottom: 1;
 }
@@ -440,8 +449,8 @@ VittoriaModalScreen {
     dock: bottom;
     align: center middle;
     padding: 1;
-    background: $surface-darken-1;
-    border-top: solid $primary;
+    background: black;
+    border-top: solid ansi_cyan;
 }
 
 #replay-nav-buttons Button {
@@ -452,13 +461,13 @@ VittoriaModalScreen {
 
 /* Disattiva l'interazione visiva con il tabellone in modalità replay */
 #replay-sinistra Button:hover {
-    background: $surface;
+    background: ansi_bright_black; /* Mantiene il colore grigio per non lampeggiare */
     border: none;
 }
 
 /* Rimuove l'effetto hover sui divisori/muri all'interno del replay */
 #replay-sinistra Static:hover {
-    background: $surface-darken-1;
+    background: black; /* Mantiene il nero del muro vuoto */
 }
 
 /* Opzionale: rende l'intero pannello leggermente più opaco 
