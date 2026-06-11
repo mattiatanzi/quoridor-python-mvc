@@ -64,13 +64,11 @@ classDiagram
 
 ### 3.1 Requisiti funzionali
 
-#### Sprint 1
+#### **Sprint 1**
 
-1. **Visualizzare la scacchiera**: **User Story**
-   Come giocatore voglio vedere la scacchiera 9x9 con le posizioni dei pedoni e dei muri sul terminale, in modo da poter decidere la prossima mossa.
-
-**Criteri di Accettazione**
-
+S1_1. **Visualizzare la scacchiera**:
+   Come giocatore voglio vedere la scacchiera 9x9 con le posizioni dei pedoni e dei muri sul terminale, in modo da poter decidere la prossima mossa.  
+**Criteri di Accettazione**:
 - La scacchiera mostra una griglia 9x9 con le colonne etichettate da a a i e le righe da 1 a 9.
 
 - Il pedone del Giocatore 1 è visualizzato nella posizione corrente con il simbolo P1, il pedone del Giocatore 2 con P2.
@@ -83,11 +81,11 @@ classDiagram
 
 - È indicato di chi è il turno corrente.
 
-- La scacchiera viene ristampata dopo ogni mossa valida.
-2. **Muovere il pedone**: **User Story**
-   Come giocatore, voglio poter muovere il mio pedone digitando le coordinate della casella di destinazione, in modo tale da avanzare verso la linea di fondo avversaria.
+- La scacchiera viene ristampata dopo ogni mossa valida.  
 
-**Criteri di Accettazione**
+S1_2. **Muovere il pedone**:
+   Come giocatore, voglio poter muovere il mio pedone digitando le coordinate della casella di destinazione, in modo tale da avanzare verso la linea di fondo avversaria.  
+   **Criteri di Accettazione**:
 
 - Il sistema riconosce e accetta l'input per il movimento tramite notazione testuale compatta, inserendo solo la casella di destinazione (es. `e2`)
 
@@ -101,11 +99,11 @@ classDiagram
 
 - A fronte di qualsiasi input non valido (formato errato, mossa illegale o casella occupata), il sistema rifiuta l'azione senza mai andare in crash, permettendo all'utente di riprovare
 
-- Dopo una mossa valida, la posizione del pedone si aggiorna, la scacchiera viene ristampata e il turno passa all'avversario
-3. **Piazzare un muro orizzontale**:**User Story**
-   Come giocatore, voglio poter piazzare un muro orizzontale digitando le coordinate apposite, in modo tale da ostacolare e allungare il percorso del pedone avversario verso la mia linea di fondo.
+- Dopo una mossa valida, la posizione del pedone si aggiorna, la scacchiera viene ristampata e il turno passa all'avversario.  
 
-**Criteri di Accettazione**
+S1_3. **Piazzare un muro orizzontale**:
+   Come giocatore, voglio poter piazzare un muro orizzontale digitando le coordinate apposite, in modo tale da ostacolare e allungare il percorso del pedone avversario verso la mia linea di fondo.  
+   **Criteri di Accettazione**:
 
 - Il sistema riconosce l'input per il piazzamento orizzontale tramite la notazione testuale a 3 caratteri (intersezione + orientamento), ad esempio `e3h`.
 
@@ -117,42 +115,42 @@ classDiagram
 
 - A fronte di qualsiasi input non valido (sintassi errata, incrocio occupato), il sistema rifiuta passivamente l'azione senza mai andare in crash, richiedendo un nuovo inserimento.
 
-- Dopo una mossa valida, la disponibilità dei muri del giocatore scende di 1, la scacchiera viene aggiornata e ristampata, e il turno passa all'avversario.
-4. **Piazzare un muro verticale**:**User Story**
-   Come giocatore, voglio poter piazzare un muro verticale digitando le coordinate apposite, in modo tale da ostacolare e allungare il percorso del pedone avversario verso la mia linea di fondo.
+- Dopo una mossa valida, la disponibilità dei muri del giocatore scende di 1, la scacchiera viene aggiornata e ristampata, e il turno passa all'avversario.  
 
-**Criteri di Accettazione**
+S1_4. **Piazzare un muro verticale**:
+   Come giocatore, voglio poter piazzare un muro verticale digitando le coordinate apposite, in modo tale da ostacolare e allungare il percorso del pedone avversario verso la mia linea di fondo.  
+   **Criteri di Accettazione**:
 
 - Il sistema riconosce e accetta l'input per il piazzamento verticale tramite la notazione testuale compatta a 3 caratteri (intersezione + orientamento), ad esempio `d5v`.
 - Il sistema verifica che il giocatore di turno possieda ancora muri disponibili nel proprio inventario prima di convalidare la mossa.
 - Il sistema impedisce di posizionare il muro al di fuori dei limiti consentiti dalla griglia 9x9.
 - Il sistema impedisce di posizionare un muro verticale se la coordinata specificata è già occupata da un altro muro, evitando sovrapposizioni.
 - A fronte di qualsiasi input non valido (formato errato, incrocio occupato, tentativo di blocco totale o muri esauriti), il sistema rifiuta passivamente l'azione senza mai andare in crash, permettendo all'utente di inserire un nuovo comando.
-- Dopo una mossa valida, la disponibilità dei muri del giocatore di turno scende di 1, la scacchiera viene aggiornata e ristampata, e il turno passa all'avversario.
-5. **Verificare la vittoria**:**User Story**
-   Come giocatore, voglio che il sistema verifichi se ho raggiunto la linea di fondo avversaria e decreti la fine della partita, per poi decretare il vincitore.
+- Dopo una mossa valida, la disponibilità dei muri del giocatore di turno scende di 1, la scacchiera viene aggiornata e ristampata, e il turno passa all'avversario.  
 
-**Criteri di Accettazione**
+S1_5. **Verificare la vittoria**:
+   Come giocatore, voglio che il sistema verifichi se ho raggiunto la linea di fondo avversaria e decreti la fine della partita, per poi decretare il vincitore.  
+   **Criteri di Accettazione**:
 
 - Il sistema controlla in modo automatico la posizione dei pedoni dopo ogni mossa valida.
 - Il sistema riconosce la vittoria del Giocatore 1 (P1) se il suo pedone raggiunge una qualsiasi delle 9 caselle della linea di fondo opposta (riga 9).
 - Il sistema riconosce la vittoria del Giocatore 2 (P2) se il suo pedone raggiunge una qualsiasi delle 9 caselle della sua linea di fondo opposta (riga 1).
 - Al raggiungimento delle condizioni di vittoria, il sistema stampa a terminale un messaggio ben visibile che dichiara ufficialmente quale giocatore ha vinto la partita.
-- Dopo la dichiarazione della vittoria, il sistema interrompe il ciclo dei turni e termina correttamente la partita in corso, senza presentare errori o crash.
-6. **Abbandonare la partita**:**User Story**
-   Come giocatore, voglio poter interrompere e abbandonare la partita in corso in qualsiasi momento tramite un comando testuale, concedendo la vittoria al mio avversario.
+- Dopo la dichiarazione della vittoria, il sistema interrompe il ciclo dei turni e termina correttamente la partita in corso, senza presentare errori o crash.  
 
-**Criteri di Accettazione**
+S1_6. **Abbandonare la partita**:
+   Come giocatore, voglio poter interrompere e abbandonare la partita in corso in qualsiasi momento tramite un comando testuale, concedendo la vittoria al mio avversario.  
+   **Criteri di Accettazione**:
 
 - Il sistema riconosce e accetta un comando testuale specifico per l'abbandono (es. `abbandona` o `resa`) inserito al posto delle coordinate di mossa.
 
 - Al momento dell'inserimento del comando, e al suo invio, il sistema interrompe immediatamente il ciclo dei turni della partita corrente.
 
-- Il sistema gestisce l'interruzione in modo controllato, chiudendo la partita e ritornando al menu principale (o uscendo dal gioco) senza mai andare in crash o generare errori imprevisti.
-7. **Mostrare un messaggio di aiuto**:**User Story**
-   Come giocatore, voglio poter richiedere e visualizzare un messaggio di aiuto esplicativo, in modo tale da comprendere rapidamente la sintassi corretta dei comandi necessari per giocare tramite linea di comando.
+- Il sistema gestisce l'interruzione in modo controllato, chiudendo la partita e ritornando al menu principale (o uscendo dal gioco) senza mai andare in crash o generare errori imprevisti.  
 
-**Criteri di Accettazione**
+S1_7. **Mostrare un messaggio di aiuto**:
+   Come giocatore, voglio poter richiedere e visualizzare un messaggio di aiuto esplicativo, in modo tale da comprendere rapidamente la sintassi corretta dei comandi necessari per giocare tramite linea di comando.  
+   **Criteri di Accettazione**:
 
 - Il sistema riconosce e accetta un comando testuale specifico (es. `help` o `aiuto`) inserito al prompt dei comandi.
 
@@ -162,39 +160,65 @@ classDiagram
 
 - Le istruzioni mostrate riflettono direttamente le funzionalità della CLI, senza rimandare l'utente a file di testo esterni.
 
-- Come per ogni altro input, un'eventuale sintassi errata nel richiamare l'aiuto viene gestita passivamente e non causa mai il crash dell'applicazione.
-8. **Uscire dal gioco**:**User Story**
-   Come giocatore, voglio poter uscire completamente dal gioco tramite un comando testuale, in modo tale da chiudere l'applicazione in modo sicuro e tornare al terminale.
+- Come per ogni altro input, un'eventuale sintassi errata nel richiamare l'aiuto viene gestita passivamente e non causa mai il crash dell'applicazione.  
 
-**Criteri di Accettazione**
-
+S1_8. **Uscire dal gioco**: Come giocatore, voglio poter uscire completamente dal gioco tramite un comando testuale, in modo tale da chiudere l'applicazione in modo sicuro e tornare al terminale.  
+**Criteri di Accettazione**:
 - Il sistema riconosce e accetta un comando testuale specifico per l'uscita (es. `esci`, `quit` o `exit`) inserito al prompt dei comandi.
 - Al momento dell'inserimento del comando, l'applicazione si chiude immediatamente e in modo pulito.
 - Se il comando viene inserito mentre una partita è in corso, la partita viene interrotta istantaneamente senza salvataggio.
 - Il sistema gestisce l'uscita restituendo correttamente il controllo al terminale (o al container Docker) senza mai generare eccezioni non gestite o crash dell'applicazione.
 
-#### Sprint 2
+#### **Sprint 2**
 
-2.  **Trascrizione partita**:**User Story** In qualità di giocatore, voglio poter visualizzare la trascrizione completa delle mosse in qualunque momento, in modo tale da poter tenere traccia dell'evoluzione della partita e analizzare le azioni compiute.
+S2_1. **Giocare con un limite di tempo**: In qualità di giocatore, voglio poter giocare una partita con il limite di tempo.  
+**Criteri di accettazione**:
+- Il timer selezionato rappresenta il tempo totale a disposizione di ciascun giocatore per l'intera partita. Il timer scorre solo durante il turno del giocatore attivo e si mette in pausa quando il turno passa all'avversario.
+- È possibile avviare una partita dal menu principale con o senza il limite di tempo.
+- Durante la partita ogni giocatore deve poter vedere il limite di tempo rimasto
+- Se un giocatore termina il limite di tempo viene eliminato dalla partita (il suo pedone viene rimosso e i muri rimangono). In seguito alla eliminazione, se rimane un giocatore, quest'ultimo vince la partita
+- Una volta scelta l'opzione partita con il limite di tempo, sarà possibile selezionare 2 o 3 opzioni predefinite, oppure scegliere liberamente il valore personalizzato.  
 
-**Criteri di accettazione**
+S2_2.  **Trascrizione partita**: In qualità di giocatore, voglio poter visualizzare la trascrizione completa delle mosse in qualunque momento, in modo tale da poter tenere traccia dell'evoluzione della partita e analizzare le azioni compiute.  
+**Criteri di accettazione**:
 
 - Esiste un comando specifico invocabile dall'utente per richiedere la visualizzazione della trascrizione.
 - Il comando funziona in qualunque momento della partita, anche in caso di annuncio di un vincitore o di patta.
 - Le mosse trascritte sono numerate progressivamente (simile alla notazione standard degli scacchi).
 - La trascrizione utilizza fedelmente la notazione testuale compatta (es. `e2` per un movimento pedone o `e3h` per un piazzamento di un muro).
 - Se il comando viene invocato prima che sia stata effettuata una mossa, il sistema restituisce un messaggio esplicativo senza bloccarsi o fare una stampa vuota.
-- Eventuali errori di digitazione nella chiamata del comando vengono intercettati e gestiti senza interrompere l'applicazione.
+- Eventuali errori di digitazione nella chiamata del comando vengono intercettati e gestiti senza interrompere l'applicazione.  
 
-3. **Visualizzare il Replay**:**User Story** In qualità di giocatore, voglio poter far partire il replay di una partita appena conclusa, in modo tale da rivedere l'evoluzione del tavoliere mossa dopo mossa e studiare le strategie adottate.
-
-**Criteri di accettazione**
+S2_3. **Visualizzare il Replay**: In qualità di giocatore, voglio poter far partire il replay di una partita appena conclusa, in modo tale da rivedere l'evoluzione del tavoliere mossa dopo mossa e studiare le strategie adottate.  
+**Criteri di accettazione**:
 
 - C'è un comando specifico per avviare il replay, ed esso è disponibile solo per le partite appena concluse
 - Il replay è animato: riproduce visivamente sul tavoliere la sequenza delle mosse, mostrando i movimenti dei pedoni e il piazzamento dei muri, esattamente come sono avvenute nella partita appena conclusa.
 - L'avanzamento del replay è gestito in modo chiaro per l'utente, tramite avanzamento automatico a tempo o tramite comandi manuali (es. `next` / `prev`).
 - Non c'è persistenza dei dati del replay, essi risiedono solo in memoria e vengono persi alla chiusura della partita (o dell'applicazione).
 - Qualunque input inaspettato inserito durante la fase di replay non causa il crash del sistema.
+
+S2_4. **Giocare anche in 4**: In qualità di giocatore, voglio poter avviare e giocare una partita con 4 giocatori totali, in modo tale da poter sfidare più persone contemporaneamente e provare diverse modalità e strategie di gioco.  
+**Criteri di accettazione**: 
+- L'utente deve poter selezione la modalità a 4 giocatori a partire dal menù iniziale
+
+- La configurazione deve essere adatta alla modalità a 4 giocatori (come stabilito nel meeting, in caso di partita a 4 giocatori, a ognuno viene assegnato uno dei 4 lati del tavoliere, e ognuno ha a disposizione 5 muri piazzabili)
+
+- Durante la partita, il sistema deve gestire correttamente la successione dei turni ciclica tra i 4 giocatori (es. P1 -> P2 -> P3 -> P4 -> P1) e mostrare a video il giocatore di turno
+
+- Il gioco deve saper riconoscere la vittoria non appena uno dei 4 giocatori raggiunge il lato opposto del tavoliere rispetto a quello di partenza
+
+- Durante la partita, se uno dei 4 giocatori abbandona il gioco viene eliminato, come stabilito nel meeting (viene rimosso il pedone e i muri piazzati rimangono), e il turno viene passato al giocatore successivo, proseguendo così la partita. Se i giocatori in partita sono solo 2 e uno di questi abbandona, la vittoria viene assegnata all'unico giocatore rimasto.
+
+S2_5. **Nuova interfaccia avanzata**: In qualità di giocatore, voglio interagire con il gioco tramite un'interfaccia avanzata in modo tale da avere un'esperienza visiva più moderna e intuitiva, potendo usare sia il mouse che la tastiera.  
+**Criteri di accettazione**:
+- Flessibilità di interazione: L'utente può usare i click del mouse sulle caselle, ma è sempre presente una barra/prompt per inserire i comandi con la notazione compatta (es. e2, e3h).
+
+- Usabilità: Le istruzioni base e i controlli della UI sono sempre visibili o facilmente richiamabili tramite un widget di help dedicato per non creare indecisioni ai nuovi giocatori.
+
+- Zero Crash: Eventuali errori (es. click fuori dalla scacchiera o su bottoni inattivi) vengono gestiti internamente senza far terminare il processo di Textual.
+
+- Presentazione Separata: Nessuna logica di gioco (validazione mosse, controllo ostacoli) è scritta dentro i file della View. La TUI si limita a tradurre gli eventi (click/testo) in chiamate al Controller.
 
 ### 3.2 Requisiti non funzionali
 
@@ -205,6 +229,11 @@ classDiagram
 - **RNF3** (Robustezza): Per qualunque input inaspettato l'applicazione non deve mai andare in crash.
 
 - **RNF4** (Normalizzazione comandi): La Command Line Interface (CLI) deve accettare notazioni testuali compatte (es. `e2` per il pedone, `e3h` per i muri).
+
+*In più, seguono tre nuovi requisiti non funzionali da rispettare (oltre ai quattro già presenti), essi sono stati individuati per lo sprint 2:*
+- **RNF5** (Usabilità): Un utente nuovo non deve avere indecisioni, tutto dev’essere chiarito soprattutto in luogo delle nuove funzionalità che riguardano il gioco. Dunque tutte le nuove istruzioni si riflettono nel comando help.
+- **RNF6** (Flessibilità di interazione): Nonostante la nuova interfaccia avanzata dev’essere possibile inserire i comandi anche da prompt testuale con notazione compatta come avveniva prima. 
+- **RNF7** (Testabilità logica): I test automatici, devono essere eseguiti secondo la logica di gioco, evitando di gestire input del giocatore o output testuale, che invece possono cambiare nel tempo. 
   
   ## 4. System Design
   
@@ -333,3 +362,23 @@ Pur non avendo riscontrato criticità, per ottimizzare ulteriormente il lavoro i
 
 > Segue una foto della lavagna utilizzata durante il meeting dal team:
 > ![Analisi retrospettiva](./img/retrospettivaSprint1'.png)
+
+### 8.2 Sprint 1
+
+Anche questa volta, al termine dello Sprint 1, il team si è riunito per effettuare il meeting di revisione del processo (Sprint Retrospective). La discussione si è concentrata, sulle metodologie di collaborazione e gestione del lavoro.
+
+**Analisi del processo:**
+
+* **Cosa ha funzionato:** *Siamo stati in grado di lavorare insieme utilizzando tutti i criteri stabiliti nel vecchio meeting di retrospettiva e aumentando i controlli.*
+* **Aree di riflessione:** *Abbiamo precisato alcune migliorie sul nostro stile di lavoro per quanto riguarda task generali e inoltre sono emersi alcuni dettagli su come gestire le parti più tecniche del progetto.* 
+
+**Sintesi delle azioni correttive (Miglioramenti per lo Sprint 2):**
+Pur non avendo riscontrato criticità, per ottimizzare ulteriormente il lavoro in questo Sprint 2 il team ha deciso di intraprendere le seguenti azioni organizzative:
+
+1. Cambiare approccio per la risoluzione di task generali.
+2. Aumentare i controlli sul lavoro svolto.
+
+**Lavagna di Retrospettiva**
+
+> Segue una foto della lavagna utilizzata durante il meeting dal team:
+> ![Analisi retrospettiva](./img/sprint_1.png)

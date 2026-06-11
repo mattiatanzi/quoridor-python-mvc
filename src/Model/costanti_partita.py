@@ -69,7 +69,14 @@ class CostantiPartita:
     """
 
     # Costanti
-    TOTALE_GIOCATORI = 2
+    GIOCATORI_TOTALI_2 = "2"
+    GIOCATORI_TOTALI_4 = "4"
+
+    MURI_DISPONIBILI = {
+        GIOCATORI_TOTALI_2 : 10,
+        GIOCATORI_TOTALI_4 : 5
+    }
+
     ID_PRIMO_GIOCATORE_ATTIVO = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]
 
     PRIMA_COLONNA = "a"
@@ -82,9 +89,13 @@ class CostantiPartita:
     COORDINATE_INIZIALI = {
         CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]: "e1",
         CostantiGiocatore.POSSIBILI_ID_GIOCATORE[1]: "e9",
+        CostantiGiocatore.POSSIBILI_ID_GIOCATORE[2]: "a5",
+        CostantiGiocatore.POSSIBILI_ID_GIOCATORE[3]: "i5",
     }
 
-    RIGHE_FINALI = {
-        CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]: "9",
-        CostantiGiocatore.POSSIBILI_ID_GIOCATORE[1]: "1",
+    TRAGUARDI_FINALI = {
+        CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]: ("riga", "9"),
+        CostantiGiocatore.POSSIBILI_ID_GIOCATORE[1]: ("riga", "1"),
+        CostantiGiocatore.POSSIBILI_ID_GIOCATORE[2]: ("colonna", "i"),
+        CostantiGiocatore.POSSIBILI_ID_GIOCATORE[3]: ("colonna", "a"),
     }

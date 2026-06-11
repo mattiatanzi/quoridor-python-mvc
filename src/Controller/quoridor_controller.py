@@ -95,6 +95,7 @@ class QuoridorController:
                                 CostantiPartita.COORDINATE_INIZIALI[id_assegnato]
                             ),
                             new_tempo_iniziale=parametri.get_limite_tempo(),
+                            new_muri_disponibili=CostantiPartita.MURI_DISPONIBILI.get(str(parametri.get_numero_giocatori()))
                         )
                         giocatori.add(giocatore)
                     self.__partita_view.avvia_interfaccia_partita(ids_giocatori)
