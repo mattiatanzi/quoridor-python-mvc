@@ -17,4 +17,3 @@ class TavoliereviewAstratta(ABC):
     @abstractmethod
     def stampa_tavoliere(self, tavoliere: Tavoliere, giocatori: set[Giocatore]):
         pass
-

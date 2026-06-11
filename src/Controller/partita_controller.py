@@ -278,7 +278,58 @@ class PartitaController:
                         risposta = chiedi_input_utente(messaggio_conferma)
                     else:
                         if risposta == "si":
-                            continuare_partita = False
+
+                            self.get_model().elimina_giocatore(
+                                giocatore_attivo.get_id()
+                            )
+
+                            id_vincitore = self.__model.verifica_vittoria()
+                            if id_vincitore:
+                                # Impostiamo il motivo richiesto
+                                motivo_vincita = (
+                                    f"Il giocatore {id_vincitore} "
+                                    "è l'unico rimasto in partita"
+                                )
+                                # Mostriamo la schermata di vittoria comune
+                                self.__view.stampa_vittoria(
+                                    id_vincitore, motivo_vincita
+                                )
+                                # Richiedi input per tornare al menu
+                                scelta_pulita = (
+                                    self.__view.get_input().lower().strip()
+                                )
+                                while scelta_pulita != "m":
+                                    if (
+                                        scelta_pulita in self.__COMANDI_REPLAY
+                                        or scelta_pulita in self.__COMANDI_REPLAY_AUTOMATICO
+                                    ):
+                                        risultato_replay = self.gestisci_replay(scelta_pulita)
+                                        if risultato_replay == "REPLAY_EXIT":
+                                            # Forziamo il reset dell'input in modo che non riesegua il replay all'infinito
+                                            scelta_pulita = ""
+                                        else:
+                                            errore = risultato_replay
+                                    elif scelta_pulita in self.__COMANDI_TRASCRIZIONE:
+                                        self.__view.stampa_trascrizione(
+                                            self.__model.get_trascrizione(),
+                                            len(self.__model.get_giocatori()),
+                                        )
+                                        # Dopo aver stampato la trascrizione, svuotiamo per ristampare la vittoria
+                                        scelta_pulita = ""
+
+                                    # --- GESTIONE INPUT NON RICONOSCIUTI O RIPRISTINO SCHERMATA ---
+                                    else:
+                                        if scelta_pulita != "":
+                                            self.__view.stampa_errore_partita("Comando non riconosciuto. Inserisci 'm' per il menù, 'r' per il replay o 'mosse' per la trascrizione.")
+
+                                        # Ristampa la schermata di vittoria e aspetta un nuovo comando
+                                        self.__view.stampa_vittoria(id_vincitore, motivo_vincita)
+                                        scelta_pulita = self.__view.get_input().lower().strip()
+
+                                else:
+                                    continuare_partita = False
+                                    continue
+
 
                 # Uscire dal gioco
                 elif azione_pulita in self.__COMANDI_USCITA_GIOCO:
