@@ -105,7 +105,7 @@ class ParametriPartitaController:
         tornaMenuIniziale = False
         avvia_partita = True
         tempo_limite = None
-        numero_giocatori = CostantiPartita.GIOCATORI_TOTALI_2
+        numero_giocatori = int(CostantiPartita.GIOCATORI_TOTALI_2)
         messaggio_errore = "\nInput Non Valido"
 
         while not tornaMenuIniziale:
@@ -135,7 +135,6 @@ class ParametriPartitaController:
                     == CostantiQuoridorView.SCELTA_PARTITA_SENZA_TIMER
                 ):
                     tempo_limite = CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO
-                    tornaMenuIniziale = True
 
                 # IF NOT TORNARE INDIETRO AND TIMER
                 elif scelta_interfaccia == CostantiQuoridorView.SCELTA_PARTITA_CON_TIMER:
@@ -201,6 +200,8 @@ class ParametriPartitaController:
 
                     else:
                         avvia_partita = False
+
+                    tornaMenuIniziale = True
 
             else:
                 tornaMenuIniziale = True

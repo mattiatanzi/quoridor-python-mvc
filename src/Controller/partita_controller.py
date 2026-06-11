@@ -216,42 +216,6 @@ class PartitaController:
 
         return mosse_flat
 
-    def __ottieni_trascrizione_parziale(
-            self, trascrizione_completa: list[str], indice: int
-        ) -> list[str]:
-        """Restituisce la trascrizione parziale ricostruita mossa per mossa fino all'indice corrente.
-
-        Args:
-            trascrizione_completa: Lista di stringhe dei turni (es. ["1.\te2\te8\tb5\th5"])
-            indice: Numero esatto di mosse singole visualizzate nel replay fino a questo momento.
-        """
-        if indice == 0:
-            return []
-
-        # 1. Ricostruiamo la lista piatta lineare di TUTTE le mosse salvate
-        mosse_totali_flat = []
-        for riga in trascrizione_completa:
-            parti = riga.split(".\t", 1)
-            if len(parti) >= 2:
-                mosse_totali_flat.extend(parti[1].split("\t"))
-
-        # 2. Prendiamo solo le mosse fino all'indice corrente del replay
-        mosse_visibili = mosse_totali_flat[:indice]
-
-        # 3. Riorganizziamo le mosse visibili in righe di turni strutturate in base al numero di giocatori
-        num_giocatori = len(self.__model.get_giocatori())
-        risultato_parziale = []
-
-        for i in range(0, len(mosse_visibly := mosse_visibili), num_giocatori):
-            num_turno = (i // num_giocatori) + 1
-            gruppo_mosse_turno = mosse_visibly[i : i + num_giocatori]
-
-            # Uniamo le mosse visibili per questo turno usando il carattere tabulare
-            stringa_mosse = "\t".join(gruppo_mosse_turno)
-            risultato_parziale.append(f"{num_turno}.\t{stringa_mosse}")
-
-        return risultato_parziale
-
     def gioca_partita(self) -> bool:
         errore = ""
         continuare_partita = True
