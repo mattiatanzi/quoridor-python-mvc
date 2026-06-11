@@ -113,7 +113,7 @@ class QuoridorController:
             elif scelta in ("h", "help", "aiuto"):
                 testo_aiuto = "=== GUIDA COMANDI ===\n\n1 - Avvia una nuova partita\n0 - Esci dal gioco"
                 self.__menu.stampa_messaggio(testo_aiuto)
-                chiedi_input_utente("-------- Premi per andare avanti ---------")
+                chiedi_input_utente("-------- Premi INVIO per andare avanti ---------")
                 
             else:
                 errore = "Errore nell'inserimento della scelta, riprova\n"

@@ -17,14 +17,15 @@ Screen {
 }
 
 /* Contenitori centrali dei bottoni */
-#menu-container, #menu-modalita-container, #menu-timer-container {
+/* Contenitori centrali dei bottoni */
+#menu-container, #menu-modalita-container, #menu-timer-container, #menu-giocatori-container {
     width: 1fr;
     height: 100%;
     align: center middle;
     padding: 2 4;
 }
 
-#menu-titolo, #titolo-modalita, #titolo-timer {
+#menu-titolo, #titolo-modalita, #titolo-timer, #titolo-giocatori {
     text-style: bold;
     color: $text;
     content-align: center middle;

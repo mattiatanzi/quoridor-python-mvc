@@ -93,12 +93,11 @@ class PartitaViewScreen(Screen):
             pannello = self.query_one("#pannello-aiuto", Label)
             
             if pannello.has_class("visibile"):
-                # Se è già aperto, nascondiamolo noi
+                # SE E' VISIBILE: Chiudiamo solo la grafica, zero interazioni col controller!
                 pannello.remove_class("visibile")
                 event.button.label = "Mostra Aiuto"
             else:
-                # Se è chiuso, inviamo 'h' al controller.
-                # Il controller valuterà 'h' e chiamerà 'stampa_aiuto' passandoci il testo corretto!
+                # SE NON E' VISIBILE: Chiediamo al controller di mandare il testo
                 self._coda_input.put("help")
 
     def on_input_submitted(self, event):

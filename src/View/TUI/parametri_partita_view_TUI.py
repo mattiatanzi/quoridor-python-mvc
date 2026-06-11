@@ -1,10 +1,10 @@
-# proj-stonebraker/src/View/TUI/parametri_partita_view_TUI.py
-
 import queue
+
 from src.View.parametri_partita_view import ParametriPartitaView
 from src.View.TUI.Screen.modalita_partita_Screen import ModalitaPartitaScreen
 from src.View.TUI.Screen.imposta_timer_Screen import ImpostaTimerScreen
 from textual.widgets import Label
+from src.View.TUI.Screen.numero_giocatori_Screen import NumeroGiocatoriScreen
 
 class ParametriPartitaViewTUI(ParametriPartitaView):
     def __init__(self, app_condivisa, coda_input: queue.Queue):
@@ -35,8 +35,17 @@ class ParametriPartitaViewTUI(ParametriPartitaView):
         self.__app.call_from_thread(mostra_schermo)
         return self.__coda_input.get()
 
-    def get_input_numero_giocatori(self, err = ""): # da implementare
-        pass
+    def get_input_numero_giocatori(self) -> str:
+        """Mostra il menu per la scelta 2 o 4 giocatori e attende l'input."""
+        
+        # Spinge lo schermo nella UI dal thread del controller
+        def _mostra_schermo_giocatori():
+            self.__app.push_screen(NumeroGiocatoriScreen(self.__coda_input))
+            
+        self.__app.call_from_thread(_mostra_schermo_giocatori)
+        
+        # Attende che l'utente prema un bottone sullo schermo ("2", "4", "0" o "help")
+        return self.__coda_input.get()
     # Nuova funzione privata per iniettare il testo
     def _mostra_aiuto_laterale(self, messaggio):
         def aggiorna_aiuto():
@@ -59,5 +68,6 @@ class ParametriPartitaViewTUI(ParametriPartitaView):
     def stampa_errore_parametri(self, errore):
         self._mostra_aiuto_laterale(errore)
 
-    def stampa_aiuto_numero_giocatori(self): #da implementare
-        pass
+    def stampa_aiuto_numero_giocatori(self):
+        messaggio = "=== GUIDA GIOCATORI ===\n\n- 2 Giocatori: Partita 1 vs 1.\n  Ogni giocatore ha 10 muri.\n- 4 Giocatori: Tutti contro Tutti.\n  Ogni giocatore ha 5 muri.\n- 0 - Torna al menu principale."
+        self._mostra_aiuto_laterale(messaggio)

@@ -1,5 +1,6 @@
 import os
 
+_gestore_input_personalizzato = None
 
 def pulisci_schermo():
     """Pulisce il terminale in modo incrociato su tutti i SO e Shell.
@@ -23,20 +24,23 @@ def pulisci_schermo():
             os.system("cls")  # Siamo su PowerShell o CMD
 
 
+
+
+def imposta_gestore_input(funzione_gestore):
+    """Permette alla TUI di 'iniettare' la sua logica (code e popup)."""
+    global _gestore_input_personalizzato
+    _gestore_input_personalizzato = funzione_gestore
+
+
 def chiedi_input_utente(indicazioniInput: str = "") -> str:
-    """Funzione Generica di richiesta input.
+    """Funzione Generica di richiesta input (Agisce da ponte)."""
+    
+    # Se la TUI ha attivato il suo gestore, devia la chiamata lì!
+    if _gestore_input_personalizzato is not None:
+        return _gestore_input_personalizzato(indicazioniInput)
 
-    DESCRIZIONE
-        Funzione che chiede all'utente un input, eventualmente specificando delle
-        indicazioni.
-        Dato che nel programma si richiede più volte un input, è stata pensata
-        questa funzione per evitare di riscrivere da zero ogni funzione
-
-    """
-    # Stampa interfaccia Input
+    # ALTRIMENTI: Comportamento originale per la CLI
     __stampa_richiesta_input(indicazioniInput)
-
-    # Richiedi input
     return input()
 
 

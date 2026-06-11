@@ -240,7 +240,7 @@ class PartitaController:
                 # Aiuto
                 if azione_pulita in ["help", "aiuto"]:
                     self.__view.stampa_aiuto()
-                    input("---- Premi INVIO per tornare alla partita... ----")
+                    chiedi_input_utente("---- Premi INVIO per tornare alla partita... ----")
                     # La richiesta di aiuto non incrementa il turno
                     continue
 
@@ -252,7 +252,7 @@ class PartitaController:
                             self.__model.get_trascrizione(),
                             len(self.__model.get_giocatori()),
                         )
-                        input("---- Premi INVIO per tornare alla partita... ----")
+                        chiedi_input_utente("---- Premi INVIO per tornare alla partita... ----")
 
                 # Uscire dalla partita
                 elif azione_pulita in self.__COMANDI_ABBANDONA_PARTITA:

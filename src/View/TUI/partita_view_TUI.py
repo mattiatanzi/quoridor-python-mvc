@@ -7,6 +7,8 @@ from src.View.giocatore_view import GiocatoreViewAstratta
 from src.View.partita_view import PartitaViewAstratta
 from src.View.tavoliere_view import TavoliereviewAstratta
 from textual.widgets import Label,Button
+from src.View.funzioni_utili_stampa import imposta_gestore_input 
+from src.View.TUI.Screen.conferma_Screen import ConfermaScreen
 
 
 class PartitaViewTUI(PartitaViewAstratta):
@@ -28,6 +30,7 @@ class PartitaViewTUI(PartitaViewAstratta):
     ):
         super().__init__(new_giocatore_view, new_tavoliere_view)
         self._app = app_condivisa
+        imposta_gestore_input(self._gestore_input_tui)
 
     # ------ Stampe Video ------ #
 
@@ -174,3 +177,27 @@ QUORIDOR: COMANDI PRINCIPALI
         """Rimuove lo schermo della partita e torna al menu."""
         # Anche le operazioni di chiusura (pop_screen) devono passare dal thread principale
         self._app.call_from_thread(self._app.torna_al_menu)
+
+
+    def _gestore_input_tui(self, messaggio: str) -> str:
+        """Intercetta le richieste del Controller e le adatta alla TUI."""
+        testo_lower = messaggio.lower()
+        coda = self._app.get_coda_input()
+        
+        # CASO 1: Domande di conferma con [si/no] apre il popup grafico bloccante
+        if "[si/no]" in testo_lower:
+            def _mostra_popup():
+                self._app.push_screen(ConfermaScreen(messaggio, coda))
+                
+            self._app.call_from_thread(_mostra_popup)
+            return coda.get()
+            
+        # CASO 2: Richieste di "Premi INVIO per continuare..." (Help, Trascrizione)
+        elif "invio" in testo_lower:
+            # Nella TUI questi elementi sono a scomparsa, non blocchiamo il gioco!
+            # Sblocca il controller istantaneamente.
+            return ""
+            
+        # CASO 3: Qualsiasi altra richiesta normale di gioco
+        else:
+            return coda.get()
