@@ -4,6 +4,7 @@ from src.View.funzioni_utili_stampa import chiedi_input_utente, pulisci_schermo
 from src.View.giocatore_view import GiocatoreViewAstratta
 from src.View.tavoliere_view import TavoliereviewAstratta
 from src.View.partita_view import PartitaViewAstratta
+from src.View.CLI.replay_view_CLI import ReplayViewCLI
 
 
 class PartitaViewCLI(PartitaViewAstratta):
@@ -315,3 +316,7 @@ class PartitaViewCLI(PartitaViewAstratta):
 
     def torna_al_menu(self):
         pass
+
+    def crea_replay_view(self):
+
+        return ReplayViewCLI()

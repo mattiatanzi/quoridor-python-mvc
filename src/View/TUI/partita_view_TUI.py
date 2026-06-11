@@ -11,7 +11,8 @@ from src.View.funzioni_utili_stampa import imposta_gestore_input
 from src.View.TUI.Screen.conferma_Screen import ConfermaScreen
 from src.View.TUI.ModalScreen.vittoria_ModalScreen import VittoriaModalScreen
 from src.View.TUI.Screen.trascrizione_Screen import TrascrizioneScreen
-
+from src.View.TUI.replay_view_TUI import ReplayViewTUI
+from src.View.TUI.Screen.replay_Screen import ReplayScreen
 
 class PartitaViewTUI(PartitaViewAstratta):
     """Implementazione TUI della view della partita.
@@ -123,10 +124,17 @@ QUORIDOR: COMANDI PRINCIPALI
             # PROTEZIONE: Se l'utente sta leggendo le mosse, ignora la stampa della vittoria
             if isinstance(self._app.screen, TrascrizioneScreen):
                 return
+            
+            # 2. LA MAGIA: Se il ReplayScreen è attivo, lo chiudiamo noi da codice pulendo lo stack
+            if isinstance(self._app.screen, ReplayScreen):
+                self._app.pop_screen()
                 
-            # Mostra lo schermo SOLO se non ci siamo già sopra!
+            # 3. Ora siamo sicuri che sotto c'è solo il tabellone vero appena ridisegnato dal controller.
+            # Mostriamo il menu Vittoria (solo se non c'è già!)
             if not isinstance(self._app.screen, VittoriaModalScreen):
-                self._app.push_screen(VittoriaModalScreen(id_vincitore, motivo_vittoria, self._app))    
+                self._app.push_screen(VittoriaModalScreen(id_vincitore, motivo_vittoria, self._app))
+                
+        self._app.call_from_thread(_mostra_vittoria)  
                 
         self._app.call_from_thread(_mostra_vittoria)
 
@@ -219,3 +227,7 @@ QUORIDOR: COMANDI PRINCIPALI
         # CASO 3: Qualsiasi altra richiesta normale di gioco
         else:
             return coda.get()
+        
+
+    def crea_replay_view(self):
+        return ReplayViewTUI(self._app)

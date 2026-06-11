@@ -1,0 +1,246 @@
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 36, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 36, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 36, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 36, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 36, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 36, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 36, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+
+Crash UI Replay:
+Traceback (most recent call last):
+  File "G:\Il mio Drive\Progetto Ingegneria\proj-stonebraker\src\View\TUI\replay_view_TUI.py", line 38, in _aggiorna
+    self._tavoliere_view.stampa_tavoliere(stato_corrente.get_tavoliere())
+TypeError: TavoliereViewTUI.stampa_tavoliere() missing 1 required positional argument: 'giocatori'
+

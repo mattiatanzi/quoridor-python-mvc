@@ -1,3 +1,4 @@
+from textual.css.query import NoMatches
 from src.View.giocatore_view import GiocatoreViewAstratta
 from src.View.TUI.Widget.giocatore_view_Widget import GiocatoreViewWidget
 
@@ -40,23 +41,33 @@ class GiocatoreViewTUI(GiocatoreViewAstratta):
 
     def stampa_giocatore_attivo(self, id, muri_disponibili, tempo_formattato=None):
         def _aggiorna():
-            widget = self._get_widget(id)
-            if widget:
-                widget.aggiorna_attivo(muri_disponibili, tempo_formattato)
+            try:
+                widget = self._get_widget(id)
+                if widget:
+                    widget.aggiorna_attivo(muri_disponibili, tempo_formattato)
+            except NoMatches:
+                # Nel Replay i pannelli non ci sono: ignoriamo l'errore in silenzio!
+                pass
         self._app.call_from_thread(_aggiorna)
 
     def stampa_info_giocatore(self, id, muri_disponibili, tempo_formattato=None):
         def _aggiorna():
-            widget = self._get_widget(id)
-            if widget:
-                widget.aggiorna_info(muri_disponibili, tempo_formattato)
+            try:
+                widget = self._get_widget(id)
+                if widget:
+                    widget.aggiorna_info(muri_disponibili, tempo_formattato)
+            except NoMatches:
+                pass
         self._app.call_from_thread(_aggiorna)
 
     def stampa_giocatore_eliminato(self, id, muri_disponibili, tempo_formattato=None):
         def _aggiorna():
-            widget = self._get_widget(id)
-            if widget:
-                widget.aggiorna_eliminato(muri_disponibili, tempo_formattato)
+            try:
+                widget = self._get_widget(id)
+                if widget:
+                    widget.aggiorna_eliminato(muri_disponibili, tempo_formattato)
+            except NoMatches:
+                pass
         self._app.call_from_thread(_aggiorna)
 
     def stampa_id_giocatore(self, id_giocatore):

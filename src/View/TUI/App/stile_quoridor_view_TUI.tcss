@@ -397,3 +397,72 @@ VittoriaModalScreen {
 .nascosto {
     display: none !important;
 }
+
+/* -------------------------------------------------------- */
+/* SCHERMATA REPLAY                                         */
+/* -------------------------------------------------------- */
+
+#replay-layout {
+    width: 100%;
+    height: 1fr;
+}
+
+#replay-sinistra {
+    width: 65%;
+    height: 100%;
+    align: center top;
+    padding-top: 1;
+}
+
+#replay-destra {
+    width: 35%;
+    height: 100%;
+    border-left: heavy $primary;
+    padding: 1 2;
+}
+
+#replay-titolo {
+    text-style: bold;
+    color: $warning;
+    margin-bottom: 1;
+}
+
+#replay-descrizione-mossa {
+    color: $success;
+    text-style: bold italic;
+    margin-bottom: 1;
+}
+
+/* Barra inferiore dei bottoni */
+#replay-nav-buttons {
+    height: auto;
+    width: 100%;
+    dock: bottom;
+    align: center middle;
+    padding: 1;
+    background: $surface-darken-1;
+    border-top: solid $primary;
+}
+
+#replay-nav-buttons Button {
+    width: auto;
+    min-width: 15;
+    margin: 0 1;
+}
+
+/* Disattiva l'interazione visiva con il tabellone in modalità replay */
+#replay-sinistra Button:hover {
+    background: $surface;
+    border: none;
+}
+
+/* Rimuove l'effetto hover sui divisori/muri all'interno del replay */
+#replay-sinistra Static:hover {
+    background: $surface-darken-1;
+}
+
+/* Opzionale: rende l'intero pannello leggermente più opaco 
+   per far capire graficamente che è una visualizzazione passiva */
+#replay-sinistra TavoliereViewStatic {
+    opacity: 0.9;
+}

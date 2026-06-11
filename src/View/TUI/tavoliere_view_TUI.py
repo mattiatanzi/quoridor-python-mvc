@@ -1,3 +1,4 @@
+import traceback
 from textual.widgets import Button
 from src.Model.costanti_tavoliere import Costanti
 from src.Model.giocatore import Giocatore
@@ -80,7 +81,7 @@ class TavoliereViewTUI(TavoliereviewAstratta):
                         nodi[id_casella].add_class(f"giocatore-{indice}")
 
             except Exception as e:
-                import traceback
+
                 self.__app.log(f"[ERRORE TAVOLIERE]:\n{traceback.format_exc()}")
 
         # Invio al thread grafico

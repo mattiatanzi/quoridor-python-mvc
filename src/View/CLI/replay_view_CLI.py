@@ -4,8 +4,6 @@ from src.Model.partita import Partita
 from src.View.funzioni_utili_stampa import pulisci_schermo
 from src.View.replay_view import ReplayViewAstratta
 from src.View.CLI.tavoliere_view_CLI import TavoliereViewCLI
-from src.View.CLI.partita_view_CLI import PartitaViewCLI
-from src.View.CLI.giocatore_view_CLI import GiocatoreViewCLI
 
 
 class ReplayViewCLI(ReplayViewAstratta):
@@ -15,8 +13,7 @@ class ReplayViewCLI(ReplayViewAstratta):
     -----------
     stampa_tavoliere : TavoliereView
         Contiene tutte le stampe per il tavoliere
-    stampa_trascrizione : PartitaView
-        Contiene tutte le stampe per la partita
+
 
     COSTANTI:
     RIGA_INIZIALE
@@ -43,9 +40,6 @@ class ReplayViewCLI(ReplayViewAstratta):
 
     def __init__(self):
         self.__stampa_tavoliere = TavoliereViewCLI()
-        self.__stampa_trascrizione = PartitaViewCLI(
-            self.__stampa_tavoliere, GiocatoreViewCLI()
-        )
 
     def stampa_replay(
         self,

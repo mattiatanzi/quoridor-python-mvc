@@ -123,3 +123,8 @@ class PartitaViewAstratta(ABC):
     @abstractmethod
     def torna_al_menu(self):
         pass
+
+    @abstractmethod
+    def crea_replay_view(self):
+        """Genera e restituisce la View dedicata al Replay (CLI o TUI)."""
+        pass

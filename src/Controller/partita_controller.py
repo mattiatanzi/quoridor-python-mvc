@@ -524,7 +524,8 @@ class PartitaController:
         replay = ReplayController(
             trascrizione_replay, partita_replay
         )
-        stampa_replay = ReplayViewCLI()
+        
+        stampa_replay = self.__view.crea_replay_view() 
         autoplay = {"autoplay": False}
 
         def callback_aggiorna_schermo(
@@ -596,3 +597,6 @@ class PartitaController:
         # Alla fine del replay, restituiamo un flag speciale o puliamo l'errore
         # Ma soprattutto, dobbiamo dire al ciclo chiamante di resettare l'input!
         return "REPLAY_EXIT"
+    
+
+    
