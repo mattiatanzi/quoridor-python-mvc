@@ -1,9 +1,7 @@
 
 from datetime import timedelta
-from time import time
 
 import pytest
-from src.Model import giocatore
 from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.giocatore import Giocatore, TempoException
 
@@ -40,8 +38,8 @@ class TestGiocatoreRiduciTempo:
         """
         classi_equivalenza = [
             timedelta(minutes = 1),
-            timedelta(seconds = 0),
-            timedelta(seconds = -1)
+            timedelta(0),
+            timedelta(minutes = -1)
         ]
 
         # CE1
@@ -55,6 +53,7 @@ class TestGiocatoreRiduciTempo:
         # CE2
         giocatore_creato = Giocatore(new_tempo_iniziale = timedelta(minutes = 5))
 
+        tempo_iniziale = giocatore_creato.get_tempo_residuo()
         tempo_da_ridurre = classi_equivalenza[1]
         giocatore_creato.riduci_tempo(tempo_da_ridurre)
         assert giocatore_creato.get_tempo_residuo() == tempo_iniziale
@@ -69,6 +68,7 @@ class TestGiocatoreRiduciTempo:
         # CP1
         giocatore_creato = Giocatore(new_tempo_iniziale = timedelta(minutes = 5))
 
+        tempo_iniziale = giocatore_creato.get_tempo_residuo()
         tempo_da_ridurre = tempo_iniziale
         giocatore_creato.riduci_tempo(tempo_da_ridurre)
         assert giocatore_creato.get_tempo_residuo() == timedelta(0)
@@ -76,6 +76,7 @@ class TestGiocatoreRiduciTempo:
         # CP2
         giocatore_creato = Giocatore(new_tempo_iniziale = timedelta(minutes = 5))
 
+        tempo_iniziale = giocatore_creato.get_tempo_residuo()
         tempo_da_ridurre = tempo_iniziale + timedelta(minutes = 1)
         giocatore_creato.riduci_tempo(tempo_da_ridurre)
         assert giocatore_creato.get_tempo_residuo() == timedelta(0)
@@ -85,7 +86,7 @@ class TestGiocatoreRiduciTempo:
         """Verifica riduci_tempo() in caso di Giocatore con tempo limite irregolare.
 
             Input di riduci_tempo():
-                CE1, INPUT : tempo > 0
+                CE1, INPUT : tempo_da_ridurre > 0
 
         Oracolo:
             CE1 <=> Viene sollevata un'eccezione (il giocatore non ha limite di tempo)
@@ -105,13 +106,13 @@ class TestGiocatoreRiduciTempo:
 
         Classi di equivalenza
             Input di riduci_tempo():
-                CE1, INPUT : tempo > 0
-                CE2, INPUT : tempo = 0
-                CE3, INPUT : tempo < 0
+                CE1, INPUT : tempo_da_ridurre > 0
+                CE2, INPUT : tempo_da_ridurre = 0
+                CE3, INPUT : tempo_da_ridurre < 0
 
         Oracolo:
-            CE1 <=> Il tempo del giocatore rimane invariato
-            CE2 <=> Il tempo del giocatore rimane invariato
+            CE1 <=> Viene sollevata un'eccezione (tempo già scaduto)
+            CE2 <=> Viene sollevata un'eccezione (tempo già scaduto)
             CE3 <=> Viene sollevata un'eccezione (tempo in input irregolare)
 
         """
@@ -132,5 +133,11 @@ class TestGiocatoreRiduciTempo:
             giocatore_creato.riduci_tempo(tempo_da_ridurre)
 
         # CE3
+        tempo_iniziale = timedelta(0)
+        giocatore_creato = Giocatore(new_tempo_iniziale = tempo_iniziale)
+
+        tempo_da_ridurre = timedelta(seconds=-1)
         with pytest.raises(TempoException):
-            giocatore_creato.riduci_tempo(timedelta(seconds = -1))
+            giocatore_creato.riduci_tempo(tempo_da_ridurre)
+
+class TestGiocatorePossiedeLimiteTempo:
