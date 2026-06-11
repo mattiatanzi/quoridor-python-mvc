@@ -1,4 +1,3 @@
-from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.costanti_partita import CostantiPartita
 from src.Model.giocatore import ErrorePosizione, Giocatore
 from src.Model.nodo import Nodo
@@ -325,7 +324,13 @@ class Partita:
 
     def elimina_giocatore(self, id):
         giocatore_selezionato = self.get_giocatore(id)
-        giocatore_selezionato.set_attivo(False)
+        if (giocatore_selezionato.is_attivo()):
+            giocatore_selezionato.set_attivo(False)
+        else:
+            raise ErrorePartita(
+                f"Impossibile eliminare il giocatore {giocatore_selezionato.get_id()}, \n"
+                "In quanto era già stato eliminato"
+            )
 
     # Cambiare Posizione di Giocatore in partita
 

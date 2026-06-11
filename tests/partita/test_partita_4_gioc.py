@@ -203,3 +203,153 @@ class TestPartitaRimuoviGiocatore:
         with pytest.raises(ErrorePartita):
             partita_creata.rimuovi_giocatore(partita_creata.get_giocatore(giocatore_da_rimuovere).get_id())
         assert len(partita_creata.get_giocatori()) == 0
+
+
+class TestPartitaEliminaGiocatore:
+    """Classe TestPartitaEliminaGiocatore.
+
+    DESCRIZIONE
+        Suite di test funzionali per la funzione elimina_giocatore()
+    """
+
+    def test_partita_elimina_giocatore_attivo(self):
+        """Verifica elimina_giocatore() con partita con numero di giocatori > 0.
+
+            In questo caso i giocatori sono tutti attivi
+
+        Classi di equivalenza
+
+            Stato della partita:
+                CE1 : numero_giocatori > 0, tutti giocatori non eliminati
+
+        Condizioni particolari
+
+            Stato della partita:
+                CP1: numero_giocatori = 1
+
+        Oracolo:
+            CE1 => Giocatore eliminato correttamente dalla partita
+            CP2 => Giocatore eliminato correttamente dalla partita
+
+        """
+        classi_equivalenza = [
+            int(CostantiPartita.GIOCATORI_TOTALI_4),
+            1
+        ]
+
+        # CE1
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]
+                ) for i in range(0, classi_equivalenza[0])
+            ]
+        )
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        id_giocatore_da_eliminare = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]
+
+        partita_creata.elimina_giocatore(id_giocatore_da_eliminare)
+        assert partita_creata.get_giocatore(id_giocatore_da_eliminare).is_attivo() is False
+
+
+        # CP2
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]
+                )
+            ]
+        )
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        id_giocatore_da_eliminare = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]
+
+        partita_creata.elimina_giocatore(id_giocatore_da_eliminare)
+        assert partita_creata.get_giocatore(id_giocatore_da_eliminare).is_attivo() is False
+
+
+    def test_partita_elimina_giocatore_eliminato(self):
+        """Verifica elimina_giocatore() con partita con numero di giocatori > 0.
+
+            In questo caso il giocatore da eliminare è già stato eliminato
+
+        Classi di equivalenza
+
+            Stato della partita:
+                CE1 : numero_giocatori > 0, solo un giocatore eliminato
+
+        Condizioni particolari
+
+            Stato della partita:
+                CP2: numero_giocatori = 1
+
+        Oracolo:
+            CE1 => Raise errore (giocatore già eliminato dalla partita)
+            CP2 => Raise errore (giocatore già eliminato dalla partita)
+
+        """
+        classi_equivalenza = [
+            int(CostantiPartita.GIOCATORI_TOTALI_4),
+            1
+        ]
+
+        # CE1
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]
+                ) for i in range(0, classi_equivalenza[0])
+            ]
+        )
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        id_giocatore_da_eliminare = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]
+        partita_creata.elimina_giocatore(id_giocatore_da_eliminare)
+
+        with pytest.raises(ErrorePartita):
+            partita_creata.elimina_giocatore(id_giocatore_da_eliminare)
+
+        # Controllo che il giocatore non abbia subito cambiamenti nello stato
+        assert partita_creata.get_giocatore(id_giocatore_da_eliminare).is_attivo() is False
+
+        # CP2
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]
+                )
+            ]
+        )
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        id_giocatore_da_eliminare = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]
+        partita_creata.elimina_giocatore(id_giocatore_da_eliminare)
+
+        with pytest.raises(ErrorePartita):
+            partita_creata.elimina_giocatore(id_giocatore_da_eliminare)
+
+        # Controllo che il giocatore non abbia subito cambiamenti nello stato
+        assert partita_creata.get_giocatore(id_giocatore_da_eliminare).is_attivo() is False
+
+
+    def test_partita_partita_senza_giocatori(self):
+        """Verifica elimina_giocatore() con partita con numero di giocatori = 0.
+
+        Classi di equivalenza
+
+            Stato della partita:
+                CE1 : numero_giocatori = 0, solo un giocatore eliminato
+
+        Oracolo:
+            CE1 => Raise errore (nessun giocatore in partita)
+            CP2 => Raise errore (giocatore già eliminato dalla partita)
+
+        """
+        giocatori_partita = set()
+
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        id_giocatore_da_eliminare = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]
+
+        with pytest.raises(ErrorePartita):
+            partita_creata.elimina_giocatore(id_giocatore_da_eliminare)
+
+        # Controllo che il giocatore non abbia subito cambiamenti nello stato
+        assert len(partita_creata.get_giocatori()) == 0
