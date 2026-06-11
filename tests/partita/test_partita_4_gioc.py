@@ -432,6 +432,7 @@ class TestPartitaIncrementaTurno:
         with pytest.raises(ErrorePartita):
             partita_creata.incrementa_turno()
 
+
 class TestPartitaVerificaVittoria:
     """Classe TestPartitaVerificaVittoria.
 
@@ -439,16 +440,14 @@ class TestPartitaVerificaVittoria:
         Suite di test funzionali per la funzione verifica_vittoria()
     """
 
-    def test_partita_verifica_vittoria_con_giocatori(self):
-        """Verifica elimina_giocatore() con partita con numero di giocatori > 0.
+    def test_partita_verifica_vittoria_traguardo_un_giocatore(self):
+        """Verifica verifica_vittoria() con partita con numero di giocatori > 0.
 
         Classi di equivalenza
 
             Stato della partita:
                 CE1 : numero_giocatori > 0, un giocatore arrivato al traguardo
-                CE2 : numero_giocatori > 0, un giocatore non eliminato rimasto in partita
                 CE3 : numero_giocatori > 0, zero giocatori arrivati al traguardo
-                CE4 : numero_giocatori > 0, più di un giocatore non eliminato rimasto in partita
 
         Condizioni particolari
 
@@ -457,9 +456,7 @@ class TestPartitaVerificaVittoria:
 
         Oracolo:
             CE1 => restituisci il giocatore arrivato al traguardo
-            CE2 => restituisci il giocatore rimasto
             CE3 => restituisci None
-            CE4 => restituisci None
             CP1 => restituisci giocatore con turno corrente arrivato al traguardo
         """
         # CE1
@@ -492,27 +489,6 @@ class TestPartitaVerificaVittoria:
         assert partita_creata.verifica_vittoria() == giocatore_vincitore.get_id()
 
 
-        # CE2
-        giocatori_partita = set([
-                Giocatore(
-                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]
-                ) for i in range(0, len(CostantiGiocatore.POSSIBILI_ID_GIOCATORE))
-        ])
-        partita_creata = Partita(Tavoliere(), giocatori_partita)
-
-
-
-        giocatore_vincitore = partita_creata.get_giocatore(CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0])
-        dupla_traguardo = CostantiPartita.TRAGUARDI_FINALI.get(giocatore_vincitore.get_id())
-
-        for g in partita_creata.get_giocatori():
-                if g.get_id() != giocatore_vincitore.get_id():
-                    # Li mettiamo a riga 5, dove nessuno ha il traguardo di riga
-                    partita_creata.elimina_giocatore(g.get_id())
-
-        assert partita_creata.verifica_vittoria() == giocatore_vincitore.get_id()
-
-
         # CE3
         giocatori_partita = set([
                 Giocatore(
@@ -525,21 +501,6 @@ class TestPartitaVerificaVittoria:
         partita_creata = Partita(Tavoliere(), giocatori_partita)
 
         assert partita_creata.verifica_vittoria() == None
-
-        # CE4
-        giocatori_partita = set([
-                Giocatore(
-                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i],
-                    new_posizione = Nodo(
-                        CostantiPartita.COORDINATE_INIZIALI.get(CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i])
-                    )
-                ) for i in range(0, len(CostantiGiocatore.POSSIBILI_ID_GIOCATORE))
-        ])
-
-        partita_creata = Partita(Tavoliere(), giocatori_partita)
-
-        assert partita_creata.verifica_vittoria() == None
-
 
         # CP1
         giocatori_partita = set([
@@ -573,7 +534,53 @@ class TestPartitaVerificaVittoria:
 
         assert partita_creata.verifica_vittoria() == partita_creata.get_id_giocatore_attivo()
 
+    def test_partita_verifica_vittoria_eliminazione(self):
+        """Verifica verifica_vittoria() con partita con numero di giocatori > 0.
 
+        Classi di equivalenza
+
+            Stato della partita:
+                CE2 : numero_giocatori > 0, un giocatore non eliminato rimasto in partita
+                CE4 : numero_giocatori > 0, più di un giocatore non eliminato rimasto in partita
+
+        Oracolo:
+            CE2 => restituisci il giocatore rimasto
+            CE4 => restituisci None
+        """
+        # CE2
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]
+                ) for i in range(0, len(CostantiGiocatore.POSSIBILI_ID_GIOCATORE))
+        ])
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+
+
+        giocatore_vincitore = partita_creata.get_giocatore(CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0])
+        dupla_traguardo = CostantiPartita.TRAGUARDI_FINALI.get(giocatore_vincitore.get_id())
+
+        for g in partita_creata.get_giocatori():
+                if g.get_id() != giocatore_vincitore.get_id():
+                    # Li mettiamo a riga 5, dove nessuno ha il traguardo di riga
+                    partita_creata.elimina_giocatore(g.get_id())
+
+        assert partita_creata.verifica_vittoria() == giocatore_vincitore.get_id()
+
+
+        # CE4
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i],
+                    new_posizione = Nodo(
+                        CostantiPartita.COORDINATE_INIZIALI.get(CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i])
+                    )
+                ) for i in range(0, len(CostantiGiocatore.POSSIBILI_ID_GIOCATORE))
+        ])
+
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        assert partita_creata.verifica_vittoria() == None
 
     def test_partita_verifica_vittoria_senza_giocatori(self):
         """Verifica verifica_vittoria() con partita con numero di giocatori = 0.
