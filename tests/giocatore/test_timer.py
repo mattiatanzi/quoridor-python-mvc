@@ -47,7 +47,8 @@ class TestGiocatoreRiduciTempo:
 
         tempo_iniziale = giocatore_creato.get_tempo_residuo()
         tempo_da_ridurre = classi_equivalenza[0]
-        giocatore_creato.riduci_tempo(tempo_da_ridurre)
+
+        assert giocatore_creato.riduci_tempo(tempo_da_ridurre) is True
         assert giocatore_creato.get_tempo_residuo() == tempo_iniziale - tempo_da_ridurre
 
         # CE2
@@ -55,7 +56,8 @@ class TestGiocatoreRiduciTempo:
 
         tempo_iniziale = giocatore_creato.get_tempo_residuo()
         tempo_da_ridurre = classi_equivalenza[1]
-        giocatore_creato.riduci_tempo(tempo_da_ridurre)
+
+        assert giocatore_creato.riduci_tempo(tempo_da_ridurre) is True
         assert giocatore_creato.get_tempo_residuo() == tempo_iniziale
 
         # CE3
@@ -70,7 +72,8 @@ class TestGiocatoreRiduciTempo:
 
         tempo_iniziale = giocatore_creato.get_tempo_residuo()
         tempo_da_ridurre = tempo_iniziale
-        giocatore_creato.riduci_tempo(tempo_da_ridurre)
+
+        assert giocatore_creato.riduci_tempo(tempo_da_ridurre) is False
         assert giocatore_creato.get_tempo_residuo() == timedelta(0)
 
         # CP2
@@ -78,7 +81,8 @@ class TestGiocatoreRiduciTempo:
 
         tempo_iniziale = giocatore_creato.get_tempo_residuo()
         tempo_da_ridurre = tempo_iniziale + timedelta(minutes = 1)
-        giocatore_creato.riduci_tempo(tempo_da_ridurre)
+
+        assert giocatore_creato.riduci_tempo(tempo_da_ridurre) is False
         assert giocatore_creato.get_tempo_residuo() == timedelta(0)
 
 
@@ -178,3 +182,42 @@ class TestGiocatorePossiedeLimiteTempo:
         giocatore_creato = Giocatore(new_tempo_iniziale = CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO)
 
         assert giocatore_creato.possiede_limite_tempo() is False
+
+class TestGiocatoreHaFinitoTempo:
+    """Classe TestGiocatoreHaFinitoTempo.
+
+    DESCRIZIONE
+        Suite di test funzionali per la funzione ha_finito_tempo()
+    """
+
+    def test_giocatore_tempo_non_esaurito(self):
+        """Verifica ha_finito_tempo() in caso di Giocatore con tempo limite non esaurito.
+
+        Oracolo:
+            Caso Generale => restituisce False
+
+
+        """
+        giocatore_creato = Giocatore(new_tempo_iniziale = CostantiGiocatore.DEF_TIMER_PREDEFINITI[0])
+
+        assert giocatore_creato.ha_finito_tempo() is False
+
+
+    def test_giocatore_tempo_esaurito(self):
+        """Verifica ha_finito_tempo() in caso di Giocatore con tempo limite esaurito.
+
+        Condizioni particolari
+            CP1: Giocatore senza limite di tempo
+
+        Oracolo:
+            Caso Generale => restituisce True
+            CP1 => restitusce False (non avere limite tempo vuol dire che non lo finirà mai)
+
+        """
+        # Caso Generale
+        giocatore_creato = Giocatore(new_tempo_iniziale = timedelta(0))
+        assert giocatore_creato.ha_finito_tempo() is True
+
+        # CP1
+        giocatore_creato = Giocatore(new_tempo_iniziale = CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO)
+        assert giocatore_creato.ha_finito_tempo() is False
