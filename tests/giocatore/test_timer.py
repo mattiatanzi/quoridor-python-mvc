@@ -87,7 +87,7 @@ class TestGiocatoreRiduciTempo:
 
 
     def test_giocatore_senza_limite_tempo(self):
-        """Verifica riduci_tempo() in caso di Giocatore con tempo limite irregolare.
+        """Verifica riduci_tempo() in caso di Giocatore senza limite di tempo.
 
             Input di riduci_tempo():
                 CE1, INPUT : tempo_da_ridurre > 0
@@ -106,7 +106,7 @@ class TestGiocatoreRiduciTempo:
 
 
     def test_giocatore_tempo_zero(self):
-        """Verifica riduci_tempo() in caso di Giocatore con tempo limite regolare.
+        """Verifica riduci_tempo() in caso di Giocatore con tempo limite zero.
 
         Classi di equivalenza
             Input di riduci_tempo():
@@ -145,7 +145,7 @@ class TestGiocatoreRiduciTempo:
             giocatore_creato.riduci_tempo(tempo_da_ridurre)
 
 class TestGiocatorePossiedeLimiteTempo:
-    """Classe TestGiocatoreRiduciTempo.
+    """Classe TestGiocatorePossiedeLimiteTempo.
 
     DESCRIZIONE
         Suite di test funzionali per la funzione possiede_limite_tempo()

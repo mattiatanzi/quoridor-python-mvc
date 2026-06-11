@@ -298,7 +298,7 @@ class Giocatore:
                 return True  # C'è ancora tempo
         else:
             raise TempoException(
-                f"Impossibile Ridurre il tempo, il Giocatore {self.get_id()}"
+                f"Impossibile Ridurre il tempo, il Giocatore {self.get_id()} "
                 "non ha limiti di tempo"
             )
 
