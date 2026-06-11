@@ -26,7 +26,6 @@ class QuoridorViewAstratta(ABC):
     def get_input_menu(self) -> str:
         pass
 
-<<<<<<< HEAD
     @abstractmethod
     def stampa_messaggio(self,messaggio: str):
         pass
@@ -42,7 +41,3 @@ class QuoridorViewAstratta(ABC):
     @abstractmethod
     def get_coda_input(self):
         return self.__coda_input
-=======
-    def stampa_messaggio(self, messaggio: str):
-        print(messaggio)
->>>>>>> 6d9a636516865b3a03b90713dd0743eff8592fb4
