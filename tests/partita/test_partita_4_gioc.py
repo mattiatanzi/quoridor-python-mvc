@@ -8,7 +8,7 @@ from src.Model.tavoliere import Tavoliere
 
 
 class TestPartitaAggiungiGiocatore:
-    """Classe TestGiocatoreRiduciTempo.
+    """Classe TestPartitaAggiungiGiocatore.
 
     DESCRIZIONE
         Suite di test funzionali per la funzione aggiungi_giocatore()
@@ -122,3 +122,84 @@ class TestPartitaAggiungiGiocatore:
         with pytest.raises(ErrorePartita):
             partita_creata.aggiungi_giocatore(nuovo_giocatore)
         assert len(partita_creata.get_giocatori()) == int(CostantiPartita.MAX_GIOCATORI_AMMESSI)
+
+
+class TestPartitaRimuoviGiocatore:
+    """Classe TestPartitaRimuoviGiocatore.
+
+    DESCRIZIONE
+        Suite di test funzionali per la funzione rimuovi_giocatore()
+    """
+
+    def test_partita_maggiore_0_giocatori(self):
+        """Verifica aggiungi_giocatore() con partita con numero di giocatori > 0.
+
+        Classi di equivalenza
+
+            Stato della partita:
+                CE1 : numero_giocatori > 0
+
+        Condizioni particolari
+
+            Stato della partita:
+                CP1: numero_giocatori = 1
+
+        Oracolo:
+            CE1 => Giocatore rimosso correttamente dalla partita
+            CP2 => Giocatore rimosso correttamente dalla partita
+
+        """
+        classi_equivalenza = [
+            int(CostantiPartita.GIOCATORI_TOTALI_4),
+            1
+        ]
+
+        # CE1
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]
+                ) for i in range(0, classi_equivalenza[0])
+            ]
+        )
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        partita_creata.rimuovi_giocatore(partita_creata.get_giocatore(CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]).get_id())
+        assert len(partita_creata.get_giocatori()) == classi_equivalenza[0] - 1
+
+
+        # CP2
+        giocatori_partita = set([
+                Giocatore(
+                    new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]
+                )
+            ]
+        )
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+
+        partita_creata.rimuovi_giocatore(partita_creata.get_giocatore(CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]).get_id())
+        assert len(partita_creata.get_giocatori()) == classi_equivalenza[1] - 1
+
+
+
+    def test_partita_minore_uguale_0_giocatori(self):
+        """Verifica aggiungi_giocatore() con partita con numero di giocatori <= 0.
+
+        Classi di equivalenza
+
+            Stato della partita:
+                CE1 : numero_giocatori = 0
+
+        Oracolo:
+            CE1 => Eccezione sollevata (nessun giocatore in partita raggiunti)
+
+        """
+        giocatori_partita = set()
+
+        partita_creata = Partita(Tavoliere(), giocatori_partita)
+        giocatore_da_rimuovere = Giocatore(
+            new_id_giocatore = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]
+        )
+
+        with pytest.raises(ErrorePartita):
+            partita_creata.rimuovi_giocatore(partita_creata.get_giocatore(giocatore_da_rimuovere).get_id())
+        assert len(partita_creata.get_giocatori()) == 0
