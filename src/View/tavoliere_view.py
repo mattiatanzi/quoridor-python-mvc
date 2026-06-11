@@ -49,7 +49,7 @@ class TavoliereView:
                 chiave_attuale = Nodo(self.__COSTANTI.COLONNE[j] + str(i))
                 stampa_giocatore = False
                 for g in giocatori:
-                    if chiave_attuale == g.get_posizione():
+                    if chiave_attuale == g.get_posizione() and g.is_attivo():
                         stampa += g.get_id()
                         stampa_giocatore = True
                 if not (stampa_giocatore):
