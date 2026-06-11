@@ -190,7 +190,14 @@ QUORIDOR: COMANDI PRINCIPALI
                 self._app.push_screen(ConfermaScreen(messaggio, coda))
                 
             self._app.call_from_thread(_mostra_popup)
-            return coda.get()
+            risposta = coda.get()
+            if risposta == "si_uscita":
+                self._app.notify("Chiusura gioco in corso...", title="Uscita", severity="information")
+                time.sleep(1.5)
+                self._app.exit()
+                return "si"
+            
+            return "si" if risposta == "si" else "no"
             
         # CASO 2: Richieste di "Premi INVIO per continuare..." (Help, Trascrizione)
         elif "invio" in testo_lower:

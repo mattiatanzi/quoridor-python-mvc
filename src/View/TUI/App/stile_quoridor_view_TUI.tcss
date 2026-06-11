@@ -73,10 +73,13 @@ Button {
 #pannello-giocatori {
     width: 35;
     height: 100%;
-    /* Il bordo divisorio torna a destra, verso il tabellone! */
     border-right: heavy $primary; 
     padding: 1 2;
     background: $panel;
+    
+    /* AGGIUNGI QUESTE DUE RIGHE */
+    overflow-y: auto;      /* Attiva la scrollbar se necessario */
+    scrollbar-gutter: stable; /* Mantiene lo spazio per la scrollbar */
 }
 
 #label-titolo-giocatori {

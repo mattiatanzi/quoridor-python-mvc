@@ -83,10 +83,10 @@ class PartitaViewScreen(Screen):
         id_premuto = event.button.id
         
         if id_premuto == "btn-abbandona":
-            self._coda_input.put("resa")
+            self._coda_input.put("quit")
             
         elif id_premuto == "btn-esci-partita":
-            self._coda_input.put("0")
+            self._coda_input.put("exit")
             
         elif id_premuto == "btn-aiuto":
             # GESTIONE TOGGLE AIUTO

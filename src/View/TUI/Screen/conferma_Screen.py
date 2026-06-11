@@ -24,7 +24,7 @@ class ConfermaScreen(ModalScreen):
     def on_button_pressed(self, event: Button.Pressed) -> None:
         # Mette in coda la risposta finta come se l'utente l'avesse scritta da tastiera!
         if event.button.id == "btn-si":
-            self._coda_input.put("si")
+            self._coda_input.put("si_uscita")
         else:
             self._coda_input.put("no")
             
