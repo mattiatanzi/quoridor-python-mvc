@@ -26,9 +26,9 @@ class QuoridorViewScreen(Screen):
         with Horizontal(classes="layout-menu-aiuto"):
             with Vertical(id="menu-container"):
                 yield Label("Benvenuto in Quoridor", id="menu-titolo")
-                yield Button("1 - Avvia una nuova partita", id="btn-avviaPart")
-                yield Button("h - Aiuto (Comandi di gioco)", id="btn-avviaHelp")
-                yield Button("0 - Esci dal gioco", id="btn-Esci", variant="error")
+                yield Button("- Avvia una nuova partita", id="btn-avviaPart")
+                yield Button("- Mostra aiuto", id="btn-avviaHelp")
+                yield Button("- Esci dal gioco", id="btn-Esci", variant="error")
             
             # Pannello laterale per l'aiuto
             yield Label("", id="pannello-aiuto")
@@ -40,7 +40,16 @@ class QuoridorViewScreen(Screen):
         if id_premuto == "btn-avviaPart":
             comando = "1"
         elif id_premuto == "btn-avviaHelp":
-            comando = "h"
+            pannello = self.query_one("#pannello-aiuto", Label)
+            if pannello.has_class("visibile"):
+                # Se è visibile, lo nascondiamo e cambiamo il bottone
+                pannello.remove_class("visibile")
+                event.button.label = "- Mostra Aiuto"
+                return  # <-- IMPORTANTISSIMO: usciamo senza inviare nulla alla coda!
+            else:
+                # Se è nascosto, cambiamo il bottone in Nascondi e inviamo "h" al controller
+                event.button.label = "- Nascondi Aiuto"
+                comando = "h"
         elif id_premuto == "btn-Esci":
             comando = "0"
 

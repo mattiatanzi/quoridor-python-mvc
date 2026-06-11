@@ -1,83 +1,87 @@
 from textual.widgets import Button
-
 from src.Model.costanti_tavoliere import Costanti
 from src.Model.giocatore import Giocatore
 from src.Model.nodo import Nodo
 from src.Model.tavoliere import Tavoliere
 from src.View.tavoliere_view import TavoliereviewAstratta
 
-
 class TavoliereViewTUI(TavoliereviewAstratta):
-    """Gestisce la stampa a schermo dei muri e dei giocatori."""
+    """Adattatore che legge il Tavoliere di Python e colora la UI."""
     
     __COSTANTI = Costanti()
 
     def __init__(self, app_condivisa):
         self.__app = app_condivisa
+        self.__cache_nodi = None # Il segreto per la velocità assoluta
 
     def stampa_tavoliere(self, tavoliere: Tavoliere, giocatori: set[Giocatore]):
-        """Aggiorna la grafica di Textual leggendo Grafo e Giocatori."""
         
-        def aggiorna_grafica():
-            schermo = self.__app.screen
-            
-            # ==========================================
-            # FASE 1: PULIZIA GENERALE
-            # ==========================================
-            for btn in schermo.query(".casella"):
-                # Rimuoviamo muri e colori dei giocatori
-                btn.remove_class("muro-sotto", "muro-destra", "giocatore-1", "giocatore-2","giocatore-3","giocatore-4")
-                # Svuotiamo il testo del bottone
-                btn.label = "" 
-
-            # ==========================================
-            # FASE 2: DISEGNO DEI MURI (Lettura Grafo)
-            # ==========================================
-            i = self.__COSTANTI.PRIMA_RIGA 
-            while i >= self.__COSTANTI.ULTIMA_RIGA:
-                j = self.__COSTANTI.PRIMA_COLONNA
-                while j <= self.__COSTANTI.ULTIMA_COLONNA:
-                    col_lettera = self.__COSTANTI.COLONNE[j]
-                    chiave_attuale = Nodo(f"{col_lettera}{i}")
-                    
-                    try:
-                        btn = schermo.query_one(f"#btn_{col_lettera}{i}", Button)
-
-                        # Muro Orizzontale (Sotto)
-                        if i > self.__COSTANTI.ULTIMA_RIGA:
-                            if tavoliere.get_adiacente(chiave_attuale, self.__COSTANTI.ARCO_ADIACENTE_SOTTO) == self.__COSTANTI.NO_ARCO:
-                                btn.add_class("muro-sotto")
-
-                        # Muro Verticale (Destra)
-                        if j < self.__COSTANTI.ULTIMA_COLONNA:
-                            if tavoliere.get_adiacente(chiave_attuale, self.__COSTANTI.ARCO_ADIACENTE_DESTRA) == self.__COSTANTI.NO_ARCO:
-                                btn.add_class("muro-destra")
-                    except Exception:
-                        pass 
-                    
-                    j += 1
-                i -= 1
-
-            # ==========================================
-            # FASE 3: PIAZZAMENTO GIOCATORI 
-            # ==========================================
-            # Usiamo enumerate per dare un indice (1 o 2) utile per il colore CSS
-            for indice, g in enumerate(giocatori, start=1):
-                # Otteniamo direttamente la stringa "e1" o "e9"
-                coordinata = g.get_posizione().get_valore_id_nodo() 
-                nome_giocatore = g.get_id() # "P1" o "P2"
+        def _aggiorna_grafica():
+            try:
+                schermo = self.__app.screen
                 
-                try:
-                    # Andiamo a colpo sicuro sul bottone corretto!
-                    btn_giocatore = schermo.query_one(f"#btn_{coordinata}", Button)
-                    
-                    # Scriviamo "P1" sul bottone
-                    btn_giocatore.label = nome_giocatore
-                    
-                    # Aggiungiamo la classe CSS per colorarlo
-                    btn_giocatore.add_class(f"giocatore-{indice}")
-                except Exception:
-                    pass
+                # --- 1. CREAZIONE CACHE (Avviene solo al turno 1) ---
+                if self.__cache_nodi is None:
+                    try:
+                        griglia = schermo.query_one("#griglia-tavoliere")
+                        # Mettiamo in RAM tutti i 289 bottoni istantaneamente
+                        self.__cache_nodi = {n.id: n for n in griglia.children if n.id}
+                    except Exception:
+                        return # Se la griglia non ha finito di caricare, aspetta il prossimo giro
+                
+                nodi = self.__cache_nodi
 
-        # Eseguiamo in sicurezza
-        self.__app.call_from_thread(aggiorna_grafica)
+                # --- 2. PULIZIA DEL TABELLONE ---
+                for widget in nodi.values():
+                    widget.remove_class("muro-piazzato", "giocatore-1", "giocatore-2", "giocatore-3", "giocatore-4")
+                    # Se è una casella (ha l'ID corto tipo 'btn-e5') puliamo il testo
+                    if isinstance(widget, Button) and len(widget.id) <= 6 and not widget.id.endswith(('h','v')):
+                        widget.label = ""
+
+                # --- 3. DISEGNO DEI MURI ORIZZONTALI (SOTTO) ---
+                for riga in range(2, 10):
+                    for col in self.__COSTANTI.COLONNE:
+                        chiave = Nodo(f"{col}{riga}")
+                        if tavoliere.get_adiacente(chiave, self.__COSTANTI.ARCO_ADIACENTE_SOTTO) == self.__COSTANTI.NO_ARCO:
+                            id_muro = f"btn-{col}{riga}h"
+                            if id_muro in nodi: nodi[id_muro].add_class("muro-piazzato")
+
+                # --- 4. DISEGNO DEI MURI VERTICALI (DESTRA) ---
+                for riga in range(1, 10):
+                    for c_idx in range(8): # Fino alla 'h'
+                        col = self.__COSTANTI.COLONNE[c_idx]
+                        chiave = Nodo(f"{col}{riga}")
+                        if tavoliere.get_adiacente(chiave, self.__COSTANTI.ARCO_ADIACENTE_DESTRA) == self.__COSTANTI.NO_ARCO:
+                            id_muro = f"btn-{col}{riga}v"
+                            if id_muro in nodi: nodi[id_muro].add_class("muro-piazzato")
+
+                # --- 5. DISEGNO DELLE INTERSEZIONI ---
+                for riga in range(2, 10):
+                    for c_idx in range(8):
+                        c_sx = self.__COSTANTI.COLONNE[c_idx]
+                        c_dx = self.__COSTANTI.COLONNE[c_idx+1]
+                        
+                        h1 = tavoliere.get_adiacente(Nodo(f"{c_sx}{riga}"), self.__COSTANTI.ARCO_ADIACENTE_SOTTO) == self.__COSTANTI.NO_ARCO
+                        h2 = tavoliere.get_adiacente(Nodo(f"{c_dx}{riga}"), self.__COSTANTI.ARCO_ADIACENTE_SOTTO) == self.__COSTANTI.NO_ARCO
+                        v1 = tavoliere.get_adiacente(Nodo(f"{c_sx}{riga}"), self.__COSTANTI.ARCO_ADIACENTE_DESTRA) == self.__COSTANTI.NO_ARCO
+                        v2 = tavoliere.get_adiacente(Nodo(f"{c_sx}{riga-1}"), self.__COSTANTI.ARCO_ADIACENTE_DESTRA) == self.__COSTANTI.NO_ARCO
+                        
+                        # Se due muri si toccano, l'incrocio si colora
+                        if (h1 and h2) or (v1 and v2):
+                            id_int = f"int-{c_sx}{riga}"
+                            if id_int in nodi: nodi[id_int].add_class("muro-piazzato")
+
+                # --- 6. PIAZZAMENTO GIOCATORI ---
+                for indice, g in enumerate(giocatori, start=1):
+                    pos = g.get_posizione().get_valore_id_nodo()
+                    id_casella = f"btn-{pos}"
+                    if id_casella in nodi:
+                        nodi[id_casella].label = g.get_id()
+                        nodi[id_casella].add_class(f"giocatore-{indice}")
+
+            except Exception as e:
+                import traceback
+                self.__app.log(f"[ERRORE TAVOLIERE]:\n{traceback.format_exc()}")
+
+        # Invio al thread grafico
+        self.__app.call_from_thread(_aggiorna_grafica)

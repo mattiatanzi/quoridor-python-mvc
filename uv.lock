@@ -16,6 +16,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
+    { name = "textual" },
 ]
 
 [package.metadata]
@@ -29,6 +30,7 @@ dev = [
     { name = "pytest", specifier = ">=8.3.5" },
     { name = "pytest-cov", specifier = ">=6.0.0" },
     { name = "ruff", specifier = ">=0.11.0" },
+    { name = "textual", specifier = ">=8.2.7" },
 ]
 
 [[package]]

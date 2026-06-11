@@ -78,7 +78,6 @@ class QuoridorController:
                     parametri_ctrl = ParametriPartitaController(
                         new_view=ParametriPartitaViewTUI(app, coda)
                     )
-                    self.__menu.stampa_messaggio("NERO")
                 else:
                     parametri_ctrl = ParametriPartitaController()
                 parametri = parametri_ctrl.ottieni_parametri_utente()

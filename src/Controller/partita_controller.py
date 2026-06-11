@@ -246,6 +246,7 @@ class PartitaController:
         continuare_partita = True
         continuare_gioco = True
 
+        
         while continuare_partita and continuare_gioco:
             self.__view.stampa_partita(self.get_model())
             self.get_view().stampa_errore_partita(errore)

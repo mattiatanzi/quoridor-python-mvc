@@ -1,11 +1,12 @@
 import queue
 from textual.app import ComposeResult
 from textual.screen import Screen
-from textual.widgets import Header, Footer, Input, Label
+from textual.widgets import Header, Footer, Input, Label, Button
 from textual.containers import Horizontal, Vertical
 
+
 from src.View.TUI.Widget.giocatore_view_Widget import GiocatoreViewWidget
-from src.View.TUI.Widget.tavoliere_view_Widget import TavoliereViewWidget
+from src.View.TUI.Static.tavoliere_view_Static import TavoliereViewStatic
 
 
 class PartitaViewScreen(Screen):
@@ -51,31 +52,54 @@ class PartitaViewScreen(Screen):
         yield Header()
 
         with Horizontal(id="partita-container"):
-
-            # Pannello sinistro: giocatori + input
-            with Vertical(id="pannello-laterale"):
-                yield Label("— Giocatori —", id="label-titolo-giocatori")
-
-                # Monta un GiocatoreWidget per ogni giocatore
+            
+            # --- SINISTRA: Pannello Giocatori ---
+            with Vertical(id="pannello-giocatori"):
+                yield Label("— GIOCATORI —", id="label-titolo-giocatori")
+                
                 for id_g in self._ids_giocatori:
                     yield GiocatoreViewWidget(id_g)
 
                 yield Label("", id="label-errore-partita", classes="label-errore")
-                yield Label("Fai la tua mossa:", id="label-input-hint")
-                yield Input(placeholder="es. e5 oppure e5h", id="input-mossa")
+                yield Label("Oppure scrivi mossa:", id="label-input-hint")
+                # Lasciamo l'input testuale per sicurezza o per comodità
+                yield Input(placeholder="es. e5 / e5h", id="input-mossa")
 
-            # Centro: tavoliere
-            yield TavoliereViewWidget()
-
+            # --- DESTRA: Area di Gioco e Bottoni ---
+            with Vertical(id="area-gioco"):
+                # Il nuovo tavoliere super interattivo!
+                yield TavoliereViewStatic(self._coda_input)
+                
+                # I pulsanti in basso a destra
+                with Horizontal(id="azioni-partita"):
+                    yield Button("Mostra Aiuto", id="btn-aiuto", variant="primary")
+                    yield Button("Resa / Abbandona", id="btn-abbandona", variant="warning")
+                    yield Button("Esci dal Gioco", id="btn-esci-partita", variant="error")
+            yield Label("", id="pannello-aiuto")
         yield Footer()
 
-    def on_button_pressed(self, event):
-        """Click su una casella del tavoliere → manda la coordinata nella coda."""
-        btn_id = event.button.id  # es. "btn_e5"
-        if btn_id and btn_id.startswith("btn_"):
-            coordinata = btn_id.replace("btn_", "")  # es. "e5"
-            self._coda_input.put(coordinata)
-            event.stop()  # non propaga al livello superiore
+    def on_button_pressed(self, event: Button.Pressed):
+        """Gestisce tutti i tasti del menu inferiore della partita."""
+        id_premuto = event.button.id
+        
+        if id_premuto == "btn-abbandona":
+            self._coda_input.put("resa")
+            
+        elif id_premuto == "btn-esci-partita":
+            self._coda_input.put("0")
+            
+        elif id_premuto == "btn-aiuto":
+            # GESTIONE TOGGLE AIUTO
+            pannello = self.query_one("#pannello-aiuto", Label)
+            
+            if pannello.has_class("visibile"):
+                # Se è già aperto, nascondiamolo noi
+                pannello.remove_class("visibile")
+                event.button.label = "Mostra Aiuto"
+            else:
+                # Se è chiuso, inviamo 'h' al controller.
+                # Il controller valuterà 'h' e chiamerà 'stampa_aiuto' passandoci il testo corretto!
+                self._coda_input.put("help")
 
     def on_input_submitted(self, event):
         """Invio del campo testo → manda il comando nella coda e svuota il campo."""

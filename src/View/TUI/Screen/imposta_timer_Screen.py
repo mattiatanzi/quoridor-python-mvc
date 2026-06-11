@@ -15,12 +15,12 @@ class ImpostaTimerScreen(Screen):
         with Horizontal(classes="layout-menu-aiuto"):
             with Vertical(id="menu-timer-container"):
                 yield Label("Selezionare Un Limite di Tempo", id="titolo-timer")
-                yield Button("1 - 3 Minuti", id="btn-3min")
-                yield Button("2 - 5 Minuti", id="btn-5min")
+                yield Button("- Gioca a 3 Minuti", id="btn-3min")
+                yield Button("- Gioca a  5 Minuti", id="btn-5min")
                 yield Label("\nOppure inserisci tempo: HH:MM:SS")
                 yield Input(placeholder="HH:MM:SS", id="input-custom-timer")
-                yield Button("h - Aiuto", id="btn-aiuto") # <-- Bottone Aiuto
-                yield Button("0 - Torna Indietro", id="btn-indietro", variant="error")
+                yield Button("- Mostra aiuto", id="btn-aiuto") # <-- Bottone Aiuto
+                yield Button("- Torna Indietro", id="btn-indietro", variant="error")
             
             yield Label("", id="pannello-aiuto")
     def on_button_pressed(self, event: Button.Pressed):
@@ -33,7 +33,13 @@ class ImpostaTimerScreen(Screen):
             self.__coda_input.put("2")
             self.app.pop_screen()
         elif id_premuto == "btn-aiuto":
-            self.__coda_input.put("h")
+            pannello = self.query_one("#pannello-aiuto", Label)
+            if pannello.has_class("visibile"):
+                pannello.remove_class("visibile")
+                event.button.label = "- Mostra Aiuto"
+            else:
+                event.button.label =  "- Nascondi Aiuto"
+                self.__coda_input.put("help")
 
         elif id_premuto == "btn-indietro":
             self.__coda_input.put("0")

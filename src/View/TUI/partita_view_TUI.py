@@ -6,8 +6,7 @@ from src.Model.tempo import get_tempo_formattato
 from src.View.giocatore_view import GiocatoreViewAstratta
 from src.View.partita_view import PartitaViewAstratta
 from src.View.tavoliere_view import TavoliereviewAstratta
-from src.View.TUI.Screen.partita_view_Screen import PartitaViewScreen
-from textual.widgets import Label
+from textual.widgets import Label,Button
 
 
 class PartitaViewTUI(PartitaViewAstratta):
@@ -63,73 +62,56 @@ class PartitaViewTUI(PartitaViewAstratta):
         self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
 
     def stampa_errore_partita(self, messaggio):
-        def _aggiorna():
-            try:
-                self._app.screen.aggiorna_label_errore(str(messaggio))
-            except Exception:
-                pass
-        self._app.call_from_thread(_aggiorna)
+        # Se il controller passa una stringa vuota (nessun errore), non fare nulla
+        if not messaggio or str(messaggio).strip() == "":
+            return
 
+        def _aggiorna():
+            # Mostra una notifica rossa in basso a destra
+            self._app.notify(
+                str(messaggio), 
+                title="Mossa Non Valida", 
+                severity="error", 
+                timeout=4  # Scompare da sola dopo 4 secondi
+            )
+
+        self._app.call_from_thread(_aggiorna)
     def stampa_aiuto(self):
         messaggio = """
-        ╔══════════════════════════════════════════════════════════════╗
-        ║             QUORIDOR: GUIDA AI COMANDI PRINCIPALI            ║
-        ╠══════════════════════════════════════════════════════════════╣
-        ║  SEI IN DIFFICOLTÀ?                                          ║
-        ║   Ecco per te un elenco dei comandi principali:              ║
-        ║                                                              ║
-        ║  - MOSSA PEDONE:                                             ║
-        ║     Inserisci le coordinate della casella di destinazione    ║
-        ║     Formato: <colonna><riga>  (es. 'e2', 'e3')               ║
-        ║                                                              ║
-        ║  - PIAZZAMENTO MURO:                                         ║
-        ║     Inserisci coordinate e orientamento (h=orizz, v=vert).   ║
-        ║     Formato: <colonna><riga><h/v>  (es. 'e2h', 'a4v')        ║
-        ║                                                              ║
-        ║   [!] REGOLA DI PIAZZAMENTO:                                 ║
-        ║        La coordinata indica la casella di ancoraggio.        ║
-        ║        • Muro 'h': Si inserisce nel bordo in BASSO della     ║
-        ║          casella e si estende per 2 spazi verso DESTRA.      ║
-        ║        • Muro 'v': Si inserisce nel bordo a DESTRA della     ║
-        ║          casella e si estende per 2 spazi verso il BASSO.    ║
-        ║                                                              ║
-        ║   -   TRASCRIZIONE E REPLAY:                                 ║
-        ║     • 'trascrizione' o 'mosse': Mostra l'elenco delle mosse  ║
-        ║     • 'replay': Avvia il replay a fine partita               ║
-        ║                                                              ║
-        ║             [COMANDI DI NAVIGAZIONE REPLAY]                  ║
-        ║     • Avanti:   'avanti', 'next', 'n' o premi [INVIO]        ║
-        ║     • Indietro: 'indietro', 'prev', 'p', 'back'              ║
-        ║     • Inizio:   'inizio', 'start', 'first'                   ║
-        ║     • Fine:     'fine', 'end', 'last'                        ║
-        ║     • Esci:     'esci', 'exit', 'quit', 'stop'               ║
-        ║                                                              ║
-        ║                                                              ║
-        ║                                                              ║
-        ║  - AIUTO:                                                    ║
-        ║     Scrivi 'help' o 'aiuto' per rileggere questo             ║
-        ║      menu in ogni turno.                                     ║
-        ║                                                              ║
-        ║  - USCIRE DAL GIOCO:                                         ║
-        ║     Scrivi 'exit' o 'esci' per uscire dal gioco.             ║
-        ║                                                              ║
-        ║  -  ABBANDONARE LA PARTITA:                                  ║
-        ║     Scrivi 'quit' o 'abbandona' per uscire dalla partita.    ║
-        ║                                                              ║
-        ║  - TRASCRIZIONE DELLE MOSSE:                                 ║
-        ║    Scrivi 'trascrizione' o 'trascrizione mosse' o            ║
-        ║    'mosse' per visualizzare la trascrizione delle mosse      ║
-        ╚══════════════════════════════════════════════════════════════╝
+QUORIDOR: COMANDI PRINCIPALI
+        
+• Muovi pedone: 
+<colonna><riga> (es. 'e2')
+
+• Piazza muro:  
+<colonna><riga><h/v> (es. 'e2h')
+  (h = in basso a dx | v = a destra in basso)
+        
+• Mostra aiuto: 'help' o 'aiuto'
+• Elenco mosse: 'trascrizione' o 'mosse'
+• Abbandona:    'quit' o 'abbandona'
+• Esci:         'exit' o 'esci'
+        
         """
-        def aggiorna_aiuto():
+        def _aggiorna_aiuto():
             try:
-                # Cerca il pannello sullo schermo attuale
-                pannello = self.__app.screen.query_one("#pannello-aiuto", Label)
+                # 1. Cerca il pannello, inserisce la stringa del Controller e lo apre
+                pannello = self._app.screen.query_one("#pannello-aiuto", Label)
                 pannello.update(messaggio)
-                pannello.add_class("visibile") # Lo fa comparire
+                pannello.add_class("visibile")
+                
+                # 2. Sincronizza il testo del bottone
+                try:
+                    btn = self._app.screen.query_one("#btn-aiuto", Button)
+                    btn.label = "Nascondi Aiuto"
+                except Exception:
+                    pass
+                    
             except Exception:
-                self.__app.notify(messaggio) # Sicurezza se il widget non esiste
-        self.__app.call_from_thread(aggiorna_aiuto)
+                # Se la grafica dovesse avere problemi, usa le notifiche come fallback
+                self._app.notify(messaggio)
+                
+        self._app.call_from_thread(_aggiorna_aiuto)
 
     def stampa_vittoria(self, id_vincitore, motivo_vittoria: str):
         testo = f"🏆 {id_vincitore} HA VINTO — {motivo_vittoria}"
@@ -167,20 +149,25 @@ class PartitaViewTUI(PartitaViewAstratta):
 
     def avvia_interfaccia_partita(self, ids_giocatori: list[str]) -> None:
         """Chiede all'app Textual di mostrare la schermata di partita e attende che sia pronta."""
+        self._app.log("[RADAR-SCHERMO] A. Richiesto avvio schermo partita")
         evento = Event()
         
         def _cambia_schermo():
-            self._app.mostra_schermo_partita(ids_giocatori)
-            evento.set()
-
-        # Esegue il push_screen nel thread principale (sicuro per Textual)
+            self._app.log("[RADAR-SCHERMO] B. Chiamata mostra_schermo_partita in corso...")
+            try:
+                self._app.mostra_schermo_partita(ids_giocatori)
+                self._app.log("[RADAR-SCHERMO] C. Schermo caricato senza errori grafici!")
+            except Exception as e:
+                self._app.log(f"[ERRORE SCHERMO] {e}")
+            finally:
+                # FONDAMENTALE: Sblocca il controller a prescindere!
+                self._app.log("[RADAR-SCHERMO] D. Sblocco l'evento del controller")
+                evento.set() 
+                
         self._app.call_from_thread(_cambia_schermo)
-        
-        # Blocca il Controller finché Textual non ha completato l'operazione
+        self._app.log("[RADAR-SCHERMO] E. Il controller è in pausa e aspetta l'evento...")
         evento.wait()
-        
-        # Una piccola pausa (100 millisecondi) per dare tempo a Textual 
-        # di costruire materialmente i widget nel DOM prima della stampa successiva
+        self._app.log("[RADAR-SCHERMO] F. Evento sbloccato! Il controller riparte!")
         time.sleep(0.1)
 
     def torna_al_menu(self):
