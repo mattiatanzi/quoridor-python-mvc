@@ -73,6 +73,7 @@ class PartitaViewScreen(Screen):
                 # I pulsanti in basso a destra
                 with Horizontal(id="azioni-partita"):
                     yield Button("Mostra Aiuto", id="btn-aiuto", variant="primary")
+                    yield Button("Mostra Mosse", id="btn-trascrizione", variant="success")
                     yield Button("Resa / Abbandona", id="btn-abbandona", variant="warning")
                     yield Button("Esci dal Gioco", id="btn-esci-partita", variant="error")
             yield Label("", id="pannello-aiuto")
@@ -99,6 +100,8 @@ class PartitaViewScreen(Screen):
             else:
                 # SE NON E' VISIBILE: Chiediamo al controller di mandare il testo
                 self._coda_input.put("help")
+        elif id_premuto == "btn-trascrizione":
+            self._coda_input.put("trascrizione")
 
     def on_input_submitted(self, event):
         """Invio del campo testo → manda il comando nella coda e svuota il campo."""

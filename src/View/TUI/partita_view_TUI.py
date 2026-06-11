@@ -9,7 +9,8 @@ from src.View.tavoliere_view import TavoliereviewAstratta
 from textual.widgets import Label,Button
 from src.View.funzioni_utili_stampa import imposta_gestore_input 
 from src.View.TUI.Screen.conferma_Screen import ConfermaScreen
-from src.View.TUI.Screen.vittoria_Screen import VittoriaScreen
+from src.View.TUI.ModalScreen.vittoria_ModalScreen import VittoriaModalScreen
+from src.View.TUI.Screen.trascrizione_Screen import TrascrizioneScreen
 
 
 class PartitaViewTUI(PartitaViewAstratta):
@@ -119,19 +120,27 @@ QUORIDOR: COMANDI PRINCIPALI
 
     def stampa_vittoria(self, id_vincitore, motivo_vittoria: str):
         def _mostra_vittoria():
+            # PROTEZIONE: Se l'utente sta leggendo le mosse, ignora la stampa della vittoria
+            if isinstance(self._app.screen, TrascrizioneScreen):
+                return
+                
             # Mostra lo schermo SOLO se non ci siamo già sopra!
-            if not isinstance(self._app.screen, VittoriaScreen):
-                self._app.push_screen(VittoriaScreen(id_vincitore,motivo_vittoria,self._app))    
+            if not isinstance(self._app.screen, VittoriaModalScreen):
+                self._app.push_screen(VittoriaModalScreen(id_vincitore, motivo_vittoria, self._app))    
+                
         self._app.call_from_thread(_mostra_vittoria)
 
     def stampa_trascrizione(
         self, trascrizione: list[str], num_giocatori: int, replay: bool = False
     ):
-        # Nella TUI la trascrizione sarà nel pannello laterale della
-        # ReplayViewScreen; durante la partita usiamo una notifica
+        # Nel caso del replay lo gestiremo a parte, ma per la partita usiamo il Modal
         if not replay:
-            testo = "\n".join(reversed(trascrizione[-15:]))
-            self._app.call_from_thread(self._app.notify, testo, timeout=10)
+            def _mostra_trascrizione():
+                # Creiamo una stringa leggibile
+                testo = "\n".join(trascrizione) if trascrizione else "Nessuna mossa effettuata."
+                self._app.push_screen(TrascrizioneScreen(testo))
+                
+            self._app.call_from_thread(_mostra_trascrizione)
 
     def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
         # Il controller chiama questo metodo per leggere dalla coda,

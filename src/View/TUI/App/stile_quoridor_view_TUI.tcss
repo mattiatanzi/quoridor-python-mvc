@@ -323,3 +323,77 @@ ErroreFataleScreen {
     margin-bottom: 0;
 /* Rimuove il margine solo per il pulsante d'emergenza */
 }
+
+
+/* -------------------------------------------------------- */
+/* SCHERMATA TRASCRIZIONE E WIDGET                          */
+/* -------------------------------------------------------- */
+
+TrascrizioneScreen {
+    align: center middle;
+    background: rgba(0, 0, 0, 0.85); /* Oscura il gioco dietro */
+}
+
+#pannello-trascrizione {
+    width: 60;
+    height: 80%; /* Occupa l'80% dell'altezza dello schermo */
+    background: $panel;
+    border: heavy $success;
+    padding: 1 2;
+    align: center top;
+}
+
+#titolo-trascrizione {
+    text-style: bold;
+    color: $success;
+    margin-bottom: 1;
+    width: 100%;
+    text-align: center;
+}
+
+/* Stile per il Widget Riutilizzabile */
+TrascrizioneWidget {
+    width: 100%;
+    height: 1fr; /* Prende tutto lo spazio in altezza lasciato libero */
+    border: solid;
+    background: $surface;
+    margin-bottom: 1;
+}
+
+#trascrizione-scroll {
+    width: 100%;
+    height: 100%;
+}
+
+#trascrizione-testo {
+    width: 100%;
+    height: auto;
+    padding: 1;
+}
+
+/* -------------------------------------------------------- */
+/* SCHERMATA VITTORIA (Overlay e Nascondi Menu)             */
+/* -------------------------------------------------------- */
+
+VittoriaModalScreen {
+    align: center middle;
+    /* Oscura leggermente il tabellone dietro, ma lo lascia ben visibile */
+    background: rgba(0, 0, 0, 0.35);
+}
+
+/* Posiziona il bottoncino di ritorno in cima allo schermo */
+#btn-ripristina-vittoria {
+    position: absolute;
+    
+    
+    offset: 82% 1; 
+    
+    width: auto;      /* Si stringe attorno al testo */
+    min-width: 12;    /* Dimensione minima protetta */
+    text-style: bold;
+}
+
+/* La classe magica che fa sparire i componenti */
+.nascosto {
+    display: none !important;
+}
