@@ -265,7 +265,10 @@ class Giocatore:
         return self.__tempoResiduo
 
     def set_tempo_residuo(self, tempo: timedelta):
-        self.__tempoResiduo = tempo
+        if tempo >= timedelta(0):
+            self.__tempoResiduo = tempo
+        else:
+            raise TempoException("Impossibile settare tempi negativi")
 
     def is_attivo(self) -> bool:
         return self.__attivo
