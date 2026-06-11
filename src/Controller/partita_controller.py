@@ -195,27 +195,26 @@ class PartitaController:
             messaggio = f"Errore Numero Giocatori in Partita. {errPart}"
             self.get_view().stampa_errore_partita(messaggio)
 
-    def __trasforma_trascrizione(
-        self, trascrizione: list[str]
-    ) -> list[tuple[str, str]]:
-        mosse_flat: list[tuple[str, str]] = []
 
-        for turno in trascrizione:
-            # Rimuove il numero del turno (es. da "1. e2 e8" a "e2 e8")
-            giocatori = sorted([g.get_id() for g in self.__model.get_giocatori()])
-            parti = turno.split(". ", 1)
-            if len(parti) < 2:
-                continue
-            mosse_turno = parti[1].split()
+    def __ottieni_trascrizione_parziale(
+        self, trascrizione_completa: list[str], indice: int
+    ) -> list[str]:
+        if indice == 0:
+            return []
+        risultato = []
+        turni_completi = indice // 2
 
-            # Assegna ogni mossa al rispettivo giocatore in base all'ordine
-            for i, mossa in enumerate(mosse_turno):
-                if i < len(giocatori):
-                    id_giocatore = giocatori[i]
-                    mosse_flat.append((id_giocatore, mossa))
+        # Aggiunge tutti i turni completati
+        for i in range(turni_completi):
+            risultato.append(trascrizione_completa[i])
 
-        return mosse_flat
+        # Se il turno è a metà (ha mosso solo P1), spezza l'ultima stringa
+        if indice % 2 != 0:
+            parti = trascrizione_completa[turni_completi].split()
+            # Ricostruisce la riga con solo la mossa del giocatore 1 (es. "1. e2")
+            risultato.append(f"{parti[0]} {parti[1]}")
 
+        return risultato
     def gioca_partita(self) -> bool:
         errore = ""
         continuare_partita = True

@@ -9,6 +9,7 @@ from src.Model.tavoliere import Tavoliere
 from src.View.quoridor_view import QuoridorViewAstratta
 from src.View.partita_view import PartitaViewAstratta
 from src.View.TUI.parametri_partita_view_TUI import ParametriPartitaViewTUI
+from src.View.funzioni_utili_stampa import chiedi_input_utente
 
 
 
@@ -112,5 +113,7 @@ class QuoridorController:
             elif scelta in ("h", "help", "aiuto"):
                 testo_aiuto = "=== GUIDA COMANDI ===\n\n1 - Avvia una nuova partita\n0 - Esci dal gioco"
                 self.__menu.stampa_messaggio(testo_aiuto)
+                chiedi_input_utente("-------- Premi per andare avanti ---------")
+                
             else:
                 errore = "Errore nell'inserimento della scelta, riprova\n"

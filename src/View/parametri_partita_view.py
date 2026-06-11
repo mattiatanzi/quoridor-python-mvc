@@ -38,6 +38,9 @@ class ParametriPartitaView(ABC):
     def get_input_limite_tempo(self, err: str = "") -> str:
         pass
 
+    @abstractmethod
+    def get_input_numero_giocatori(self, err: str = "") -> str:
+        pass
 
     @abstractmethod
     def stampa_aiuto_modalita_partita(self):
@@ -45,4 +48,8 @@ class ParametriPartitaView(ABC):
 
     @abstractmethod
     def stampa_aiuto_limite_tempo(self):
+        pass
+
+    @abstractmethod
+    def stampa_aiuto_numero_giocatori(self):
         pass

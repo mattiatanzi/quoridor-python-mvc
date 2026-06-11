@@ -35,6 +35,8 @@ class ParametriPartitaViewTUI(ParametriPartitaView):
         self.__app.call_from_thread(mostra_schermo)
         return self.__coda_input.get()
 
+    def get_input_numero_giocatori(self, err = ""): # da implementare
+        pass
     # Nuova funzione privata per iniettare il testo
     def _mostra_aiuto_laterale(self, messaggio):
         def aggiorna_aiuto():
@@ -56,3 +58,6 @@ class ParametriPartitaViewTUI(ParametriPartitaView):
 
     def stampa_errore_parametri(self, errore):
         self._mostra_aiuto_laterale(errore)
+
+    def stampa_aiuto_numero_giocatori(self): #da implementare
+        pass

@@ -72,6 +72,23 @@ class ParametriPartitaViewCLI(ParametriPartitaView):
         messaggio = messaggio + err
 
         return chiedi_input_utente(messaggio)
+    
+    def get_input_numero_giocatori(self, err: str= ""):
+        pulisci_schermo()
+
+        menu = "Selezionare Numero di Giocatori:\n"
+
+        for (
+            chiave,
+            descrizione,
+        ) in CostantiQuoridorView.POSSIBILI_NUMERO_GIOCATORI.items():
+            menu = menu + f"\n{chiave}. {descrizione}\n"
+
+        menu = menu + "Digitare `help` o `aiuto` per una breve guida"
+
+        menu = menu + err
+
+        return chiedi_input_utente(menu)
 
     def stampa_aiuto_modalita_partita(self):
         pulisci_schermo()
@@ -94,7 +111,7 @@ class ParametriPartitaViewCLI(ParametriPartitaView):
         """
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
-        input("---- Premi INVIO per tornare alla partita... ----")
+
 
     def stampa_aiuto_limite_tempo(self):
         pulisci_schermo()
@@ -128,4 +145,27 @@ class ParametriPartitaViewCLI(ParametriPartitaView):
         """
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
-        input("---- Premi INVIO per tornare alla partita... ----")
+
+
+    def stampa_aiuto_numero_giocatori(self):
+        pulisci_schermo()
+
+        aiuto = f"""
+
+        -- AIUTO SCELTA NUMERO GIOCATORI --
+
+        In questo menu potrai selezionare quanti giocatori introdurre in
+        partita.
+
+        Per selezionare 2 Giocatori, digitare:
+            "{CostantiQuoridorView.SCELTA_2_GIOCATORI}"
+
+        Altrimenti, se si vuole giocare con 4 Giocatori, digitare:
+            "{CostantiQuoridorView.SCELTA_4_GIOCATORI}"
+
+        Per tornare indietro, digitare:
+            "{CostantiQuoridorView.SCELTA_TORNA_INDIETRO}"
+
+        """
+        # Questa notazione fa una stampa di color blu
+        print(f"\033[94m{aiuto}\033[0m")
