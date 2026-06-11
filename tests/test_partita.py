@@ -20,12 +20,11 @@ def partita_iniziale_due_giocatori():
     giocatori = {g1, g2}
     return Partita(tavoliere, giocatori)
 
+
 class TestPartitaTrascrizione:
     """Suite di test funzionali per la trascrizione delle mosse in Partita."""
 
-    def test_aggiungi_mossa_trascrizione_base(
-        self, partita_iniziale_due_giocatori
-    ):
+    def test_aggiungi_mossa_trascrizione_base(self, partita_iniziale_due_giocatori):
         r"""Verifica che una mossa venga aggiunta correttamente allo storico.
 
         Classi di equivalenza:
@@ -39,7 +38,7 @@ class TestPartitaTrascrizione:
         """
         # Assicuriamoci che tocchi al P1
         partita = partita_iniziale_due_giocatori
-        
+
         # CE1: Mossa P1
         partita.set_id_giocatore_attivo(CostantiPartita.ID_PRIMO_GIOCATORE_ATTIVO)
         partita.aggiungi_mossa_trascrizione("e2")
@@ -52,7 +51,7 @@ class TestPartitaTrascrizione:
         # CE2: Mossa P2
         partita.set_id_giocatore_attivo("P2")
         partita.aggiungi_mossa_trascrizione("e3h")
-        
+
         trascrizione_aggiornata = partita.get_trascrizione()
         assert len(trascrizione_aggiornata) == 1
         # La mossa del P2 si accoda sulla stessa riga, separata da "\t"
@@ -60,11 +59,11 @@ class TestPartitaTrascrizione:
 
     def test_aggiungi_mossa_salto_turno(self):
         """Verifica la trascrizione quando un giocatore eliminato salta il turno.
-        
+
         Classi di equivalenza:
             Input di aggiungi_mossa_trascrizione() in partita a 4 giocatori:
                 CE1: P2 salta il turno, muove direttamente P3
-                
+
         Oracolo:
             CE1 => Il sistema inserisce un segnaposto "---" nella colonna del
                    giocatore mancante.
@@ -79,7 +78,7 @@ class TestPartitaTrascrizione:
         # Mossa P1
         partita.set_id_giocatore_attivo("P1")
         partita.aggiungi_mossa_trascrizione("e2")
-        
+
         # P2 eliminato/salta, muove direttamente P3
         partita.set_id_giocatore_attivo("P3")
         partita.aggiungi_mossa_trascrizione("a6")
@@ -87,6 +86,7 @@ class TestPartitaTrascrizione:
         trascrizione = partita.get_trascrizione()
         # L'oracolo prevede che il buco lasciato da P2 venga riempito da "---"
         assert trascrizione[0] == "1.\te2\t---\ta6"
+
 
 class TestPartitaMeccanicheBase:
     """Suite di test funzionali per le meccaniche base di gioco della Partita."""
