@@ -18,7 +18,7 @@ Screen {
 
 /* Contenitori centrali dei bottoni */
 /* Contenitori centrali dei bottoni */
-#menu-container, #menu-modalita-container, #menu-timer-container, #menu-giocatori-container {
+#menu-container, #menu-modalita-container, #menu-timer-container, #menu-giocatori-container,#menu-vittoria-container {
     width: 1fr;
     height: 100%;
     align: center middle;

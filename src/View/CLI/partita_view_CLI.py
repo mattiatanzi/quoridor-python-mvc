@@ -233,7 +233,6 @@ class PartitaViewCLI(PartitaViewAstratta):
 
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
-        input("------ Premere invio per andare avanti -------")
 
     def stampa_vittoria(self, idVincitore, motivo_vittoria: str):
         # Stampa ==============================

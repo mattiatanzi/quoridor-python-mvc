@@ -9,6 +9,7 @@ from src.View.tavoliere_view import TavoliereviewAstratta
 from textual.widgets import Label,Button
 from src.View.funzioni_utili_stampa import imposta_gestore_input 
 from src.View.TUI.Screen.conferma_Screen import ConfermaScreen
+from src.View.TUI.Screen.vittoria_Screen import VittoriaScreen
 
 
 class PartitaViewTUI(PartitaViewAstratta):
@@ -117,10 +118,11 @@ QUORIDOR: COMANDI PRINCIPALI
         self._app.call_from_thread(_aggiorna_aiuto)
 
     def stampa_vittoria(self, id_vincitore, motivo_vittoria: str):
-        testo = f"🏆 {id_vincitore} HA VINTO — {motivo_vittoria}"
-        self._app.call_from_thread(
-            self._app.notify, testo, severity="information", timeout=10
-        )
+        def _mostra_vittoria():
+            # Mostra lo schermo SOLO se non ci siamo già sopra!
+            if not isinstance(self._app.screen, VittoriaScreen):
+                self._app.push_screen(VittoriaScreen(id_vincitore,motivo_vittoria,self._app))    
+        self._app.call_from_thread(_mostra_vittoria)
 
     def stampa_trascrizione(
         self, trascrizione: list[str], num_giocatori: int, replay: bool = False
