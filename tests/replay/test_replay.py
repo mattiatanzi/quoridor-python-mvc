@@ -1,12 +1,12 @@
-import pytest
 import copy
+
+import pytest
 
 from src.Controller.replay_controller import ReplayController
 from src.Model.giocatore import Giocatore
 from src.Model.nodo import Nodo
 from src.Model.partita import Partita
 from src.Model.tavoliere import Tavoliere
-from src.Model.replay_partita import ErroreReplay
 
 
 @pytest.fixture
