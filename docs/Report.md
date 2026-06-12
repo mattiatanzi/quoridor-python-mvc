@@ -346,6 +346,12 @@ Nonostante Scrum preveda cerimonie rigidamente strutturate in presenza, il team 
 - GitHub Project Board: Utilizzata come Kanban Board centrale per tradurre il Product Backlog in Sprint Backlog. Ogni funzionalità è stata modellata come Issue e fatta transitare attraverso gli stati operativi (To Do, In Progress, Review, Ready, Done).
 - Canali Istituzionali (Microsoft Teams): Utilizzato per i meeting ufficiali di avvio Sprint, per la condivisione di documenti formali e per le comunicazioni dirette con i docenti/tutor.
 - Messaggistica Istantanea (WhatsApp o Teams): Data la necessità di comunicazioni rapide e continue, il team ha istituito un gruppo di chat dedicato. Questo canale ha sostituito in parte la sala riunioni fisica, permettendo di segnalare blocchi improvvisi, organizzare sessioni di programmazione dell'ultimo minuto e richiedere revisioni del codice in tempo reale.
+### 7.2 Meeting di progetto
+Il team ha riadattato i quattro eventi canonici di Scrum alle proprie necessità pratiche:
+1. **Sprint Planning** (Meeting Pre-Sprint): Una riunione formale (svolta all'inizio di ogni iterazione) per analizzare le richieste, valutare la fattibilità tecnica, definire i Requisiti Non Funzionali e assegnare le singole Issue ai membri del gruppo.
+2. **Daily Scrum** (Sync Asincroni): Invece del canonico meeting giornaliero di 15 minuti, il team ha effettuato allineamenti quotidiani tramite il canale di messaggistica istantanea, aggiornando i compagni sullo stato dei lavori e sulle difficoltà riscontrate.
+3. **Sprint Review**: Svolta in prossimità della chiusura dello Sprint per unire i branch, verificare l'integrazione delle diverse funzionalità sulla piattaforma principale e testare il comportamento globale del gioco (es. esecuzione in container Docker).
+4. **Sprint Retrospective**: L'incontro più importante per la salute del gruppo, dedicato esclusivamente all'analisi del processo lavorativo e all'individuazione di azioni correttive per lo Sprint successivo.
 
 ## 8. Analisi retrospettiva
 
