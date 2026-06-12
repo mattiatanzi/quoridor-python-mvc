@@ -1,9 +1,10 @@
 import pytest
 
-from src.Model.giocatore import Giocatore, ErrorePosizione
+from src.Model.giocatore import ErrorePosizione, Giocatore
 from src.Model.nodo import Nodo
 from src.Model.partita import Partita
 from src.Model.tavoliere import Tavoliere
+
 
 @pytest.fixture
 def partita_standard():
@@ -15,7 +16,7 @@ def partita_standard():
     # P1 parte in basso al centro (e1), P2 in alto al centro (e9)
     g1 = Giocatore("P1", new_posizione=Nodo("e1"))
     g2 = Giocatore("P2", new_posizione=Nodo("e9"))
-    
+
     partita = Partita(tavoliere, {g1, g2})
     partita.set_id_giocatore_attivo("P1")
     return partita
@@ -31,7 +32,7 @@ class TestMovimentoPedone:
             CE1: Movimento base in una casella adiacente libera.
 
         Oracolo:
-            CE1 => La posizione del giocatore si aggiorna con successo, 
+            CE1 => La posizione del giocatore si aggiorna con successo,
                    il turno passa all'avversario.
         """
         partita = partita_standard
@@ -49,7 +50,7 @@ class TestMovimentoPedone:
 
         # Oracolo 3: La posizione si è aggiornata correttamente
         assert giocatore_p1.get_posizione().get_valore_id_nodo() == "e2"
-        
+
     def test_movimento_fuori_limiti(self, partita_standard):
         """Verifica che il pedone non possa uscire dalla scacchiera.
 
