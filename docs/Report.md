@@ -358,6 +358,15 @@ Per l'integrazione del codice, il team segue rigorosamente il GitHub Flow per ma
 - **Code Review Obbligatoria**: Le modifiche devono ricevere un'approvazione esplicita (Approve) da parte di un altro membro del team prima del merge. Nel nostro caso abbiamo alzato per gran parte del progetto questo numero a tre, che corrisponde a più della metà del team, in modo da garantire, con questa convenzione, una maggiore sicurezza di ciò che entrava nell'ambiente di rilascio.
 - **Strategia di Lavoro Mista**: Per task complessi e isolati (es. Motore di Replay, Logica del Tempo), il lavoro è stato assegnato a coppie o piccoli sottogruppi (Pair Programming). Per task trasversali (es. Documentazione, Testing, sviluppo dell'Interfaccia TUI), si è adottato l'approccio delle Issue Padre: tutti i membri vi partecipano contemporaneamente, curando ciascuno i test e la documentazione del proprio modulo di competenza.
 
+### 7.4 Analisi retrospettiva e miglioramento continuo
+La metodologia Agile adottata dal team trova il suo momento di massima espressione nell'analisi retrospettiva condotta al termine di ogni ciclo di sviluppo. Queste sessioni non si limitano a un bilancio passivo del lavoro completato, ma fungono da vero e proprio motore per l'evoluzione e il progressivo affinamento dell'intero processo ingegneristico.
+
+Durante le retrospettive, il gruppo si riunisce attorno a lavagne digitali per mappare in modo collaborativo l'andamento delle attività, identificando sistematicamente i punti di forza da consolidare e le inefficienze su cui intervenire. L'approccio empirico e adattivo del team ha permesso di convertire i punti di riflessione emersi in linee guida metodologiche stabili e ricorrenti:
+- *Evoluzione nell'approccio ai task generali*: L'analisi delle prime dinamiche di collaborazione ha evidenziato come i compiti trasversali e non legati a una specifica classe di codice (quali la stesura della documentazione tecnica o la configurazione delle suite di test) rischiassero una gestione frammentata o un carico sbilanciato. Per risolvere questa criticità, il team ha adottato la strategia delle Issue Padre. Questa astrazione consente di suddividere i macro-obiettivi in sotto-task modulari e paralleli, responsabilizzando ogni membro sulla propria componente e garantendo un'integrazione fluida del deliverable complessivo.
+- *Avanzamento progressivo dei controlli di qualità*: Per scongiurare il rischio di regressioni logiche o crash applicativi durante l'assemblaggio delle nuove funzionalità, il team ha progressivamente innalzato i criteri di accettazione per il codice da integrare nel ramo principale. Questo ha portato a un irrigidimento controllato della fase di Code Review sulle Pull Request e alla configurazione di vincoli statici stringenti, che agiscono come barriera di sicurezza prima di ogni fusione.
+
+Questo ciclo continuo di feedback e auto-correzione assicura che l'organizzazione del gruppo non rimanga statica, ma si adegui dinamicamente e in modo incrementale alla complessità del software da sviluppare.
+
 ## 8. Analisi retrospettiva
 
 ### 8.1 Sprint 0
