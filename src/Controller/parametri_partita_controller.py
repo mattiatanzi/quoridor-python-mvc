@@ -4,7 +4,7 @@ from src.Model.costanti_partita import CostantiPartita
 from src.Model.parametri_partita import ErroreParametriPartita, ParametriPartita
 from src.View.costanti_quoridor_view import CostantiQuoridorView
 from src.View.funzioni_utili_stampa import chiedi_input_utente
-from src.View.CLI.parametri_partita_view_CLI import ParametriPartitaViewCLI
+from src.View.parametri_partita_view import ParametriPartitaView
 
 
 class ParametriPartitaController:
@@ -72,26 +72,26 @@ class ParametriPartitaController:
 
     """
 
-    __view: ParametriPartitaViewCLI
+    __view: ParametriPartitaView
     __model: ParametriPartita
 
     # Costruttore
     def __init__(
         self,
         new_model: ParametriPartita = None,
-        new_view: ParametriPartitaViewCLI = None,
+        new_view: ParametriPartitaView = None,
     ):
-        self.set_view(new_view if new_view is not None else ParametriPartitaViewCLI())
+        self.__view = new_view
         try:
             self.set_model(new_model if new_model is not None else ParametriPartita())
         except ErroreParametriPartita as err:
             self.get_view().stampa_errore_parametri(err)
 
     # Accesso attributi Privati
-    def set_view(self, new_view: ParametriPartitaViewCLI):
+    def set_view(self, new_view: ParametriPartitaView):
         self.__view = new_view
 
-    def get_view(self) -> ParametriPartitaViewCLI:
+    def get_view(self) -> ParametriPartitaView:
         return self.__view
 
     def set_model(self, new_model: ParametriPartita):

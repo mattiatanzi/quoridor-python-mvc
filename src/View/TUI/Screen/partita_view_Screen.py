@@ -5,6 +5,7 @@ from textual.widgets import Header, Footer, Input, Label, Button
 from textual.containers import Horizontal, Vertical
 
 
+from src.View.costanti_quoridor_view import CostantiQuoridorView
 from src.View.TUI.Widget.giocatore_view_Widget import GiocatoreViewWidget
 from src.View.TUI.Static.tavoliere_view_Static import TavoliereViewStatic
 
@@ -72,10 +73,10 @@ class PartitaViewScreen(Screen):
                 
                 # I pulsanti in basso a destra
                 with Horizontal(id="azioni-partita"):
-                    yield Button("Mostra Aiuto", id="btn-aiuto", variant="primary" , classes= "btn-menu")
-                    yield Button("Mostra Mosse", id="btn-trascrizione", variant="success" , classes= "btn-menu")
-                    yield Button("Resa / Abbandona", id="btn-abbandona", variant="warning" , classes= "btn-menu")
-                    yield Button("Esci dal Gioco", id="btn-esci-partita", variant="error" , classes= "btn-menu")
+                    yield Button(f"{CostantiQuoridorView.MOSTRA_AIUTO}", id="btn-aiuto", variant="primary" , classes= "btn-menu")
+                    yield Button(f"{CostantiQuoridorView.MOSTRA_MOSSE}", id="btn-trascrizione", variant="success" , classes= "btn-menu")
+                    yield Button(f"{CostantiQuoridorView.ABBANDONA}", id="btn-abbandona", variant="warning" , classes= "btn-menu")
+                    yield Button(f"{CostantiQuoridorView.ESCI_GIOCO}", id="btn-esci-partita", variant="error" , classes= "btn-menu")
             yield Label("", id="pannello-aiuto")
         yield Footer()
 
@@ -96,7 +97,7 @@ class PartitaViewScreen(Screen):
             if pannello.has_class("visibile"):
                 # SE E' VISIBILE: Chiudiamo solo la grafica, zero interazioni col controller!
                 pannello.remove_class("visibile")
-                event.button.label = "Mostra Aiuto"
+                event.button.label = f"{CostantiQuoridorView.MOSTRA_AIUTO}"
             else:
                 # SE NON E' VISIBILE: Chiediamo al controller di mandare il testo
                 self._coda_input.put("help")

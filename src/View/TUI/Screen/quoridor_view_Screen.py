@@ -1,7 +1,8 @@
 from textual.app import ComposeResult
 from textual.widgets import Button, Label, Header, Footer
 from textual.screen import Screen
-from textual.containers import Vertical, Center,Horizontal
+from textual.containers import Vertical, Horizontal
+from src.View.costanti_quoridor_view import CostantiQuoridorView
 
 
 class QuoridorViewScreen(Screen):
@@ -27,8 +28,8 @@ class QuoridorViewScreen(Screen):
             with Vertical(id="menu-container"):
                 yield Label("Benvenuto in Quoridor", id="menu-titolo" , classes= "btn-menu")
                 yield Button("- Avvia una nuova partita", id="btn-avviaPart" , classes= "btn-menu")
-                yield Button("- Mostra aiuto", id="btn-avviaHelp" , classes= "btn-menu")
-                yield Button("- Esci dal gioco", id="btn-Esci", variant="error" , classes= "btn-menu")
+                yield Button(f"{CostantiQuoridorView.MOSTRA_AIUTO}", id="btn-avviaHelp" , classes= "btn-menu")
+                yield Button(f"{CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_TORNA_INDIETRO)}", id="btn-Esci", variant="error" , classes= "btn-menu")
             
             # Pannello laterale per l'aiuto
             yield Label("", id="pannello-aiuto")
@@ -44,11 +45,11 @@ class QuoridorViewScreen(Screen):
             if pannello.has_class("visibile"):
                 # Se è visibile, lo nascondiamo e cambiamo il bottone
                 pannello.remove_class("visibile")
-                event.button.label = "- Mostra Aiuto"
+                event.button.label = f"{CostantiQuoridorView.MOSTRA_AIUTO}"
                 return  # <-- IMPORTANTISSIMO: usciamo senza inviare nulla alla coda!
             else:
                 # Se è nascosto, cambiamo il bottone in Nascondi e inviamo "h" al controller
-                event.button.label = "- Nascondi Aiuto"
+                event.button.label = f"{CostantiQuoridorView.NASCONDI_AIUTO}"
                 comando = "h"
         elif id_premuto == "btn-Esci":
             comando = "0"

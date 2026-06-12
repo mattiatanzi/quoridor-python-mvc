@@ -1,9 +1,8 @@
-# proj-stonebraker/src/View/TUI/Screen/modalita_partita_Screen.py
-
 from textual.app import ComposeResult
 from textual.screen import Screen
 from textual.widgets import Button, Label
 from textual.containers import Vertical, Horizontal
+from src.View.costanti_quoridor_view import CostantiQuoridorView
 
 class ModalitaPartitaScreen(Screen):
     def __init__(self, coda_input, **kwargs):
@@ -14,10 +13,10 @@ class ModalitaPartitaScreen(Screen):
         with Horizontal(classes="layout-menu-aiuto"):
             with Vertical(id="menu-modalita-container"):
                 yield Label("Selezionare Una Modalità Di Gioco", id="titolo-modalita")
-                yield Button("- Partita con Timer", id="btn-timer" , classes= "btn-menu")
-                yield Button("- Partita senza Timer", id="btn-notimer" , classes= "btn-menu")
-                yield Button("- Mostra aiuto", id="btn-aiuto" , classes= "btn-menu") # <-- Bottone Aiuto
-                yield Button("- Torna Indietro", id="btn-indietro", variant="error" , classes= "btn-menu")
+                yield Button(f"{CostantiQuoridorView.POSSIBILI_SCELTE_MODALITA.get(CostantiQuoridorView.SCELTA_PARTITA_CON_TIMER)}", id="btn-timer" , classes= "btn-menu")
+                yield Button(f"{CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_PARTITA_SENZA_TIMER)}", id="btn-notimer" , classes= "btn-menu")
+                yield Button(f"{CostantiQuoridorView.MOSTRA_AIUTO}", id="btn-aiuto" , classes= "btn-menu") # <-- Bottone Aiuto
+                yield Button(f"{CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_TORNA_INDIETRO)}", id="btn-indietro", variant="error" , classes= "btn-menu")
             
             yield Label("", id="pannello-aiuto")
 
@@ -33,9 +32,9 @@ class ModalitaPartitaScreen(Screen):
             pannello = self.query_one("#pannello-aiuto", Label)
             if pannello.has_class("visibile"):
                 pannello.remove_class("visibile")
-                event.button.label = "- Mostra Aiuto"
+                event.button.label = f"{CostantiQuoridorView.MOSTRA_AIUTO}"
             else:
-                event.button.label = "- Nascondi Aiuto"
+                event.button.label = f"{CostantiQuoridorView.NASCONDI_AIUTO}"
                 self.__coda_input.put("help")
             # NESSUN pop_screen() qui!
         elif id_premuto == "btn-indietro":

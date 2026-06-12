@@ -9,6 +9,7 @@ from src.Model.tavoliere import Tavoliere
 from src.View.quoridor_view import QuoridorViewAstratta
 from src.View.partita_view import PartitaViewAstratta
 from src.View.TUI.parametri_partita_view_TUI import ParametriPartitaViewTUI
+from src.View.CLI.parametri_partita_view_CLI import ParametriPartitaViewCLI
 from src.View.funzioni_utili_stampa import chiedi_input_utente
 
 
@@ -80,7 +81,7 @@ class QuoridorController:
                         new_view=ParametriPartitaViewTUI(app, coda)
                     )
                 else:
-                    parametri_ctrl = ParametriPartitaController()
+                    parametri_ctrl = ParametriPartitaController(new_view=ParametriPartitaViewCLI())
                 parametri = parametri_ctrl.ottieni_parametri_utente()
 
                 if parametri.get_avvia_partita():

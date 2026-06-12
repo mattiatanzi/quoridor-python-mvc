@@ -3,7 +3,8 @@
 from textual.app import ComposeResult
 from textual.screen import Screen
 from textual.widgets import Button, Label, Input
-from textual.containers import Vertical, Center,Horizontal
+from textual.containers import Vertical,Horizontal
+from src.View.costanti_quoridor_view import CostantiQuoridorView
 
 
 class ImpostaTimerScreen(Screen):
@@ -11,16 +12,17 @@ class ImpostaTimerScreen(Screen):
         super().__init__(**kwargs)
         self.__coda_input = coda_input
 
+
     def compose(self) -> ComposeResult:
         with Horizontal(classes="layout-menu-aiuto"):
             with Vertical(id="menu-timer-container"):
                 yield Label("Selezionare Un Limite di Tempo", id="titolo-timer")
-                yield Button("- Gioca a 3 Minuti", id="btn-3min" , classes= "btn-menu")
-                yield Button("- Gioca a  5 Minuti", id="btn-5min" , classes= "btn-menu")
-                yield Label("\nOppure inserisci tempo: HH:MM:SS")
+                yield Button(f"- {CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_TIMER_DEFAULT_1)}", id="btn-3min" , classes= "btn-menu")
+                yield Button(f"- {CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_TIMER_DEFAULT_2)}", id="btn-5min" , classes= "btn-menu")
+                yield Label(f"{CostantiQuoridorView.MESSAGGIO_ALTERNATIVO_SCELTA_TIMER}")
                 yield Input(placeholder="HH:MM:SS", id="input-custom-timer")
-                yield Button("- Mostra aiuto", id="btn-aiuto" , classes= "btn-menu" ) # <-- Bottone Aiuto
-                yield Button("- Torna Indietro", id="btn-indietro", variant="error" , classes= "btn-menu")
+                yield Button(f"{CostantiQuoridorView.MOSTRA_AIUTO}", id="btn-aiuto" , classes= "btn-menu" ) # <-- Bottone Aiuto
+                yield Button(f"{CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_TORNA_INDIETRO)}", id="btn-indietro", variant="error" , classes= "btn-menu")
             
             yield Label("", id="pannello-aiuto")
     def on_button_pressed(self, event: Button.Pressed):
@@ -36,9 +38,9 @@ class ImpostaTimerScreen(Screen):
             pannello = self.query_one("#pannello-aiuto", Label)
             if pannello.has_class("visibile"):
                 pannello.remove_class("visibile")
-                event.button.label = "- Mostra Aiuto"
+                event.button.label = f"{CostantiQuoridorView.MOSTRA_AIUTO}"
             else:
-                event.button.label =  "- Nascondi Aiuto"
+                event.button.label =  f"{CostantiQuoridorView.NASCONDI_AIUTO}"
                 self.__coda_input.put("help")
 
         elif id_premuto == "btn-indietro":

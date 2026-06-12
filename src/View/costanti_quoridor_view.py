@@ -70,6 +70,16 @@ class CostantiQuoridorView:
 
     # Scelte di default nella stampa
     SCELTA_TORNA_INDIETRO = "0"
+    
+
+    # Costanti per pulsanti
+    MOSTRA_AIUTO = "- Mostra aiuto"
+    NASCONDI_AIUTO = "- Nascondi aiuto"
+    MOSTRA_MOSSE = "Mostra Mosse"
+    ABBANDONA = "Resa / Abbandona"
+    ESCI_GIOCO = "Esci dal Gioco"
+    SI_CONFERMA = "Sì, Conferma"
+    NO_ANNULLA = "No, Annulla"
 
     __TORNA_INDIETRO = {f"{SCELTA_TORNA_INDIETRO}": "Torna Indietro"}
 

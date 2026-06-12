@@ -168,6 +168,15 @@ QUORIDOR: COMANDI PRINCIPALI
     def get_input(self) -> str:
         return self.chiedi_input_utente()
 
+    def forza_input(self, testo: str):
+        """
+        Intercetta il comando di timeout dal Controller (es. 'resa_per_tempo')
+        e lo inietta direttamente nella coda della GUI per sbloccarla all'istante.
+        """
+        # IMPORTANTE: Sostituisci 'self._app.coda_input' con la variabile 
+        # esatta che utilizzi nel tuo get_input() per leggere la coda!
+        self._app.coda_input.put(testo)
+        
     def stampa_richiesta_input(self, indicazioni: str = ""):
         # Aggiorna il label hint sopra il campo input
         def _aggiorna():
@@ -245,3 +254,17 @@ QUORIDOR: COMANDI PRINCIPALI
     def aggiorna_orologio_live(self, id_giocatore: str, tempo_formattato: str):
         """Riceve il tick dal timer in background e lo passa alla UI dei giocatori."""
         self.get_giocatore_view().aggiorna_orologio_live(id_giocatore, tempo_formattato)
+
+    def mostra_messaggio_timeout(self, id_giocatore: str):
+        """Mostra una notifica visiva quando il tempo di un giocatore scade nella TUI."""
+        def _notifica_timeout():
+            self._app.notify(
+                f"Il giocatore {id_giocatore} ha esaurito il tempo a sua disposizione ed è eliminato!", 
+                title="⏳ TEMPO SCADUTO", 
+                severity="warning", # Genera una notifica arancione/gialla molto visibile
+                timeout=6  # Rimane a schermo per 6 secondi per dare tempo di leggere
+            )
+
+        # Trattandosi di un aggiornamento grafico lanciato dal timer (background), 
+        # DEVE passare per call_from_thread!
+        self._app.call_from_thread(_notifica_timeout)

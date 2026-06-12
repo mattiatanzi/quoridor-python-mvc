@@ -2,6 +2,7 @@ from textual.app import ComposeResult
 from textual.screen import ModalScreen
 from textual.widgets import Button, Label
 from textual.containers import Vertical, Horizontal
+from src.View.costanti_quoridor_view import CostantiQuoridorView
 
 class ConfermaScreen(ModalScreen):
     """Un popup oscurante che obbliga l'utente a scegliere SI o NO."""
@@ -18,8 +19,8 @@ class ConfermaScreen(ModalScreen):
             
             with Horizontal(id="azioni-partita"):
                 # Mettiamo i due bottoni
-                yield Button("NO, Annulla", id="btn-no", variant="primary" , classes= "btn-menu")
-                yield Button("SÌ, Conferma", id="btn-si", variant="error" , classes= "btn-menu")
+                yield Button(f"{CostantiQuoridorView.NO_ANNULLA}", id="btn-no", variant="primary" , classes= "btn-menu")
+                yield Button(f"{CostantiQuoridorView.SI_CONFERMA}", id="btn-si", variant="error" , classes= "btn-menu")
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         # Mette in coda la risposta finta come se l'utente l'avesse scritta da tastiera!
