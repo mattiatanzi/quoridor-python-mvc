@@ -64,3 +64,65 @@ class TestReplayInizializzazione:
         
         assert stato_finale.get_giocatore("P1").get_posizione().get_valore_id_nodo() == "e2"
         assert stato_finale.get_giocatore("P2").get_posizione().get_valore_id_nodo() == "e8"
+        
+class TestReplayNavigazione:
+    """Suite di test per la navigazione degli stati all'interno del Replay."""
+
+    def test_navigazione_base(self, dati_replay_standard):
+        """Verifica la corretta navigazione passo-passo (avanti e indietro).
+
+        Classi di equivalenza:
+            CE1: Comando avanza() in condizioni standard (ci sono mosse successive).
+            CE2: Comando torna_indietro() in condizioni standard (ci sono mosse precedenti).
+
+        Oracolo:
+            CE1 => avanza() restituisce True e l'indice corrente incrementa di 1.
+            CE2 => torna_indietro() restituisce True e l'indice corrente decrementa di 1.
+        """
+        snapshot, trascrizione = dati_replay_standard
+        replay_ctrl = ReplayController(trascrizione, snapshot)
+
+        # Assicuriamoci di essere all'inizio
+        assert replay_ctrl.get_indice_corrente() == 0
+
+        # CE1: Avanziamo di un passo
+        esito_avanza = replay_ctrl.avanza()
+        assert esito_avanza is True
+        assert replay_ctrl.get_indice_corrente() == 1
+
+        # CE2: Torniamo indietro di un passo
+        esito_indietro = replay_ctrl.torna_indietro()
+        assert esito_indietro is True
+        assert replay_ctrl.get_indice_corrente() == 0
+
+    def test_navigazione_limiti(self, dati_replay_standard):
+        """Verifica la tenuta della navigazione quando si raggiungono gli estremi.
+
+        Condizioni particolari:
+            CP1: Tentativo di avanza() quando si è già all'ultima mossa.
+            CP2: Tentativo di torna_indietro() quando si è allo Stato 0.
+
+        Oracolo:
+            CP1 => avanza() restituisce False, l'indice non supera il totale_mosse.
+            CP2 => torna_indietro() restituisce False, l'indice resta a 0.
+        """
+        snapshot, trascrizione = dati_replay_standard
+        replay_ctrl = ReplayController(trascrizione, snapshot)
+
+        totale_mosse = replay_ctrl.get_totale_mosse()
+
+        # CP1: Saltiamo alla fine e proviamo ad andare ancora avanti
+        replay_ctrl.vai_a_fine()
+        assert replay_ctrl.get_indice_corrente() == totale_mosse
+        
+        esito_avanza_fuori_limite = replay_ctrl.avanza()
+        assert esito_avanza_fuori_limite is False
+        assert replay_ctrl.get_indice_corrente() == totale_mosse  # L'indice non deve sforare
+
+        # CP2: Saltiamo all'inizio e proviamo ad andare ancora indietro
+        replay_ctrl.vai_a_inizio()
+        assert replay_ctrl.get_indice_corrente() == 0
+        
+        esito_indietro_fuori_limite = replay_ctrl.torna_indietro()
+        assert esito_indietro_fuori_limite is False
+        assert replay_ctrl.get_indice_corrente() == 0  # L'indice non deve scendere in negativo
