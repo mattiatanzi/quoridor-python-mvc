@@ -62,6 +62,7 @@ class GiocatoreViewCLI:
         if tempo_formattato is not None:
             print(f", Tempo Rimanente: {tempo_formattato}", end="")
         print("")
+
     # Stampe Errori
 
     def stampa_errore_giocatore(self, messaggio):

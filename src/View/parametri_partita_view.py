@@ -1,5 +1,6 @@
-from src.Model.parametri_partita import ErroreParametriPartita
 from abc import ABC, abstractmethod
+
+from src.Model.parametri_partita import ErroreParametriPartita
 
 
 class ParametriPartitaView(ABC):
@@ -16,11 +17,11 @@ class ParametriPartitaView(ABC):
 
         def get_input_modalita_partita(self, err: str = "") -> str:
             DESCRIZIONE
-                
+
 
         def get_input_limite_tempo(self, err: str = "") -> str:
             DESCRIZIONE
-               
+
 
 
     """

@@ -13,7 +13,7 @@ class TavoliereviewAstratta(ABC):
         Stampa il tavoliere di gioco con le informazioni dei giocatori e i muri
         posizionati in partita    @abstractmethod
     """
-    
+
     @abstractmethod
     def stampa_tavoliere(self, tavoliere: Tavoliere, giocatori: set[Giocatore]):
         pass

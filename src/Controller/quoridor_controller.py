@@ -6,12 +6,11 @@ from src.Model.giocatore import Giocatore
 from src.Model.nodo import Nodo
 from src.Model.partita import Partita
 from src.Model.tavoliere import Tavoliere
-from src.View.quoridor_view import QuoridorViewAstratta
-from src.View.partita_view import PartitaViewAstratta
-from src.View.TUI.parametri_partita_view_TUI import ParametriPartitaViewTUI
 from src.View.CLI.parametri_partita_view_CLI import ParametriPartitaViewCLI
 from src.View.funzioni_utili_stampa import chiedi_input_utente
-
+from src.View.partita_view import PartitaViewAstratta
+from src.View.quoridor_view import QuoridorViewAstratta
+from src.View.TUI.parametri_partita_view_TUI import ParametriPartitaViewTUI
 
 
 class QuoridorController:
@@ -57,11 +56,14 @@ class QuoridorController:
 
     __view: QuoridorViewAstratta
 
-    def __init__(self, quoridor_view: QuoridorViewAstratta, partita_view : PartitaViewAstratta):
+    def __init__(
+        self, quoridor_view: QuoridorViewAstratta, partita_view: PartitaViewAstratta
+    ):
         self.__menu = quoridor_view
         self.__partita_view = partita_view
 
         # aggiungere else per view in Gui
+
     def gioca(self):
         errore: str = ""
         continuare_gioco = True
@@ -81,7 +83,9 @@ class QuoridorController:
                         new_view=ParametriPartitaViewTUI(app, coda)
                     )
                 else:
-                    parametri_ctrl = ParametriPartitaController(new_view=ParametriPartitaViewCLI())
+                    parametri_ctrl = ParametriPartitaController(
+                        new_view=ParametriPartitaViewCLI()
+                    )
                 parametri = parametri_ctrl.ottieni_parametri_utente()
 
                 if parametri.get_avvia_partita():
@@ -97,13 +101,14 @@ class QuoridorController:
                                 CostantiPartita.COORDINATE_INIZIALI[id_assegnato]
                             ),
                             new_tempo_iniziale=parametri.get_limite_tempo(),
-                            new_muri_disponibili=CostantiPartita.MURI_DISPONIBILI.get(str(parametri.get_numero_giocatori()))
+                            new_muri_disponibili=CostantiPartita.MURI_DISPONIBILI.get(
+                                str(parametri.get_numero_giocatori())
+                            ),
                         )
                         giocatori.add(giocatore)
                     self.__partita_view.avvia_interfaccia_partita(ids_giocatori)
                     partita = PartitaController(
-                    Partita(tavoliere, giocatori),
-                    self.__partita_view
+                        Partita(tavoliere, giocatori), self.__partita_view
                     )
                     continuare_gioco = partita.gioca_partita()
                 if not continuare_gioco:
@@ -115,6 +120,6 @@ class QuoridorController:
                 testo_aiuto = "=== GUIDA COMANDI ===\n\n1 - Avvia una nuova partita\n0 - Esci dal gioco"
                 self.__menu.stampa_messaggio(testo_aiuto)
                 chiedi_input_utente("-------- Premi INVIO per andare avanti ---------")
-                
+
             else:
                 errore = "Errore nell'inserimento della scelta, riprova\n"

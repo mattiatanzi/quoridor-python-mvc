@@ -242,9 +242,8 @@ class ReplayController:
     def __notifica_cambio_stato(self):
         if self.__on_stato_cambiato is not None:
             self.__on_stato_cambiato(
-                self.get_stato_corrente(),
-                self.get_descrizione_corrente()
-                )
+                self.get_stato_corrente(), self.get_descrizione_corrente()
+            )
 
-    def get_indice_corrente(self) -> int :
+    def get_indice_corrente(self) -> int:
         return self.get_model().get_indice_corrente()

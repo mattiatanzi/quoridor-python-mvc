@@ -1,28 +1,31 @@
-import queue # Aggiunto perché così non andiamo a rompere l'input richiesto in fase 
+import queue  # Aggiunto perché così non andiamo a rompere l'input richiesto in fase
+
+from textual.widgets import Label
+
 # di gioco, infatti vengono salvati in una coda i comandi eseguiti
 from src.View.quoridor_view import QuoridorViewAstratta
 from src.View.TUI.App.App_textual import QuoridorViewApp
-from textual.widgets import Label
+
 
 class QuoridorViewTUI(QuoridorViewAstratta):
     """Classe TUI che gestisce l'interfaccia TUI.
-    
+
     def __init__(self):
         DESCRIZIONE
-        Crea una coda e crea un App per la gestione dell'interfaccia 
+        Crea una coda e crea un App per la gestione dell'interfaccia
         Textual
-    
+
     def menu_di_gioco(self):
         DESCRIZIONE
-        Non serve in quanto il menu è sempre visibile quindi non necessita 
+        Non serve in quanto il menu è sempre visibile quindi non necessita
         di ristampa
 
     def get_input_menu(self) -> str:
         DESCRIZIONE
-        Si mette in attesa sulla coda, così quando il controller richiamerà questa 
+        Si mette in attesa sulla coda, così quando il controller richiamerà questa
         funzione e si sta usando un interfaccia Textual il controller si blocca
         qui finché non viene premuto un pulsante
-    
+
     def stampa_messaggio(self, messaggio: str):
         DESCRIZIONE
         Fa comparire un pop-up su Textual. Si usa un metodo call_from_thred
@@ -32,39 +35,39 @@ class QuoridorViewTUI(QuoridorViewAstratta):
         DESCRIZIONE
         Fa partire il motore grafico
     """
-    
+
     def __init__(self):
         self.__coda_input = queue.Queue()
         self.__app = QuoridorViewApp(coda_input=self.__coda_input)
-    
+
     def menu_di_gioco(self):
-        pass 
+        pass
 
     def get_input_menu(self):
         return self.__coda_input.get()
-    
+
     def stampa_messaggio(self, messaggio):
         if messaggio.strip():
+
             def aggiorna_aiuto():
                 try:
                     # Cerca il pannello a destra e ci inietta il testo dell'aiuto
                     pannello = self.__app.screen.query_one("#pannello-aiuto", Label)
                     pannello.update(messaggio)
-                    pannello.add_class("visibile") # Lo fa apparire
+                    pannello.add_class("visibile")  # Lo fa apparire
                 except Exception:
-                    self.__app.notify(messaggio) # Fail-safe se il widget non si trova
-            
+                    self.__app.notify(messaggio)  # Fail-safe se il widget non si trova
+
             self.__app.call_from_thread(aggiorna_aiuto)
 
     def avvia_gui(self):
         self.__app.run()
 
     def get_app(self) -> QuoridorViewApp:
-        return self.__app    
+        return self.__app
 
     def get_coda_input(self):
         return self.__coda_input
 
-    
     def is_tui(self) -> bool:
         return True

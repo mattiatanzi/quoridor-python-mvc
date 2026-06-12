@@ -1,13 +1,13 @@
 import queue
-from textual.app import ComposeResult
-from textual.screen import Screen
-from textual.widgets import Header, Footer, Input, Label, Button
-from textual.containers import Horizontal, Vertical
 
+from textual.app import ComposeResult
+from textual.containers import Horizontal, Vertical
+from textual.screen import Screen
+from textual.widgets import Button, Footer, Header, Input, Label
 
 from src.View.costanti_quoridor_view import CostantiQuoridorView
-from src.View.TUI.Widget.giocatore_view_Widget import GiocatoreViewWidget
 from src.View.TUI.Static.tavoliere_view_Static import TavoliereViewStatic
+from src.View.TUI.Widget.giocatore_view_Widget import GiocatoreViewWidget
 
 
 class PartitaViewScreen(Screen):
@@ -16,7 +16,7 @@ class PartitaViewScreen(Screen):
     Compone in un layout orizzontale:
     - Pannello sinistro: info giocatori + campo input
     - Centro:           griglia tavoliere
-    
+
     La coda viene passata dal costruttore, coerentemente
     con il pattern già usato in QuoridorViewApp.
 
@@ -53,11 +53,10 @@ class PartitaViewScreen(Screen):
         yield Header()
 
         with Horizontal(id="partita-container"):
-            
             # --- SINISTRA: Pannello Giocatori ---
             with Vertical(id="pannello-giocatori"):
                 yield Label("— GIOCATORI —", id="label-titolo-giocatori")
-                
+
                 for id_g in self._ids_giocatori:
                     yield GiocatoreViewWidget(id_g)
 
@@ -70,30 +69,50 @@ class PartitaViewScreen(Screen):
             with Vertical(id="area-gioco"):
                 # Il nuovo tavoliere super interattivo!
                 yield TavoliereViewStatic(self._coda_input)
-                
+
                 # I pulsanti in basso a destra
                 with Horizontal(id="azioni-partita"):
-                    yield Button(f"{CostantiQuoridorView.MOSTRA_AIUTO}", id="btn-aiuto", variant="primary" , classes= "btn-menu")
-                    yield Button(f"{CostantiQuoridorView.MOSTRA_MOSSE}", id="btn-trascrizione", variant="success" , classes= "btn-menu")
-                    yield Button(f"{CostantiQuoridorView.ABBANDONA}", id="btn-abbandona", variant="warning" , classes= "btn-menu")
-                    yield Button(f"{CostantiQuoridorView.ESCI_GIOCO}", id="btn-esci-partita", variant="error" , classes= "btn-menu")
+                    yield Button(
+                        f"{CostantiQuoridorView.MOSTRA_AIUTO}",
+                        id="btn-aiuto",
+                        variant="primary",
+                        classes="btn-menu",
+                    )
+                    yield Button(
+                        f"{CostantiQuoridorView.MOSTRA_MOSSE}",
+                        id="btn-trascrizione",
+                        variant="success",
+                        classes="btn-menu",
+                    )
+                    yield Button(
+                        f"{CostantiQuoridorView.ABBANDONA}",
+                        id="btn-abbandona",
+                        variant="warning",
+                        classes="btn-menu",
+                    )
+                    yield Button(
+                        f"{CostantiQuoridorView.ESCI_GIOCO}",
+                        id="btn-esci-partita",
+                        variant="error",
+                        classes="btn-menu",
+                    )
             yield Label("", id="pannello-aiuto")
         yield Footer()
 
     def on_button_pressed(self, event: Button.Pressed):
         """Gestisce tutti i tasti del menu inferiore della partita."""
         id_premuto = event.button.id
-        
+
         if id_premuto == "btn-abbandona":
             self._coda_input.put("quit")
-            
+
         elif id_premuto == "btn-esci-partita":
             self._coda_input.put("exit")
-            
+
         elif id_premuto == "btn-aiuto":
             # GESTIONE TOGGLE AIUTO
             pannello = self.query_one("#pannello-aiuto", Label)
-            
+
             if pannello.has_class("visibile"):
                 # SE E' VISIBILE: Chiudiamo solo la grafica, zero interazioni col controller!
                 pannello.remove_class("visibile")

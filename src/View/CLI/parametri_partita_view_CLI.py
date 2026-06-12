@@ -72,8 +72,8 @@ class ParametriPartitaViewCLI(ParametriPartitaView):
         messaggio = messaggio + err
 
         return chiedi_input_utente(messaggio)
-    
-    def get_input_numero_giocatori(self, err: str= ""):
+
+    def get_input_numero_giocatori(self, err: str = ""):
         pulisci_schermo()
 
         menu = "Selezionare Numero di Giocatori:\n"
@@ -112,7 +112,6 @@ class ParametriPartitaViewCLI(ParametriPartitaView):
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
 
-
     def stampa_aiuto_limite_tempo(self):
         pulisci_schermo()
 
@@ -145,7 +144,6 @@ class ParametriPartitaViewCLI(ParametriPartitaView):
         """
         # Questa notazione fa una stampa di color blu
         print(f"\033[94m{aiuto}\033[0m")
-
 
     def stampa_aiuto_numero_giocatori(self):
         pulisci_schermo()

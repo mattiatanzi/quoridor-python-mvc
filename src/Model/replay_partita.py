@@ -167,7 +167,7 @@ class ReplayPartita:
         stati.append(copy.deepcopy(stato_corrente))
 
         for m in self.__mosse_pure:
-            # 1. Ciclo di sincronizzazione: troviamo il giocatore attivo 
+            # 1. Ciclo di sincronizzazione: troviamo il giocatore attivo
             # (saltando automaticamente chi è già stato eliminato)
             while True:
                 id_g = stato_corrente.get_id_giocatore_attivo()
@@ -187,12 +187,12 @@ class ReplayPartita:
                 stato_corrente.elimina_giocatore(id_g)
                 # Assicuriamoci che la pedina sparisca dal tabellone simulato
                 # per non bloccare il passaggio agli altri giocatori nel replay
-            elif len(m) == 3:  
+            elif len(m) == 3:
                 # È un Muro
                 stato_corrente.piazza_muro(m, g)
                 stato_corrente.rimuovi_un_muro_giocatore(id_g)
-                
-            else:  
+
+            else:
                 # È un Pedone
                 stato_corrente.muovi_giocatore(m, g)
 
@@ -201,12 +201,12 @@ class ReplayPartita:
             # altrimenti rischiamo di passare il turno a un giocatore morto.
             if not stato_corrente.verifica_vittoria():
                 stato_corrente.incrementa_turno()
-            
+
             # 5. Salviamo la fotografia esatta dopo questa mossa
             stati.append(copy.deepcopy(stato_corrente))
 
         return stati
-    
+
     def get_mossa_corrente(self) -> tuple[str, str] | None:
         if self.replay_inizio():
             return None

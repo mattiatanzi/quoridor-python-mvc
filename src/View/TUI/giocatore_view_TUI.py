@@ -1,4 +1,5 @@
 from textual.css.query import NoMatches
+
 from src.View.giocatore_view import GiocatoreViewAstratta
 from src.View.TUI.Widget.giocatore_view_Widget import GiocatoreViewWidget
 
@@ -48,6 +49,7 @@ class GiocatoreViewTUI(GiocatoreViewAstratta):
             except NoMatches:
                 # Nel Replay i pannelli non ci sono: ignoriamo l'errore in silenzio!
                 pass
+
         self._app.call_from_thread(_aggiorna)
 
     def stampa_info_giocatore(self, id, muri_disponibili, tempo_formattato=None):
@@ -58,6 +60,7 @@ class GiocatoreViewTUI(GiocatoreViewAstratta):
                     widget.aggiorna_info(muri_disponibili, tempo_formattato)
             except NoMatches:
                 pass
+
         self._app.call_from_thread(_aggiorna)
 
     def stampa_giocatore_eliminato(self, id, muri_disponibili, tempo_formattato=None):
@@ -68,6 +71,7 @@ class GiocatoreViewTUI(GiocatoreViewAstratta):
                     widget.aggiorna_eliminato(muri_disponibili, tempo_formattato)
             except NoMatches:
                 pass
+
         self._app.call_from_thread(_aggiorna)
 
     def stampa_id_giocatore(self, id_giocatore):
@@ -76,12 +80,12 @@ class GiocatoreViewTUI(GiocatoreViewAstratta):
     def stampa_errore_giocatore(self, messaggio):
         self._app.call_from_thread(self._app.notify, messaggio, severity="error")
 
-    
     def is_tui(self) -> bool:
         return True
-    
+
     def aggiorna_orologio_live(self, id_giocatore: str, tempo_formattato: str):
         """Trova il widget del giocatore e aggiorna il timer in tempo reale."""
+
         def _aggiorna():
             try:
                 widget = self._get_widget(id_giocatore)
@@ -90,6 +94,6 @@ class GiocatoreViewTUI(GiocatoreViewAstratta):
             except NoMatches:
                 # Se il pannello non c'è (es. siamo nel Replay), ignora in silenzio
                 pass
-                
+
         # FONDAMENTALE: eseguire l'aggiornamento grafico nel thread principale!
         self._app.call_from_thread(_aggiorna)

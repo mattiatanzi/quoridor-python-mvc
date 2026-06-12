@@ -1,4 +1,3 @@
-from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.costanti_partita import CostantiPartita
 from src.Model.giocatore import ErrorePosizione, Giocatore
 from src.Model.nodo import Nodo
@@ -248,7 +247,9 @@ class Partita:
             mosse_iniziali = ["---"] * indice_colonna_attiva
             mosse_iniziali.append(mossa)
             stringa_unita = "\t".join(mosse_iniziali)
-            self.__trascrizione.append(f"{len(self.__trascrizione) + 1}.\t{stringa_unita}")
+            self.__trascrizione.append(
+                f"{len(self.__trascrizione) + 1}.\t{stringa_unita}"
+            )
             return
 
         # Leggiamo lo stato dell'ultimo turno memorizzato
@@ -408,7 +409,10 @@ class Partita:
             # Evitiamo che ci si possa spostare su una casella occupata
             for avversario in self.get_giocatori():
                 # Esclusione del giocatore attivo dal controllo
-                if avversario.get_id() == giocatore_attivo.get_id() or not avversario.is_attivo():
+                if (
+                    avversario.get_id() == giocatore_attivo.get_id()
+                    or not avversario.is_attivo()
+                ):
                     continue
 
                 # Controllo sovrapposizione (il controllo avviene tra nodi)
@@ -437,15 +441,12 @@ class Partita:
 
                 dupla_traguardo = CostantiPartita.TRAGUARDI_FINALI.get(id_giocatore)
 
-                if (dupla_traguardo[0] == "riga"):
+                if dupla_traguardo[0] == "riga":
                     if pos_giocatore[1] == dupla_traguardo[1]:
                         return id_giocatore
                 else:
                     if pos_giocatore[0] == dupla_traguardo[1]:
                         return id_giocatore
-
-
-
 
         # Caso in cui sia rimasto un giocatore
         if len(giocatori_attivi) == 1:

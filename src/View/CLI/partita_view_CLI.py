@@ -1,15 +1,16 @@
-import threading
-import queue
 import sys
 
 from src.Model.partita import Partita
 from src.Model.tempo import get_tempo_formattato
-from src.View.funzioni_utili_stampa import chiedi_input_utente, pulisci_schermo
-from src.View.giocatore_view import GiocatoreViewAstratta
-from src.View.tavoliere_view import TavoliereviewAstratta
-from src.View.partita_view import PartitaViewAstratta
 from src.View.CLI.replay_view_CLI import ReplayViewCLI
-from src.View.funzioni_utili_stampa import inserisci_input_forzato
+from src.View.funzioni_utili_stampa import (
+    chiedi_input_utente,
+    inserisci_input_forzato,
+    pulisci_schermo,
+)
+from src.View.giocatore_view import GiocatoreViewAstratta
+from src.View.partita_view import PartitaViewAstratta
+from src.View.tavoliere_view import TavoliereviewAstratta
 
 
 class PartitaViewCLI(PartitaViewAstratta):
@@ -124,7 +125,6 @@ class PartitaViewCLI(PartitaViewAstratta):
     # Costanti
     __LUNGHEZZA_DIVISORI = 70
 
-
     # Metodi
 
     # Costruttore
@@ -136,7 +136,6 @@ class PartitaViewCLI(PartitaViewAstratta):
     ):
         self.__giocatoreView = new_giocatore_view
         self.__tavoliereView = new_tavoliere_view
-
 
     # Accesso Attributi Privati
 
@@ -305,9 +304,7 @@ class PartitaViewCLI(PartitaViewAstratta):
         # Questo metodo verrà chiamato dal Controller quando scade il timer
         inserisci_input_forzato(testo)
 
-    def stampa_trascrizione(
-        self, trascrizione: list[str], num_giocatori: int
-    ):
+    def stampa_trascrizione(self, trascrizione: list[str], num_giocatori: int):
         stampa = "   "
         for j in range(0, num_giocatori):
             stampa += "P" + str(j + 1) + "  "
@@ -317,36 +314,36 @@ class PartitaViewCLI(PartitaViewAstratta):
             stampa += trascrizione[i - 1] + "\n"
             i -= 1
         print(stampa)
-       
 
     def avvia_interfaccia_partita(self, ids_giocatori: list[str]) -> None:
-        pass   # nella CLI non serve cambiare schermo
+        pass  # nella CLI non serve cambiare schermo
 
     def torna_al_menu(self):
         pass
 
     def crea_replay_view(self):
-
         return ReplayViewCLI()
-    
+
     def aggiorna_orologio_live(self, id_giocatore, tempo_formattato):
-        RIGA_FISSA = 2     
+        RIGA_FISSA = 2
         COLONNA_FISSA = 70
-        
+
         # LA MAGIA ANSI ASSOLUTA:
         # \033[s              -> Salva la posizione attuale (in basso su "Input: ")
         # \033[{R};{C}H       -> Vola istantaneamente alla riga e colonna fisse
         # \033[K              -> Pulisce la riga da eventuali testi precedenti
         # \033[u              -> Torna istantaneamente in basso all'input
-        
+
         testo = f" ⏱️ {id_giocatore} il tempo scorre: {tempo_formattato}"
         comando = f"\033[s\033[{RIGA_FISSA};{COLONNA_FISSA}H\033[K{testo}\033[u"
-        
+
         sys.stdout.write(comando)
         sys.stdout.flush()
 
     def mostra_messaggio_timeout(self, id_giocatore: str):
         """Pulisce la riga sporcata dall'utente e annuncia l'eliminazione."""
         # \r\033[K = Torna all'inizio della riga in cui si stava scrivendo e cancellala
-        sys.stdout.write(f"\r\033[K⏳ TEMPO SCADUTO! Il giocatore {id_giocatore} è eliminato.\n")
+        sys.stdout.write(
+            f"\r\033[K⏳ TEMPO SCADUTO! Il giocatore {id_giocatore} è eliminato.\n"
+        )
         sys.stdout.flush()

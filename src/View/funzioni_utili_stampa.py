@@ -1,7 +1,7 @@
-import os
-import threading
-import queue
 import builtins
+import os
+import queue
+import threading
 
 _gestore_input_personalizzato = None
 
@@ -13,6 +13,7 @@ _thread_input_avviato = False
 # Salviamo la vera funzione input di Python in modo sicuro prima di modificarla
 _input_originale = builtins.input
 
+
 def _lettore_input_globale():
     """Thread demone che ascolta in background senza mai rubare o perdere tasti."""
     while True:
@@ -23,6 +24,7 @@ def _lettore_input_globale():
         except EOFError:
             break
 
+
 def _avvia_lettore_se_necessario():
     """Avvia il thread solo la prima volta che serve un input."""
     global _thread_input_avviato
@@ -31,9 +33,12 @@ def _avvia_lettore_se_necessario():
         t = threading.Thread(target=_lettore_input_globale, daemon=True)
         t.start()
 
+
 def inserisci_input_forzato(testo: str):
     """Permette al timer di inviare 'resa_per_tempo' aggirando la tastiera."""
     _coda_input_globale.put(testo)
+
+
 # -----------------------------------------------------------------
 
 
@@ -63,7 +68,7 @@ def chiedi_input_utente(indicazioniInput: str = "") -> str:
     # Assicura che il lettore in background sia attivo
     _avvia_lettore_se_necessario()
 
-    print(f"\n{indicazioniInput} ",end = "\n\n")
+    print(f"\n{indicazioniInput} ", end="\n\n")
     print("Input: ", end="", flush=True)
 
     # Si blocca in attesa che l'utente scriva o che scada il timer, in modo pulito!
@@ -71,6 +76,6 @@ def chiedi_input_utente(indicazioniInput: str = "") -> str:
 
 
 # MAGIA: Sostituiamo globalmente la funzione input() di Python!
-# In questo modo, anche se nei vecchi menu hai scritto un normale input("Scegli: "), 
+# In questo modo, anche se nei vecchi menu hai scritto un normale input("Scegli: "),
 # tutto il gioco passerà automaticamente per la nostra coda senza mai bloccarsi a vicenda.
 builtins.input = lambda prompt="": chiedi_input_utente(prompt)

@@ -1,13 +1,14 @@
 from textual.app import ComposeResult
-from textual.widgets import Button, Label, Header, Footer
+from textual.containers import Horizontal, Vertical
 from textual.screen import Screen
-from textual.containers import Vertical, Horizontal
+from textual.widgets import Button, Footer, Header, Label
+
 from src.View.costanti_quoridor_view import CostantiQuoridorView
 
 
 class QuoridorViewScreen(Screen):
     """Parte grafica che effettuata con Textual.
-    
+
     Contiene soltanto quello che viene mostrato a video
     def compose(self) -> ComposeResult
         DESCRIZIONE
@@ -22,15 +23,27 @@ class QuoridorViewScreen(Screen):
     def compose(self) -> ComposeResult:
         yield Header()
 
-
         # Sostituisci il blocco with Center(): con questo:
         with Horizontal(classes="layout-menu-aiuto"):
             with Vertical(id="menu-container"):
-                yield Label("Benvenuto in Quoridor", id="menu-titolo" , classes= "btn-menu")
-                yield Button("- Avvia una nuova partita", id="btn-avviaPart" , classes= "btn-menu")
-                yield Button(f"{CostantiQuoridorView.MOSTRA_AIUTO}", id="btn-avviaHelp" , classes= "btn-menu")
-                yield Button(f"{CostantiQuoridorView.ESCI_GIOCO}", id="btn-Esci", variant="error" , classes= "btn-menu")
-            
+                yield Label(
+                    "Benvenuto in Quoridor", id="menu-titolo", classes="btn-menu"
+                )
+                yield Button(
+                    "- Avvia una nuova partita", id="btn-avviaPart", classes="btn-menu"
+                )
+                yield Button(
+                    f"{CostantiQuoridorView.MOSTRA_AIUTO}",
+                    id="btn-avviaHelp",
+                    classes="btn-menu",
+                )
+                yield Button(
+                    f"{CostantiQuoridorView.ESCI_GIOCO}",
+                    id="btn-Esci",
+                    variant="error",
+                    classes="btn-menu",
+                )
+
             # Pannello laterale per l'aiuto
             yield Label("", id="pannello-aiuto")
         yield Footer()
@@ -54,12 +67,12 @@ class QuoridorViewScreen(Screen):
         elif id_premuto == "btn-Esci":
             comando = "0"
 
-            self.set_timer(1.5, self.app.exit) # Con questo comando indichiamo che 
+            self.set_timer(1.5, self.app.exit)  # Con questo comando indichiamo che
             # se premuto 0 aspetta 1,5 secondi poi chiude l'interfaccia grafica
             # altrimenti rimarrebbe attivo il thread dell'interfaccia grafica
         else:
             comando = ""
-        
-        self.app.invia_comando(comando) # Screen eredita app quindi di base app funziona
 
-    
+        self.app.invia_comando(
+            comando
+        )  # Screen eredita app quindi di base app funziona

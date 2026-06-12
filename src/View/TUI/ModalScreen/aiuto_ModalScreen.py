@@ -1,8 +1,10 @@
 from textual.app import ComposeResult
-from textual.screen import ModalScreen
-from textual.widgets import  Button
 from textual.containers import Vertical
+from textual.screen import ModalScreen
+from textual.widgets import Button
+
 from src.View.TUI.Widget.aiuto_Widget import AiutoWidget
+
 
 class AiutoScreen(ModalScreen):
     """Schermata modale per mostrare i comandi di aiuto e bloccare il gioco."""

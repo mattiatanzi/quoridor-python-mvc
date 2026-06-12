@@ -70,7 +70,6 @@ class CostantiQuoridorView:
 
     # Scelte di default nella stampa
     SCELTA_TORNA_INDIETRO = "0"
-    
 
     # Costanti per pulsanti
     MOSTRA_AIUTO = "- Mostra aiuto"
@@ -94,7 +93,6 @@ class CostantiQuoridorView:
         **__TORNA_INDIETRO,
     }
 
-
     # Costanti riguardanti i possibili valori di timer selezionabili
 
     MESSAGGIO_ALTERNATIVO_SCELTA_TIMER = (
@@ -109,7 +107,6 @@ class CostantiQuoridorView:
         SCELTA_TIMER_DEFAULT_2: "Tempo Medio (5 Minuti)",
         **__TORNA_INDIETRO,
     }
-
 
     # Costanti riguardanti possibili numeri di giocatori selezionabili
 
