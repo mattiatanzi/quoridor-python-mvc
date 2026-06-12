@@ -346,32 +346,43 @@ La seconda soluzione invece controlla ad ogni ciclo se il giocatore ha un timer,
       - **`ParametriPartitaController` (Controller):** Ha il solo compito di orchestrare la fase di setup pre-partita, facendo dialogare la View e il Model per ottenere un oggetto contenente i parametri definitivi.
       
       Isolando il dominio della "configurazione" da quello dell'"esecuzione della partita", abbiamo ottenuto un codice più coeso, facilmente testabile e manutenibile, dove eventuali future modifiche ai menu di avvio non andranno a intaccare in alcun modo le logiche centrali del gioco.
-## 6. Riepilogo dei test
-La presente sezione sintetizza la strategia di testing adottata per il progetto, illustrando i criteri logici con cui sono stati selezionati i casi di test, le componenti del sistema interessate e le motivazioni alla base di tali scelte. La suite di test garantisce la correttezza della logica di dominio e la stabilità del sistema di fronte a input anomali.
-### 6.1 Criteri di selezione dei casi di test
-Per la progettazione dei test è stato adottato un approccio funzionale di tipo Black-Box, mirato a validare il comportamento dei metodi pubblici delle classi rispetto ai requisiti di gioco, disaccoppiando il testing dalla specifica implementazione del codice.
-La selezione dei casi di test si è basata su due tecniche principali:
-1. Partizionamento in Classi di Equivalenza (CE): Il dominio degli input di ogni funzione è stato diviso in classi (valide e non valide). È stato selezionato un caso rappresentativo per ciascuna classe per evitare ridondanze, assicurando che il sistema si comporti in modo omogeneo per tutti i valori di una stessa partizione (es. movimenti ortogonali validi vs. tentativi di attraversamento dei muri).
-2. Analisi dei Valori Limite e Condizioni Particolari (CP): Sono stati testati i casi "edge" (limite) in cui è più probabile che si verifichino anomalie software. Tra questi rientrano l'esaurimento esatto del tempo del timer (tempo pari a zero), l'arretramento di un pedone sulla propria linea di partenza, o il tentativo di avanzamento del replay quando si è già all'ultimo snapshot disponibile.
-### 6.2 Localizzazione dei test e motivazioni (Cosa abbiamo testato e perché)
-I test si concentrano in modo mirato sul Model e su alcune logiche critiche del Controller. Si è ritenuto indispensabile testare in modo esaustivo le seguenti macro-aree, in quanto rappresentano il "motore" del gioco Quoridor; un eventuale difetto in queste sezioni comprometterebbe l'intera partita.
+      
+      ## 6. Riepilogo dei test
+      
+      La presente sezione sintetizza la strategia di testing adottata per il progetto, illustrando i criteri logici con cui sono stati selezionati i casi di test, le componenti del sistema interessate e le motivazioni alla base di tali scelte. La suite di test garantisce la correttezza della logica di dominio e la stabilità del sistema di fronte a input anomali.
+      
+      ### 6.1 Criteri di selezione dei casi di test
+      
+      Per la progettazione dei test è stato adottato un approccio funzionale di tipo Black-Box, mirato a validare il comportamento dei metodi pubblici delle classi rispetto ai requisiti di gioco, disaccoppiando il testing dalla specifica implementazione del codice.
+      La selezione dei casi di test si è basata su due tecniche principali:
+
+2. Partizionamento in Classi di Equivalenza (CE): Il dominio degli input di ogni funzione è stato diviso in classi (valide e non valide). È stato selezionato un caso rappresentativo per ciascuna classe per evitare ridondanze, assicurando che il sistema si comporti in modo omogeneo per tutti i valori di una stessa partizione (es. movimenti ortogonali validi vs. tentativi di attraversamento dei muri).
+
+3. Analisi dei Valori Limite e Condizioni Particolari (CP): Sono stati testati i casi "edge" (limite) in cui è più probabile che si verifichino anomalie software. Tra questi rientrano l'esaurimento esatto del tempo del timer (tempo pari a zero), l'arretramento di un pedone sulla propria linea di partenza, o il tentativo di avanzamento del replay quando si è già all'ultimo snapshot disponibile.
+   
+   ### 6.2 Localizzazione dei test e motivazioni (Cosa abbiamo testato e perché)
+   
+   I test si concentrano in modo mirato sul Model e su alcune logiche critiche del Controller. Si è ritenuto indispensabile testare in modo esaustivo le seguenti macro-aree, in quanto rappresentano il "motore" del gioco Quoridor; un eventuale difetto in queste sezioni comprometterebbe l'intera partita.
 - **Meccaniche fisiche e Regole di gioco** (`test_movimento_pedone.py`, `test_piazzamento_muri.py`, `test_vittoria_base.py`):  
-   - *Localizzazione*: Moduli Partita, Tavoliere.
-   - **Motivazione**: È la priorità assoluta. Si è deciso di testare rigorosamente il rispetto dei bordi, le collisioni con i muri (sovrapposizioni parziali o totali) e le regole di salto. La condizione di vittoria è stata testata per validare non solo il successo legittimo, ma per prevenire falsi positivi (es. vittoria assegnata erroneamente se si indietreggia).
+  
+  - *Localizzazione*: Moduli Partita, Tavoliere.
+  - **Motivazione**: È la priorità assoluta. Si è deciso di testare rigorosamente il rispetto dei bordi, le collisioni con i muri (sovrapposizioni parziali o totali) e le regole di salto. La condizione di vittoria è stata testata per validare non solo il successo legittimo, ma per prevenire falsi positivi (es. vittoria assegnata erroneamente se si indietreggia).
 
 - **Gestione del Turno e Stato Giocatori** (`test_partita_4_giocatori.py`, `test_timer.py`):
-
-   - *Localizzazione*: Moduli Partita, Giocatore, Timer.
-
-   - **Motivazione**: Scalare il gioco da 2 a 4 giocatori introduce un'alta complessità nello stato della partita. Si è ritenuto vitale testare l'aggiunta, la rimozione e soprattutto l'eliminazione dei giocatori. Testare il passaggio del turno garantisce che un giocatore sconfitto o senza tempo venga correttamente "saltato" dal motore di gioco senza mandare in crash la rotazione.
+  
+  - *Localizzazione*: Moduli Partita, Giocatore, Timer.
+  
+  - **Motivazione**: Scalare il gioco da 2 a 4 giocatori introduce un'alta complessità nello stato della partita. Si è ritenuto vitale testare l'aggiunta, la rimozione e soprattutto l'eliminazione dei giocatori. Testare il passaggio del turno garantisce che un giocatore sconfitto o senza tempo venga correttamente "saltato" dal motore di gioco senza mandare in crash la rotazione.
 
 - **Trascrizione e Replay** (`test_partita.py`, `test_replay.py`):
-
-   - *Localizzazione*: Modulo ReplayController e logiche di formattazione in Partita.
-
-   - **Motivazione**: Il sistema di storicizzazione (mossa in notazione algebrica) e di ricostruzione a posteriori degli stati (Replay) è fondamentale per l'integrità dei dati. Si è testato il comportamento del Replay sia in scenari standard (navigazione lineare), sia in scenari con "buchi" nella trascrizione (es. mosse segnalate con --- per giocatori ritirati).
-### 6.3 Numerica e Stato della Build
-La suite è composta da un totale di circa 30 casi di test unitari e di integrazione.
+  
+  - *Localizzazione*: Modulo ReplayController e logiche di formattazione in Partita.
+  
+  - **Motivazione**: Il sistema di storicizzazione (mossa in notazione algebrica) e di ricostruzione a posteriori degli stati (Replay) è fondamentale per l'integrità dei dati. Si è testato il comportamento del Replay sia in scenari standard (navigazione lineare), sia in scenari con "buchi" nella trascrizione (es. mosse segnalate con --- per giocatori ritirati).
+    
+    ### 6.3 Numerica e Stato della Build
+    
+    La suite è composta da un totale di circa 30 casi di test unitari e di integrazione.
 
 Tutti i test implementati coprono gli Oracoli definiti nelle specifiche del Model. L'esito dell'intera suite è del 100% positivo (0 failures, 0 errors). Il superamento totale della suite è stato impostato come vincolo bloccante (prerequisito) per la validazione della build; nessuna modifica al codice sorgente può essere considerata integrata con successo nel ramo principale se compromette l'esito di uno qualsiasi dei test sopra citati.
 
@@ -385,6 +396,44 @@ Sono state prese in considerazione le US1 e US4, e sono stati costruti due diagr
   - ![DiagrammaClassiUS1](./img/diagramma_classi_US1_Sprint2.png)
 - Diagramma US4
   - <img title="" src="./img/diagramma_classi_US4_Sprint2.png" alt="DiagrammaClassiUS4" width="631">
+
+### Diagrammi di Sequenza
+
+Le sequenze riportate includono due momenti cruciali del progetto: la logica di verifica del timer e la logica di selezione della modalità partita a 4 giocatori.
+
+#### Timer
+
+Nel primo flusso si analizza `gioca_partita()` in PartitaController, ipotizzando il caso in cui si stia giocando con Timer. Il flusso prevede:
+
+1. Selezione del giocatore attivo
+
+2. Verifica se il giocatore attivo possiede limite di tempo (in questo caso tenere conto del tempo in cui inizia il turno)
+
+3. Se il giocatore fa una mossa **valida**, allora verrà segnato il tempo finale e ridotto facendo tempo finale - iniziale (in versioni successive viene tenuto conto del tempo LIVE, ma la logica di funzionamento rimane la stessa)
+
+4. Se è stato sottratto del tempo al giocatore, viene verificato che quest'ultimo non abbia terminato tempo, in caso contrario viene eliminato
+
+5. Se un giocatore viene eliminato, viene controllato se in partita è rimasto un solo vincitore, ed in caso affermativo vengono svolte tutte le istruzioni per confermare la vittoria (stampa della vittoria, stampa del replay, ...)
+
+Qui viene illustrato il diagramma di sequenza, quando viene chiamato `gioca_partita()`
+
+- ![DiagrammaSequenzaTimer](./img/diagramma_sequenza_gioca_partita.png)
+
+#### 4 giocatori
+
+In questo caso invece si segue passo passo il flusso da seguire per poter creare una partita a 4 giocatori:
+
+- il controller principale del gioco, `QuoridorController`, chiama una funzione che interagisce con l'utente per settare i parametri della partita, ovvero `ottieni_parametri_utente()`.
+
+- Qui viene effettuato un ciclo che permette all'utente di interagire col sistema fin quando 1) termina la configurazione della partita 2) vuole uscire dal gioco
+
+- Segue la simulazione del primo caso, ovvero in cui l'utente ha terminato configurazione con successo e vuole giocare. A questo punto il controllo passerà nuovamente al `QuoridorController`, che leggendo dai dati di `ParametriPartita` creato grazie a `ParametriPartitaController`, istanzierà varie classi al fine di creare una partita adeguata. Nel diagramma viene evidenziato sopratutto il ciclo di istanziazione dei giocatori, che creerà un giocatore in base al valore di `ParametriPartita` selezionato in precedenza.
+
+- Infine verrà creata la partita e il rispettivo controller, e si potrà cominciare a giocare
+
+Sequenza di Selezione (Utente) della modalità a 4 giocatori
+
+- ![DiagrammaSequenza4Giocatori](./img/diagramma_sequenza_4_gioc.png)
 
 ## 7. Modalità di collaborazione del team
 
