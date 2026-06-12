@@ -35,8 +35,9 @@ class GiocatoreViewAstratta(ABC):
             tempo_formattato = None
         ):
             DESCRIZIONE
-            Mostra intormazioni generali riguardanti i giocatori.
-        ------ VISUALIZZZIONI ERRORI ------
+            Mostra informazioni generali riguardanti i giocatori.
+            
+        ------ VISUALIZZIONE ERRORI ------
 
         def stampa_errore_giocatore(self, messaggio):
             DESCRIZIONE

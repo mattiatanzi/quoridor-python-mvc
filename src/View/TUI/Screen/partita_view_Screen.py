@@ -28,19 +28,28 @@ class PartitaViewScreen(Screen):
             per montare il numero corretto di GiocatoreWidget
 
     METODI
-        compose()
-            Costruisce il layout della screen
+    
+        def __init__(self, coda_input: queue.Queue, ids_giocatori: list[str]):
+            DESCRIZIONE
+                Inizializza lo screen con la coda condivisa e la lista dei giocatori.
 
-        on_button_pressed(event)
-            Gestisce il click sulle caselle del tavoliere,
-            traducendolo in un comando nella coda
+        def compose()
+            DESCRIZIONE
+                Costruisce il layout della screen
 
-        on_input_submitted(event)
-            Gestisce l'invio del campo di testo,
-            mettendo il testo nella coda e svuotando il campo
+        def on_button_pressed(event)
+            DESCRIZIONE
+                Gestisce il click sulle caselle del tavoliere,
+                traducendolo in un comando nella coda
 
-        aggiorna_label_errore(messaggio)
-            Aggiorna il label errore nella screen
+        def on_input_submitted(event)
+            DESCRIZIONE
+                Gestisce l'invio del campo di testo,
+                mettendo il testo nella coda e svuotando il campo
+
+        def aggiorna_label_errore(messaggio)
+            DESCRIZIONE
+                Aggiorna il label errore nella screen
     """
 
     def __init__(self, coda_input: queue.Queue, ids_giocatori: list[str]):

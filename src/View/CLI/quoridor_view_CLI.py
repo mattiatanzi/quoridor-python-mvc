@@ -6,18 +6,48 @@ from src.View.quoridor_view import QuoridorViewAstratta
 class QuoridorViewCLI(QuoridorViewAstratta):
     """Stampa del menu di base.
 
-    Metodi
-    ------
-    nome: menu_base:
-        Permette di stampare la base del menu che è solo visiva
+    DESCRIZIONE
 
-    nome: menu_di_gioco:
-        Permette di stampare il menu di base e restituisce l'input che riceve
-        dall'utente
+        Gestisce la visualizzazione del menu principale nella versione CLI.
 
-    nome: stampa_messaggio:
-        Permette di stampare un messaggio nella fase di menu
-    """
+    METODI
+
+        def __menu_base(self):
+            DESCRIZIONE
+                Permette di stampare il menu principale.
+
+        def menu_di_gioco(self):
+            DESCRIZIONE
+                Permette di visualizzare il menu principale.
+
+        def get_input_menu(self) -> str:
+            DESCRIZIONE
+                Richiede all'utente una scelta dal menu principale.
+
+        def stampa_messaggio(self, messaggio: str):
+            DESCRIZIONE
+                Permette di stampare un messaggio nella fase di menu.
+
+        def get_input_modalita_partita(self) -> str:
+            DESCRIZIONE
+                Richiede all'utente la modalità di partita.
+
+        def get_input_limite_tempo(self) -> str:
+            DESCRIZIONE
+                Richiede all'utente il limite di tempo da utilizzare.
+
+        def is_tui(self) -> bool:
+            DESCRIZIONE
+                Indica se la view corrente è una TUI.
+
+        def get_app(self):
+            DESCRIZIONE
+                Restituisce l'applicazione associata alla view.
+
+        def get_coda_input(self):
+            DESCRIZIONE
+                Restituisce la coda degli input associata alla view.
+"""
 
     def __menu_base(self):
         pulisci_schermo()

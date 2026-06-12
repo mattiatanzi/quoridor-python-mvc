@@ -7,7 +7,34 @@ from src.Model.tavoliere import Tavoliere
 from src.View.tavoliere_view import TavoliereviewAstratta
 
 class TavoliereViewTUI(TavoliereviewAstratta):
-    """Adattatore che legge il Tavoliere di Python e colora la UI."""
+    """Adattatore TUI del tavoliere di gioco.
+
+    DESCRIZIONE
+        Traduce lo stato del Tavoliere (modello) in aggiornamenti
+        grafici della UI Textual, gestendo muri, intersezioni e
+        posizione dei giocatori.
+
+    ATTRIBUTI
+        __app : QuoridorViewApp
+            Riferimento all'app Textual condivisa
+
+        __cache_nodi : dict | None
+            Cache dei widget del tavoliere per ottimizzare gli aggiornamenti
+
+        _schermo_cache : Screen | None
+            Riferimento alla schermata corrente per invalidare la cache
+
+    METODI
+
+        def __init__(self, app_condivisa):
+            DESCRIZIONE
+                Inizializza la view TUI del tavoliere.
+
+        def stampa_tavoliere(self, tavoliere: Tavoliere, giocatori: set[Giocatore]):
+            DESCRIZIONE
+                Aggiorna la rappresentazione grafica del tavoliere
+                sincronizzandolo con lo stato del modello.
+    """
     
     __COSTANTI = Costanti()
 
@@ -26,7 +53,6 @@ class TavoliereViewTUI(TavoliereviewAstratta):
                 if self.__cache_nodi is None or self._schermo_cache != schermo:
                     try:
                         griglia = schermo.query_one("#griglia-tavoliere")
-                        # Mettiamo in RAM tutti i 289 bottoni istantaneamente
                         self.__cache_nodi = {n.id: n for n in griglia.children if n.id}
                         self._schermo_cache = schermo
                     except Exception:
@@ -78,11 +104,7 @@ class TavoliereViewTUI(TavoliereviewAstratta):
                 giocatori_ordinati = sorted(giocatori, key=lambda x: x.get_id())
 
                 for indice, g in enumerate(giocatori_ordinati, start=1):
-                    # ==========================================
-                    # LA PROTEZIONE SALVA-CRASH:
-                    # Se il giocatore è stato eliminato o si è arreso, 
-                    # non ha più una posizione sul tabellone. Lo saltiamo!
-                    # ==========================================
+
                     if not g.is_attivo() or g.get_posizione() is None:
                         continue
                     pos = g.get_posizione().get_valore_id_nodo()

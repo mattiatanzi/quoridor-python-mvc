@@ -4,7 +4,31 @@ from textual.widgets import Button, Label
 from textual.containers import Vertical
 from src.View.TUI.Screen.quoridor_view_Screen import QuoridorViewScreen
 
-class VittoriaModalScreen(ModalScreen): # <-- Eredita da ModalScreen
+class VittoriaModalScreen(ModalScreen):
+    """Schermata modale di vittoria.
+
+    DESCRIZIONE
+        Mostra la schermata di vittoria al termine della partita,
+        permettendo all'utente di visualizzare opzioni come replay,
+        trascrizione o ritorno al menu principale.
+
+    METODI
+
+        def __init__(self, id_giocatore, motivo: str, app, **kwargs):
+            DESCRIZIONE
+                Inizializza la schermata di vittoria con informazioni
+                sul giocatore vincitore e motivo della vittoria.
+
+        def compose(self) -> ComposeResult:
+            DESCRIZIONE
+                Crea e dispone gli elementi grafici della schermata modale.
+
+        def on_button_pressed(self, event: Button.Pressed):
+            DESCRIZIONE
+                Gestisce la pressione dei pulsanti e invia i comandi
+                appropriati al controller o modifica la UI.
+    """
+    
     def __init__(self, id_giocatore, motivo: str, app, **kwargs):
         super().__init__(**kwargs)
         self._id_giocatore = id_giocatore

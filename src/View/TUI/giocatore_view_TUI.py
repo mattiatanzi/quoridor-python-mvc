@@ -14,17 +14,42 @@ class GiocatoreViewTUI(GiocatoreViewAstratta):
             Riferimento all'app Textual condivisa
 
     METODI
-        stampa_giocatore_attivo(id, muri_disponibili, tempo_formattato)
-            Evidenzia il widget del giocatore di turno
+    
+        def _get_widget(self, id_giocatore: str) -> GiocatoreViewWidget | None:
+            DESCRIZIONE
+                Recupera il widget associato a un giocatore dalla screen corrente.
 
-        stampa_info_giocatore(id, muri_disponibili, tempo_formattato)
-            Aggiorna il widget del giocatore in attesa
+        def stampa_giocatore_attivo(id, muri_disponibili, tempo_formattato)
+            DESCRIZIONE
+                Evidenzia il widget del giocatore di turno
 
-        stampa_giocatore_eliminato(id, muri_disponibili, tempo_formattato)
-            Segna il widget del giocatore come eliminato
+        def stampa_info_giocatore(id, muri_disponibili, tempo_formattato)
+            DESCRIZIONE
+                Aggiorna il widget del giocatore in attesa
 
-        stampa_errore_giocatore(messaggio)
-            Mostra una notifica di errore tramite l'app
+        def stampa_giocatore_eliminato(id, muri_disponibili, tempo_formattato)
+            DESCRIZIONE
+                Segna il widget del giocatore come eliminato
+
+        def stampa_errore_giocatore(messaggio)
+            DESCRIZIONE
+                Mostra una notifica di errore tramite l'app
+                
+        def stampa_id_giocatore(self, id_giocatore):
+            DESCRIZIONE
+                Metodo non utilizzato nella TUI poiché l'id è gestito direttamente dal widget.
+
+        def stampa_errore_giocatore(self, messaggio):
+            DESCRIZIONE
+                Mostra un messaggio di errore tramite notifica dell'app.
+
+        def is_tui(self) -> bool:
+            DESCRIZIONE
+                Indica che questa implementazione utilizza interfaccia TUI.
+
+        def aggiorna_orologio_live(self, id_giocatore: str, tempo_formattato: str):
+            DESCRIZIONE
+                Aggiorna in tempo reale il timer del giocatore.
     """
 
     def __init__(self, app_condivisa):

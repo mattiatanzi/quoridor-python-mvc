@@ -17,7 +17,7 @@ class CostantiQuoridorView:
         sarà necessario organizzare l'interfaccia in modo tale che da essa sia
         possibile tornare al menu precedente
 
-    COSTANTI:
+    COSTANTI DI CLASSE
         - SCELTA_TORNA_INDIETRO
             DESCRIZIONE
                 Stringa che corrisponde alla scelta dell'utente per tornare indietro

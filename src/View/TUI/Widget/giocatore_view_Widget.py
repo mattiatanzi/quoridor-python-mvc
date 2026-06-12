@@ -5,7 +5,48 @@ from textual.containers import Vertical
 
 
 class GiocatoreViewWidget(Widget):
-    """Widget che mostra le informazioni di un singolo giocatore."""
+    """Widget che mostra le informazioni di un singolo giocatore.
+
+    DESCRIZIONE
+        Rappresenta un widget grafico che visualizza lo stato di un giocatore
+        all'interno della partita. Le informazioni vengono aggiornate in tempo reale
+        senza dover interrogare il DOM, grazie alla gestione in memoria dei label.
+
+    ATTRIBUTI
+        _id_giocatore : str
+            Identificativo del giocatore (es. P1, P2)
+
+        _lbl_stato : Label
+            Mostra lo stato corrente del giocatore (turno, attesa, eliminato)
+
+        _lbl_muri : Label
+            Mostra il numero di muri disponibili
+
+        _lbl_tempo : Label
+            Mostra il tempo rimanente (se presente)
+
+    METODI
+
+        def compose(self) -> ComposeResult:
+            DESCRIZIONE
+                Costruisce il layout del widget utilizzando elementi già istanziati
+
+        def aggiorna_attivo(self, muri_disponibili: int, tempo_formattato: str = None):
+            DESCRIZIONE
+                Imposta il giocatore come attivo (turno corrente)
+
+        def aggiorna_info(self, muri_disponibili: int, tempo_formattato: str = None):
+            DESCRIZIONE
+                Aggiorna le informazioni del giocatore in stato normale
+
+        def aggiorna_eliminato(self, muri_disponibili: int, tempo_formattato: str = None):
+            DESCRIZIONE
+                Imposta il giocatore come eliminato
+
+        def aggiorna_solo_tempo(self, tempo_formattato: str):
+            DESCRIZIONE
+                Aggiorna esclusivamente il timer del giocatore
+    """
 
     def __init__(self, id_giocatore: str):
         super().__init__(id=f"giocatore-widget-{id_giocatore}")

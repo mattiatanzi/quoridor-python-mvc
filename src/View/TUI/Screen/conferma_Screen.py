@@ -4,7 +4,28 @@ from textual.widgets import Button, Label
 from textual.containers import Vertical, Horizontal
 
 class ConfermaScreen(ModalScreen):
-    """Un popup oscurante che obbliga l'utente a scegliere SI o NO."""
+    """Popup di conferma per azioni critiche.
+
+    DESCRIZIONE
+        Mostra una finestra modale che richiede una conferma esplicita
+        da parte dell'utente tramite scelta SI/NO.
+
+    METODI
+
+        def __init__(self, messaggio: str, coda_input, **kwargs):
+            DESCRIZIONE
+                Inizializza la schermata di conferma e prepara il messaggio
+                da visualizzare all'utente.
+
+        def compose(self) -> ComposeResult:
+            DESCRIZIONE
+                Crea e visualizza l'interfaccia grafica del popup di conferma.
+
+        def on_button_pressed(self, event: Button.Pressed) -> None:
+            DESCRIZIONE
+                Gestisce la risposta dell'utente e inserisce il comando
+                nella coda input, chiudendo la schermata.
+    """
     
     def __init__(self, messaggio: str, coda_input, **kwargs):
         super().__init__(**kwargs)

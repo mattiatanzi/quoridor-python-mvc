@@ -12,9 +12,9 @@ class PartitaViewAstratta(ABC):
         Rappresenta la classe che gestisce operazioni di input / stampa per la
         Partita
 
-    MEDOTI
+    METODI
 
-            ------ ACCESSO ATTRIBUTI PRIVATI ------
+        ------ ACCESSO ATTRIBUTI PRIVATI ------
 
         def set_tavoliere_view(self, new_tavoliere_view: TavoliereViewAstratta):
             DESCRIZIONE
@@ -37,12 +37,12 @@ class PartitaViewAstratta(ABC):
 
         def stampa_partita(self, partita: Partita):
             DESCRIZIONE
-            Mostra la partita corrente, ossia tavoliere di gioco e info sui
+                Mostra la partita corrente, ossia tavoliere di gioco e info sui
             giocatori
 
         def stampa_aiuto(self)
             DESCRIZIONE
-            Mostra la guida riassuntiva dei comandi disponibili.
+                Mostra la guida riassuntiva dei comandi disponibili.
 
         def stampa_vittoria(self, idVincitore):
             DESCRIZIONE

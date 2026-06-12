@@ -6,7 +6,43 @@ from textual.message import Message
 from textual import events
 
 class MuroCliccato(Message):
-    """Messaggio personalizzato per notificare il clic su un muro."""
+    """Widget che disegna il tavoliere di gioco 9x9 con muri e interazioni.
+
+    DESCRIZIONE
+        Rappresenta il tavoliere interattivo della TUI.
+        Gestisce:
+        - rendering della griglia di gioco
+        - gestione click su caselle e muri
+        - gestione hover visivo dei muri
+        - comunicazione eventi tramite coda input
+
+    METODI
+
+        def __init__(self, coda_input, **kwargs):
+            DESCRIZIONE
+                Inizializza il widget del tavoliere e collega la coda input.
+
+        def compose(self) -> ComposeResult:
+            DESCRIZIONE
+                Costruisce la griglia del tavoliere con caselle, coordinate
+                e segmenti di muro orizzontali e verticali.
+
+        def on_button_pressed(self, event: Button.Pressed):
+            DESCRIZIONE
+                Cattura il click sulle caselle del tavoliere e converte
+                l'azione in un comando inviato al controller.
+
+        def on_muro_cliccato(self, event: MuroCliccato) -> None:
+            DESCRIZIONE
+                Gestisce il click sui segmenti di muro e invia il comando
+                associato al controller.
+
+        def on_mouse_move(self, event: events.MouseMove) -> None:
+            DESCRIZIONE
+                Gestisce l'effetto hover sui muri, evidenziando visivamente
+                la posizione del muro prima del piazzamento.
+    """
+    
     def __init__(self, ID_muro: str) -> None:
         super().__init__()
         self.ID_muro = ID_muro

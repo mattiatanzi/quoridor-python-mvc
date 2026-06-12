@@ -10,7 +10,7 @@ class ReplayViewCLI(ReplayViewAstratta):
     """Classe view del replay.
 
     Attributi:
-    -----------
+    
     stampa_tavoliere : TavoliereView
         Contiene tutte le stampe per il tavoliere
 
@@ -24,17 +24,27 @@ class ReplayViewCLI(ReplayViewAstratta):
 
 
     METODI:
-    __init__(self):
-        Inizializza gli attributi
+    def __init__(self)
+        DESCRIZIONE
+            Inizializza gli attributi
 
-    stampa_replay(self,stato_corrente: Partita,descrizione_mossa: str,
+    def stampa_replay(self,stato_corrente: Partita,descrizione_mossa: str,
         trascrizione_parziale: list[str],automatico: bool = False)
-        Stampa la partita con la sua trascrizione ogni volta che si sta guardando il
-        replay e si esegue una mossa. E' stato deciso per l'interfaccia CLI che 
-        per evitare che la stampa della trascrizione vada troppo sotto è stato
-        scelto di adottare un numero massimo di turni visibili durante
-        il replay che è: gli ultimi 15 turni presenti
+        DESCRIZIONE
+            Stampa la partita con la sua trascrizione ogni volta che si sta guardando il
+            replay e si esegue una mossa. E' stato deciso per l'interfaccia CLI che 
+            per evitare che la stampa della trascrizione vada troppo sotto è stato
+            scelto di adottare un numero massimo di turni visibili durante
+            il replay che è: gli ultimi 15 turni presenti
 
+    def __disegna_storico_mosse_laterale(
+        self,
+        trascrizione: list[str],
+        num_giocatori: int
+    ):
+        DESCRIZIONE
+            Mostra lateralmente lo storico delle mosse del replay,
+            visualizzando al massimo gli ultimi 15 turni.   
 
     """
 

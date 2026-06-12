@@ -5,32 +5,49 @@ from src.View.TUI.App.App_textual import QuoridorViewApp
 from textual.widgets import Label
 
 class QuoridorViewTUI(QuoridorViewAstratta):
-    """Classe TUI che gestisce l'interfaccia TUI.
-    
-    def __init__(self):
-        DESCRIZIONE
-        Crea una coda e crea un App per la gestione dell'interfaccia 
-        Textual
-    
-    def menu_di_gioco(self):
-        DESCRIZIONE
-        Non serve in quanto il menu è sempre visibile quindi non necessita 
-        di ristampa
+    """Classe TUI che gestisce l'interfaccia Textual.
 
-    def get_input_menu(self) -> str:
-        DESCRIZIONE
-        Si mette in attesa sulla coda, così quando il controller richiamerà questa 
-        funzione e si sta usando un interfaccia Textual il controller si blocca
-        qui finché non viene premuto un pulsante
-    
-    def stampa_messaggio(self, messaggio: str):
-        DESCRIZIONE
-        Fa comparire un pop-up su Textual. Si usa un metodo call_from_thred
-        perché l'interfaccia girerà su un thread diverso da quello principale
+    DESCRIZIONE
+        Gestisce l'intera interfaccia TUI del gioco Quoridor,
+        utilizzando una coda per comunicare con il controller
+        e una App Textual per la gestione degli schermi.
 
-    def avvia_gui(self):
-        DESCRIZIONE
-        Fa partire il motore grafico
+    METODI
+
+        def __init__(self):
+            DESCRIZIONE
+                Crea la coda degli input e inizializza la Textual App.
+
+        def menu_di_gioco(self):
+            DESCRIZIONE
+                Non utilizzato nella TUI perché il menu è sempre
+                gestito dagli Screen.
+
+        def get_input_menu(self) -> str:
+            DESCRIZIONE
+                Restituisce un input dalla coda, bloccando il controller
+                fino a interazione dell'utente.
+
+        def stampa_messaggio(self, messaggio: str):
+            DESCRIZIONE
+                Mostra un messaggio nella UI tramite pannello laterale
+                o notifica di fallback.
+
+        def avvia_gui(self):
+            DESCRIZIONE
+                Avvia il motore grafico Textual.
+
+        def get_app(self) -> QuoridorViewApp:
+            DESCRIZIONE
+                Restituisce l'istanza dell'app Textual.
+
+        def get_coda_input(self):
+            DESCRIZIONE
+                Restituisce la coda condivisa tra UI e controller.
+
+        def is_tui(self) -> bool:
+            DESCRIZIONE
+                Indica che questa implementazione è TUI.
     """
     
     def __init__(self):

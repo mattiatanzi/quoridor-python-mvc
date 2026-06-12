@@ -6,15 +6,12 @@ import builtins
 _gestore_input_personalizzato = None
 
 # --- SISTEMA UNIFICATO DI INPUT ASINCRONO (Fix Doppio Invio) ---
-# Creiamo un'unica coda globale per l'intera applicazione.
 _coda_input_globale = queue.Queue()
 _thread_input_avviato = False
 
-# Salviamo la vera funzione input di Python in modo sicuro prima di modificarla
 _input_originale = builtins.input
 
 def _lettore_input_globale():
-    """Thread demone che ascolta in background senza mai rubare o perdere tasti."""
     while True:
         try:
             # Usa il vero input per prendere i dati dalla tastiera
@@ -55,8 +52,8 @@ def imposta_gestore_input(funzione_gestore):
 
 
 def chiedi_input_utente(indicazioniInput: str = "") -> str:
-    """Sostituisce completamente l'input standard, bloccandosi sulla coda."""
-    # Se c'è la TUI (Textual), usa quella
+    """Restituisce input utente dalla coda globale (asincrono)."""
+    
     if _gestore_input_personalizzato is not None:
         return _gestore_input_personalizzato(indicazioniInput)
 
@@ -69,8 +66,4 @@ def chiedi_input_utente(indicazioniInput: str = "") -> str:
     # Si blocca in attesa che l'utente scriva o che scada il timer, in modo pulito!
     return _coda_input_globale.get()
 
-
-# MAGIA: Sostituiamo globalmente la funzione input() di Python!
-# In questo modo, anche se nei vecchi menu hai scritto un normale input("Scegli: "), 
-# tutto il gioco passerà automaticamente per la nostra coda senza mai bloccarsi a vicenda.
 builtins.input = lambda prompt="": chiedi_input_utente(prompt)

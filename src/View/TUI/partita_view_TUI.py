@@ -22,8 +22,52 @@ class PartitaViewTUI(PartitaViewAstratta):
     già montati nella PartitaViewScreen tramite call_from_thread.
 
     ATTRIBUTI
+    
         _app : QuoridorViewApp
             Riferimento all'app Textual condivisa
+            
+    METODI
+    
+        def stampa_partita(self, partita: Partita):
+            DESCRIZIONE
+                Aggiorna lo stato completo della partita aggiornando
+                giocatori e tavoliere.
+
+        def stampa_errore_partita(self, messaggio):
+            DESCRIZIONE
+                Mostra una notifica di errore relativa alla partita.
+
+        def stampa_aiuto(self):
+            DESCRIZIONE
+                Visualizza la guida dei comandi della partita.
+
+        def stampa_vittoria(self, id_vincitore, motivo_vittoria: str):
+            DESCRIZIONE
+                Mostra la schermata di vittoria.
+
+        def stampa_trascrizione(self, trascrizione: list[str], num_giocatori: int, replay: bool = False):
+            DESCRIZIONE
+                Mostra la trascrizione della partita.
+
+        def avvia_interfaccia_partita(self, ids_giocatori: list[str]) -> None:
+            DESCRIZIONE
+                Avvia la schermata principale della partita.
+
+        def torna_al_menu(self):
+            DESCRIZIONE
+                Ritorna al menu principale.
+
+        def _gestore_input_tui(self, messaggio: str) -> str:
+            DESCRIZIONE
+                Gestisce input e conferme nella TUI.
+
+        def crea_replay_view(self):
+            DESCRIZIONE
+                Crea e restituisce la view del replay.
+
+        def aggiorna_orologio_live(self, id_giocatore: str, tempo_formattato: str):
+            DESCRIZIONE
+                Aggiorna il timer del giocatore in tempo reale.
     """
 
     def __init__(
