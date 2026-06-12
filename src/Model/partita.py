@@ -408,7 +408,7 @@ class Partita:
             # Evitiamo che ci si possa spostare su una casella occupata
             for avversario in self.get_giocatori():
                 # Esclusione del giocatore attivo dal controllo
-                if avversario.get_id() == giocatore_attivo.get_id():
+                if avversario.get_id() == giocatore_attivo.get_id() or not avversario.is_attivo():
                     continue
 
                 # Controllo sovrapposizione (il controllo avviene tra nodi)

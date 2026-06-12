@@ -241,3 +241,7 @@ QUORIDOR: COMANDI PRINCIPALI
 
     def crea_replay_view(self):
         return ReplayViewTUI(self._app)
+    
+    def aggiorna_orologio_live(self, id_giocatore: str, tempo_formattato: str):
+        """Riceve il tick dal timer in background e lo passa alla UI dei giocatori."""
+        self.get_giocatore_view().aggiorna_orologio_live(id_giocatore, tempo_formattato)

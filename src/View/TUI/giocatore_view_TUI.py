@@ -79,3 +79,17 @@ class GiocatoreViewTUI(GiocatoreViewAstratta):
     
     def is_tui(self) -> bool:
         return True
+    
+    def aggiorna_orologio_live(self, id_giocatore: str, tempo_formattato: str):
+        """Trova il widget del giocatore e aggiorna il timer in tempo reale."""
+        def _aggiorna():
+            try:
+                widget = self._get_widget(id_giocatore)
+                if widget:
+                    widget.aggiorna_solo_tempo(tempo_formattato)
+            except NoMatches:
+                # Se il pannello non c'è (es. siamo nel Replay), ignora in silenzio
+                pass
+                
+        # FONDAMENTALE: eseguire l'aggiornamento grafico nel thread principale!
+        self._app.call_from_thread(_aggiorna)

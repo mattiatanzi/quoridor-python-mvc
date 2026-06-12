@@ -59,3 +59,7 @@ class GiocatoreViewWidget(Widget):
         self._lbl_tempo.update("")
         self.add_class("giocatore-eliminato")
         self.remove_class("giocatore-attivo")
+
+    def aggiorna_solo_tempo(self, tempo_formattato: str):
+        """Aggiorna ESCLUSIVAMENTE l'etichetta del tempo in tempo reale."""
+        self._lbl_tempo.update(f"⏱ {tempo_formattato}")
