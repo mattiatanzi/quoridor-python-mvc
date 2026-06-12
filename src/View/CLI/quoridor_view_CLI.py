@@ -54,7 +54,7 @@ class QuoridorViewCLI(QuoridorViewAstratta):
         print("Benvenuto in Quoridor \n")
         print("1 - Avvia una nuova partita \n")
         print("0 - Esci dal gioco \n")
-        
+
         print("h - Aiuto (Comandi di gioco) \n")
 
     def menu_di_gioco(self):
@@ -65,7 +65,7 @@ class QuoridorViewCLI(QuoridorViewAstratta):
 
     def stampa_messaggio(self, messaggio: str):
         print(messaggio)
-    
+
     def get_input_modalita_partita(self) -> str:
         pulisci_schermo()
 
@@ -76,7 +76,7 @@ class QuoridorViewCLI(QuoridorViewAstratta):
             descrizione,
         ) in CostantiQuoridorView.POSSIBILI_SCELTE_MODALITA.items():
             messaggio = messaggio + f"\n{chiave}. {descrizione}\n"
-        
+
     def get_input_limite_tempo(self) -> str:
         pulisci_schermo()
 
@@ -88,11 +88,10 @@ class QuoridorViewCLI(QuoridorViewAstratta):
         messaggio = messaggio + CostantiQuoridorView.MESSAGGIO_ALTERNATIVO_SCELTA_TIMER
 
         return chiedi_input_utente(messaggio)
-    
-    
+
     def is_tui(self) -> bool:
         return False
-    
+
     def get_app(self):
         pass
 

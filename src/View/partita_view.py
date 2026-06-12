@@ -66,18 +66,23 @@ class PartitaViewAstratta(ABC):
                 in input.
 
     """
-    
+
     def __init__(
         self,
         new_giocatore_view: GiocatoreViewAstratta = None,
         new_tavoliere_view: TavoliereviewAstratta = None,
-        ):
+    ):
         self.set_giocatore_view(
-            new_giocatore_view if new_giocatore_view is not None else GiocatoreViewAstratta()
+            new_giocatore_view
+            if new_giocatore_view is not None
+            else GiocatoreViewAstratta()
         )
         self.set_tavoliere_view(
-            new_tavoliere_view if new_tavoliere_view is not None else TavoliereviewAstratta()
+            new_tavoliere_view
+            if new_tavoliere_view is not None
+            else TavoliereviewAstratta()
         )
+
     # Accesso Attributi Privati
 
     def set_tavoliere_view(self, new_tavoliere_view: TavoliereviewAstratta):
@@ -105,7 +110,7 @@ class PartitaViewAstratta(ABC):
     @abstractmethod
     def stampa_vittoria(self, idVincitore):
         pass
-    
+
     # Stampe Errori
     @abstractmethod
     def stampa_errore_partita(self, messaggio):

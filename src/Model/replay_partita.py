@@ -167,9 +167,8 @@ class ReplayPartita:
         stati.append(copy.deepcopy(stato_corrente))
 
         for m in self.__mosse_pure:
-            # Ciclo di sincronizzazione del turno:
-            # se per lo stato corrente del Replay il giocatore di turno non è attivo,
-            # facciamo avanzare il contatore finché non intercettiamo il giocatore corretto.
+            # 1. Ciclo di sincronizzazione: troviamo il giocatore attivo
+            # (saltando automaticamente chi è già stato eliminato)
             while True:
                 id_g = stato_corrente.get_id_giocatore_attivo()
                 giocatore_simulato = stato_corrente.get_giocatore(id_g)
@@ -178,32 +177,32 @@ class ReplayPartita:
                     break
                 stato_corrente.incrementa_turno()
 
-            # Registriamo l'accoppiamento corretto trovato in tempo reale
+            # 2. Registriamo l'accoppiamento corretto per mostrarlo a schermo
             self.__mosse_flat.append((id_g, m))
             g = stato_corrente.get_giocatore(id_g)
 
-            # Esecuzione della mossa sulla scacchiera simulata
-            if len(m) == 3:  # Muro
+            # 3. INTERCETTAZIONE DELLA MOSSA
+            if m in ["rpa", "abb"]:
+                # Il giocatore ha abbandonato. Lo eliminiamo dal Model.
+                stato_corrente.elimina_giocatore(id_g)
+                # Assicuriamoci che la pedina sparisca dal tabellone simulato
+                # per non bloccare il passaggio agli altri giocatori nel replay
+            elif len(m) == 3:
+                # È un Muro
                 stato_corrente.piazza_muro(m, g)
                 stato_corrente.rimuovi_un_muro_giocatore(id_g)
-            else:  # Pedone
+
+            else:
+                # È un Pedone
                 stato_corrente.muovi_giocatore(m, g)
 
-            # --- CORREZIONE CRASH ELIMINAZIONE ---
-            # Non interpelliamo più partita_iniziale.
-            # Se la mossa corrente era l'ultima mossa legale prima dell'eliminazione per tempo,
-            # controlliamo se il giocatore simulato ha ridotto a zero il suo tempo,
-            # oppure se nella scacchiera simulata scatta la condizione per cui deve essere rimosso.
-            # Per farlo in modo blindato, simuliamo la riduzione del tempo o verifichiamo lo stato:
-            if stato_corrente.get_giocatore(id_g).possiede_limite_tempo() and stato_corrente.get_giocatore(id_g).ha_finito_tempo():
-                stato_corrente.elimina_giocatore(id_g)
+            # 4. Passaggio del turno
+            # Incrementiamo il turno solo se la partita non è ancora finita,
+            # altrimenti rischiamo di passare il turno a un giocatore morto.
+            if not stato_corrente.verifica_vittoria():
+                stato_corrente.incrementa_turno()
 
-            # Se la partita reale prevedeva un'eliminazione forzata registrata a fine turno:
-            # possiamo verificare se l'eliminazione avviene per abbandono esaminando i flag.
-            # Per sicurezza, per evitare eccezioni su get_giocatore, rimuoviamo i controlli cross-object obsoleti.
-
-            # Passiamo al turno successivo
-            stato_corrente.incrementa_turno()
+            # 5. Salviamo la fotografia esatta dopo questa mossa
             stati.append(copy.deepcopy(stato_corrente))
 
         return stati

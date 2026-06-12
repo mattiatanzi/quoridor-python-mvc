@@ -4,7 +4,7 @@ from src.Model.costanti_partita import CostantiPartita
 from src.Model.parametri_partita import ErroreParametriPartita, ParametriPartita
 from src.View.costanti_quoridor_view import CostantiQuoridorView
 from src.View.funzioni_utili_stampa import chiedi_input_utente
-from src.View.CLI.parametri_partita_view_CLI import ParametriPartitaViewCLI
+from src.View.parametri_partita_view import ParametriPartitaView
 
 
 class ParametriPartitaController:
@@ -72,26 +72,26 @@ class ParametriPartitaController:
 
     """
 
-    __view: ParametriPartitaViewCLI
+    __view: ParametriPartitaView
     __model: ParametriPartita
 
     # Costruttore
     def __init__(
         self,
         new_model: ParametriPartita = None,
-        new_view: ParametriPartitaViewCLI = None,
+        new_view: ParametriPartitaView = None,
     ):
-        self.set_view(new_view if new_view is not None else ParametriPartitaViewCLI())
+        self.__view = new_view
         try:
             self.set_model(new_model if new_model is not None else ParametriPartita())
         except ErroreParametriPartita as err:
             self.get_view().stampa_errore_parametri(err)
 
     # Accesso attributi Privati
-    def set_view(self, new_view: ParametriPartitaViewCLI):
+    def set_view(self, new_view: ParametriPartitaView):
         self.__view = new_view
 
-    def get_view(self) -> ParametriPartitaViewCLI:
+    def get_view(self) -> ParametriPartitaView:
         return self.__view
 
     def set_model(self, new_model: ParametriPartita):
@@ -109,7 +109,6 @@ class ParametriPartitaController:
         messaggio_errore = "\nInput Non Valido"
 
         while not tornaMenuIniziale:
-
             tornaIndietro = False
             # Interfaccia 1: Chiedere se usare limite di tempo per partita
             scelta_interfaccia = self.get_view().get_input_modalita_partita()
@@ -120,7 +119,9 @@ class ParametriPartitaController:
                 if scelta_interfaccia in ["help", "aiuto"]:
                     scelta_interfaccia = ""
                     self.get_view().stampa_aiuto_modalita_partita()
-                    chiedi_input_utente("---- Premi INVIO per tornare alla partita... ----")
+                    chiedi_input_utente(
+                        "---- Premi INVIO per tornare alla partita... ----"
+                    )
                     scelta_interfaccia = self.get_view().get_input_modalita_partita()
                 else:
                     scelta_interfaccia = self.get_view().get_input_modalita_partita(
@@ -137,7 +138,9 @@ class ParametriPartitaController:
                     tempo_limite = CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO
 
                 # IF NOT TORNARE INDIETRO AND TIMER
-                elif scelta_interfaccia == CostantiQuoridorView.SCELTA_PARTITA_CON_TIMER:
+                elif (
+                    scelta_interfaccia == CostantiQuoridorView.SCELTA_PARTITA_CON_TIMER
+                ):
                     # Interfaccia 2: Avvalorare Limite di Tempo
                     scelta_interfaccia = self.get_view().get_input_limite_tempo()
 
@@ -150,7 +153,9 @@ class ParametriPartitaController:
                         if scelta_interfaccia in ["help", "aiuto"]:
                             scelta_interfaccia = ""
                             self.get_view().stampa_aiuto_limite_tempo()
-                            chiedi_input_utente("---- Premi INVIO per tornare alla partita... ----")
+                            chiedi_input_utente(
+                                "---- Premi INVIO per tornare alla partita... ----"
+                            )
                             scelta_interfaccia = (
                                 self.get_view().get_input_limite_tempo()
                             )
@@ -180,22 +185,35 @@ class ParametriPartitaController:
                     scelta_interfaccia = self.get_view().get_input_numero_giocatori()
 
                     while (
-                        scelta_interfaccia not in CostantiQuoridorView.POSSIBILI_NUMERO_GIOCATORI
+                        scelta_interfaccia
+                        not in CostantiQuoridorView.POSSIBILI_NUMERO_GIOCATORI
                     ):
                         if scelta_interfaccia in ["help", "aiuto"]:
                             scelta_interfaccia = ""
                             self.get_view().stampa_aiuto_numero_giocatori()
-                            chiedi_input_utente("---- Premi INVIO per tornare alla partita... ----")
-                            scelta_interfaccia = self.get_view().get_input_numero_giocatori()
+                            chiedi_input_utente(
+                                "---- Premi INVIO per tornare alla partita... ----"
+                            )
+                            scelta_interfaccia = (
+                                self.get_view().get_input_numero_giocatori()
+                            )
                         else:
-                            scelta_interfaccia = self.get_view().get_input_numero_giocatori(
-                                messaggio_errore
+                            scelta_interfaccia = (
+                                self.get_view().get_input_numero_giocatori(
+                                    messaggio_errore
+                                )
                             )
 
                     if scelta_interfaccia != CostantiQuoridorView.SCELTA_TORNA_INDIETRO:
-                        if (scelta_interfaccia == CostantiQuoridorView.SCELTA_2_GIOCATORI):
+                        if (
+                            scelta_interfaccia
+                            == CostantiQuoridorView.SCELTA_2_GIOCATORI
+                        ):
                             numero_giocatori = int(CostantiPartita.GIOCATORI_TOTALI_2)
-                        elif (scelta_interfaccia == CostantiQuoridorView.SCELTA_4_GIOCATORI):
+                        elif (
+                            scelta_interfaccia
+                            == CostantiQuoridorView.SCELTA_4_GIOCATORI
+                        ):
                             numero_giocatori = int(CostantiPartita.GIOCATORI_TOTALI_4)
 
                     else:
@@ -207,11 +225,8 @@ class ParametriPartitaController:
                 tornaMenuIniziale = True
                 avvia_partita = False
 
-
-
-
         return ParametriPartita(
-            new_numero_giocatori = numero_giocatori,
-            new_limite_tempo = tempo_limite,
+            new_numero_giocatori=numero_giocatori,
+            new_limite_tempo=tempo_limite,
             new_avvia_partita=avvia_partita,
         )

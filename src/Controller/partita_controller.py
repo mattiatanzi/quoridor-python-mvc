@@ -1,17 +1,15 @@
-from datetime import datetime
-from datetime import timedelta
-
 import copy
 import threading
 import time
+from datetime import timedelta
 
 from src.Controller.replay_controller import ErroreReplay, ReplayController
 from src.Model.giocatore import ErrorePosizione
 from src.Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from src.Model.tavoliere import ErroreTavoliere
+from src.Model.tempo import get_tempo_formattato
 from src.View.funzioni_utili_stampa import chiedi_input_utente
 from src.View.partita_view import PartitaViewAstratta
-from src.Model.tempo import get_tempo_formattato
 
 
 class PartitaController:
@@ -197,13 +195,12 @@ class PartitaController:
             messaggio = f"Errore Numero Giocatori in Partita. {errPart}"
             self.get_view().stampa_errore_partita(messaggio)
 
-
     def __ottieni_trascrizione_parziale(
-        self, trascrizione_completa: list[str], indice: int,num_giocatori: int
+        self, trascrizione_completa: list[str], indice: int, num_giocatori: int
     ) -> list[str]:
         if indice == 0:
             return []
-    
+
         risultato = []
         # Calcoliamo quanti round interi di mosse sono stati completati
         round_completi = indice // num_giocatori
@@ -218,14 +215,15 @@ class PartitaController:
         if mosse_parziali > 0 and round_completi < len(trascrizione_completa):
             linea_corrente = trascrizione_completa[round_completi]
             parti = linea_corrente.split()
-            
+
             # parti[0] è il numero del turno (es: "1."), parti[1:] sono le mosse.
             # Ricostruiamo la riga prendendo il numero turno + le mosse parziali.
             # Es: Se ho fatto 2 mosse su 4, prendo parti[0] (turno) + parti[1] + parti[2]
-            nuova_linea = [parti[0]] + parti[1:mosse_parziali + 1]
+            nuova_linea = [parti[0]] + parti[1 : mosse_parziali + 1]
             risultato.append(" ".join(nuova_linea))
 
         return risultato
+
     def gioca_partita(self) -> bool:
         errore = ""
         continuare_partita = True
@@ -238,34 +236,41 @@ class PartitaController:
             giocatore_attivo = self.get_giocatore(id_giocatore_attivo)
 
             # Inizio a cronometrare il giocatore
-            if hasattr(self, '_evento_stop_timer') and self._evento_stop_timer is not None:
+            if (
+                hasattr(self, "_evento_stop_timer")
+                and self._evento_stop_timer is not None
+            ):
                 self._evento_stop_timer.set()
-                
+
             self._evento_stop_timer = None
 
             if giocatore_attivo.is_attivo():
                 if giocatore_attivo.possiede_limite_tempo():
                     self._evento_stop_timer = threading.Event()
-                
+
                     # Passiamo il giocatore e l'evento come parametri per evitare confusioni tra i thread
-                    def _loop_timer(stop_event, giocatore, id_gioc):                        
-                        # Usa l'import corretto del tuo progetto per get_tempo_formattato                        
+                    def _loop_timer(stop_event, giocatore, id_gioc):
+                        # Usa l'import corretto del tuo progetto per get_tempo_formattato
                         while not stop_event.is_set():
                             # .wait(1.0) aspetta un secondo, MA si interrompe in un millisecondo
                             # se nel frattempo l'utente ha premuto Invio (facendo scattare il .set())
                             interrotto = stop_event.wait(1.0)
-                            
+
                             if interrotto:
-                                break # Uscita immediata dal thread: muore pulito.
-                                
+                                break  # Uscita immediata dal thread: muore pulito.
+
                             try:
                                 # Riduciamo il tempo
-                                ha_ancora_tempo = giocatore.riduci_tempo(timedelta(seconds=1))
-                                
+                                ha_ancora_tempo = giocatore.riduci_tempo(
+                                    timedelta(seconds=1)
+                                )
+
                                 # Aggiorniamo la grafica
-                                tempo_fmt = get_tempo_formattato(giocatore.get_tempo_residuo())
+                                tempo_fmt = get_tempo_formattato(
+                                    giocatore.get_tempo_residuo()
+                                )
                                 self.__view.aggiorna_orologio_live(id_gioc, tempo_fmt)
-                                
+
                                 # Se scade
                                 if not ha_ancora_tempo or giocatore.ha_finito_tempo():
                                     self.__view.forza_input("resa_per_tempo")
@@ -275,55 +280,76 @@ class PartitaController:
 
                     # Avviamo il thread passandogli i bersagli esatti
                     threading.Thread(
-                        target=_loop_timer, 
-                        args=(self._evento_stop_timer, giocatore_attivo, id_giocatore_attivo), 
-                        daemon=True
+                        target=_loop_timer,
+                        args=(
+                            self._evento_stop_timer,
+                            giocatore_attivo,
+                            id_giocatore_attivo,
+                        ),
+                        daemon=True,
                     ).start()
                 azione = self.__view.get_input()
                 errore = ""
 
                 # Pulizia input utente
                 azione_pulita = azione.strip().lower()
-                if hasattr(self, '_evento_stop_timer') and self._evento_stop_timer is not None:
+                if (
+                    hasattr(self, "_evento_stop_timer")
+                    and self._evento_stop_timer is not None
+                ):
                     self._evento_stop_timer.set()
 
                 # Tempo Esaurito
                 if azione_pulita == "resa_per_tempo":
-                    self.__model.aggiungi_mossa_trascrizione("resa_per_tempo")
+                    self.__model.aggiungi_mossa_trascrizione("rpa")
                     self.__view.mostra_messaggio_timeout(id_giocatore_attivo)
-                    self.__model.elimina_giocatore(giocatore_attivo.get_id())   
-                    
+                    self.__model.elimina_giocatore(giocatore_attivo.get_id())
+
                     id_vincitore = self.__model.verifica_vittoria()
                     if id_vincitore:
-                        motivo_vincita = f"Il giocatore {id_vincitore} è l'unico rimasto in partita"
+                        motivo_vincita = (
+                            f"Il giocatore {id_vincitore} è l'unico rimasto in partita"
+                        )
                         self.__view.stampa_vittoria(id_vincitore, motivo_vincita)
-                        
+
                         scelta_pulita = self.__view.get_input().lower().strip()
                         while scelta_pulita != "m":
-                            if (scelta_pulita in self.__COMANDI_REPLAY or scelta_pulita in self.__COMANDI_REPLAY_AUTOMATICO):
+                            if (
+                                scelta_pulita in self.__COMANDI_REPLAY
+                                or scelta_pulita in self.__COMANDI_REPLAY_AUTOMATICO
+                            ):
                                 risultato_replay = self.gestisci_replay(scelta_pulita)
                                 if risultato_replay == "REPLAY_EXIT":
                                     scelta_pulita = ""
                                 else:
                                     errore = risultato_replay
                             elif scelta_pulita in self.__COMANDI_TRASCRIZIONE:
-                                self.__view.stampa_trascrizione(self.__model.get_trascrizione(), len(self.__model.get_giocatori()))
+                                self.__view.stampa_trascrizione(
+                                    self.__model.get_trascrizione(),
+                                    len(self.__model.get_giocatori()),
+                                )
                                 scelta_pulita = ""
                             else:
                                 if scelta_pulita != "":
-                                    self.__view.stampa_errore_partita("Comando non riconosciuto. Inserisci 'm' per il menù.")
-                                self.__view.stampa_vittoria(id_vincitore, motivo_vincita)
+                                    self.__view.stampa_errore_partita(
+                                        "Comando non riconosciuto. Inserisci 'm' per il menù."
+                                    )
+                                self.__view.stampa_vittoria(
+                                    id_vincitore, motivo_vincita
+                                )
                                 scelta_pulita = self.__view.get_input().lower().strip()
                         else:
                             continuare_partita = False
                             continue
                     else:
-                        self.__model.incrementa_turno() # Passa al giocatore successivo se si è in 4
+                        self.__model.incrementa_turno()
                     continue
                 # Aiuto
                 if azione_pulita in ["help", "aiuto"]:
                     self.__view.stampa_aiuto()
-                    chiedi_input_utente("---- Premi INVIO per tornare alla partita... ----")
+                    chiedi_input_utente(
+                        "---- Premi INVIO per tornare alla partita... ----"
+                    )
                     # La richiesta di aiuto non incrementa il turno
                     continue
 
@@ -335,7 +361,9 @@ class PartitaController:
                             self.__model.get_trascrizione(),
                             len(self.__model.get_giocatori()),
                         )
-                        chiedi_input_utente("---- Premi INVIO per tornare alla partita... ----")
+                        chiedi_input_utente(
+                            "---- Premi INVIO per tornare alla partita... ----"
+                        )
 
                 # Uscire dalla partita
                 elif azione_pulita in self.__COMANDI_ABBANDONA_PARTITA:
@@ -352,34 +380,29 @@ class PartitaController:
                         risposta = chiedi_input_utente(messaggio_conferma)
                     else:
                         if risposta == "si":
-
+                            self.__model.aggiungi_mossa_trascrizione("abb")
                             self.get_model().elimina_giocatore(
                                 giocatore_attivo.get_id()
                             )
 
                             id_vincitore = self.__model.verifica_vittoria()
                             if id_vincitore:
-                                # Impostiamo il motivo richiesto
-                                motivo_vincita = (
-                                    f"Il giocatore {id_vincitore} "
-                                    "è l'unico rimasto in partita"
-                                )
-                                # Mostriamo la schermata di vittoria comune
+                                motivo_vincita = f"Il giocatore {id_vincitore} è l'unico rimasto in partita"
                                 self.__view.stampa_vittoria(
                                     id_vincitore, motivo_vincita
                                 )
-                                # Richiedi input per tornare al menu
-                                scelta_pulita = (
-                                    self.__view.get_input().lower().strip()
-                                )
+
+                                scelta_pulita = self.__view.get_input().lower().strip()
                                 while scelta_pulita != "m":
                                     if (
                                         scelta_pulita in self.__COMANDI_REPLAY
-                                        or scelta_pulita in self.__COMANDI_REPLAY_AUTOMATICO
+                                        or scelta_pulita
+                                        in self.__COMANDI_REPLAY_AUTOMATICO
                                     ):
-                                        risultato_replay = self.gestisci_replay(scelta_pulita)
+                                        risultato_replay = self.gestisci_replay(
+                                            scelta_pulita
+                                        )
                                         if risultato_replay == "REPLAY_EXIT":
-                                            # Forziamo il reset dell'input in modo che non riesegua il replay all'infinito
                                             scelta_pulita = ""
                                         else:
                                             errore = risultato_replay
@@ -388,22 +411,24 @@ class PartitaController:
                                             self.__model.get_trascrizione(),
                                             len(self.__model.get_giocatori()),
                                         )
-                                        # Dopo aver stampato la trascrizione, svuotiamo per ristampare la vittoria
                                         scelta_pulita = ""
-
-                                    # --- GESTIONE INPUT NON RICONOSCIUTI O RIPRISTINO SCHERMATA ---
                                     else:
                                         if scelta_pulita != "":
-                                            self.__view.stampa_errore_partita("Comando non riconosciuto. Inserisci 'm' per il menù, 'r' per il replay o 'mosse' per la trascrizione.")
-
-                                        # Ristampa la schermata di vittoria e aspetta un nuovo comando
-                                        self.__view.stampa_vittoria(id_vincitore, motivo_vincita)
-                                        scelta_pulita = self.__view.get_input().lower().strip()
-
+                                            self.__view.stampa_errore_partita(
+                                                "Comando non riconosciuto. Inserisci 'm' per il menù."
+                                            )
+                                        self.__view.stampa_vittoria(
+                                            id_vincitore, motivo_vincita
+                                        )
+                                        scelta_pulita = (
+                                            self.__view.get_input().lower().strip()
+                                        )
                                 else:
                                     continuare_partita = False
                                     continue
-
+                            else:
+                                self.__model.incrementa_turno()
+                            continue
 
                 # Uscire dal gioco
                 elif azione_pulita in self.__COMANDI_USCITA_GIOCO:
@@ -431,7 +456,6 @@ class PartitaController:
                         errore = err_part
                     # Solo se non ci sono eccezioni si continua con il flusso
                     else:
-
                         # Prima di incrementare il turno salva la trascrizione
                         self.__model.aggiungi_mossa_trascrizione(azione_pulita)
                         self.__model.incrementa_turno()
@@ -447,7 +471,6 @@ class PartitaController:
                             errore = f"Errore movimento: {err_pos}"
                         # Solo se non ci sono eccezioni si continua con il flusso
                         else:
-
                             # Salva Trascrizione Prima delle logiche della mossa
                             self.__model.aggiungi_mossa_trascrizione(azione_pulita)
                             # Controllo vittoria
@@ -465,13 +488,15 @@ class PartitaController:
                                         "avversaria!"
                                     )
 
-    # Stampa vittoria e motivo
+                                    # Stampa vittoria e motivo
                                     self.__view.stampa_vittoria(
                                         id_vincitore, motivo_vincita
                                     )
 
                                     # Richiedi input per tornare al menu o avviare replay/trascrizione
-                                    scelta_pulita = self.__view.get_input().lower().strip()
+                                    scelta_pulita = (
+                                        self.__view.get_input().lower().strip()
+                                    )
 
                                     # Ciclo fin quando l'utente non decide di tornare al menù
                                     while scelta_pulita != "m":
@@ -480,9 +505,12 @@ class PartitaController:
                                         # --- GESTIONE REPLAY ---
                                         if (
                                             scelta_pulita in self.__COMANDI_REPLAY
-                                            or scelta_pulita in self.__COMANDI_REPLAY_AUTOMATICO
+                                            or scelta_pulita
+                                            in self.__COMANDI_REPLAY_AUTOMATICO
                                         ):
-                                            risultato_replay = self.gestisci_replay(scelta_pulita)
+                                            risultato_replay = self.gestisci_replay(
+                                                scelta_pulita
+                                            )
                                             if risultato_replay == "REPLAY_EXIT":
                                                 # Forziamo il reset dell'input in modo che non riesegua il replay all'infinito
                                                 scelta_pulita = ""
@@ -490,7 +518,9 @@ class PartitaController:
                                                 errore = risultato_replay
 
                                         # --- GESTIONE TRASCRIZIONE ---
-                                        elif scelta_pulita in self.__COMANDI_TRASCRIZIONE:
+                                        elif (
+                                            scelta_pulita in self.__COMANDI_TRASCRIZIONE
+                                        ):
                                             self.__view.stampa_trascrizione(
                                                 self.__model.get_trascrizione(),
                                                 len(self.__model.get_giocatori()),
@@ -501,11 +531,17 @@ class PartitaController:
                                         # --- GESTIONE INPUT NON RICONOSCIUTI O RIPRISTINO SCHERMATA ---
                                         else:
                                             if scelta_pulita != "":
-                                                self.__view.stampa_errore_partita("Comando non riconosciuto. Inserisci 'm' per il menù, 'r' per il replay o 'mosse' per la trascrizione.")
+                                                self.__view.stampa_errore_partita(
+                                                    "Comando non riconosciuto. Inserisci 'm' per il menù, 'r' per il replay o 'mosse' per la trascrizione."
+                                                )
 
                                             # Ristampa la schermata di vittoria e aspetta un nuovo comando
-                                            self.__view.stampa_vittoria(id_vincitore, motivo_vincita)
-                                            scelta_pulita = self.__view.get_input().lower().strip()
+                                            self.__view.stampa_vittoria(
+                                                id_vincitore, motivo_vincita
+                                            )
+                                            scelta_pulita = (
+                                                self.__view.get_input().lower().strip()
+                                            )
 
                                     else:
                                         # L'utente ha premuto "m"
@@ -526,17 +562,14 @@ class PartitaController:
                 self.get_model().incrementa_turno()
         return continuare_gioco
 
-
     def gestisci_replay(self, modalita_replay):
         errore = ""
         partita_replay = self.get_snapshot_iniziale()
         trascrizione_replay = self.__model.get_trascrizione()
 
-        replay = ReplayController(
-            trascrizione_replay, partita_replay
-        )
-        
-        stampa_replay = self.__view.crea_replay_view() 
+        replay = ReplayController(trascrizione_replay, partita_replay)
+
+        stampa_replay = self.__view.crea_replay_view()
         autoplay = {"autoplay": False}
 
         def callback_aggiorna_schermo(
@@ -550,7 +583,7 @@ class PartitaController:
             indice = _rep.get_indice_corrente()
             num_giocatori = len(stato.get_giocatori())
             lista_tagliata = self.__ottieni_trascrizione_parziale(
-                _trasc, indice,num_giocatori=num_giocatori
+                _trasc, indice, num_giocatori=num_giocatori
             )
             _st_re.stampa_replay(
                 stato,
@@ -582,10 +615,11 @@ class PartitaController:
                 cmd_pulito = scelta_replay.strip().lower()
 
                 try:
-                    
-
                     n = replay.get_indice_corrente()
-                    if n == replay.get_totale_mosse() and cmd_pulito in self.__COMANDI_AVANTI:
+                    if (
+                        n == replay.get_totale_mosse()
+                        and cmd_pulito in self.__COMANDI_AVANTI
+                    ):
                         errore = "Errore: Impossibile andare avanti, mosse terminate"
                     if n == 0 and cmd_pulito in self.__COMANDI_INDIETRO:
                         errore = "Errore: Impossibile andare indietro, stai ancora all'inizio del replay"
@@ -611,6 +645,3 @@ class PartitaController:
         # Alla fine del replay, restituiamo un flag speciale o puliamo l'errore
         # Ma soprattutto, dobbiamo dire al ciclo chiamante di resettare l'input!
         return "REPLAY_EXIT"
-    
-
-    

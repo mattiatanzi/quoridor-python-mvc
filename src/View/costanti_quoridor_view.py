@@ -71,6 +71,15 @@ class CostantiQuoridorView:
     # Scelte di default nella stampa
     SCELTA_TORNA_INDIETRO = "0"
 
+    # Costanti per pulsanti
+    MOSTRA_AIUTO = "- Mostra aiuto"
+    NASCONDI_AIUTO = "- Nascondi aiuto"
+    MOSTRA_MOSSE = "Mostra Mosse"
+    ABBANDONA = "Resa / Abbandona"
+    ESCI_GIOCO = "Esci dal Gioco"
+    SI_CONFERMA = "Sì, Conferma"
+    NO_ANNULLA = "No, Annulla"
+
     __TORNA_INDIETRO = {f"{SCELTA_TORNA_INDIETRO}": "Torna Indietro"}
 
     # Costanti riguardanti le modalità di Gioco TIMER / SENZA TIMER
@@ -83,7 +92,6 @@ class CostantiQuoridorView:
         SCELTA_PARTITA_SENZA_TIMER: "Partita senza Timer",
         **__TORNA_INDIETRO,
     }
-
 
     # Costanti riguardanti i possibili valori di timer selezionabili
 
@@ -99,7 +107,6 @@ class CostantiQuoridorView:
         SCELTA_TIMER_DEFAULT_2: "Tempo Medio (5 Minuti)",
         **__TORNA_INDIETRO,
     }
-
 
     # Costanti riguardanti possibili numeri di giocatori selezionabili
 

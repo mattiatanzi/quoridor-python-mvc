@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class GiocatoreViewAstratta(ABC):
     """classe GiocatoreView.
 
@@ -54,7 +55,7 @@ class GiocatoreViewAstratta(ABC):
     @abstractmethod
     def stampa_giocatore_attivo(self, id, muri_disponibili):
         pass
-    
+
     @abstractmethod
     def stampa_info_giocatore(self, id, muri_disponibili):
         pass
@@ -62,6 +63,7 @@ class GiocatoreViewAstratta(ABC):
     @abstractmethod
     def stampa_giocatore_eliminato(self, id, muri_disponibili, tempo_formattato=None):
         pass
+
     # Stampe Errori
     @abstractmethod
     def stampa_errore_giocatore(self, messaggio):

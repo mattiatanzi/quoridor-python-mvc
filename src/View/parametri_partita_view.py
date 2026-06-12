@@ -1,6 +1,6 @@
-from src.Model.parametri_partita import ErroreParametriPartita
-from src.View.costanti_quoridor_view import CostantiQuoridorView
 from abc import ABC, abstractmethod
+
+from src.Model.parametri_partita import ErroreParametriPartita
 
 
 class ParametriPartitaView(ABC):

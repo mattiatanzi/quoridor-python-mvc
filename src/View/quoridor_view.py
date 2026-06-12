@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
+
 from src.View.TUI.App.App_textual import QuoridorViewApp
+
 
 class QuoridorViewAstratta(ABC):
     """Classe QuoridorViewAstratta.
@@ -34,7 +36,7 @@ class QuoridorViewAstratta(ABC):
             DESCRIZIONE
                 Restituisce la coda degli input utilizzata dalla view.
     """
-    
+
     @abstractmethod
     def menu_di_gioco(self):
         pass
@@ -44,7 +46,7 @@ class QuoridorViewAstratta(ABC):
         pass
 
     @abstractmethod
-    def stampa_messaggio(self,messaggio: str):
+    def stampa_messaggio(self, messaggio: str):
         pass
 
     @abstractmethod
@@ -53,7 +55,7 @@ class QuoridorViewAstratta(ABC):
 
     @abstractmethod
     def get_app(self) -> QuoridorViewApp:
-        return self.__app    
+        return self.__app
 
     @abstractmethod
     def get_coda_input(self):
