@@ -14,6 +14,7 @@ class TavoliereViewTUI(TavoliereviewAstratta):
     def __init__(self, app_condivisa):
         self.__app = app_condivisa
         self.__cache_nodi = None # Il segreto per la velocità assoluta
+        self._schermo_cache = None
 
     def stampa_tavoliere(self, tavoliere: Tavoliere, giocatori: set[Giocatore]):
         
@@ -22,11 +23,12 @@ class TavoliereViewTUI(TavoliereviewAstratta):
                 schermo = self.__app.screen
                 
                 # --- 1. CREAZIONE CACHE (Avviene solo al turno 1) ---
-                if self.__cache_nodi is None:
+                if self.__cache_nodi is None or self._schermo_cache != schermo:
                     try:
                         griglia = schermo.query_one("#griglia-tavoliere")
-                        # Mettiamo in RAM tutti i 289 bottoni istantaneamente
+                        # Mettiamo in RAM tutti i 289 bottoni del NUOVO schermo
                         self.__cache_nodi = {n.id: n for n in griglia.children if n.id}
+                        self._schermo_cache = schermo # Salviamo il riferimento al nuovo schermo
                     except Exception:
                         return # Se la griglia non ha finito di caricare, aspetta il prossimo giro
                 
@@ -73,7 +75,18 @@ class TavoliereViewTUI(TavoliereviewAstratta):
                             if id_int in nodi: nodi[id_int].add_class("muro-piazzato")
 
                 # --- 6. PIAZZAMENTO GIOCATORI ---
-                for indice, g in enumerate(giocatori, start=1):
+                giocatori_ordinati = sorted(giocatori, key=lambda x: x.get_id())
+
+                for indice, g in enumerate(giocatori_ordinati, start=1):
+                    # ==========================================
+                    # LA PROTEZIONE SALVA-CRASH:
+                    # Se il giocatore è stato eliminato o si è arreso, 
+                    # non ha più una posizione sul tabellone. Lo saltiamo!
+                    # ==========================================
+                    if not g.is_attivo() or g.get_posizione() is None:
+                        continue
+                    
+                    # Se è vivo e vegeto, lo piazziamo sulla griglia
                     pos = g.get_posizione().get_valore_id_nodo()
                     id_casella = f"btn-{pos}"
                     if id_casella in nodi:

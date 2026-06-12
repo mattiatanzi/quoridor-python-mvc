@@ -292,10 +292,13 @@ GiocatoreViewWidget.giocatore-eliminato > .giocatore-box {
 
 
 /* Giocatori: Colori puri ANSI per visibilità massima */
-.giocatore-1 { background: ansi_red !important; color: ansi_white !important;}
-.giocatore-2 { background: ansi_blue !important; color: ansi_white !important;}
-.giocatore-3 { background: ansi_green !important; color: black !important;}
-.giocatore-4 { background: ansi_magenta !important; color: ansi_white !important;}
+.giocatore-1 { background: #E63946 !important; color: white !important; }
+/* P2: Blu vivido */
+.giocatore-2 { background: #3A86FF !important; color: white !important; }
+/* P3: Viola scuro */
+.giocatore-3 { background: #8338EC !important; color: white !important; }
+/* P4: Ciano / Teal */
+.giocatore-4 { background: #00F5D4 !important; color: black !important; }
 
 /* -------------------------------------------------------- */
 /* SCHERMATA CRASH PYTHON (ModalScreen per Errori Fatali)   */

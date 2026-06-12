@@ -631,17 +631,19 @@ class PartitaController:
                 cmd_pulito = scelta_replay.strip().lower()
 
                 try:
-                    ris = replay.esegui_comando(scelta_replay)
-
-                    # SE IL COMANDO SEGNALA L'USCITA (False), INTERROMPIAMO IMMEDIATAMENTE IL CICLO
-                    if not ris:
-                        break
+                    
 
                     n = replay.get_indice_corrente()
                     if n == replay.get_totale_mosse() and cmd_pulito in self.__COMANDI_AVANTI:
                         errore = "Errore: Impossibile andare avanti, mosse terminate"
                     if n == 0 and cmd_pulito in self.__COMANDI_INDIETRO:
                         errore = "Errore: Impossibile andare indietro, stai ancora all'inizio del replay"
+
+                    ris = replay.esegui_comando(scelta_replay)
+
+                    # SE IL COMANDO SEGNALA L'USCITA (False), INTERROMPIAMO IMMEDIATAMENTE IL CICLO
+                    if not ris:
+                        break
                 except ErroreReplay as err_com:
                     errore = err_com
         else:
