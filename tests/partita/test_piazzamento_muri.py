@@ -28,7 +28,8 @@ class TestPiazzamentoMuri:
             CE1: Piazzamento valido.
 
         Oracolo:
-            CE1 => Nessuna eccezione sollevata (il Tavoliere accetta il muro).
+            CE1 => Nessuna eccezione sollevata, mossa_permessa restituisce False
+                   per gli archi tagliati dal muro.
         """
         partita = partita_standard
         giocatore_p1 = partita.get_giocatore("P1")
@@ -36,9 +37,11 @@ class TestPiazzamentoMuri:
         # Piazziamo un muro orizzontale valido (e3h)
         partita.piazza_muro("e3h", giocatore_p1)
 
-        # Se il codice arriva qui senza lanciare eccezioni
-        # significa che il piazzamento base è stato accettato dal Model.
-        assert True
+        tavoliere = partita.get_tavoliere()
+
+        # Il muro orizzontale e3h taglia gli archi
+        assert tavoliere.mossa_permessa(Nodo("e3"), Nodo("e2")) is False
+        assert tavoliere.mossa_permessa(Nodo("f3"), Nodo("f2")) is False
 
     def test_piazzamento_muri_esauriti(self, partita_standard):
         """Verifica il blocco della mossa se il giocatore non ha più muri.
