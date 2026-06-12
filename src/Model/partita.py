@@ -454,28 +454,29 @@ class Partita:
     def verifica_vittoria(self):
         giocatori_attivi = set()
 
-        for giocatore in self.get_giocatori():
-            if giocatore.is_attivo():
-                giocatori_attivi.add(giocatore)
+        if len(self.get_giocatori()) > 0:
+            id_giocatore = self.get_id_giocatore_attivo()
+            giocatore = self.get_giocatore(id_giocatore)
 
-                id_giocatore = giocatore.get_id()
+            pos_giocatore = giocatore.get_posizione().get_valore_id_nodo()
 
-                # Estrazione carattere corrispondente alla riga
-                pos_giocatore = giocatore.get_posizione().get_valore_id_nodo()
+            dupla_traguardo = CostantiPartita.TRAGUARDI_FINALI.get(id_giocatore)
 
-                dupla_traguardo = CostantiPartita.TRAGUARDI_FINALI.get(id_giocatore)
+            if dupla_traguardo[0] == "riga":
+                if pos_giocatore[1] == dupla_traguardo[1]:
+                    return id_giocatore
+            else:
+                if pos_giocatore[0] == dupla_traguardo[1]:
+                    return id_giocatore
 
-                if dupla_traguardo[0] == "riga":
-                    if pos_giocatore[1] == dupla_traguardo[1]:
-                        return id_giocatore
-                else:
-                    if pos_giocatore[0] == dupla_traguardo[1]:
-                        return id_giocatore
+            for giocatore in self.get_giocatori():
+                if giocatore.is_attivo():
+                    giocatori_attivi.add(giocatore)
 
-        # Caso in cui sia rimasto un giocatore
-        if len(giocatori_attivi) == 1:
-            vincitore = giocatori_attivi.pop()
-            return vincitore.get_id()
+            # Caso in cui sia rimasto un giocatore
+            if len(giocatori_attivi) == 1:
+                vincitore = giocatori_attivi.pop()
+                return vincitore.get_id()
 
         # In caso non sia stato rilevato un vincitore
         return None
