@@ -69,6 +69,7 @@ classDiagram
 S1_1. **Visualizzare la scacchiera**:
    Come giocatore voglio vedere la scacchiera 9x9 con le posizioni dei pedoni e dei muri sul terminale, in modo da poter decidere la prossima mossa.  
 **Criteri di Accettazione**:
+
 - La scacchiera mostra una griglia 9x9 con le colonne etichettate da a a i e le righe da 1 a 9.
 
 - Il pedone del Giocatore 1 è visualizzato nella posizione corrente con il simbolo P1, il pedone del Giocatore 2 con P2.
@@ -164,6 +165,7 @@ S1_7. **Mostrare un messaggio di aiuto**:
 
 S1_8. **Uscire dal gioco**: Come giocatore, voglio poter uscire completamente dal gioco tramite un comando testuale, in modo tale da chiudere l'applicazione in modo sicuro e tornare al terminale.  
 **Criteri di Accettazione**:
+
 - Il sistema riconosce e accetta un comando testuale specifico per l'uscita (es. `esci`, `quit` o `exit`) inserito al prompt dei comandi.
 - Al momento dell'inserimento del comando, l'applicazione si chiude immediatamente e in modo pulito.
 - Se il comando viene inserito mentre una partita è in corso, la partita viene interrotta istantaneamente senza salvataggio.
@@ -173,6 +175,7 @@ S1_8. **Uscire dal gioco**: Come giocatore, voglio poter uscire completamente da
 
 S2_1. **Giocare con un limite di tempo**: In qualità di giocatore, voglio poter giocare una partita con il limite di tempo.  
 **Criteri di accettazione**:
+
 - Il timer selezionato rappresenta il tempo totale a disposizione di ciascun giocatore per l'intera partita. Il timer scorre solo durante il turno del giocatore attivo e si mette in pausa quando il turno passa all'avversario.
 - È possibile avviare una partita dal menu principale con o senza il limite di tempo.
 - Durante la partita ogni giocatore deve poter vedere il limite di tempo rimasto
@@ -200,6 +203,7 @@ S2_3. **Visualizzare il Replay**: In qualità di giocatore, voglio poter far par
 
 S2_4. **Giocare anche in 4**: In qualità di giocatore, voglio poter avviare e giocare una partita con 4 giocatori totali, in modo tale da poter sfidare più persone contemporaneamente e provare diverse modalità e strategie di gioco.  
 **Criteri di accettazione**: 
+
 - L'utente deve poter selezione la modalità a 4 giocatori a partire dal menù iniziale
 
 - La configurazione deve essere adatta alla modalità a 4 giocatori (come stabilito nel meeting, in caso di partita a 4 giocatori, a ognuno viene assegnato uno dei 4 lati del tavoliere, e ognuno ha a disposizione 5 muri piazzabili)
@@ -212,6 +216,7 @@ S2_4. **Giocare anche in 4**: In qualità di giocatore, voglio poter avviare e g
 
 S2_5. **Nuova interfaccia avanzata**: In qualità di giocatore, voglio interagire con il gioco tramite un'interfaccia avanzata in modo tale da avere un'esperienza visiva più moderna e intuitiva, potendo usare sia il mouse che la tastiera.  
 **Criteri di accettazione**:
+
 - Flessibilità di interazione: L'utente può usare i click del mouse sulle caselle, ma è sempre presente una barra/prompt per inserire i comandi con la notazione compatta (es. e2, e3h).
 
 - Usabilità: Le istruzioni base e i controlli della UI sono sempre visibili o facilmente richiamabili tramite un widget di help dedicato per non creare indecisioni ai nuovi giocatori.
@@ -231,8 +236,11 @@ S2_5. **Nuova interfaccia avanzata**: In qualità di giocatore, voglio interagir
 - **RNF4** (Normalizzazione comandi): La Command Line Interface (CLI) deve accettare notazioni testuali compatte (es. `e2` per il pedone, `e3h` per i muri).
 
 *In più, seguono tre nuovi requisiti non funzionali da rispettare (oltre ai quattro già presenti), essi sono stati individuati per lo sprint 2:*
+
 - **RNF5** (Usabilità): Un utente nuovo non deve avere indecisioni, tutto dev’essere chiarito soprattutto in luogo delle nuove funzionalità che riguardano il gioco. Dunque tutte le nuove istruzioni si riflettono nel comando help.
+
 - **RNF6** (Flessibilità di interazione): Nonostante la nuova interfaccia avanzata dev’essere possibile inserire i comandi anche da prompt testuale con notazione compatta come avveniva prima. 
+
 - **RNF7** (Testabilità logica): I test automatici, devono essere eseguiti secondo la logica di gioco, evitando di gestire input del giocatore o output testuale, che invece possono cambiare nel tempo. 
   
   ## 4. System Design
@@ -367,29 +375,55 @@ La suite è composta da un totale di circa 30 casi di test unitari e di integraz
 
 Tutti i test implementati coprono gli Oracoli definiti nelle specifiche del Model. L'esito dell'intera suite è del 100% positivo (0 failures, 0 errors). Il superamento totale della suite è stato impostato come vincolo bloccante (prerequisito) per la validazione della build; nessuna modifica al codice sorgente può essere considerata integrata con successo nel ramo principale se compromette l'esito di uno qualsiasi dei test sopra citati.
 
+### Diagrammi delle classi
+
+Sono state prese in considerazione le US1 e US4, e sono stati costruti due diagrammi per ciascuna US più un diagramma riassuntivo che riassuma i cambiamenti effettuati.
+
+- Diagramma Riassuntivo
+  - ![DiagrammaClassiUS1andUS4](./img/diagramma_classi_US1andUS4_Sprint2.png)
+- Diagramma US1
+  - ![DiagrammaClassiUS1](./img/diagramma_classi_US1_Sprint2.png)
+- Diagramma US4
+  - <img title="" src="./img/diagramma_classi_US4_Sprint2.png" alt="DiagrammaClassiUS4" width="631">
+
 ## 7. Modalità di collaborazione del team
+
 Il team ha adottato una metodologia di sviluppo ispirata al framework Agile/Scrum, personalizzandola fortemente per adattarla alle dinamiche di un gruppo di lavoro universitario. L'obiettivo principale è stato mantenere un ciclo di rilascio iterativo, garantendo flessibilità e comunicazione costante, compatibilmente con gli orari di studio e gli impegni di ciascun componente.
+
 ### 7.1 Organizzazione e Strumenti di Comunicazione
+
 Nonostante Scrum preveda cerimonie rigidamente strutturate in presenza, il team ha optato per un approccio ibrido, supportato dagli strumenti digitali che ha permesso di lavorare in modo asincrono ma sempre allineato, oltre che ai normali meeting svolti dal vivo:
+
 - GitHub Project Board: Utilizzata come Kanban Board centrale per tradurre il Product Backlog in Sprint Backlog. Ogni funzionalità è stata modellata come Issue e fatta transitare attraverso gli stati operativi (To Do, In Progress, Review, Ready, Done).
+
 - Canali Istituzionali (Microsoft Teams): Utilizzato per i meeting ufficiali di avvio Sprint, per la condivisione di documenti formali e per le comunicazioni dirette con i docenti/tutor.
+
 - Messaggistica Istantanea (WhatsApp o Teams): Data la necessità di comunicazioni rapide e continue, il team ha istituito un gruppo di chat dedicato. Questo canale ha sostituito in parte la sala riunioni fisica, permettendo di segnalare blocchi improvvisi, organizzare sessioni di programmazione dell'ultimo minuto e richiedere revisioni del codice in tempo reale.
-### 7.2 Meeting di progetto
-Il team ha riadattato i quattro eventi canonici di Scrum alle proprie necessità pratiche:
+  
+  ### 7.2 Meeting di progetto
+  
+  Il team ha riadattato i quattro eventi canonici di Scrum alle proprie necessità pratiche:
 1. **Sprint Planning** (Meeting Pre-Sprint): Una riunione formale (svolta all'inizio di ogni iterazione) per analizzare le richieste, valutare la fattibilità tecnica, definire i Requisiti Non Funzionali e assegnare le singole Issue ai membri del gruppo.
+
 2. **Daily Scrum** (Sync Asincroni): Invece del canonico meeting giornaliero di 15 minuti, il team ha effettuato allineamenti quotidiani tramite il canale di messaggistica istantanea, aggiornando i compagni sullo stato dei lavori e sulle difficoltà riscontrate.
+
 3. **Sprint Review**: Svolta in prossimità della chiusura dello Sprint per unire i branch, verificare l'integrazione delle diverse funzionalità sulla piattaforma principale e testare il comportamento globale del gioco (es. esecuzione in container Docker).
+
 4. **Sprint Retrospective**: L'incontro più importante per la salute del gruppo, dedicato esclusivamente all'analisi del processo lavorativo e all'individuazione di azioni correttive per lo Sprint successivo.
-### 7.3 Assegnazione task e GitHub Flow
-Per l'integrazione del codice, il team segue rigorosamente il GitHub Flow per mantenere il branch `main` sempre stabile e compilabile:
+   
+   ### 7.3 Assegnazione task e GitHub Flow
+   
+   Per l'integrazione del codice, il team segue rigorosamente il GitHub Flow per mantenere il branch `main` sempre stabile e compilabile:
 - **Branching e Pull Request**: Nessun membro è autorizzato a effettuare commit diretti sul main. Per ogni Issue viene creato un branch dedicato; a lavoro ultimato si apre una Pull Request (PR).
 - **Code Review Obbligatoria**: Le modifiche devono ricevere un'approvazione esplicita (Approve) da parte di un altro membro del team prima del merge. Nel nostro caso abbiamo alzato per gran parte del progetto questo numero a tre, che corrisponde a più della metà del team, in modo da garantire, con questa convenzione, una maggiore sicurezza di ciò che entrava nell'ambiente di rilascio.
 - **Strategia di Lavoro Mista**: Per task complessi e isolati (es. Motore di Replay, Logica del Tempo), il lavoro è stato assegnato a coppie o piccoli sottogruppi (Pair Programming). Per task trasversali (es. Documentazione, Testing, sviluppo dell'Interfaccia TUI), si è adottato l'approccio delle Issue Padre: tutti i membri vi partecipano contemporaneamente, curando ciascuno i test e la documentazione del proprio modulo di competenza.
 
 ### 7.4 Analisi retrospettiva e miglioramento continuo
+
 La metodologia Agile adottata dal team trova il suo momento di massima espressione nell'analisi retrospettiva condotta al termine di ogni ciclo di sviluppo. Queste sessioni non si limitano a un bilancio passivo del lavoro completato, ma fungono da vero e proprio motore per l'evoluzione e il progressivo affinamento dell'intero processo ingegneristico.
 
 Durante le retrospettive, il gruppo si riunisce attorno a lavagne digitali per mappare in modo collaborativo l'andamento delle attività, identificando sistematicamente i punti di forza da consolidare e le inefficienze su cui intervenire. L'approccio empirico e adattivo del team ha permesso di convertire i punti di riflessione emersi in linee guida metodologiche stabili e ricorrenti:
+
 - *Evoluzione nell'approccio ai task generali*: L'analisi delle prime dinamiche di collaborazione ha evidenziato come i compiti trasversali e non legati a una specifica classe di codice (quali la stesura della documentazione tecnica o la configurazione delle suite di test) rischiassero una gestione frammentata o un carico sbilanciato. Per risolvere questa criticità, il team ha adottato la strategia delle Issue Padre. Questa astrazione consente di suddividere i macro-obiettivi in sotto-task modulari e paralleli, responsabilizzando ogni membro sulla propria componente e garantendo un'integrazione fluida del deliverable complessivo.
 - *Avanzamento progressivo dei controlli di qualità*: Per scongiurare il rischio di regressioni logiche o crash applicativi durante l'assemblaggio delle nuove funzionalità, il team ha progressivamente innalzato i criteri di accettazione per il codice da integrare nel ramo principale. Questo ha portato a un irrigidimento controllato della fase di Code Review sulle Pull Request e alla configurazione di vincoli statici stringenti, che agiscono come barriera di sicurezza prima di ogni fusione.
 
