@@ -352,6 +352,11 @@ Il team ha riadattato i quattro eventi canonici di Scrum alle proprie necessità
 2. **Daily Scrum** (Sync Asincroni): Invece del canonico meeting giornaliero di 15 minuti, il team ha effettuato allineamenti quotidiani tramite il canale di messaggistica istantanea, aggiornando i compagni sullo stato dei lavori e sulle difficoltà riscontrate.
 3. **Sprint Review**: Svolta in prossimità della chiusura dello Sprint per unire i branch, verificare l'integrazione delle diverse funzionalità sulla piattaforma principale e testare il comportamento globale del gioco (es. esecuzione in container Docker).
 4. **Sprint Retrospective**: L'incontro più importante per la salute del gruppo, dedicato esclusivamente all'analisi del processo lavorativo e all'individuazione di azioni correttive per lo Sprint successivo.
+### 7.3 Assegnazione task e GitHub Flow
+Per l'integrazione del codice, il team segue rigorosamente il GitHub Flow per mantenere il branch `main` sempre stabile e compilabile:
+- **Branching e Pull Request**: Nessun membro è autorizzato a effettuare commit diretti sul main. Per ogni Issue viene creato un branch dedicato; a lavoro ultimato si apre una Pull Request (PR).
+- **Code Review Obbligatoria**: Le modifiche devono ricevere un'approvazione esplicita (Approve) da parte di un altro membro del team prima del merge. Nel nostro caso abbiamo alzato per gran parte del progetto questo numero a tre, che corrisponde a più della metà del team, in modo da garantire, con questa convenzione, una maggiore sicurezza di ciò che entrava nell'ambiente di rilascio.
+- **Strategia di Lavoro Mista**: Per task complessi e isolati (es. Motore di Replay, Logica del Tempo), il lavoro è stato assegnato a coppie o piccoli sottogruppi (Pair Programming). Per task trasversali (es. Documentazione, Testing, sviluppo dell'Interfaccia TUI), si è adottato l'approccio delle Issue Padre: tutti i membri vi partecipano contemporaneamente, curando ciascuno i test e la documentazione del proprio modulo di competenza.
 
 ## 8. Analisi retrospettiva
 
