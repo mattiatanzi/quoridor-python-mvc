@@ -339,6 +339,9 @@ La seconda soluzione invece controlla ad ogni ciclo se il giocatore ha un timer,
       
       Isolando il dominio della "configurazione" da quello dell'"esecuzione della partita", abbiamo ottenuto un codice più coeso, facilmente testabile e manutenibile, dove eventuali future modifiche ai menu di avvio non andranno a intaccare in alcun modo le logiche centrali del gioco.
 
+## 7. Modalità di collaborazione del team
+Il team ha adottato una metodologia di sviluppo ispirata al framework Agile/Scrum, personalizzandola fortemente per adattarla alle dinamiche di un gruppo di lavoro universitario. L'obiettivo principale è stato mantenere un ciclo di rilascio iterativo, garantendo flessibilità e comunicazione costante, compatibilmente con gli orari di studio e gli impegni di ciascun componente.
+
 ## 8. Analisi retrospettiva
 
 ### 8.1 Sprint 0
