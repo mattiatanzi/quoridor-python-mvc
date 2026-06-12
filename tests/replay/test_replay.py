@@ -126,3 +126,51 @@ class TestReplayNavigazione:
         esito_indietro_fuori_limite = replay_ctrl.torna_indietro()
         assert esito_indietro_fuori_limite is False
         assert replay_ctrl.get_indice_corrente() == 0  # L'indice non deve scendere in negativo
+        
+    def test_sincronizzazione_giocatori_eliminati(self):
+        """Verifica che il replay salti correttamente i turni dei giocatori eliminati.
+
+        Classi di equivalenza:
+            CE1: Ricostruzione del replay in cui un giocatore ha perso o ha abbandonato,
+                 lasciando un buco (---) nella trascrizione.
+
+        Oracolo:
+            CE1 => Il ReplayController deve istanziarsi senza andare in crash.
+            CE1 => Il motore deve estrarre solo le "mosse pure" scartando i segnaposto.
+            CE1 => L'avanzamento dei turni deve saltare il giocatore inattivo e
+                   applicare la mossa successiva al giocatore corretto.
+        """
+        # Creiamo un setup ad-hoc con 3 giocatori per testare il salto del turno
+        tavoliere = Tavoliere()
+        g1 = Giocatore("P1", new_posizione=Nodo("e1"))
+        g2 = Giocatore("P2", new_posizione=Nodo("a5"))
+        g3 = Giocatore("P3", new_posizione=Nodo("e9"))
+        
+        partita = Partita(tavoliere, {g1, g2, g3})
+        
+        # Simuliamo che P2 sia stato eliminato in precedenza (es. si è arreso)
+        partita.elimina_giocatore("P2")
+        
+        # Salviamo lo snapshot in cui P2 è già eliminato (is_attivo() == False)
+        snapshot = copy.deepcopy(partita)
+        
+        # Creiamo una trascrizione in cui P1 muove, P2 salta (---) e P3 muove
+        # I tabulatori \t rispecchiano la formattazione introdotta in Partita
+        trascrizione = ["1.\te2\t---\te8"]
+        
+        # Inizializziamo il replay
+        replay_ctrl = ReplayController(trascrizione, snapshot)
+        
+        # Oracolo 1: Il sistema deve aver filtrato il "---" e contato solo 2 mosse reali
+        assert replay_ctrl.get_totale_mosse() == 2
+        
+        # Oracolo 2: Avanziamo e controlliamo la mossa di P1
+        replay_ctrl.avanza()
+        stato_mossa_1 = replay_ctrl.get_stato_corrente()
+        assert stato_mossa_1.get_giocatore("P1").get_posizione().get_valore_id_nodo() == "e2"
+        
+        # Oracolo 3: Avanziamo e controlliamo la mossa di P3
+        # (Il Replay deve saltare P2 automaticamente perché non è attivo)
+        replay_ctrl.avanza()
+        stato_mossa_2 = replay_ctrl.get_stato_corrente()
+        assert stato_mossa_2.get_giocatore("P3").get_posizione().get_valore_id_nodo() == "e8"
