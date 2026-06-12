@@ -1,6 +1,8 @@
 from datetime import datetime
+from datetime import timedelta
 
 import copy
+import threading
 import time
 
 from src.Controller.replay_controller import ErroreReplay, ReplayController
@@ -9,7 +11,7 @@ from src.Model.partita import ErroreFormattazione, ErrorePartita, Partita
 from src.Model.tavoliere import ErroreTavoliere
 from src.View.funzioni_utili_stampa import chiedi_input_utente
 from src.View.partita_view import PartitaViewAstratta
-from src.View.CLI.replay_view_CLI import ReplayViewCLI
+from src.Model.tempo import get_tempo_formattato
 
 
 class PartitaController:
@@ -236,64 +238,104 @@ class PartitaController:
             giocatore_attivo = self.get_giocatore(id_giocatore_attivo)
 
             # Inizio a cronometrare il giocatore
-            if giocatore_attivo.is_attivo():
+            if hasattr(self, '_evento_stop_timer') and self._evento_stop_timer is not None:
+                self._evento_stop_timer.set()
                 
-                # --- NUOVA LOGICA TIMER ---
-                tempo_obj = None
+            self._evento_stop_timer = None
+
+            if giocatore_attivo.is_attivo():
                 if giocatore_attivo.possiede_limite_tempo():
-                    tempo_obj = giocatore_attivo.get_oggetto_tempo()
-                    
-                    def _al_tick(tempo_residuo):
-                        from src.View.funzioni_utili_stampa import get_tempo_formattato
-                        tempo_fmt = get_tempo_formattato(tempo_residuo)
-                        self.__view.aggiorna_orologio_live(id_giocatore_attivo, tempo_fmt)
+                    self._evento_stop_timer = threading.Event()
+                
+                    # Passiamo il giocatore e l'evento come parametri per evitare confusioni tra i thread
+                    def _loop_timer(stop_event, giocatore, id_gioc):                        
+                        # Usa l'import corretto del tuo progetto per get_tempo_formattato                        
+                        while not stop_event.is_set():
+                            # .wait(1.0) aspetta un secondo, MA si interrompe in un millisecondo
+                            # se nel frattempo l'utente ha premuto Invio (facendo scattare il .set())
+                            interrotto = stop_event.wait(1.0)
+                            
+                            if interrotto:
+                                break # Uscita immediata dal thread: muore pulito.
+                                
+                            try:
+                                # Riduciamo il tempo
+                                ha_ancora_tempo = giocatore.riduci_tempo(timedelta(seconds=1))
+                                
+                                # Aggiorniamo la grafica
+                                tempo_fmt = get_tempo_formattato(giocatore.get_tempo_residuo())
+                                self.__view.aggiorna_orologio_live(id_gioc, tempo_fmt)
+                                
+                                # Se scade
+                                if not ha_ancora_tempo or giocatore.ha_finito_tempo():
+                                    self.__view.forza_input("resa_per_tempo")
+                                    break
+                            except Exception:
+                                break
 
-                    def _al_timeout():
-                        # Inserisce forzatamente il comando nella coda input
-                        self.__view.get_coda_input().put("resa_per_tempo")
-
-                    tempo_obj.imposta_callbacks(_al_tick, _al_timeout)
-                    tempo_obj.avvia()
-
+                    # Avviamo il thread passandogli i bersagli esatti
+                    threading.Thread(
+                        target=_loop_timer, 
+                        args=(self._evento_stop_timer, giocatore_attivo, id_giocatore_attivo), 
+                        daemon=True
+                    ).start()
                 azione = self.__view.get_input()
                 errore = ""
 
                 # Pulizia input utente
                 azione_pulita = azione.strip().lower()
+                if hasattr(self, '_evento_stop_timer') and self._evento_stop_timer is not None:
+                    self._evento_stop_timer.set()
 
-                # 1. GESTIONE SCONFITTA PER TEMPO SCADUTO (Comando invisibile)
+                # Tempo Esaurito
                 if azione_pulita == "resa_per_tempo":
                     self.__view.mostra_messaggio_timeout(id_giocatore_attivo)
-                    self.__model.elimina_giocatore(id_giocatore_attivo)
+                    self.__model.elimina_giocatore(giocatore_attivo.get_id())
                     
-                    # Controllo se la partita finisce a causa del timeout
                     id_vincitore = self.__model.verifica_vittoria()
                     if id_vincitore:
-                        # Qui andrà la logica per tornare al menu/replay che hai già (vedi passo 4)
-                        pass
-                    
+                        motivo_vincita = f"Il giocatore {id_vincitore} è l'unico rimasto in partita"
+                        self.__view.stampa_vittoria(id_vincitore, motivo_vincita)
+                        
+                        scelta_pulita = self.__view.get_input().lower().strip()
+                        while scelta_pulita != "m":
+                            if (scelta_pulita in self.__COMANDI_REPLAY or scelta_pulita in self.__COMANDI_REPLAY_AUTOMATICO):
+                                risultato_replay = self.gestisci_replay(scelta_pulita)
+                                if risultato_replay == "REPLAY_EXIT":
+                                    scelta_pulita = ""
+                                else:
+                                    errore = risultato_replay
+                            elif scelta_pulita in self.__COMANDI_TRASCRIZIONE:
+                                self.__view.stampa_trascrizione(self.__model.get_trascrizione(), len(self.__model.get_giocatori()))
+                                scelta_pulita = ""
+                            else:
+                                if scelta_pulita != "":
+                                    self.__view.stampa_errore_partita("Comando non riconosciuto. Inserisci 'm' per il menù.")
+                                self.__view.stampa_vittoria(id_vincitore, motivo_vincita)
+                                scelta_pulita = self.__view.get_input().lower().strip()
+                        else:
+                            continuare_partita = False
+                            continue
+                    else:
+                        self.__model.incrementa_turno() # Passa al giocatore successivo se si è in 4
                     continue
-
-                # 2. Aiuto (CON PAUSA TIMER)
-                elif azione_pulita in ["help", "aiuto"]:
-                    if tempo_obj: tempo_obj.metti_in_pausa() # FERMA IL TEMPO
+                # Aiuto
+                if azione_pulita in ["help", "aiuto"]:
                     self.__view.stampa_aiuto()
                     chiedi_input_utente("---- Premi INVIO per tornare alla partita... ----")
-                    if tempo_obj: tempo_obj.riprendi() # RIPARTENZA TEMPO
+                    # La richiesta di aiuto non incrementa il turno
                     continue
 
-                # 3. Trascrizione (CON PAUSA TIMER)
                 elif azione_pulita in self.__COMANDI_TRASCRIZIONE:
                     if not self.__model.get_trascrizione():
                         errore = "Errore: Trascrizione vuota"
                     else:
-                        if tempo_obj: tempo_obj.metti_in_pausa() # FERMA IL TEMPO
                         self.__view.stampa_trascrizione(
                             self.__model.get_trascrizione(),
                             len(self.__model.get_giocatori()),
                         )
                         chiedi_input_utente("---- Premi INVIO per tornare alla partita... ----")
-                        if tempo_obj: tempo_obj.riprendi() # RIPARTENZA TEMPO
+
                 # Uscire dalla partita
                 elif azione_pulita in self.__COMANDI_ABBANDONA_PARTITA:
                     # Messaggi per chiedere conferma
@@ -386,14 +428,11 @@ class PartitaController:
                         errore = err_tav
                     except ErrorePartita as err_part:
                         errore = err_part
+                    # Solo se non ci sono eccezioni si continua con il flusso
                     else:
-                        # Questo 'else' scatta SOLO se il muro è stato piazzato con successo!
+
                         # Prima di incrementare il turno salva la trascrizione
                         self.__model.aggiungi_mossa_trascrizione(azione_pulita)
-
-                        # LA MOSSA È VALIDA: FERMA IL TIMER!
-                        if tempo_obj: tempo_obj.ferma()
-
                         self.__model.incrementa_turno()
 
                 # Mossa
@@ -405,15 +444,13 @@ class PartitaController:
                             )
                         except ErrorePosizione as err_pos:
                             errore = f"Errore movimento: {err_pos}"
+                        # Solo se non ci sono eccezioni si continua con il flusso
                         else:
-                            # Questo 'else' scatta SOLO se il movimento è stato fatto con successo!
-                            
+
                             # Salva Trascrizione Prima delle logiche della mossa
                             self.__model.aggiungi_mossa_trascrizione(azione_pulita)
 
-                            # LA MOSSA È VALIDA: FERMA IL TIMER!
-                            if tempo_obj: tempo_obj.ferma()
-
+                            self.__model.aggiungi_mossa_trascrizione(azione_pulita)
                             # Controllo vittoria
                             if continuare_partita:
                                 id_vincitore = self.__model.verifica_vittoria()
@@ -546,17 +583,19 @@ class PartitaController:
                 cmd_pulito = scelta_replay.strip().lower()
 
                 try:
-                    ris = replay.esegui_comando(scelta_replay)
-
-                    # SE IL COMANDO SEGNALA L'USCITA (False), INTERROMPIAMO IMMEDIATAMENTE IL CICLO
-                    if not ris:
-                        break
+                    
 
                     n = replay.get_indice_corrente()
                     if n == replay.get_totale_mosse() and cmd_pulito in self.__COMANDI_AVANTI:
                         errore = "Errore: Impossibile andare avanti, mosse terminate"
                     if n == 0 and cmd_pulito in self.__COMANDI_INDIETRO:
                         errore = "Errore: Impossibile andare indietro, stai ancora all'inizio del replay"
+
+                    ris = replay.esegui_comando(scelta_replay)
+
+                    # SE IL COMANDO SEGNALA L'USCITA (False), INTERROMPIAMO IMMEDIATAMENTE IL CICLO
+                    if not ris:
+                        break
                 except ErroreReplay as err_com:
                     errore = err_com
         else:

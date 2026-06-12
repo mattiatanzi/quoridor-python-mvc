@@ -3,12 +3,13 @@ import queue
 import sys
 
 from src.Model.partita import Partita
-from src.Model.tempo import Tempo
+from src.Model.tempo import get_tempo_formattato
 from src.View.funzioni_utili_stampa import chiedi_input_utente, pulisci_schermo
 from src.View.giocatore_view import GiocatoreViewAstratta
 from src.View.tavoliere_view import TavoliereviewAstratta
 from src.View.partita_view import PartitaViewAstratta
 from src.View.CLI.replay_view_CLI import ReplayViewCLI
+from src.View.funzioni_utili_stampa import inserisci_input_forzato
 
 
 class PartitaViewCLI(PartitaViewAstratta):
@@ -135,12 +136,7 @@ class PartitaViewCLI(PartitaViewAstratta):
     ):
         self.__giocatoreView = new_giocatore_view
         self.__tavoliereView = new_tavoliere_view
-        # LOGICA CODA E THREAD
-        self._coda_input = queue.Queue() # Coda per evitare blocchi quando il tempo finisce e non si è ancora scelta la mossa
-        self._ascolto_attivo = False
-        
-        thread_tastiera = threading.Thread(target=self._lettore_input_costante, daemon=True)# Thread per gestire il tempo
-        thread_tastiera.start()
+
 
     # Accesso Attributi Privati
 
@@ -167,7 +163,7 @@ class PartitaViewCLI(PartitaViewAstratta):
             muri_rimanenti = partita.get_muri_disponibili_giocatore(id_selezionato)
 
             if g.possiede_limite_tempo():
-                stringa_tempo_rimanente = Tempo().get_tempo_formattato(g.get_tempo_residuo())
+                stringa_tempo_rimanente = get_tempo_formattato(g.get_tempo_residuo())
             else:
                 stringa_tempo_rimanente = None
 
@@ -296,24 +292,18 @@ class PartitaViewCLI(PartitaViewAstratta):
             print("=", end="")
         print("\n")
 
-    def get_input(self) -> str: # o chiedi_input_utente(self), in base a come l'hai chiamato qui
-        print("\nInput:", end="", flush=True)
-        
-        self._ascolto_attivo = True
-        
-        # Aspetta fermo qui finché non scrivi qualcosa O finché non scade il timer!
-        risultato = self._coda_input.get() 
-        
-        self._ascolto_attivo = False
-        return risultato
-
     # Stampe Errori
 
     def stampa_errore_partita(self, messaggio):
         print(messaggio)
 
     def get_input(self) -> str:
-        return chiedi_input_utente("Fai la tua mossa: ")
+        # Si appoggia semplicemente al nuovo sistema globale infallibile
+        return chiedi_input_utente()
+
+    def forza_input(self, testo: str):
+        # Questo metodo verrà chiamato dal Controller quando scade il timer
+        inserisci_input_forzato(testo)
 
     def stampa_trascrizione(
         self, trascrizione: list[str], num_giocatori: int
@@ -339,25 +329,19 @@ class PartitaViewCLI(PartitaViewAstratta):
 
         return ReplayViewCLI()
     
-
-    # Funzioni per il timer live
-    def _lettore_input_costante(self):
-        """Ascolta perennemente la tastiera senza bloccare il gioco."""
-        while True:
-            testo_digitato = input()
-            if self._ascolto_attivo:
-                self._coda_input.put(testo_digitato)
-
-    def get_coda_input(self):
-        return self._coda_input
-    
     def aggiorna_orologio_live(self, id_giocatore, tempo_formattato):
-        """Usa ANSI per stampare in alto a destra e tornare dove l'utente sta scrivendo."""
-        # \033[s       : Salva cursore
-        # \033[2;60H   : Vai a Riga 2, Colonna 60
-        # \033[K       : Pulisci la riga
-        # \033[u       : Ripristina cursore
-        comando = f"\033[s\033[2;60H\033[K⏱️ {id_giocatore}: {tempo_formattato}\033[u"
+        RIGA_FISSA = 2     
+        COLONNA_FISSA = 70
+        
+        # LA MAGIA ANSI ASSOLUTA:
+        # \033[s              -> Salva la posizione attuale (in basso su "Input: ")
+        # \033[{R};{C}H       -> Vola istantaneamente alla riga e colonna fisse
+        # \033[K              -> Pulisce la riga da eventuali testi precedenti
+        # \033[u              -> Torna istantaneamente in basso all'input
+        
+        testo = f" ⏱️ {id_giocatore} il tempo scorre: {tempo_formattato}"
+        comando = f"\033[s\033[{RIGA_FISSA};{COLONNA_FISSA}H\033[K{testo}\033[u"
+        
         sys.stdout.write(comando)
         sys.stdout.flush()
 

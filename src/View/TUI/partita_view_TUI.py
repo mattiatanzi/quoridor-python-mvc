@@ -3,7 +3,7 @@ import time
 import traceback
 
 from src.Model.partita import Partita
-from src.Model.tempo import Tempo
+from src.Model.tempo import get_tempo_formattato
 from src.View.giocatore_view import GiocatoreViewAstratta
 from src.View.partita_view import PartitaViewAstratta
 from src.View.tavoliere_view import TavoliereviewAstratta
@@ -52,7 +52,7 @@ class PartitaViewTUI(PartitaViewAstratta):
             tempo_fmt = None
             if g.possiede_limite_tempo():
                 try:
-                    tempo_fmt = Tempo().get_tempo_formattato(g.get_tempo_residuo())
+                    tempo_fmt = get_tempo_formattato(g.get_tempo_residuo())
                 except Exception as e:
                     # Invece di far morire il thread, catturiamo l'errore e lo scriviamo su file!
                     with open("debug_crash.txt", "a") as f:

@@ -49,10 +49,7 @@ class GiocatoreViewCLI:
     # Stampe Video
 
     def stampa_giocatore_attivo(self, id, muri_disponibili, tempo_formattato=None):
-        print(f"Turno {id}, Muri Disponibili: {muri_disponibili}", end="")
-        if tempo_formattato is not None:
-            print(f", Tempo Rimanente: {tempo_formattato}", end="")
-        print("")
+        print(f"Turno {id}, Muri Disponibili: {muri_disponibili}")
 
     def stampa_info_giocatore(self, id, muri_disponibili, tempo_formattato=None):
         print(f"Giocatore {id}, Muri Disponibili: {muri_disponibili}", end="")

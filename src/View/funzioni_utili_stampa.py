@@ -1,49 +1,76 @@
 import os
+import threading
+import queue
+import builtins
 
 _gestore_input_personalizzato = None
 
-def pulisci_schermo():
-    """Pulisce il terminale in modo incrociato su tutti i SO e Shell.
+# --- SISTEMA UNIFICATO DI INPUT ASINCRONO (Fix Doppio Invio) ---
+# Creiamo un'unica coda globale per l'intera applicazione.
+_coda_input_globale = queue.Queue()
+_thread_input_avviato = False
 
-    Abbiamo notato che durante l'esecuzione sui terminali di Ubuntu e di Windows
-    Powershell non viene pulito lo schermo come avviene negli altri terminali,
-    ma tralasciamo questo problema in quanto di base Ubuntu e Powershell mantengono
-    il buffer di scorrimento ma ogni qual volta si richiama la funzione la stampa
-    riporta sempre all'ultima stampa emessa lasciando quindi come 'storico'
-    i precedenti comandi e/o precedenti stampe a video
-    """
+# Salviamo la vera funzione input di Python in modo sicuro prima di modificarla
+_input_originale = builtins.input
+
+def _lettore_input_globale():
+    """Thread demone che ascolta in background senza mai rubare o perdere tasti."""
+    while True:
+        try:
+            # Usa il vero input per prendere i dati dalla tastiera
+            testo = _input_originale()
+            _coda_input_globale.put(testo)
+        except EOFError:
+            break
+
+def _avvia_lettore_se_necessario():
+    """Avvia il thread solo la prima volta che serve un input."""
+    global _thread_input_avviato
+    if not _thread_input_avviato:
+        _thread_input_avviato = True
+        t = threading.Thread(target=_lettore_input_globale, daemon=True)
+        t.start()
+
+def inserisci_input_forzato(testo: str):
+    """Permette al timer di inviare 'resa_per_tempo' aggirando la tastiera."""
+    _coda_input_globale.put(testo)
+# -----------------------------------------------------------------
+
+
+def pulisci_schermo():
+    """Pulisce il terminale in modo incrociato su tutti i SO e Shell."""
     if os.name == "posix":
-        # Sistemi nativi Unix (Linux e macOS)
         print("\033[2J\033[H", end="", flush=True)
     else:
-        # Sistemi Windows (CMD, PowerShell, Git Bash)
-        # Git Bash imposta variabili d'ambiente specifiche ('TERM' o 'MSYSTEM')
         if "TERM" in os.environ or "MSYSTEM" in os.environ:
-            print("\033[2J\033[H", end="", flush=True)  # Siamo su Git Bash
+            print("\033[2J\033[H", end="", flush=True)
         else:
-            os.system("cls")  # Siamo su PowerShell o CMD
-
-
+            os.system("cls")
 
 
 def imposta_gestore_input(funzione_gestore):
-    """Permette alla TUI di 'iniettare' la sua logica (code e popup)."""
+    """Permette alla TUI di 'iniettare' la sua logica."""
     global _gestore_input_personalizzato
     _gestore_input_personalizzato = funzione_gestore
 
 
 def chiedi_input_utente(indicazioniInput: str = "") -> str:
-    """Funzione Generica di richiesta input (Agisce da ponte)."""
-    
-    # Se la TUI ha attivato il suo gestore, devia la chiamata lì!
+    """Sostituisce completamente l'input standard, bloccandosi sulla coda."""
+    # Se c'è la TUI (Textual), usa quella
     if _gestore_input_personalizzato is not None:
         return _gestore_input_personalizzato(indicazioniInput)
 
-    # ALTRIMENTI: Comportamento originale per la CLI
-    __stampa_richiesta_input(indicazioniInput)
-    return input()
+    # Assicura che il lettore in background sia attivo
+    _avvia_lettore_se_necessario()
+
+    print(f"\n{indicazioniInput} ",end = "\n\n")
+    print("Input: ", end="", flush=True)
+
+    # Si blocca in attesa che l'utente scriva o che scada il timer, in modo pulito!
+    return _coda_input_globale.get()
 
 
-def __stampa_richiesta_input(indicazioni: str = ""):
-    print(f"\n{indicazioni}", end="\n\n")
-    print("Input: ", end="")
+# MAGIA: Sostituiamo globalmente la funzione input() di Python!
+# In questo modo, anche se nei vecchi menu hai scritto un normale input("Scegli: "), 
+# tutto il gioco passerà automaticamente per la nostra coda senza mai bloccarsi a vicenda.
+builtins.input = lambda prompt="": chiedi_input_utente(prompt)

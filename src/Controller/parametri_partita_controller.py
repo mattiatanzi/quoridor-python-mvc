@@ -4,7 +4,6 @@ from src.Model.costanti_partita import CostantiPartita
 from src.Model.parametri_partita import ErroreParametriPartita, ParametriPartita
 from src.View.costanti_quoridor_view import CostantiQuoridorView
 from src.View.funzioni_utili_stampa import chiedi_input_utente
-from src.View.parametri_partita_view import ParametriPartitaView
 from src.View.CLI.parametri_partita_view_CLI import ParametriPartitaViewCLI
 
 
@@ -73,14 +72,14 @@ class ParametriPartitaController:
 
     """
 
-    __view: ParametriPartitaView
+    __view: ParametriPartitaViewCLI
     __model: ParametriPartita
 
     # Costruttore
     def __init__(
         self,
         new_model: ParametriPartita = None,
-        new_view: ParametriPartitaView = None,
+        new_view: ParametriPartitaViewCLI = None,
     ):
         self.set_view(new_view if new_view is not None else ParametriPartitaViewCLI())
         try:
@@ -89,10 +88,10 @@ class ParametriPartitaController:
             self.get_view().stampa_errore_parametri(err)
 
     # Accesso attributi Privati
-    def set_view(self, new_view: ParametriPartitaView):
+    def set_view(self, new_view: ParametriPartitaViewCLI):
         self.__view = new_view
 
-    def get_view(self) -> ParametriPartitaView:
+    def get_view(self) -> ParametriPartitaViewCLI:
         return self.__view
 
     def set_model(self, new_model: ParametriPartita):
@@ -121,7 +120,7 @@ class ParametriPartitaController:
                 if scelta_interfaccia in ["help", "aiuto"]:
                     scelta_interfaccia = ""
                     self.get_view().stampa_aiuto_modalita_partita()
-                    
+                    chiedi_input_utente("---- Premi INVIO per tornare alla partita... ----")
                     scelta_interfaccia = self.get_view().get_input_modalita_partita()
                 else:
                     scelta_interfaccia = self.get_view().get_input_modalita_partita(

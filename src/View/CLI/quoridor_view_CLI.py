@@ -31,7 +31,7 @@ class QuoridorViewCLI(QuoridorViewAstratta):
         self.__menu_base()
 
     def get_input_menu(self) -> str:
-        return input("Seleziona un'opzione: ")
+        return chiedi_input_utente("Seleziona un'opzione:")
 
     def stampa_messaggio(self, messaggio: str):
         print(messaggio)
