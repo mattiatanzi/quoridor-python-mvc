@@ -1,6 +1,6 @@
+from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.costanti_partita import CostantiPartita
 from src.Model.giocatore import ErrorePosizione, Giocatore
-from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.nodo import Nodo
 from src.Model.tavoliere import Tavoliere
 
@@ -230,20 +230,28 @@ class Partita:
 
     # Aggiungere mossa nella trascrizione
     def aggiungi_mossa_trascrizione(self, mossa: str):
-        """Aggiunge una mossa alla trascrizione assegnandola alla colonna corretta del giocatore."""
-        # Otteniamo l'ID del giocatore che sta eseguendo la mossa (es: "P1", "P2", "P3", "P4")
+        """aggiungi_mossa_trascrizione.
+
+        Aggiunge una mossa alla trascrizione assegnandola alla colonna corretta del
+        giocatore.
+        """
+        # Otteniamo l'ID del giocatore che sta eseguendo
+        # la mossa (es: "P1", "P2", "P3", "P4")
         id_attivo = self.get_id_giocatore_attivo()
 
-        # Generiamo la lista ordinata degli ID dei giocatori partecipanti (es: ["P1", "P2", "P3", "P4"])
+        # Generiamo la lista ordinata degli ID dei
+        # giocatori partecipanti (es: ["P1", "P2", "P3", "P4"])
         giocatori_ordinati = sorted([g.get_id() for g in self.get_giocatori()])
         num_giocatori = len(giocatori_ordinati)
 
-        # Troviamo l'indice della colonna spettante al giocatore attivo (P1->0, P2->1, P3->2, P4->3)
+        # Troviamo l'indice della colonna spettante al
+        # giocatore attivo (P1->0, P2->1, P3->2, P4->3)
         indice_colonna_attiva = giocatori_ordinati.index(id_attivo)
 
         # Se la trascrizione è ancora completamente vuota, inizializziamo il turno 1
         if not self.__trascrizione:
-            # Se a muovere per primo non è il primo giocatore (es. per eliminazioni immediate),
+            # Se a muovere per primo non è il primo
+            # giocatore (es. per eliminazioni immediate),
             # riempiamo le colonne precedenti con dei segnaposto
             mosse_iniziali = ["---"] * indice_colonna_attiva
             mosse_iniziali.append(mossa)
@@ -259,7 +267,8 @@ class Partita:
         num_turno = int(parti[0])
         mosse_attuali = parti[1].split("\t")
 
-        # Se l'ultimo turno ha già raggiunto il numero massimo di colonne, creiamo un nuovo turno
+        # Se l'ultimo turno ha già raggiunto il numero massimo di colonne,
+        # creiamo un nuovo turno
         if len(mosse_attuali) == num_giocatori:
             num_turno += 1
             mosse_nuove = ["---"] * indice_colonna_attiva
@@ -268,13 +277,15 @@ class Partita:
             self.__trascrizione.append(f"{num_turno}.\t{stringa_unita}")
         else:
             # Altrimenti stiamo ancora inserendo mosse nel turno corrente.
-            # Se il giocatore attivo appartiene a una colonna successiva rispetto a dove siamo arrivati,
-            # riempiamo i buchi intermedi lasciati dai giocatori eliminati/saltati con "---"
+            # Se il giocatore attivo appartiene a una colonna successiva rispetto a
+            # dove siamo arrivati, riempiamo i buchi intermedi lasciati dai
+            # giocatori eliminati/saltati con "---"
             while len(mosse_attuali) < indice_colonna_attiva:
                 mosse_attuali.append("---")
 
-            # Se per via dei salti di turno l'indice corrente della colonna attiva è già stato superato
-            # (ovvero il turno è ricominciato daccapo per una riga non completata), apriamo un nuovo turno
+            # Se per via dei salti di turno l'indice corrente della colonna attiva
+            # è già stato superato (ovvero il turno è ricominciato daccapo per una
+            # riga non completata), apriamo un nuovo turno
             if len(mosse_attuali) > indice_colonna_attiva:
                 num_turno += 1
                 mosse_nuove = ["---"] * indice_colonna_attiva
@@ -327,11 +338,12 @@ class Partita:
 
     def elimina_giocatore(self, id):
         giocatore_selezionato = self.get_giocatore(id)
-        if (giocatore_selezionato.is_attivo()):
+        if giocatore_selezionato.is_attivo():
             giocatore_selezionato.set_attivo(False)
         else:
             raise ErrorePartita(
-                f"Impossibile eliminare il giocatore {giocatore_selezionato.get_id()}, \n"
+                "Impossibile eliminare il giocatore "
+                f"{giocatore_selezionato.get_id()}, \n"
                 "In quanto era già stato eliminato"
             )
 
@@ -367,9 +379,8 @@ class Partita:
 
         totale_giocatori = len(self.get_giocatori())
 
-        if (totale_giocatori != 0):
-
-            if (id_giocatore_attivo in CostantiGiocatore.POSSIBILI_ID_GIOCATORE):
+        if totale_giocatori != 0:
+            if id_giocatore_attivo in CostantiGiocatore.POSSIBILI_ID_GIOCATORE:
                 numeroGiocatore = int(id_giocatore_attivo[1]) + 1
 
                 if numeroGiocatore > totale_giocatori:
@@ -390,9 +401,17 @@ class Partita:
         if giocatore_attivo.get_muri_disponibili() == 0:
             raise ErrorePartita("Errore: Muri da piazzare terminati")
 
-        if (len(azione) == 3):
-            if CostantiPartita.PRIMA_COLONNA <= azione[0] <= CostantiPartita.ULTIMA_COLONNA:
-                if CostantiPartita.PRIMA_RIGA <= azione[1] <= CostantiPartita.ULTIMA_RIGA:
+        if len(azione) == 3:
+            if (
+                CostantiPartita.PRIMA_COLONNA
+                <= azione[0]
+                <= CostantiPartita.ULTIMA_COLONNA
+            ):
+                if (
+                    CostantiPartita.PRIMA_RIGA
+                    <= azione[1]
+                    <= CostantiPartita.ULTIMA_RIGA
+                ):
                     if azione[2] == CostantiPartita.ORIZZONTALE:
                         self.__tavoliere.piazza_muro_orizzontale(azione)
                     elif azione[2] == CostantiPartita.VERTICALE:
@@ -408,7 +427,8 @@ class Partita:
                     )
             else:
                 raise ErroreFormattazione(
-                    "Errore: inserire colonna corretta come primo carattere tra 'a' e 'i'"
+                    "Errore: inserire colonna corretta come primo carattere tra 'a' e "
+                    "'i'"
                 )
         else:
             raise ErroreFormattazione("La mossa inserita non corrisponde ad un muro")
@@ -447,7 +467,6 @@ class Partita:
         else:
             # Il passaggio non è libero (o non è adiacente)
             raise ErrorePosizione(f"Mossa non valida: {azione} non è raggiungibile")
-
 
     # Osservatore condizione di vittoria
 

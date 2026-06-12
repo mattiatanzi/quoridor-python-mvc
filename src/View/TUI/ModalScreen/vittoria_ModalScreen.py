@@ -5,6 +5,7 @@ from textual.widgets import Button, Label
 
 from src.View.TUI.Screen.quoridor_view_Screen import QuoridorViewScreen
 
+
 class VittoriaModalScreen(ModalScreen):
     """Schermata modale di vittoria.
 
@@ -29,7 +30,7 @@ class VittoriaModalScreen(ModalScreen):
                 Gestisce la pressione dei pulsanti e invia i comandi
                 appropriati al controller o modifica la UI.
     """
-    
+
     def __init__(self, id_giocatore, motivo: str, app, **kwargs):
         super().__init__(**kwargs)
         self._id_giocatore = id_giocatore
@@ -74,7 +75,8 @@ class VittoriaModalScreen(ModalScreen):
             self.query_one("#menu-vittoria-container").add_class("nascosto")
             self.query_one("#btn-ripristina-vittoria").remove_class("nascosto")
             self.app.notify(
-                "Stai guardando il tabellone finale. Clicca il pulsante in alto per tornare al menu.",
+                "Stai guardando il tabellone finale. Clicca il pulsante in alto per "
+                "tornare al menu.",
                 timeout=4,
             )
             return  # Interrompe la funzione qui!

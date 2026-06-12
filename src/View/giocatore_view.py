@@ -37,7 +37,7 @@ class GiocatoreViewAstratta(ABC):
         ):
             DESCRIZIONE
             Mostra informazioni generali riguardanti i giocatori.
-            
+
         ------ VISUALIZZIONE ERRORI ------
 
         def stampa_errore_giocatore(self, messaggio):

@@ -15,7 +15,7 @@ class GiocatoreViewTUI(GiocatoreViewAstratta):
             Riferimento all'app Textual condivisa
 
     METODI
-    
+
         def _get_widget(self, id_giocatore: str) -> GiocatoreViewWidget | None:
             DESCRIZIONE
                 Recupera il widget associato a un giocatore dalla screen corrente.
@@ -35,10 +35,11 @@ class GiocatoreViewTUI(GiocatoreViewAstratta):
         def stampa_errore_giocatore(messaggio)
             DESCRIZIONE
                 Mostra una notifica di errore tramite l'app
-                
+
         def stampa_id_giocatore(self, id_giocatore):
             DESCRIZIONE
-                Metodo non utilizzato nella TUI poiché l'id è gestito direttamente dal widget.
+                Metodo non utilizzato nella TUI poiché l'id è gestito direttamente dal
+                widget.
 
         def stampa_errore_giocatore(self, messaggio):
             DESCRIZIONE

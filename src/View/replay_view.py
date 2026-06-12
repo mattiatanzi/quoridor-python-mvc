@@ -23,8 +23,12 @@ class ReplayViewAstratta(ABC):
                 Mostra lo stato del replay della partita e la relativa trascrizione
                 delle mosse.
     """
-    
-    def __init__(self,stampa_tavoliere : TavoliereviewAstratta, stampa_trascrizione: PartitaViewAstratta ):
+
+    def __init__(
+        self,
+        stampa_tavoliere: TavoliereviewAstratta,
+        stampa_trascrizione: PartitaViewAstratta,
+    ):
         self.__stampa_tavoliere = stampa_tavoliere
         self.__stampa_trascrizione = stampa_trascrizione
 

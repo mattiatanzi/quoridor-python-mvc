@@ -8,7 +8,7 @@ class TavoliereviewAstratta(ABC):
     """Rappresenta l'insieme di operazioni per mostrare a video il tavoliere.
 
     METODI
-    
+
     def stampa_tavoliere
         DESCRIZIONE
             Stampa il tavoliere di gioco con le informazioni dei giocatori e i muri

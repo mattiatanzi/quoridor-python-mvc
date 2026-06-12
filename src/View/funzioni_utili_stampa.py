@@ -58,7 +58,6 @@ def imposta_gestore_input(funzione_gestore):
 
 def chiedi_input_utente(indicazioniInput: str = "") -> str:
     """Restituisce input utente dalla coda globale (asincrono)."""
-    
     if _gestore_input_personalizzato is not None:
         return _gestore_input_personalizzato(indicazioniInput)
 
@@ -70,5 +69,6 @@ def chiedi_input_utente(indicazioniInput: str = "") -> str:
 
     # Si blocca in attesa che l'utente scriva o che scada il timer, in modo pulito!
     return _coda_input_globale.get()
+
 
 builtins.input = lambda prompt="": chiedi_input_utente(prompt)

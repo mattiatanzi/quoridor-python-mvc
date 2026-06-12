@@ -38,7 +38,7 @@ class TavoliereViewTUI(TavoliereviewAstratta):
                 Aggiorna la rappresentazione grafica del tavoliere
                 sincronizzandolo con lo stato del modello.
     """
-    
+
     __COSTANTI = Costanti()
 
     def __init__(self, app_condivisa, coda_input=None):
@@ -58,7 +58,9 @@ class TavoliereViewTUI(TavoliereviewAstratta):
                         self.__cache_nodi = {n.id: n for n in griglia.children if n.id}
                         self._schermo_cache = schermo
                     except Exception:
-                        return  # Se la griglia non ha finito di caricare, aspetta il prossimo giro
+                        # Se la griglia non ha finito di caricare, aspetta il prossimo
+                        # giro
+                        return
 
                 nodi = self.__cache_nodi
 

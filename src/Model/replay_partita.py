@@ -135,13 +135,15 @@ class ReplayPartita:
             [g.get_id() for g in partita_iniziale.get_giocatori()]
         )
 
-        # Estraiamo la lista delle sole mosse reali, scartando i segnaposto dei turni saltati
+        # Estraiamo la lista delle sole mosse reali, scartando i segnaposto
+        # dei turni saltati
         self.__mosse_pure = []
         for turno in trascrizione:
             parti = turno.split(".\t", 1)
             if len(parti) >= 2:
                 for m in parti[1].split("\t"):
-                    # Se m è un salto "---" o uno spazio vuoto, lo ignoriamo nel flusso delle azioni del replay
+                    # Se m è un salto "---" o uno spazio vuoto, lo ignoriamo nel flusso
+                    #  delle azioni del replay
                     if m != "---" and m.strip() != "":
                         self.__mosse_pure.append(m)
 

@@ -35,22 +35,28 @@ class ImpostaTimerScreen(Screen):
                 Gestisce l'inserimento di un timer personalizzato da parte
                 dell'utente.
     """
-    
+
     def __init__(self, coda_input, **kwargs):
         super().__init__(**kwargs)
         self.__coda_input = coda_input
 
     def compose(self) -> ComposeResult:
+        # Estraiamo i testi dei timer per evitare f-string multilinea complesse
+        testo_3min = f"- {CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_TIMER_DEFAULT_1)}"
+        testo_5min = f"- {CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_TIMER_DEFAULT_2)}"
+        testo_indietro = f"{CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_TORNA_INDIETRO)}"
+
         with Horizontal(classes="layout-menu-aiuto"):
             with Vertical(id="menu-timer-container"):
                 yield Label("Selezionare Un Limite di Tempo", id="titolo-timer")
+
                 yield Button(
-                    f"- {CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_TIMER_DEFAULT_1)}",
+                    testo_3min,
                     id="btn-3min",
                     classes="btn-menu",
                 )
                 yield Button(
-                    f"- {CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_TIMER_DEFAULT_2)}",
+                    testo_5min,
                     id="btn-5min",
                     classes="btn-menu",
                 )
@@ -64,7 +70,7 @@ class ImpostaTimerScreen(Screen):
                     classes="btn-menu",
                 )  # <-- Bottone Aiuto
                 yield Button(
-                    f"{CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_TORNA_INDIETRO)}",
+                    testo_indietro,
                     id="btn-indietro",
                     variant="error",
                     classes="btn-menu",
@@ -97,6 +103,7 @@ class ImpostaTimerScreen(Screen):
     # Questo evento scatta quando l'utente preme "Invio" sul campo Input
     def on_input_submitted(self, event: Input.Submitted):
         if event.input.id == "input-custom-timer":
-            # Inseriamo nella coda esattamente ciò che l'utente ha scritto (es. "00:10:00")
+            # Inseriamo nella coda esattamente ciò che l'utente
+            # ha scritto (es. "00:10:00")
             self.__coda_input.put(event.value)
             self.app.pop_screen()

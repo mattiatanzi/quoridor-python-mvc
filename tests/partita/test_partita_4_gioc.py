@@ -415,7 +415,8 @@ class TestPartitaIncrementaTurno:
                 CE1 : numero_giocatori = 0
 
         Oracolo:
-            CE1 => Raise errore (non si può incrementare turno in partita senza giocatori)
+            CE1 => Raise errore
+                (non si può incrementare turno in partita senza giocatori)
         """
         # CE1
         giocatori_partita = set()
@@ -501,7 +502,7 @@ class TestPartitaVerificaVittoria:
         )
         partita_creata = Partita(Tavoliere(), giocatori_partita)
 
-        assert partita_creata.verifica_vittoria() == None
+        assert partita_creata.verifica_vittoria() is None
 
         # CP1
         giocatori_partita = set(
@@ -552,8 +553,10 @@ class TestPartitaVerificaVittoria:
         Classi di equivalenza
 
             Stato della partita:
-                CE2 : numero_giocatori > 0, un giocatore non eliminato rimasto in partita
-                CE4 : numero_giocatori > 0, più di un giocatore non eliminato rimasto in partita
+                CE2 : numero_giocatori > 0,
+                    1 giocatore non eliminato rimasto in partita
+                CE4 : numero_giocatori > 0,
+                    più di un giocatore non eliminato rimasto in partita
 
         Oracolo:
             CE2 => restituisci il giocatore rimasto
@@ -570,9 +573,6 @@ class TestPartitaVerificaVittoria:
 
         giocatore_vincitore = partita_creata.get_giocatore(
             CostantiGiocatore.POSSIBILI_ID_GIOCATORE[0]
-        )
-        dupla_traguardo = CostantiPartita.TRAGUARDI_FINALI.get(
-            giocatore_vincitore.get_id()
         )
 
         for g in partita_creata.get_giocatori():
@@ -599,7 +599,7 @@ class TestPartitaVerificaVittoria:
 
         partita_creata = Partita(Tavoliere(), giocatori_partita)
 
-        assert partita_creata.verifica_vittoria() == None
+        assert partita_creata.verifica_vittoria() is None
 
     def test_partita_verifica_vittoria_senza_giocatori(self):
         """Verifica verifica_vittoria() con partita con numero di giocatori = 0.

@@ -44,7 +44,7 @@ class MuroCliccato(Message):
                 Gestisce l'effetto hover sui muri, evidenziando visivamente
                 la posizione del muro prima del piazzamento.
     """
-    
+
     def __init__(self, ID_muro: str) -> None:
         super().__init__()
         self.ID_muro = ID_muro
@@ -110,7 +110,8 @@ class TavoliereViewStatic(Static):
                                     "", id=f"btn-{col}{riga}h", classes="muro-h"
                                 )
 
-                                # 2. Sotto il muro verticale mettiamo l'intersezione (solo per le prime 8 colonne)
+                                # 2. Sotto il muro verticale mettiamo l'intersezione
+                                # (solo per le prime 8 colonne)
                                 if c_idx < 8:
                                     yield Static(
                                         "",
@@ -120,7 +121,12 @@ class TavoliereViewStatic(Static):
                                     )
 
     def on_button_pressed(self, event: Button.Pressed):
-        """Cattura il click su QUALSIASI cosa (casella o lineetta) e lo invia al controller."""
+        """Funzione on_button_pressed.
+
+        Cattura il click su QUALSIASI cosa (casella o lineetta) e lo invia al
+        controller.
+
+        """
         id_premuto = event.button.id
         if id_premuto and id_premuto.startswith("btn-"):
             mossa = id_premuto.replace("btn-", "")
@@ -134,7 +140,11 @@ class TavoliereViewStatic(Static):
             self._coda_input.put(mossa)  # Invia al controller esattamente come prima!
 
     def on_mouse_move(self, event: events.MouseMove) -> None:
-        """Gestisce l'hover unendo visivamente i due segmenti del muro e l'intersezione centrale."""
+        """on_mouse_move.
+
+        Gestisce l'hover unendo visivamente i due segmenti del muro e l'intersezione
+        centrale.
+        """
         if self._is_replay:
             return
         try:
@@ -176,13 +186,13 @@ class TavoliereViewStatic(Static):
                         prossima_col = colonne[idx + 1]
                         # Secondo pezzo di muro a destra
                         nuovi_id_da_colorare.append(f"btn-{prossima_col}{riga}h")
-                        # L'INTERSEZIONE in mezzo (sotto il muro verticale della colonna corrente)
+                        # L'INTERSEZIONE in mezzo (sotto il muro verticale della
+                        # colonna corrente)
                         nuovi_id_da_colorare.append(f"int-{col}{riga}")
                 except ValueError:
                     pass
-            elif tipo == "v":
+            elif tipo == "v" and riga > 1:
                 # --- MURO VERTICALE ---
-                if riga > 1:
                     # Secondo pezzo di muro sotto
                     nuovi_id_da_colorare.append(f"btn-{col}{riga - 1}v")
                     # L'INTERSEZIONE in mezzo (all'altezza della riga corrente)

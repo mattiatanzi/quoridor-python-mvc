@@ -66,7 +66,8 @@ class QuoridorViewScreen(Screen):
                 event.button.label = f"{CostantiQuoridorView.MOSTRA_AIUTO}"
                 return  # <-- IMPORTANTISSIMO: usciamo senza inviare nulla alla coda!
             else:
-                # Se è nascosto, cambiamo il bottone in Nascondi e inviamo "h" al controller
+                # Se è nascosto, cambiamo il bottone in Nascondi e inviamo "h" al
+                # controller
                 event.button.label = f"{CostantiQuoridorView.NASCONDI_AIUTO}"
                 comando = "h"
         elif id_premuto == "btn-Esci":

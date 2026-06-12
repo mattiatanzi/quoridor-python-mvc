@@ -29,7 +29,7 @@ class ConfermaScreen(ModalScreen):
                 Gestisce la risposta dell'utente e inserisce il comando
                 nella coda input, chiudendo la schermata.
     """
-    
+
     def __init__(self, messaggio: str, coda_input, **kwargs):
         super().__init__(**kwargs)
         # Rimuove il fastidioso "[si/no]" dal testo per renderlo più bello

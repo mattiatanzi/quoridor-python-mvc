@@ -47,7 +47,7 @@ class QuoridorViewCLI(QuoridorViewAstratta):
         def get_coda_input(self):
             DESCRIZIONE
                 Restituisce la coda degli input associata alla view.
-"""
+    """
 
     def __menu_base(self):
         pulisci_schermo()

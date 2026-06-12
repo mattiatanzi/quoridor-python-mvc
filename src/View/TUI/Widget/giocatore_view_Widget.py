@@ -39,7 +39,9 @@ class GiocatoreViewWidget(Widget):
             DESCRIZIONE
                 Aggiorna le informazioni del giocatore in stato normale
 
-        def aggiorna_eliminato(self, muri_disponibili: int, tempo_formattato: str = None):
+        def aggiorna_eliminato(
+        self, muri_disponibili: int, tempo_formattato: str = None
+        ):
             DESCRIZIONE
                 Imposta il giocatore come eliminato
 

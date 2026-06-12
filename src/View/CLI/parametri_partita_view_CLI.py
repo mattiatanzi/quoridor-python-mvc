@@ -33,7 +33,7 @@ class ParametriPartitaViewCLI(ParametriPartitaView):
                 per aiutare l'utente a inserire il giusto input.
                 In caso di tempo personalizzato, l'utente deve inserire
                 il tempo nel formato: "HH:MM:SS"
-                
+
         def get_input_numero_giocatori(self, err: str = ""):
             DESCRIZIONE
                 Stampa l'interfaccia per chiedere il numero di giocatori
