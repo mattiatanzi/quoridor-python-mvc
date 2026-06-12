@@ -339,6 +339,34 @@ La seconda soluzione invece controlla ad ogni ciclo se il giocatore ha un timer,
       
       Isolando il dominio della "configurazione" da quello dell'"esecuzione della partita", abbiamo ottenuto un codice più coeso, facilmente testabile e manutenibile, dove eventuali future modifiche ai menu di avvio non andranno a intaccare in alcun modo le logiche centrali del gioco.
 
+## 7. Modalità di collaborazione del team
+Il team ha adottato una metodologia di sviluppo ispirata al framework Agile/Scrum, personalizzandola fortemente per adattarla alle dinamiche di un gruppo di lavoro universitario. L'obiettivo principale è stato mantenere un ciclo di rilascio iterativo, garantendo flessibilità e comunicazione costante, compatibilmente con gli orari di studio e gli impegni di ciascun componente.
+### 7.1 Organizzazione e Strumenti di Comunicazione
+Nonostante Scrum preveda cerimonie rigidamente strutturate in presenza, il team ha optato per un approccio ibrido, supportato dagli strumenti digitali che ha permesso di lavorare in modo asincrono ma sempre allineato, oltre che ai normali meeting svolti dal vivo:
+- GitHub Project Board: Utilizzata come Kanban Board centrale per tradurre il Product Backlog in Sprint Backlog. Ogni funzionalità è stata modellata come Issue e fatta transitare attraverso gli stati operativi (To Do, In Progress, Review, Ready, Done).
+- Canali Istituzionali (Microsoft Teams): Utilizzato per i meeting ufficiali di avvio Sprint, per la condivisione di documenti formali e per le comunicazioni dirette con i docenti/tutor.
+- Messaggistica Istantanea (WhatsApp o Teams): Data la necessità di comunicazioni rapide e continue, il team ha istituito un gruppo di chat dedicato. Questo canale ha sostituito in parte la sala riunioni fisica, permettendo di segnalare blocchi improvvisi, organizzare sessioni di programmazione dell'ultimo minuto e richiedere revisioni del codice in tempo reale.
+### 7.2 Meeting di progetto
+Il team ha riadattato i quattro eventi canonici di Scrum alle proprie necessità pratiche:
+1. **Sprint Planning** (Meeting Pre-Sprint): Una riunione formale (svolta all'inizio di ogni iterazione) per analizzare le richieste, valutare la fattibilità tecnica, definire i Requisiti Non Funzionali e assegnare le singole Issue ai membri del gruppo.
+2. **Daily Scrum** (Sync Asincroni): Invece del canonico meeting giornaliero di 15 minuti, il team ha effettuato allineamenti quotidiani tramite il canale di messaggistica istantanea, aggiornando i compagni sullo stato dei lavori e sulle difficoltà riscontrate.
+3. **Sprint Review**: Svolta in prossimità della chiusura dello Sprint per unire i branch, verificare l'integrazione delle diverse funzionalità sulla piattaforma principale e testare il comportamento globale del gioco (es. esecuzione in container Docker).
+4. **Sprint Retrospective**: L'incontro più importante per la salute del gruppo, dedicato esclusivamente all'analisi del processo lavorativo e all'individuazione di azioni correttive per lo Sprint successivo.
+### 7.3 Assegnazione task e GitHub Flow
+Per l'integrazione del codice, il team segue rigorosamente il GitHub Flow per mantenere il branch `main` sempre stabile e compilabile:
+- **Branching e Pull Request**: Nessun membro è autorizzato a effettuare commit diretti sul main. Per ogni Issue viene creato un branch dedicato; a lavoro ultimato si apre una Pull Request (PR).
+- **Code Review Obbligatoria**: Le modifiche devono ricevere un'approvazione esplicita (Approve) da parte di un altro membro del team prima del merge. Nel nostro caso abbiamo alzato per gran parte del progetto questo numero a tre, che corrisponde a più della metà del team, in modo da garantire, con questa convenzione, una maggiore sicurezza di ciò che entrava nell'ambiente di rilascio.
+- **Strategia di Lavoro Mista**: Per task complessi e isolati (es. Motore di Replay, Logica del Tempo), il lavoro è stato assegnato a coppie o piccoli sottogruppi (Pair Programming). Per task trasversali (es. Documentazione, Testing, sviluppo dell'Interfaccia TUI), si è adottato l'approccio delle Issue Padre: tutti i membri vi partecipano contemporaneamente, curando ciascuno i test e la documentazione del proprio modulo di competenza.
+
+### 7.4 Analisi retrospettiva e miglioramento continuo
+La metodologia Agile adottata dal team trova il suo momento di massima espressione nell'analisi retrospettiva condotta al termine di ogni ciclo di sviluppo. Queste sessioni non si limitano a un bilancio passivo del lavoro completato, ma fungono da vero e proprio motore per l'evoluzione e il progressivo affinamento dell'intero processo ingegneristico.
+
+Durante le retrospettive, il gruppo si riunisce attorno a lavagne digitali per mappare in modo collaborativo l'andamento delle attività, identificando sistematicamente i punti di forza da consolidare e le inefficienze su cui intervenire. L'approccio empirico e adattivo del team ha permesso di convertire i punti di riflessione emersi in linee guida metodologiche stabili e ricorrenti:
+- *Evoluzione nell'approccio ai task generali*: L'analisi delle prime dinamiche di collaborazione ha evidenziato come i compiti trasversali e non legati a una specifica classe di codice (quali la stesura della documentazione tecnica o la configurazione delle suite di test) rischiassero una gestione frammentata o un carico sbilanciato. Per risolvere questa criticità, il team ha adottato la strategia delle Issue Padre. Questa astrazione consente di suddividere i macro-obiettivi in sotto-task modulari e paralleli, responsabilizzando ogni membro sulla propria componente e garantendo un'integrazione fluida del deliverable complessivo.
+- *Avanzamento progressivo dei controlli di qualità*: Per scongiurare il rischio di regressioni logiche o crash applicativi durante l'assemblaggio delle nuove funzionalità, il team ha progressivamente innalzato i criteri di accettazione per il codice da integrare nel ramo principale. Questo ha portato a un irrigidimento controllato della fase di Code Review sulle Pull Request e alla configurazione di vincoli statici stringenti, che agiscono come barriera di sicurezza prima di ogni fusione.
+
+Questo ciclo continuo di feedback e auto-correzione assicura che l'organizzazione del gruppo non rimanga statica, ma si adegui dinamicamente e in modo incrementale alla complessità del software da sviluppare.
+
 ## 8. Analisi retrospettiva
 
 ### 8.1 Sprint 0
