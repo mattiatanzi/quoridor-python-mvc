@@ -1,12 +1,12 @@
-import pytest
-
 from datetime import timedelta
-from src.Model.giocatore import Giocatore
+
 from src.Model.costanti_giocatore import CostantiGiocatore
+from src.Model.giocatore import Giocatore
+
 
 class TestConfigurazionePartitaTimer:
     """Suite di test funzionali per la configurazione dei timer a inizio partita.
-    
+
     Verifica che il sistema assegni i corretti limiti temporali a seconda del numero
     di giocatori (2 o 4) e della tipologia di partita scelta.
     """
@@ -25,7 +25,7 @@ class TestConfigurazionePartitaTimer:
             - Il tempo residuo iniziale deve corrispondere al profilo selezionato.
         """
         tempo_scelto = timedelta(minutes=5)
-        
+
         # Simuliamo la creazione dei giocatori per la partita a 2
         g1 = Giocatore(new_id_giocatore="P1", new_tempo_iniziale=tempo_scelto)
         g2 = Giocatore(new_id_giocatore="P2", new_tempo_iniziale=tempo_scelto)
@@ -39,7 +39,6 @@ class TestConfigurazionePartitaTimer:
             assert g.possiede_limite_tempo() is True
             assert g.ha_finito_tempo() is False
             assert g.get_tempo_residuo() == tempo_scelto
-
 
     def test_partita_quattro_giocatori_con_timer(self):
         """Verifica la configurazione per una partita a 4 giocatori con tempo limite.
@@ -55,13 +54,13 @@ class TestConfigurazionePartitaTimer:
             - Tutti i timer sono sincronizzati sullo stesso valore iniziale.
         """
         tempo_scelto = timedelta(minutes=10)
-        
+
         # Simuliamo la creazione dei giocatori per la partita a 4
         lista_giocatori = [
             Giocatore(new_id_giocatore="P1", new_tempo_iniziale=tempo_scelto),
             Giocatore(new_id_giocatore="P2", new_tempo_iniziale=tempo_scelto),
             Giocatore(new_id_giocatore="P3", new_tempo_iniziale=tempo_scelto),
-            Giocatore(new_id_giocatore="P4", new_tempo_iniziale=tempo_scelto)
+            Giocatore(new_id_giocatore="P4", new_tempo_iniziale=tempo_scelto),
         ]
 
         # Verifica dimensione (CE1)
@@ -71,7 +70,6 @@ class TestConfigurazionePartitaTimer:
         for g in lista_giocatori:
             assert g.possiede_limite_tempo() is True
             assert g.get_tempo_residuo() == tempo_scelto
-
 
     def test_partita_senza_limite_tempo(self):
         """Verifica la configurazione di partite (a 2 o 4 giocatori) in modalità senza fine.
@@ -87,15 +85,33 @@ class TestConfigurazionePartitaTimer:
         """
         # Testiamo il comportamento accoppiando sia il caso a 2 che a 4 giocatori
         partita_2_giocatori = [
-            Giocatore(new_id_giocatore="P1", new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO),
-            Giocatore(new_id_giocatore="P2", new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO)
+            Giocatore(
+                new_id_giocatore="P1",
+                new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO,
+            ),
+            Giocatore(
+                new_id_giocatore="P2",
+                new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO,
+            ),
         ]
-        
+
         partita_4_giocatori = [
-            Giocatore(new_id_giocatore="P1", new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO),
-            Giocatore(new_id_giocatore="P2", new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO),
-            Giocatore(new_id_giocatore="P3", new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO),
-            Giocatore(new_id_giocatore="P4", new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO)
+            Giocatore(
+                new_id_giocatore="P1",
+                new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO,
+            ),
+            Giocatore(
+                new_id_giocatore="P2",
+                new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO,
+            ),
+            Giocatore(
+                new_id_giocatore="P3",
+                new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO,
+            ),
+            Giocatore(
+                new_id_giocatore="P4",
+                new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO,
+            ),
         ]
 
         # Oracolo Partita a 2 senza tempo
