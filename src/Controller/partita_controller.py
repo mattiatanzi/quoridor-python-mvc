@@ -449,8 +449,6 @@ class PartitaController:
 
                             # Salva Trascrizione Prima delle logiche della mossa
                             self.__model.aggiungi_mossa_trascrizione(azione_pulita)
-
-                            self.__model.aggiungi_mossa_trascrizione(azione_pulita)
                             # Controllo vittoria
                             if continuare_partita:
                                 id_vincitore = self.__model.verifica_vittoria()
