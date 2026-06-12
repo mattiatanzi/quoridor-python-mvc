@@ -1,5 +1,6 @@
 import time
 import traceback
+from contextlib import suppress
 from threading import Event
 
 from src.Model.partita import Partita
@@ -23,12 +24,12 @@ class PartitaViewTUI(PartitaViewAstratta):
     già montati nella PartitaViewScreen tramite call_from_thread.
 
     ATTRIBUTI
-    
+
         _app : QuoridorViewApp
             Riferimento all'app Textual condivisa
-            
+
     METODI
-    
+
         def stampa_partita(self, partita: Partita):
             DESCRIZIONE
                 Aggiorna lo stato completo della partita aggiornando
@@ -46,7 +47,9 @@ class PartitaViewTUI(PartitaViewAstratta):
             DESCRIZIONE
                 Mostra la schermata di vittoria.
 
-        def stampa_trascrizione(self, trascrizione: list[str], num_giocatori: int, replay: bool = False):
+        def stampa_trascrizione(
+        self, trascrizione: list[str], num_giocatori: int, replay: bool = False
+        ):
             DESCRIZIONE
                 Mostra la trascrizione della partita.
 
@@ -99,8 +102,9 @@ class PartitaViewTUI(PartitaViewAstratta):
                 try:
                     tempo_fmt = get_tempo_formattato(g.get_tempo_residuo())
                 except Exception:
-                    # Invece di far morire il thread, catturiamo l'errore e lo scriviamo su file!
-                    with open("debug_crash.txt", "a") as f:
+                    # Invece di far morire il thread, catturiamo l'errore e lo
+                    # scriviamo su file!
+                    with open("debug_crash.txt", "a"):
                         self._app.log(
                             f"--- ERRORE TEMPO ---\n{traceback.format_exc()}\n"
                         )
@@ -143,15 +147,16 @@ class PartitaViewTUI(PartitaViewAstratta):
     def stampa_aiuto(self):
         messaggio = """
 QUORIDOR: COMANDI PRINCIPALI PER TESTO CON AGGIUNTA DI PULSANTI
-        
-• Muovi pedone: <colonna><riga> (es. 'e2') 
+
+• Muovi pedone: <colonna><riga> (es. 'e2')
   o clicca casella adiacente al pedone
 
-• Piazza muro:  <colonna><riga><h/v> (es. 'e2h')   (h = in basso a dx | v = a destra in basso)
+• Piazza muro:  <colonna><riga><h/v>
+        (es. 'e2h') (h = in basso a dx | v = a destra in basso)
   o clicca tra le caselle
-        
+
 • Mostra aiuto: 'help' o 'aiuto' ( o clicca il pulsante mostra aiuto)
-• Elenco mosse: 'trascrizione' o 'mosse' 
+• Elenco mosse: 'trascrizione' o 'mosse'
 • Abbandona:    'quit' o 'abbandona'
 • Esci:         'exit' o 'esci'
         """
@@ -168,15 +173,18 @@ QUORIDOR: COMANDI PRINCIPALI PER TESTO CON AGGIUNTA DI PULSANTI
 
     def stampa_vittoria(self, id_vincitore, motivo_vittoria: str):
         def _mostra_vittoria():
-            # PROTEZIONE: Se l'utente sta leggendo le mosse, ignora la stampa della vittoria
+            # PROTEZIONE: Se l'utente sta leggendo le mosse, ignora la stampa
+            # della vittoria
             if isinstance(self._app.screen, TrascrizioneScreen):
                 return
 
-            # 2. LA MAGIA: Se il ReplayScreen è attivo, lo chiudiamo noi da codice pulendo lo stack
+            # 2. LA MAGIA: Se il ReplayScreen è attivo, lo chiudiamo noi da codice
+            # pulendo lo stack
             if isinstance(self._app.screen, ReplayScreen):
                 self._app.pop_screen()
 
-            # 3. Ora siamo sicuri che sotto c'è solo il tabellone vero appena ridisegnato dal controller.
+            # 3. Ora siamo sicuri che sotto c'è solo il tabellone vero appena
+            # ridisegnato dal controller.
             # Mostriamo il menu Vittoria (solo se non c'è già!)
             if not isinstance(self._app.screen, VittoriaModalScreen):
                 self._app.push_screen(
@@ -215,7 +223,9 @@ QUORIDOR: COMANDI PRINCIPALI PER TESTO CON AGGIUNTA DI PULSANTI
         return self.chiedi_input_utente()
 
     def forza_input(self, testo: str):
-        """Intercetta il comando di timeout dal Controller (es. 'resa_per_tempo')
+        """forza_input.
+
+        Intercetta il comando di timeout dal Controller (es. 'resa_per_tempo')
         e lo inietta direttamente nella coda della GUI per sbloccarla all'istante.
         """
         # IMPORTANTE: Sostituisci 'self._app.coda_input' con la variabile
@@ -225,17 +235,19 @@ QUORIDOR: COMANDI PRINCIPALI PER TESTO CON AGGIUNTA DI PULSANTI
     def stampa_richiesta_input(self, indicazioni: str = ""):
         # Aggiorna il label hint sopra il campo input
         def _aggiorna():
-            try:
+            with suppress(Exception):
                 self._app.screen.query_one("#label-input-hint").update(
                     indicazioni or "Fai la tua mossa:"
                 )
-            except Exception:
-                pass
 
         self._app.call_from_thread(_aggiorna)
 
     def avvia_interfaccia_partita(self, ids_giocatori: list[str]) -> None:
-        """Chiede all'app Textual di mostrare la schermata di partita e attende che sia pronta."""
+        """avvia_interfaccia_partita.
+
+        Chiede all'app Textual di mostrare la schermata di partita e attende che sia
+        pronta.
+        """
         self._app.log("[RADAR-SCHERMO] A. Richiesto avvio schermo partita")
         evento = Event()
 
@@ -265,7 +277,8 @@ QUORIDOR: COMANDI PRINCIPALI PER TESTO CON AGGIUNTA DI PULSANTI
 
     def torna_al_menu(self):
         """Rimuove lo schermo della partita e torna al menu."""
-        # Anche le operazioni di chiusura (pop_screen) devono passare dal thread principale
+        # Anche le operazioni di chiusura (pop_screen) devono passare dal thread
+        # principale
         self._app.call_from_thread(self._app.torna_al_menu)
 
     def _gestore_input_tui(self, messaggio: str) -> str:
@@ -294,7 +307,8 @@ QUORIDOR: COMANDI PRINCIPALI PER TESTO CON AGGIUNTA DI PULSANTI
         # CASO 2: Richieste di "Premi INVIO per continuare..." (Help, Trascrizione)
         elif "invio" in testo_lower:
             # Ora la TUI si BLOCCA in attesa che il Modal venga chiuso.
-            # Il thread del timer è già morto nel Controller: il tempo è in pausa assoluta!
+            # Il thread del timer è già morto nel Controller: il tempo è in
+            # pausa assoluta!
             return coda.get()
 
         # CASO 3: Qualsiasi altra richiesta normale di gioco
@@ -309,13 +323,18 @@ QUORIDOR: COMANDI PRINCIPALI PER TESTO CON AGGIUNTA DI PULSANTI
         self.get_giocatore_view().aggiorna_orologio_live(id_giocatore, tempo_formattato)
 
     def mostra_messaggio_timeout(self, id_giocatore: str):
-        """Mostra una notifica visiva quando il tempo di un giocatore scade nella TUI."""
+        """mostra_messaggio_timeout.
+
+        Mostra una notifica visiva quando il tempo di un giocatore scade nella TUI.
+        """
 
         def _notifica_timeout():
             self._app.notify(
-                f"Il giocatore {id_giocatore} ha esaurito il tempo a sua disposizione ed è eliminato!",
+                f"Il giocatore {id_giocatore} ha esaurito il tempo"
+                " a sua disposizione ed è eliminato!",
                 title="⏳ TEMPO SCADUTO",
-                severity="warning",  # Genera una notifica arancione/gialla molto visibile
+                # Genera una notifica arancione/gialla molto visibile
+                severity="warning",
                 timeout=6,  # Rimane a schermo per 6 secondi per dare tempo di leggere
             )
 

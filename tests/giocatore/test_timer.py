@@ -148,7 +148,7 @@ class TestGiocatorePossiedeLimiteTempo:
     """
 
     def test_giocatore_limite_tempo_regolare(self):
-        """Verifica possiede_limite_tempo() in caso di Giocatore con tempo limite regolare.
+        """Verifica possiede_limite_tempo() Giocatore con tempo limite regolare.
 
         Condizioni particolari
             CP1: tempo_iniziale = 0
@@ -189,7 +189,7 @@ class TestGiocatoreHaFinitoTempo:
     """
 
     def test_giocatore_tempo_non_esaurito(self):
-        """Verifica ha_finito_tempo() in caso di Giocatore con tempo limite non esaurito.
+        """Verifica ha_finito_tempo() in caso di Giocatore con tempo limite non finito.
 
         Oracolo:
             Caso Generale => restituisce False
@@ -210,7 +210,8 @@ class TestGiocatoreHaFinitoTempo:
 
         Oracolo:
             Caso Generale => restituisce True
-            CP1 => restitusce False (non avere limite tempo vuol dire che non lo finirà mai)
+            CP1 => restitusce False
+                (non avere limite tempo vuol dire che non lo finirà mai)
 
         """
         # Caso Generale

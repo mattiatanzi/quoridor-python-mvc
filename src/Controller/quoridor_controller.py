@@ -117,7 +117,8 @@ class QuoridorController:
                 self.__menu.stampa_messaggio("Uscita in corso, alla prossima!")
                 continuare_gioco = False
             elif scelta in ("h", "help", "aiuto"):
-                testo_aiuto = "=== GUIDA COMANDI ===\n\n1 - Avvia una nuova partita\n0 - Esci dal gioco"
+                testo_aiuto = ("=== GUIDA COMANDI ===\n\n"
+                "1 - Avvia una nuova partita\n0 - Esci dal gioco")
                 self.__menu.stampa_messaggio(testo_aiuto)
                 chiedi_input_utente("-------- Premi INVIO per andare avanti ---------")
 

@@ -29,7 +29,7 @@ class TrascrizioneScreen(ModalScreen):
                 Gestisce la chiusura del popup quando viene premuto
                 il pulsante "Chiudi".
     """
-    
+
     def __init__(self, trascrizione: str, **kwargs):
         super().__init__(**kwargs)
         self._trascrizione = trascrizione

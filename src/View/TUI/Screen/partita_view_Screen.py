@@ -1,4 +1,5 @@
 import queue
+from contextlib import suppress
 
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
@@ -29,7 +30,7 @@ class PartitaViewScreen(Screen):
             per montare il numero corretto di GiocatoreWidget
 
     METODI
-    
+
         def __init__(self, coda_input: queue.Queue, ids_giocatori: list[str]):
             DESCRIZIONE
                 Inizializza lo screen con la coda condivisa e la lista dei giocatori.
@@ -123,7 +124,8 @@ class PartitaViewScreen(Screen):
             pannello = self.query_one("#pannello-aiuto", Label)
 
             if pannello.has_class("visibile"):
-                # SE E' VISIBILE: Chiudiamo solo la grafica, zero interazioni col controller!
+                # SE E' VISIBILE: Chiudiamo solo la grafica, zero interazioni col
+                #  controller!
                 pannello.remove_class("visibile")
                 event.button.label = f"{CostantiQuoridorView.MOSTRA_AIUTO}"
             else:
@@ -139,7 +141,5 @@ class PartitaViewScreen(Screen):
         self.query_one("#input-mossa", Input).value = ""
 
     def aggiorna_label_errore(self, messaggio: str):
-        try:
+        with suppress(Exception):
             self.query_one("#label-errore-partita", Label).update(messaggio)
-        except Exception:
-            pass

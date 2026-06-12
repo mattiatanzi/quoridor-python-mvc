@@ -28,7 +28,7 @@ class TrascrizioneWidget(Widget):
                 Costruisce il layout del widget e gestisce la visualizzazione
                 della trascrizione in un contenitore scrollabile.
     """
-    
+
     def __init__(self, trascrizione: str, **kwargs):
         super().__init__(**kwargs)
         self._trascrizione = trascrizione

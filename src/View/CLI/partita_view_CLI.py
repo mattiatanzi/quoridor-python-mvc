@@ -115,7 +115,7 @@ class PartitaViewCLI(PartitaViewAstratta):
             DESCRIZIONE
                 Scrive un messaggio e prende e restituisce quello che scrive l'utente
                 in input.
-        
+
         def forza_input(self, testo: str):
             DESCRIZIONE
                 Inserisce forzatamente un input nella coda di input.

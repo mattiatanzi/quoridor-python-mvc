@@ -28,7 +28,7 @@ class ModalitaPartitaScreen(Screen):
                 Gestisce la selezione della modalità, la richiesta di aiuto
                 e il ritorno alla schermata precedente.
     """
-    
+
     def __init__(self, coda_input, **kwargs):
         super().__init__(**kwargs)
         self.__coda_input = coda_input

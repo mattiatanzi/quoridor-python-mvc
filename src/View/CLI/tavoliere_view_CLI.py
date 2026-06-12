@@ -6,18 +6,21 @@ from src.View.tavoliere_view import TavoliereviewAstratta
 
 
 class TavoliereViewCLI(TavoliereviewAstratta):
-    """Rappresenta l'insieme di operazioni per mostrare a video il tavoliere in versione CLI.
+    """Classe Rappresenta.
+
+    DESCRIZIONE
+    l'insieme di operazioni per mostrare a video il tavoliere in versione CLI.
 
     Costanti
-    
+
         __COSTANTI
             Costante di tipo Costanti che contiene tutte le costanti utilizzate
             per la stampa del tavoliere
 
     Metodi
-    
+
         Stessi della classe astratta TavoliereViewAstratta
-        
+
         def stampa_tavoliere(
             self,
             tavoliere: Tavoliere,

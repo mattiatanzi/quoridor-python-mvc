@@ -35,7 +35,7 @@ class ReplayScreen(Screen):
                 Traduce i click sui pulsanti di navigazione del replay
                 in comandi inviati alla coda input.
     """
-    
+
     def __init__(self, coda_input, **kwargs):
         super().__init__(**kwargs)
         self._coda_input = coda_input
@@ -46,7 +46,9 @@ class ReplayScreen(Screen):
             with VerticalScroll(id="replay-sinistra"):
                 yield Label("MODALITÀ REPLAY", id="replay-titolo")
                 yield Label("", id="replay-descrizione-mossa")
-                coda_finta = queue.Queue()  # Usiamo una coda fittizia per evitare di prendere input inutili durante la visione del replay
+                # Usiamo una coda fittizia per evitare di prendere input inutili
+                # durante la visione del replay
+                coda_finta = queue.Queue()
                 yield TavoliereViewStatic(coda_finta, is_replay=True)
 
             # DESTRA: Trascrizione
@@ -73,7 +75,10 @@ class ReplayScreen(Screen):
             )
 
     def on_button_pressed(self, event: Button.Pressed):
-        """Invia i comandi esatti che il ReplayController si aspetta!"""
+        """on_button_pressed.
+
+        Invia i comandi esatti che il ReplayController si aspetta!
+        """
         id_premuto = event.button.id
 
         if id_premuto == "btn-inizio":

@@ -12,7 +12,7 @@ class TestConfigurazionePartitaTimer:
     """
 
     def test_partita_due_giocatori_con_timer(self):
-        """Verifica la configurazione per una partita standard a 2 giocatori con tempo limite.
+        """Verifica la configurazione per una partita a 2 giocatori con tempo limite.
 
         Classi di equivalenza
             Input di Configurazione:
@@ -72,12 +72,12 @@ class TestConfigurazionePartitaTimer:
             assert g.get_tempo_residuo() == tempo_scelto
 
     def test_partita_senza_limite_tempo(self):
-        """Verifica la configurazione di partite (a 2 o 4 giocatori) in modalità senza fine.
+        """Verifica la configurazione di partite senza tempo (2 o 4 giocatori).
 
         Classi di equivalenza
             Input di Configurazione:
                 CE1, NUM_GIOCATORI : n = 2 oppure n = 4 (Invariante per questo scenario)
-                CE2, TIMER         : tempo_iniziale = DEF_SENZA_LIMITE_TEMPO (Irregolare)
+                CE2, TIMER         : tempo_iniziale = DEF_SENZA_LIMITE_TEMPO
 
         Oracolo:
             - Tutti i giocatori creati devono avere `possiede_limite_tempo() == False`.

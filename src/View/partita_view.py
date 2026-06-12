@@ -122,7 +122,11 @@ class PartitaViewAstratta(ABC):
 
     @abstractmethod
     def avvia_interfaccia_partita(self, ids_giocatori: list[str]) -> None:
-        """Prepara la vista per mostrare la partita (cambia schermo in TUI, niente in CLI)."""
+        """avvia_interfaccia_partita.
+
+        Prepara la vista per mostrare la partita (cambia schermo in TUI, niente in CLI).
+
+        """
         pass
 
     @abstractmethod

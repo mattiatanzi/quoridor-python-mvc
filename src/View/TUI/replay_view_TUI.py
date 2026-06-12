@@ -43,7 +43,7 @@ class ReplayViewTUI(ReplayViewAstratta):
                 Aggiorna lo stato del replay mostrando il tavoliere,
                 la mossa corrente e la trascrizione progressiva.
     """
-    
+
     def __init__(self, app_condivisa):
         self._app = app_condivisa
         self._tavoliere_view = TavoliereViewTUI(self._app)
@@ -59,7 +59,6 @@ class ReplayViewTUI(ReplayViewAstratta):
         self._tavoliere_view.stampa_tavoliere(
             stato_corrente.get_tavoliere(), stato_corrente.get_giocatori()
         )
-
 
         def _aggiorna():
             try:

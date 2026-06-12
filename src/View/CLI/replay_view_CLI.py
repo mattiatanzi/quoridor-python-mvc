@@ -10,7 +10,7 @@ class ReplayViewCLI(ReplayViewAstratta):
     """Classe view del replay.
 
     Attributi:
-    
+
     stampa_tavoliere : TavoliereView
         Contiene tutte le stampe per il tavoliere
 
@@ -32,7 +32,7 @@ class ReplayViewCLI(ReplayViewAstratta):
         trascrizione_parziale: list[str],automatico: bool = False)
         DESCRIZIONE
             Stampa la partita con la sua trascrizione ogni volta che si sta guardando il
-            replay e si esegue una mossa. E' stato deciso per l'interfaccia CLI che 
+            replay e si esegue una mossa. E' stato deciso per l'interfaccia CLI che
             per evitare che la stampa della trascrizione vada troppo sotto è stato
             scelto di adottare un numero massimo di turni visibili durante
             il replay che è: gli ultimi 15 turni presenti
@@ -44,7 +44,7 @@ class ReplayViewCLI(ReplayViewAstratta):
     ):
         DESCRIZIONE
             Mostra lateralmente lo storico delle mosse del replay,
-            visualizzando al massimo gli ultimi 15 turni.   
+            visualizzando al massimo gli ultimi 15 turni.
 
     """
 
@@ -72,7 +72,8 @@ class ReplayViewCLI(ReplayViewAstratta):
         if not automatico:
             print("Comandi:")
             print(
-                "- Per andare avanti: [Next] / [Avanti] / [N], vale anche premere invio senza scrivere niente"
+                "- Per andare avanti: [Next] / [Avanti] / [N], vale anche premere invio"
+                " senza scrivere niente"
             )
             print("- Per andare indietro: [Prev] / [Indietro] / [P] / [Back]")
             print("- Per tornare all'inizio del replay: [Start] / [Inizio] / [First]")
@@ -120,10 +121,9 @@ class ReplayViewCLI(ReplayViewAstratta):
             parti = riga_turno.split(".\t", 1)
             if len(parti) >= 2:
                 num_turno = parti[0] + "."  # es: "1."
-                stringa_mosse = parti[1]  # es: "e2\te8\tb5" (già tabulata!)
-
                 sys.stdout.write(
-                    f"\033[{riga_attuale};{COLONNA_DESTRA}H\033[K{num_turno:<4} {stringa_mosse}\t"
+                    f"\033[{riga_attuale};{COLONNA_DESTRA}H\033[K{num_turno:<4} "
+                    "{stringa_mosse}\t"
                 )
             else:
                 sys.stdout.write(

@@ -57,7 +57,7 @@ class ParametriPartitaViewTUI(ParametriPartitaView):
             DESCRIZIONE
                 Mostra un messaggio di errore relativo ai parametri della partita.
     """
-    
+
     def __init__(self, app_condivisa, coda_input: queue.Queue):
         self.__app = app_condivisa
         self.__coda_input = coda_input
@@ -115,16 +115,30 @@ class ParametriPartitaViewTUI(ParametriPartitaView):
         self.__app.call_from_thread(aggiorna_aiuto)
 
     def stampa_aiuto_modalita_partita(self):
-        messaggio = "=== GUIDA MODALITÀ ===\n\n - Con Timer: avrai un limite di tempo\n    per effettuare la mossa.\n - Senza Timer: puoi riflettere\n    senza alcun limite.\n - Torna al menu principale."
+        messaggio = (
+            "=== GUIDA MODALITÀ ===\n\n - Con Timer: avrai un limite di tempo\n    "
+            "per effettuare la mossa.\n - Senza Timer: puoi riflettere\n    "
+            "senza alcun limite.\n - Torna al menu principale."
+        )
         self._mostra_aiuto_laterale(messaggio)
 
     def stampa_aiuto_limite_tempo(self):
-        messaggio = "=== GUIDA TIMER ===\n\n- Scegli 3 o 5 minuti premendo i tasti.\n- Oppure scrivi manualmente il tempo nel\n  campo di testo (es. 00:10:00 per 10 min)\n  e premi INVIO sulla tastiera.\n- Premi Torna indietro per tornare indietro."
+        messaggio = (
+            "=== GUIDA TIMER ===\n\n- Scegli 3 o 5 minuti premendo i tasti.\n- "
+            "Oppure scrivi manualmente il tempo nel\n  campo di testo "
+            "(es. 00:10:00 per 10 min)\n  e premi INVIO sulla tastiera.\n- "
+            "Premi Torna indietro per tornare indietro."
+
+        )
         self._mostra_aiuto_laterale(messaggio)
 
     def stampa_errore_parametri(self, errore):
         self._mostra_aiuto_laterale(errore)
 
     def stampa_aiuto_numero_giocatori(self):
-        messaggio = "=== GUIDA GIOCATORI ===\n\n- 2 Giocatori: Partita 1 vs 1.\n  Ogni giocatore ha 10 muri.\n- 4 Giocatori: Tutti contro Tutti.\n  Ogni giocatore ha 5 muri.\n- Torna al menu principale."
+        messaggio = (
+            "=== GUIDA GIOCATORI ===\n\n- 2 Giocatori: Partita 1 vs 1.\n  "
+            "Ogni giocatore ha 10 muri.\n- 4 Giocatori: Tutti contro Tutti.\n  "
+            "Ogni giocatore ha 5 muri.\n- Torna al menu principale."
+        )
         self._mostra_aiuto_laterale(messaggio)

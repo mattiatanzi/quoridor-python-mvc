@@ -218,7 +218,8 @@ class PartitaController:
 
             # parti[0] è il numero del turno (es: "1."), parti[1:] sono le mosse.
             # Ricostruiamo la riga prendendo il numero turno + le mosse parziali.
-            # Es: Se ho fatto 2 mosse su 4, prendo parti[0] (turno) + parti[1] + parti[2]
+            # Es: Se ho fatto 2 mosse su 4, prendo:
+            #  parti[0] (turno) + parti[1] + parti[2]
             nuova_linea = [parti[0]] + parti[1 : mosse_parziali + 1]
             risultato.append(" ".join(nuova_linea))
 
@@ -248,12 +249,16 @@ class PartitaController:
                 if giocatore_attivo.possiede_limite_tempo():
                     self._evento_stop_timer = threading.Event()
 
-                    # Passiamo il giocatore e l'evento come parametri per evitare confusioni tra i thread
+                    # Passiamo il giocatore e l'evento come parametri per evitare
+                    # confusioni tra i thread
                     def _loop_timer(stop_event, giocatore, id_gioc):
-                        # Usa l'import corretto del tuo progetto per get_tempo_formattato
+                        # Usa l'import corretto del tuo progetto per
+                        # get_tempo_formattato
                         while not stop_event.is_set():
-                            # .wait(1.0) aspetta un secondo, MA si interrompe in un millisecondo
-                            # se nel frattempo l'utente ha premuto Invio (facendo scattare il .set())
+                            # .wait(1.0) aspetta un secondo, MA si interrompe in un
+                            # millisecondo.
+                            # se nel frattempo l'utente ha premuto Invio,
+                            # (facendo scattare il .set())
                             interrotto = stop_event.wait(1.0)
 
                             if interrotto:
@@ -332,7 +337,8 @@ class PartitaController:
                             else:
                                 if scelta_pulita != "":
                                     self.__view.stampa_errore_partita(
-                                        "Comando non riconosciuto. Inserisci 'm' per il menù."
+                                        "Comando non riconosciuto. "
+                                        "Inserisci 'm' per il menù."
                                     )
                                 self.__view.stampa_vittoria(
                                     id_vincitore, motivo_vincita
@@ -387,7 +393,10 @@ class PartitaController:
 
                             id_vincitore = self.__model.verifica_vittoria()
                             if id_vincitore:
-                                motivo_vincita = f"Il giocatore {id_vincitore} è l'unico rimasto in partita"
+                                motivo_vincita = (
+                                    f"Il giocatore {id_vincitore} è l'unico rimasto in "
+                                    "partita"
+                                )
                                 self.__view.stampa_vittoria(
                                     id_vincitore, motivo_vincita
                                 )
@@ -415,7 +424,8 @@ class PartitaController:
                                     else:
                                         if scelta_pulita != "":
                                             self.__view.stampa_errore_partita(
-                                                "Comando non riconosciuto. Inserisci 'm' per il menù."
+                                                "Comando non riconosciuto. "
+                                                "Inserisci 'm' per il menù."
                                             )
                                         self.__view.stampa_vittoria(
                                             id_vincitore, motivo_vincita
@@ -493,12 +503,14 @@ class PartitaController:
                                         id_vincitore, motivo_vincita
                                     )
 
-                                    # Richiedi input per tornare al menu o avviare replay/trascrizione
+                                    # Richiedi input per tornare al menu o
+                                    # avviare replay/trascrizione
                                     scelta_pulita = (
                                         self.__view.get_input().lower().strip()
                                     )
 
-                                    # Ciclo fin quando l'utente non decide di tornare al menù
+                                    # Ciclo fin quando l'utente non decide di tornare
+                                    # al menù
                                     while scelta_pulita != "m":
                                         errore = ""
 
@@ -512,7 +524,9 @@ class PartitaController:
                                                 scelta_pulita
                                             )
                                             if risultato_replay == "REPLAY_EXIT":
-                                                # Forziamo il reset dell'input in modo che non riesegua il replay all'infinito
+                                                # Forziamo il reset dell'input in modo
+                                                # che non riesegua il replay
+                                                # all'infinito
                                                 scelta_pulita = ""
                                             else:
                                                 errore = risultato_replay
@@ -525,17 +539,23 @@ class PartitaController:
                                                 self.__model.get_trascrizione(),
                                                 len(self.__model.get_giocatori()),
                                             )
-                                            # Dopo aver stampato la trascrizione, svuotiamo per ristampare la vittoria
+                                            # Dopo aver stampato la trascrizione,
+                                            # svuotiamo per ristampare la vittoria
                                             scelta_pulita = ""
 
-                                        # --- GESTIONE INPUT NON RICONOSCIUTI O RIPRISTINO SCHERMATA ---
+                                        # --- GESTIONE INPUT NON RICONOSCIUTI ---
+                                        # --- o RIPRISTINO SCHERMATA ---
                                         else:
                                             if scelta_pulita != "":
                                                 self.__view.stampa_errore_partita(
-                                                    "Comando non riconosciuto. Inserisci 'm' per il menù, 'r' per il replay o 'mosse' per la trascrizione."
+                                                    "Comando non riconosciuto. "
+                                                    "Inserisci 'm' per il menù, 'r' per"
+                                                    " il replay o 'mosse' per la "
+                                                    "trascrizione."
                                                 )
 
-                                            # Ristampa la schermata di vittoria e aspetta un nuovo comando
+                                            # Ristampa la schermata di vittoria e
+                                            # aspetta un nuovo comando
                                             self.__view.stampa_vittoria(
                                                 id_vincitore, motivo_vincita
                                             )
@@ -611,7 +631,8 @@ class PartitaController:
 
                 scelta_replay = chiedi_input_utente()
 
-                # Se l'utente preme invio a vuoto, consideriamolo come stringa vuota per andare avanti
+                # Se l'utente preme invio a vuoto, consideriamolo come stringa vuota
+                # per andare avanti
                 cmd_pulito = scelta_replay.strip().lower()
 
                 try:
@@ -622,11 +643,14 @@ class PartitaController:
                     ):
                         errore = "Errore: Impossibile andare avanti, mosse terminate"
                     if n == 0 and cmd_pulito in self.__COMANDI_INDIETRO:
-                        errore = "Errore: Impossibile andare indietro, stai ancora all'inizio del replay"
-
+                        errore = (
+                            "Errore: Impossibile andare indietro, stai "
+                            "ancora all'inizio del replay"
+                        )
                     ris = replay.esegui_comando(scelta_replay)
 
-                    # SE IL COMANDO SEGNALA L'USCITA (False), INTERROMPIAMO IMMEDIATAMENTE IL CICLO
+                    # SE IL COMANDO SEGNALA L'USCITA (False), INTERROMPIAMO
+                    # IMMEDIATAMENTE IL CICLO
                     if not ris:
                         break
                 except ErroreReplay as err_com:
