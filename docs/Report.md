@@ -338,6 +338,34 @@ La seconda soluzione invece controlla ad ogni ciclo se il giocatore ha un timer,
       - **`ParametriPartitaController` (Controller):** Ha il solo compito di orchestrare la fase di setup pre-partita, facendo dialogare la View e il Model per ottenere un oggetto contenente i parametri definitivi.
       
       Isolando il dominio della "configurazione" da quello dell'"esecuzione della partita", abbiamo ottenuto un codice più coeso, facilmente testabile e manutenibile, dove eventuali future modifiche ai menu di avvio non andranno a intaccare in alcun modo le logiche centrali del gioco.
+## 6. Riepilogo dei test
+La presente sezione sintetizza la strategia di testing adottata per il progetto, illustrando i criteri logici con cui sono stati selezionati i casi di test, le componenti del sistema interessate e le motivazioni alla base di tali scelte. La suite di test garantisce la correttezza della logica di dominio e la stabilità del sistema di fronte a input anomali.
+### 6.1 Criteri di selezione dei casi di test
+Per la progettazione dei test è stato adottato un approccio funzionale di tipo Black-Box, mirato a validare il comportamento dei metodi pubblici delle classi rispetto ai requisiti di gioco, disaccoppiando il testing dalla specifica implementazione del codice.
+La selezione dei casi di test si è basata su due tecniche principali:
+1. Partizionamento in Classi di Equivalenza (CE): Il dominio degli input di ogni funzione è stato diviso in classi (valide e non valide). È stato selezionato un caso rappresentativo per ciascuna classe per evitare ridondanze, assicurando che il sistema si comporti in modo omogeneo per tutti i valori di una stessa partizione (es. movimenti ortogonali validi vs. tentativi di attraversamento dei muri).
+2. Analisi dei Valori Limite e Condizioni Particolari (CP): Sono stati testati i casi "edge" (limite) in cui è più probabile che si verifichino anomalie software. Tra questi rientrano l'esaurimento esatto del tempo del timer (tempo pari a zero), l'arretramento di un pedone sulla propria linea di partenza, o il tentativo di avanzamento del replay quando si è già all'ultimo snapshot disponibile.
+### 6.2 Localizzazione dei test e motivazioni (Cosa abbiamo testato e perché)
+I test si concentrano in modo mirato sul Model e su alcune logiche critiche del Controller. Si è ritenuto indispensabile testare in modo esaustivo le seguenti macro-aree, in quanto rappresentano il "motore" del gioco Quoridor; un eventuale difetto in queste sezioni comprometterebbe l'intera partita.
+- **Meccaniche fisiche e Regole di gioco** (`test_movimento_pedone.py`, `test_piazzamento_muri.py`, `test_vittoria_base.py`):  
+   - *Localizzazione*: Moduli Partita, Tavoliere.
+   - **Motivazione**: È la priorità assoluta. Si è deciso di testare rigorosamente il rispetto dei bordi, le collisioni con i muri (sovrapposizioni parziali o totali) e le regole di salto. La condizione di vittoria è stata testata per validare non solo il successo legittimo, ma per prevenire falsi positivi (es. vittoria assegnata erroneamente se si indietreggia).
+
+- **Gestione del Turno e Stato Giocatori** (`test_partita_4_giocatori.py`, `test_timer.py`):
+
+   - *Localizzazione*: Moduli Partita, Giocatore, Timer.
+
+   - **Motivazione**: Scalare il gioco da 2 a 4 giocatori introduce un'alta complessità nello stato della partita. Si è ritenuto vitale testare l'aggiunta, la rimozione e soprattutto l'eliminazione dei giocatori. Testare il passaggio del turno garantisce che un giocatore sconfitto o senza tempo venga correttamente "saltato" dal motore di gioco senza mandare in crash la rotazione.
+
+- **Trascrizione e Replay** (`test_partita.py`, `test_replay.py`):
+
+   - *Localizzazione*: Modulo ReplayController e logiche di formattazione in Partita.
+
+   - **Motivazione**: Il sistema di storicizzazione (mossa in notazione algebrica) e di ricostruzione a posteriori degli stati (Replay) è fondamentale per l'integrità dei dati. Si è testato il comportamento del Replay sia in scenari standard (navigazione lineare), sia in scenari con "buchi" nella trascrizione (es. mosse segnalate con --- per giocatori ritirati).
+### 6.3 Numerica e Stato della Build
+La suite è composta da un totale di circa 30 casi di test unitari e di integrazione.
+
+Tutti i test implementati coprono gli Oracoli definiti nelle specifiche del Model. L'esito dell'intera suite è del 100% positivo (0 failures, 0 errors). Il superamento totale della suite è stato impostato come vincolo bloccante (prerequisito) per la validazione della build; nessuna modifica al codice sorgente può essere considerata integrata con successo nel ramo principale se compromette l'esito di uno qualsiasi dei test sopra citati.
 
 ## 7. Modalità di collaborazione del team
 Il team ha adottato una metodologia di sviluppo ispirata al framework Agile/Scrum, personalizzandola fortemente per adattarla alle dinamiche di un gruppo di lavoro universitario. L'obiettivo principale è stato mantenere un ciclo di rilascio iterativo, garantendo flessibilità e comunicazione costante, compatibilmente con gli orari di studio e gli impegni di ciascun componente.
