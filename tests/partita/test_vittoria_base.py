@@ -12,7 +12,7 @@ def partita_standard():
     tavoliere = Tavoliere()
     g1 = Giocatore("P1", new_posizione=Nodo("e1"))
     g2 = Giocatore("P2", new_posizione=Nodo("e9"))
-    
+
     partita = Partita(tavoliere, {g1, g2})
     partita.set_id_giocatore_attivo("P1")
     return partita
@@ -45,7 +45,7 @@ class TestVittoriaBase:
 
         # Oracolo: Il sistema deve riconoscere P1 come vincitore assoluto
         assert partita.verifica_vittoria() == "P1"
-        
+
     def test_nessuna_vittoria_se_arretra(self, partita_standard):
         """Verifica che un giocatore non vinca tornando sulla sua linea di partenza.
 
@@ -59,7 +59,7 @@ class TestVittoriaBase:
 
         # Mettiamo P1 vicino alla sua linea di partenza
         partita.set_posizione_giocatore("P1", Nodo("e2"))
-        
+
         # Facciamo indietreggiare P1 verso la riga 1
         partita.muovi_giocatore("e1", giocatore_p1)
 
