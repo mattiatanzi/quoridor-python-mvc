@@ -1,0 +1,496 @@
+/* ======================================================== */
+/* STILE GENERALE APP QUORIDOR TUI                          */
+/* ======================================================== */
+
+Screen {
+    background: $surface;
+}
+
+/* -------------------------------------------------------- */
+/* LAYOUT MENU PRINCIPALI E PANNELLO AIUTO                  */
+/* -------------------------------------------------------- */
+
+.layout-menu-aiuto {
+    layout: horizontal;
+    width: 100%;
+    height: 100%;
+}
+
+/* Contenitori centrali dei bottoni */
+#menu-container, #menu-modalita-container, #menu-timer-container, #menu-giocatori-container,#menu-vittoria-container {
+    width: 1fr;
+    height: 100%;
+    align: center middle;
+    padding: 2 4;
+}
+
+#menu-titolo, #titolo-modalita, #titolo-timer, #titolo-giocatori {
+    text-style: bold;
+    color: $text;
+    content-align: center middle;
+    margin-bottom: 2;
+    width: 100%;
+}
+
+/* Tutti i bottoni dei menu */
+.btn-menu {
+    width: 100%;
+    margin-bottom: 1;
+}
+
+/* Il pannello laterale a scomparsa per l'aiuto */
+#pannello-aiuto {
+    width: 0;
+    height: 100%;
+    background: $panel;
+    border-left: blank;
+    padding: 0;
+    content-align: left top;
+    transition: width 0.3s in_out_cubic;
+    /* Effetto slide morbido */
+}
+
+/* Quando il controller aggiunge la classe 'visibile' il pannello si apre */
+#pannello-aiuto.visibile {
+    width: 40;
+    border-left: heavy ansi_cyan; /* Colore ANSI forte per separazione visibile in Docker */
+    padding: 2;
+}
+
+
+/* -------------------------------------------------------- */
+/* LAYOUT SCHERMATA PARTITA                                 */
+/* -------------------------------------------------------- */
+
+#partita-container {
+    layout: horizontal;
+    width: 100%;
+    height: 100%;
+}
+
+/* Colonna SINISTRA per l'elenco giocatori */
+#pannello-giocatori {
+    width: 35;
+    height: 100%;
+    border-right: heavy ansi_cyan; /* ANSI forte per Docker */
+    padding: 1 2;
+    background: $panel;
+    overflow-y: auto;
+    /* Attiva la scrollbar se necessario */
+    scrollbar-gutter: stable;
+    /* Mantiene lo spazio per la scrollbar */
+}
+
+#label-titolo-giocatori {
+    text-style: bold;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2;
+}
+
+/* ========================================= */
+/* STILE DEI RIQUADRI GIOCATORI E TURNO      */
+/* ========================================= */
+
+GiocatoreViewWidget {
+    height: auto;
+    margin-bottom: 1;
+}
+
+/* Riquadro standard per tutti i giocatori in attesa */
+.giocatore-box {
+    width: 100%;
+    height: auto;
+    padding: 1;
+    border: round ansi_cyan; /* Bordo esplicito per non confonderli con lo sfondo */
+    background: black; /* Sfondo scuro esplicito */
+}
+
+/* IL SEGNO DEL TURNO: Quando tocca a lui si illumina! */
+GiocatoreViewWidget.giocatore-attivo > .giocatore-box {
+    border: double ansi_yellow;
+    /* Bordo doppio e dorato puro */
+    background: ansi_bright_black;
+    /* Sfondo grigio brillante per massimo stacco */
+}
+
+/* Colora di dorato la scritta "► P1 - TURNO" */
+GiocatoreViewWidget.giocatore-attivo .giocatore-label-stato {
+    color: ansi_yellow;
+    text-style: bold italic;
+}
+
+/* Oscura e tratteggia i giocatori eliminati o arresi */
+GiocatoreViewWidget.giocatore-eliminato > .giocatore-box {
+    border: dashed ansi_red;
+    opacity: 0.5;
+}
+
+/* Spazio centrale dove si posiziona il tavoliere */
+#area-gioco {
+    width: 1fr;
+    height: 100%;
+    align: center middle;
+    layout: vertical;
+    overflow: auto; /* IMPORTANTE: Se il terminale è piccolo, appare la scrollbar! */
+}
+
+/* La fascia in basso a destra per Resa e Uscita */
+#azioni-partita {
+    height: auto;
+    width: 100%;
+    align: right middle;
+    padding: 1 2;
+    layout: horizontal;
+}
+
+#azioni-partita > Button {
+    width: 25;
+    margin-left: 2;
+}
+
+
+/* -------------------------------------------------------- */
+/* TAVOLIERE CON COORDINATE ESTERNE                         */
+/* -------------------------------------------------------- */
+
+#contenitore-tavoliere-completo {
+    width: auto;
+    height: auto;
+    align: center middle;
+}
+
+#fascia-centrale {
+    width: auto;
+    height: auto;
+    layout: horizontal;
+}
+
+/* Colonna dei Numeri (Sinistra) */
+#colonna-numeri {
+    width: 2;
+    height: 37; 
+    margin-top: 1; 
+    margin-right: 1;
+}
+
+.label-numero {
+    height: 3; /* Esattamente l'altezza della riga della casella */
+    width: 100%;
+    content-align: right middle;
+    margin-bottom: 1; /* Esattamente l'altezza del muro orizzontale */
+    color: ansi_bright_white; /* Bianco forte invece di testo muto */
+    text-style: bold;
+}
+
+/* Riga delle Lettere (Sopra la griglia) */
+#riga-lettere {
+    width: 90; 
+    height: 1;
+    margin-left: 3;
+    /* Salta la colonna numeri e il bordo sinistro */
+    margin-bottom: 1;
+    /* Crea lo spazio tra le lettere e il tetto del tavoliere */
+    layout: horizontal;
+}
+
+.label-lettera {
+    width: 8; /* Esattamente la larghezza della colonna casella */
+    height: 100%;
+    content-align: center top;
+    margin-right: 2; /* Esattamente la larghezza del muro verticale */
+    color: ansi_bright_white; /* Bianco forte invece di testo muto */
+    text-style: bold;
+}
+
+/* -------------------------------------------------------- */
+/* LA GRIGLIA INTERNA 17x17 (MATEMATICAMENTE PERFETTA)      */
+/* -------------------------------------------------------- */
+
+#griglia-tavoliere {
+    layout: grid;
+    grid-size: 17 17;
+    
+    /* IL SEGRETO: Fissiamo le dimensioni di ogni singola colonna e riga! */
+    /* Colonne: Casella(8) Muro(2) Casella(8) Muro(2) ... */
+    grid-columns: 8 2 8 2 8 2 8 2 8 2 8 2 8 2 8 2 8;
+    /* Righe: Casella(3) Muro(1) Casella(3) Muro(1) ... */
+    grid-rows: 3 1 3 1 3 1 3 1 3 1 3 1 3 1 3 1 3;
+    grid-gutter: 0 0;
+    
+    /* (9 * 8) + (8 * 2) = 88 + 2 di bordi = 90 esatti */
+    width: 90;
+    min-width: 90;
+    
+    /* (9 * 3) + (8 * 1) = 35 + 2 di bordi = 37 esatti */
+    height: 37;
+    min-height: 37;
+    
+    border: heavy ansi_cyan; /* ANSI visibile su Docker */
+    background: black; /* Sfondo del tabellone PURAMENTE NERO per contrasto assoluto */
+}
+
+/* 1. Caselle (Colonne dispari: larghe 8) */
+.casella { 
+    width: 8;
+    min-width: 8;
+    max-width: 8;
+    height: 3; 
+    min-height: 3; 
+    max-height: 3;
+    background: ansi_bright_black;
+    border: none; 
+    color: ansi_white;
+    text-style: bold; 
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 2. Muri Verticali (Colonne pari: larghe 2) */
+.muro-v { 
+    width: 2; 
+    min-width: 2;
+    max-width: 2;
+    height: 3; 
+    min-height: 3; 
+    max-height: 3;
+    background: black; 
+    border: none;
+    margin: 0 !important; 
+    padding: 0 !important;
+}
+
+/* 3. Muri Orizzontali (Colonne dispari: larghi 8) */
+.muro-h { 
+    width: 8;
+    min-width: 8;
+    max-width: 8;
+    height: 1; 
+    min-height: 1; 
+    max-height: 1;
+    background: black; 
+    border: none;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 4. Intersezione (Colonne pari: larghe 2) */
+.intersezione { 
+    width: 2;
+    min-width: 2;
+    max-width: 2;
+    height: 1; 
+    min-height: 1; 
+    max-height: 1;
+    background: black; 
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Hover e Colori (ANSI nativi ad altissimo contrasto) */
+.casella:hover { background: ansi_white; color: black; }
+
+
+/* Giocatori: Colori puri ANSI per visibilità massima */
+.giocatore-1 { background: ansi_red !important; color: ansi_white !important;}
+.giocatore-2 { background: ansi_blue !important; color: ansi_white !important;}
+.giocatore-3 { background: ansi_green !important; color: black !important;}
+.giocatore-4 { background: ansi_magenta !important; color: ansi_white !important;}
+
+/* -------------------------------------------------------- */
+/* SCHERMATA CRASH PYTHON (ModalScreen per Errori Fatali)   */
+/* -------------------------------------------------------- */
+
+ErroreFataleScreen {
+    align: center middle;
+    background: rgba(0, 0, 0, 0.85); /* Sfondo scuro semitrasparente */
+}
+
+#pannello-crash {
+    width: 80%;
+    height: auto;
+    background: ansi_red; /* Colore ANSI puro per alert fatali */
+    border: heavy ansi_bright_white;
+    padding: 1 2;
+}
+
+#titolo-crash {
+    text-style: bold;
+    color: ansi_bright_white;
+    width: 100%;
+    text-align: center;
+}
+
+#sottotitolo-crash {
+    color: ansi_yellow;
+    text-style: italic;
+    margin-bottom: 1;
+}
+
+#testo-crash {
+    color: black;
+    background: ansi_bright_white;
+    border: solid black;
+    padding: 1;
+    margin-bottom: 2;
+    height: auto;
+}
+
+#btn-chiudi-crash {
+    width: 100%;
+    margin-bottom: 0;
+    /* Rimuove il margine solo per il pulsante d'emergenza */
+}
+
+
+/* -------------------------------------------------------- */
+/* SCHERMATA TRASCRIZIONE E WIDGET                          */
+/* -------------------------------------------------------- */
+
+TrascrizioneScreen {
+    align: center middle;
+    background: rgba(0, 0, 0, 0.85); /* Oscura il gioco dietro */
+}
+
+#pannello-trascrizione {
+    width: 60;
+    height: 80%;
+    /* Occupa l'80% dell'altezza dello schermo */
+    background: $panel;
+    border: heavy ansi_green; /* Bordo forte in ANSI */
+    padding: 1 2;
+    align: center top;
+}
+
+#titolo-trascrizione {
+    text-style: bold;
+    color: ansi_bright_green;
+    margin-bottom: 1;
+    width: 100%;
+    text-align: center;
+}
+
+/* Stile per il Widget Riutilizzabile */
+TrascrizioneWidget {
+    width: 100%;
+    height: 1fr;
+    /* Prende tutto lo spazio in altezza lasciato libero */
+    border: solid ansi_cyan;
+    background: black; /* Sfondo nero per massimo contrasto testo */
+    margin-bottom: 1;
+}
+
+#trascrizione-scroll {
+    width: 100%;
+    height: 100%;
+}
+
+#trascrizione-testo {
+    width: 100%;
+    height: auto;
+    padding: 1;
+    color: ansi_bright_white; /* Testo leggibile */
+}
+
+/* -------------------------------------------------------- */
+/* SCHERMATA VITTORIA (Overlay e Nascondi Menu)             */
+/* -------------------------------------------------------- */
+
+VittoriaModalScreen {
+    align: center middle;
+    /* Oscura leggermente il tabellone dietro, ma lo lascia ben visibile */
+    background: rgba(0, 0, 0, 0.50);
+}
+
+#menu-vittoria-container {
+    border: heavy ansi_yellow; /* Cornice dorata visibile in Docker */
+    background: $panel;
+}
+
+/* Posiziona il bottoncino di ritorno in cima allo schermo */
+#btn-ripristina-vittoria {
+    position: absolute;
+    offset: 82% 1;
+    width: auto;      /* Si stringe attorno al testo */
+    min-width: 12;
+    /* Dimensione minima protetta */
+    text-style: bold;
+}
+
+/* La classe magica che fa sparire i componenti */
+.nascosto {
+    display: none !important;
+}
+
+/* -------------------------------------------------------- */
+/* SCHERMATA REPLAY                                         */
+/* -------------------------------------------------------- */
+
+#replay-layout {
+    width: 100%;
+    height: 1fr;
+}
+
+#replay-sinistra {
+    width: 65%;
+    height: 100%;
+    align: center top;
+    padding-top: 1;
+}
+
+#replay-destra {
+    width: 35%;
+    height: 100%;
+    border-left: heavy ansi_cyan; /* Bordo visibile */
+    padding: 1 2;
+}
+
+#replay-titolo {
+    text-style: bold;
+    color: ansi_yellow; /* Visibile su Docker */
+    margin-bottom: 1;
+}
+
+#replay-descrizione-mossa {
+    color: ansi_bright_green; /* Visibile su Docker */
+    text-style: bold italic;
+    margin-bottom: 1;
+}
+
+/* Barra inferiore dei bottoni */
+#replay-nav-buttons {
+    height: auto;
+    width: 100%;
+    dock: bottom;
+    align: center middle;
+    padding: 1;
+    background: black;
+    border-top: solid ansi_cyan;
+}
+
+#replay-nav-buttons Button {
+    width: auto;
+    min-width: 15;
+    margin: 0 1;
+}
+
+/* Disattiva l'interazione visiva con il tabellone in modalità replay */
+#replay-sinistra Static:hover {
+    background: ansi_bright_black; /* Mantiene il colore grigio per non lampeggiare */
+    border: none;
+}
+
+/* Rimuove l'effetto hover sui divisori/muri all'interno del replay */
+#replay-sinistra Static:hover {
+    background: black; /* Mantiene il nero del muro vuoto */
+}
+
+/* Opzionale: rende l'intero pannello leggermente più opaco 
+   per far capire graficamente che è una visualizzazione passiva */
+#replay-sinistra TavoliereViewStatic {
+    opacity: 0.9;
+}
+
+.muro-piazzato, .muro-piazzato:disabled {
+    background: ansi_bright_white !important; /* Sostituisci con il colore reale dei tuoi muri */
+}

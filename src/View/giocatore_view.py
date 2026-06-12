@@ -1,4 +1,7 @@
-class GiocatoreView:
+from abc import ABC, abstractmethod
+
+
+class GiocatoreViewAstratta(ABC):
     """classe GiocatoreView.
 
     DESCRIZIONE
@@ -6,11 +9,11 @@ class GiocatoreView:
 
     METODI
 
-        ------ STAMPE ATTRIBUTI ------
+        ------ VISUALIZZAZIONE ATTRIBUTI ------
 
         def stampa_id_giocatore(self, id_giocatore):
             DESCRIZIONE
-                Stampa dell'id giocatore
+                Mostra dell'id giocatore
 
         def stampa_giocatore_attivo(
             self,
@@ -19,15 +22,12 @@ class GiocatoreView:
             tempo_formattato = None
         ):
             DESCRIZIONE
-                Stampa informazioni riguardanti il giocatore che ha il turno.
-                Se il giocatore ha i limiti di tempo, mostra quanto tempo gli rimane
-                per il turno corrente.
+                Mostra informazioni riguardanti il giocatore che ha il turno
 
         def stampa_info_giocatore(self, id, muri_disponibili, tempo_formattato = None):
             DESCRIZIONE
-                Stampa informazioni generali riguardanti un giocatore.
-                Se il giocatore ha i limiti di tempo, mostra quanto tempo gli rimane
-                per il turno corrente.
+                Mostra informazioni generali riguardanti un giocatore
+
 
         def stampa_giocatore_eliminato(
             self,
@@ -36,44 +36,35 @@ class GiocatoreView:
             tempo_formattato = None
         ):
             DESCRIZIONE
-                Stampa informazioni generali riguardo i giocatori eliminati.
-                Se il giocatore ha i limiti di tempo, mostra quanto tempo gli rimane
-                per il turno corrente.
-
-
-
-        ------ STAMPE ERRORI ------
+            Mostra informazioni generali riguardanti i giocatori.
+            
+        ------ VISUALIZZIONE ERRORI ------
 
         def stampa_errore_giocatore(self, messaggio):
             DESCRIZIONE
-                Stampa il messaggio di errore in input relativo al giocatore
+                Mostra il messaggio di errore in input relativo al giocatore
 
     """
 
     # Stampe Video
 
+    @abstractmethod
     def stampa_id_giocatore(self, id_giocatore):
-        print(id_giocatore)
+        pass
 
-    def stampa_giocatore_attivo(self, id, muri_disponibili, tempo_formattato=None):
-        print(f"Turno {id}, Muri Disponibili: {muri_disponibili}", end="")
-        if tempo_formattato is not None:
-            print(f", Tempo Rimanente: {tempo_formattato}", end="")
-        print("")
+    @abstractmethod
+    def stampa_giocatore_attivo(self, id, muri_disponibili):
+        pass
 
-    def stampa_info_giocatore(self, id, muri_disponibili, tempo_formattato=None):
-        print(f"Giocatore {id}, Muri Disponibili: {muri_disponibili}", end="")
-        if tempo_formattato is not None:
-            print(f", Tempo Rimanente: {tempo_formattato}", end="")
-        print("")
+    @abstractmethod
+    def stampa_info_giocatore(self, id, muri_disponibili):
+        pass
 
+    @abstractmethod
     def stampa_giocatore_eliminato(self, id, muri_disponibili, tempo_formattato=None):
-        print(f"Giocatore {id} ELIMINATO, Muri Disponibili: {muri_disponibili}", end="")
-        if tempo_formattato is not None:
-            print(f", Tempo Rimanente: {tempo_formattato}", end="")
-        print("")
+        pass
 
     # Stampe Errori
-
+    @abstractmethod
     def stampa_errore_giocatore(self, messaggio):
-        print(messaggio)
+        pass

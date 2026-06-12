@@ -6,8 +6,11 @@ from src.Model.giocatore import Giocatore
 from src.Model.nodo import Nodo
 from src.Model.partita import Partita
 from src.Model.tavoliere import Tavoliere
-from src.View.partita_view import PartitaView
-from src.View.quoridor_view import QuoridorView
+from src.View.CLI.parametri_partita_view_CLI import ParametriPartitaViewCLI
+from src.View.funzioni_utili_stampa import chiedi_input_utente
+from src.View.partita_view import PartitaViewAstratta
+from src.View.quoridor_view import QuoridorViewAstratta
+from src.View.TUI.parametri_partita_view_TUI import ParametriPartitaViewTUI
 
 
 class QuoridorController:
@@ -51,16 +54,15 @@ class QuoridorController:
 
     """
 
-    __view: QuoridorView
+    __view: QuoridorViewAstratta
 
-    def __init__(self):
-        self.set_view(QuoridorView())
+    def __init__(
+        self, quoridor_view: QuoridorViewAstratta, partita_view: PartitaViewAstratta
+    ):
+        self.__menu = quoridor_view
+        self.__partita_view = partita_view
 
-    def get_view(self):
-        return self.__view
-
-    def set_view(self, new_view: QuoridorView):
-        self.__view = new_view
+        # aggiungere else per view in Gui
 
     def gioca(self):
         errore: str = ""
@@ -68,41 +70,56 @@ class QuoridorController:
 
         # Menu Principale
         while continuare_gioco:
-            self.get_view().menu_di_gioco()
-            self.get_view().stampa_messaggio(errore)
-            scelta = self.get_view().get_input_menu()
+            self.__menu.menu_di_gioco()
+            self.__menu.stampa_messaggio(errore)
+            scelta = self.__menu.get_input_menu()
 
             # Scelta = GIOCA
             if scelta == "1":
-                parametri = ParametriPartitaController().ottieni_parametri_utente()
+                if self.__menu.is_tui():
+                    app = self.__menu.get_app()
+                    coda = self.__menu.get_coda_input()
+                    parametri_ctrl = ParametriPartitaController(
+                        new_view=ParametriPartitaViewTUI(app, coda)
+                    )
+                else:
+                    parametri_ctrl = ParametriPartitaController(
+                        new_view=ParametriPartitaViewCLI()
+                    )
+                parametri = parametri_ctrl.ottieni_parametri_utente()
 
                 if parametri.get_avvia_partita():
                     tavoliere = Tavoliere()
                     giocatori = set()
+                    ids_giocatori = []
                     for i in range(0, parametri.get_numero_giocatori()):
                         id_assegnato = CostantiGiocatore.POSSIBILI_ID_GIOCATORE[i]
+                        ids_giocatori.append(id_assegnato)
                         giocatore = Giocatore(
                             new_id_giocatore=id_assegnato,
                             new_posizione=Nodo(
                                 CostantiPartita.COORDINATE_INIZIALI[id_assegnato]
                             ),
                             new_tempo_iniziale=parametri.get_limite_tempo(),
-                            new_muri_disponibili=CostantiPartita.MURI_DISPONIBILI.get(str(parametri.get_numero_giocatori()))
+                            new_muri_disponibili=CostantiPartita.MURI_DISPONIBILI.get(
+                                str(parametri.get_numero_giocatori())
+                            ),
                         )
                         giocatori.add(giocatore)
-
+                    self.__partita_view.avvia_interfaccia_partita(ids_giocatori)
                     partita = PartitaController(
-                        Partita(tavoliere, giocatori),
-                        PartitaView(),
+                        Partita(tavoliere, giocatori), self.__partita_view
                     )
                     continuare_gioco = partita.gioca_partita()
-
-            # Scelta = 0 <=> Esci dal gioco
+                if not continuare_gioco:
+                    self.__partita_view.torna_al_menu()
             elif scelta == "0":
-                self.__view.stampa_messaggio("Uscita in corso, alla prossima!")
+                self.__menu.stampa_messaggio("Uscita in corso, alla prossima!")
                 continuare_gioco = False
             elif scelta in ("h", "help", "aiuto"):
-                PartitaView().stampa_aiuto()
-                input("---- Premi INVIO per tornare al menu... ----")
+                testo_aiuto = "=== GUIDA COMANDI ===\n\n1 - Avvia una nuova partita\n0 - Esci dal gioco"
+                self.__menu.stampa_messaggio(testo_aiuto)
+                chiedi_input_utente("-------- Premi INVIO per andare avanti ---------")
+
             else:
                 errore = "Errore nell'inserimento della scelta, riprova\n"

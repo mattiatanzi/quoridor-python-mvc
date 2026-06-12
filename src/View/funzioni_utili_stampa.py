@@ -1,45 +1,74 @@
+import builtins
 import os
+import queue
+import threading
+
+_gestore_input_personalizzato = None
+
+# --- SISTEMA UNIFICATO DI INPUT ASINCRONO (Fix Doppio Invio) ---
+_coda_input_globale = queue.Queue()
+_thread_input_avviato = False
+
+_input_originale = builtins.input
+
+
+def _lettore_input_globale():
+    while True:
+        try:
+            # Usa il vero input per prendere i dati dalla tastiera
+            testo = _input_originale()
+            _coda_input_globale.put(testo)
+        except EOFError:
+            break
+
+
+def _avvia_lettore_se_necessario():
+    """Avvia il thread solo la prima volta che serve un input."""
+    global _thread_input_avviato
+    if not _thread_input_avviato:
+        _thread_input_avviato = True
+        t = threading.Thread(target=_lettore_input_globale, daemon=True)
+        t.start()
+
+
+def inserisci_input_forzato(testo: str):
+    """Permette al timer di inviare 'resa_per_tempo' aggirando la tastiera."""
+    _coda_input_globale.put(testo)
+
+
+# -----------------------------------------------------------------
 
 
 def pulisci_schermo():
-    """Pulisce il terminale in modo incrociato su tutti i SO e Shell.
-
-    Abbiamo notato che durante l'esecuzione sui terminali di Ubuntu e di Windows
-    Powershell non viene pulito lo schermo come avviene negli altri terminali,
-    ma tralasciamo questo problema in quanto di base Ubuntu e Powershell mantengono
-    il buffer di scorrimento ma ogni qual volta si richiama la funzione la stampa
-    riporta sempre all'ultima stampa emessa lasciando quindi come 'storico'
-    i precedenti comandi e/o precedenti stampe a video
-    """
+    """Pulisce il terminale in modo incrociato su tutti i SO e Shell."""
     if os.name == "posix":
-        # Sistemi nativi Unix (Linux e macOS)
         print("\033[2J\033[H", end="", flush=True)
     else:
-        # Sistemi Windows (CMD, PowerShell, Git Bash)
-        # Git Bash imposta variabili d'ambiente specifiche ('TERM' o 'MSYSTEM')
         if "TERM" in os.environ or "MSYSTEM" in os.environ:
-            print("\033[2J\033[H", end="", flush=True)  # Siamo su Git Bash
+            print("\033[2J\033[H", end="", flush=True)
         else:
-            os.system("cls")  # Siamo su PowerShell o CMD
+            os.system("cls")
+
+
+def imposta_gestore_input(funzione_gestore):
+    """Permette alla TUI di 'iniettare' la sua logica."""
+    global _gestore_input_personalizzato
+    _gestore_input_personalizzato = funzione_gestore
 
 
 def chiedi_input_utente(indicazioniInput: str = "") -> str:
-    """Funzione Generica di richiesta input.
+    """Restituisce input utente dalla coda globale (asincrono)."""
+    
+    if _gestore_input_personalizzato is not None:
+        return _gestore_input_personalizzato(indicazioniInput)
 
-    DESCRIZIONE
-        Funzione che chiede all'utente un input, eventualmente specificando delle
-        indicazioni.
-        Dato che nel programma si richiede più volte un input, è stata pensata
-        questa funzione per evitare di riscrivere da zero ogni funzione
+    # Assicura che il lettore in background sia attivo
+    _avvia_lettore_se_necessario()
 
-    """
-    # Stampa interfaccia Input
-    __stampa_richiesta_input(indicazioniInput)
+    print(f"\n{indicazioniInput} ", end="\n\n")
+    print("Input: ", end="", flush=True)
 
-    # Richiedi input
-    return input()
+    # Si blocca in attesa che l'utente scriva o che scada il timer, in modo pulito!
+    return _coda_input_globale.get()
 
-
-def __stampa_richiesta_input(indicazioni: str = ""):
-    print(f"\n{indicazioni}", end="\n\n")
-    print("Input: ", end="")
+builtins.input = lambda prompt="": chiedi_input_utente(prompt)

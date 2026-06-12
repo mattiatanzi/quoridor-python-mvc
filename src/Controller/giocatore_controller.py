@@ -1,5 +1,5 @@
 from src.Model.giocatore import ErroreId, ErroreMuro, ErrorePosizione, Giocatore
-from src.View.giocatore_view import GiocatoreView
+from src.View.giocatore_view import GiocatoreViewAstratta
 
 
 class GiocatoreController:
@@ -82,11 +82,11 @@ class GiocatoreController:
     # Attributi
     #
     __model: Giocatore
-    __view: GiocatoreView
+    __view: GiocatoreViewAstratta
 
     # Costruttori
 
-    def __init__(self, model: Giocatore, view: GiocatoreView):
+    def __init__(self, model: Giocatore, view: GiocatoreViewAstratta):
         self.set_model(model)
         self.set_view(view)
 
@@ -98,10 +98,10 @@ class GiocatoreController:
     def get_model(self) -> Giocatore:
         return self.__model
 
-    def set_view(self, view: GiocatoreView):
+    def set_view(self, view: GiocatoreViewAstratta):
         self.__view = view
 
-    def get_view(self) -> GiocatoreView:
+    def get_view(self) -> GiocatoreViewAstratta:
         return self.__view
 
     # Modificatori / Osservatori

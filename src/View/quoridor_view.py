@@ -1,37 +1,62 @@
-from src.View.costanti_quoridor_view import CostantiQuoridorView
-from src.View.funzioni_utili_stampa import chiedi_input_utente, pulisci_schermo
+from abc import ABC, abstractmethod
+
+from src.View.TUI.App.App_textual import QuoridorViewApp
 
 
-class QuoridorView:
-    """Stampa del menu di base.
+class QuoridorViewAstratta(ABC):
+    """Classe QuoridorViewAstratta.
 
-    Metodi
-    ------
-    def __menu_base(self):
-        Permette di stampare la base del menu che è solo visiva
+    DESCRIZIONE
+        Interfaccia per la gestione della visualizzazione del menu principale
+        e dell'interazione con l'utente.
 
-    def menu_di_gioco(self):
-        Permette di stampare il menu di base e restituisce l'input che riceve
-        dall'utente
+    METODI
 
-    def stampa_messaggio(self, messaggio: str):
-        Permette di stampare un messaggio nella fase di menu
+        menu_di_gioco()
+            DESCRIZIONE
+                Mostra il menu principale.
 
+        get_input_menu() -> str
+            DESCRIZIONE
+                Richiede una scelta dall'utente nel menu principale.
+
+        stampa_messaggio(messaggio: str)
+            DESCRIZIONE
+                Mostra un messaggio all'utente.
+
+        is_tui() -> bool
+            DESCRIZIONE
+                Indica se la view utilizza una interfaccia TUI.
+
+        get_app()
+            DESCRIZIONE
+                Restituisce l'applicazione TUI associata alla view.
+
+        get_coda_input()
+            DESCRIZIONE
+                Restituisce la coda degli input utilizzata dalla view.
     """
 
-    def __menu_base(self):
-        pulisci_schermo()
-        print("Benvenuto in Quoridor \n")
-        print("1 - Avvia una nuova partita \n")
-        print("0 - Esci dal gioco \n")
-
-        print("h - Aiuto (Comandi di gioco) \n")
-
+    @abstractmethod
     def menu_di_gioco(self):
-        self.__menu_base()
+        pass
 
+    @abstractmethod
     def get_input_menu(self) -> str:
-        return input("Seleziona un'opzione: ")
+        pass
 
+    @abstractmethod
     def stampa_messaggio(self, messaggio: str):
-        print(messaggio)
+        pass
+
+    @abstractmethod
+    def is_tui(self) -> bool:
+        pass
+
+    @abstractmethod
+    def get_app(self) -> QuoridorViewApp:
+        return self.__app
+
+    @abstractmethod
+    def get_coda_input(self):
+        return self.__coda_input

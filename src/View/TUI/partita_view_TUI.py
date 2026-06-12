@@ -1,0 +1,324 @@
+import time
+import traceback
+from threading import Event
+
+from src.Model.partita import Partita
+from src.Model.tempo import get_tempo_formattato
+from src.View.funzioni_utili_stampa import imposta_gestore_input
+from src.View.giocatore_view import GiocatoreViewAstratta
+from src.View.partita_view import PartitaViewAstratta
+from src.View.tavoliere_view import TavoliereviewAstratta
+from src.View.TUI.ModalScreen.aiuto_ModalScreen import AiutoScreen
+from src.View.TUI.ModalScreen.vittoria_ModalScreen import VittoriaModalScreen
+from src.View.TUI.replay_view_TUI import ReplayViewTUI
+from src.View.TUI.Screen.conferma_Screen import ConfermaScreen
+from src.View.TUI.Screen.replay_Screen import ReplayScreen
+from src.View.TUI.Screen.trascrizione_Screen import TrascrizioneScreen
+
+
+class PartitaViewTUI(PartitaViewAstratta):
+    """Implementazione TUI della view della partita.
+
+    Non stampa nulla direttamente: aggiorna i widget
+    già montati nella PartitaViewScreen tramite call_from_thread.
+
+    ATTRIBUTI
+    
+        _app : QuoridorViewApp
+            Riferimento all'app Textual condivisa
+            
+    METODI
+    
+        def stampa_partita(self, partita: Partita):
+            DESCRIZIONE
+                Aggiorna lo stato completo della partita aggiornando
+                giocatori e tavoliere.
+
+        def stampa_errore_partita(self, messaggio):
+            DESCRIZIONE
+                Mostra una notifica di errore relativa alla partita.
+
+        def stampa_aiuto(self):
+            DESCRIZIONE
+                Visualizza la guida dei comandi della partita.
+
+        def stampa_vittoria(self, id_vincitore, motivo_vittoria: str):
+            DESCRIZIONE
+                Mostra la schermata di vittoria.
+
+        def stampa_trascrizione(self, trascrizione: list[str], num_giocatori: int, replay: bool = False):
+            DESCRIZIONE
+                Mostra la trascrizione della partita.
+
+        def avvia_interfaccia_partita(self, ids_giocatori: list[str]) -> None:
+            DESCRIZIONE
+                Avvia la schermata principale della partita.
+
+        def torna_al_menu(self):
+            DESCRIZIONE
+                Ritorna al menu principale.
+
+        def _gestore_input_tui(self, messaggio: str) -> str:
+            DESCRIZIONE
+                Gestisce input e conferme nella TUI.
+
+        def crea_replay_view(self):
+            DESCRIZIONE
+                Crea e restituisce la view del replay.
+
+        def aggiorna_orologio_live(self, id_giocatore: str, tempo_formattato: str):
+            DESCRIZIONE
+                Aggiorna il timer del giocatore in tempo reale.
+    """
+
+    def __init__(
+        self,
+        new_giocatore_view: GiocatoreViewAstratta,
+        new_tavoliere_view: TavoliereviewAstratta,
+        app_condivisa,
+    ):
+        super().__init__(new_giocatore_view, new_tavoliere_view)
+        self._app = app_condivisa
+        imposta_gestore_input(self._gestore_input_tui)
+
+    # ------ Stampe Video ------ #
+
+    def stampa_partita(self, partita: Partita):
+        giocatori = partita.get_giocatori()
+        tavoliere = partita.get_tavoliere()
+
+        for g in giocatori:
+            id_sel = g.get_id()
+            muri = partita.get_muri_disponibili_giocatore(id_sel)
+
+            # ==========================================
+            # PROTEZIONE DEL CALCOLO DEL TEMPO
+            # ==========================================
+            tempo_fmt = None
+            if g.possiede_limite_tempo():
+                try:
+                    tempo_fmt = get_tempo_formattato(g.get_tempo_residuo())
+                except Exception:
+                    # Invece di far morire il thread, catturiamo l'errore e lo scriviamo su file!
+                    with open("debug_crash.txt", "a") as f:
+                        self._app.log(
+                            f"--- ERRORE TEMPO ---\n{traceback.format_exc()}\n"
+                        )
+                    # Diamo un valore di fallback così la UI non impazzisce
+                    tempo_fmt = "Err Tempo"
+
+            if g.is_attivo():
+                if id_sel == partita.get_id_giocatore_attivo():
+                    self.get_giocatore_view().stampa_giocatore_attivo(
+                        id_sel, muri, tempo_fmt
+                    )
+                else:
+                    self.get_giocatore_view().stampa_info_giocatore(
+                        id_sel, muri, tempo_fmt
+                    )
+            else:
+                self.get_giocatore_view().stampa_giocatore_eliminato(
+                    id_sel, muri, tempo_fmt
+                )
+
+        # Il tavoliere aggiorna i widget già montati nella screen
+        self.get_tavoliere_view().stampa_tavoliere(tavoliere, giocatori)
+
+    def stampa_errore_partita(self, messaggio):
+        # Se il controller passa una stringa vuota (nessun errore), non fare nulla
+        if not messaggio or str(messaggio).strip() == "":
+            return
+
+        def _aggiorna():
+            # Mostra una notifica rossa in basso a destra
+            self._app.notify(
+                str(messaggio),
+                title="Mossa Non Valida",
+                severity="error",
+                timeout=4,  # Scompare da sola dopo 4 secondi
+            )
+
+        self._app.call_from_thread(_aggiorna)
+
+    def stampa_aiuto(self):
+        messaggio = """
+QUORIDOR: COMANDI PRINCIPALI PER TESTO CON AGGIUNTA DI PULSANTI
+        
+• Muovi pedone: <colonna><riga> (es. 'e2') 
+  o clicca casella adiacente al pedone
+
+• Piazza muro:  <colonna><riga><h/v> (es. 'e2h')   (h = in basso a dx | v = a destra in basso)
+  o clicca tra le caselle
+        
+• Mostra aiuto: 'help' o 'aiuto' ( o clicca il pulsante mostra aiuto)
+• Elenco mosse: 'trascrizione' o 'mosse' 
+• Abbandona:    'quit' o 'abbandona'
+• Esci:         'exit' o 'esci'
+        """
+
+        # Questa callback si attiva da sola quando clicchi "Chiudi" o premi Esc
+        def _chiuso(risultato=None):
+            self._app.get_coda_input().put("finestra_chiusa")
+
+        def _mostra_aiuto():
+            # Passiamo _chiuso come parametro secondario
+            self._app.push_screen(AiutoScreen(messaggio), _chiuso)
+
+        self._app.call_from_thread(_mostra_aiuto)
+
+    def stampa_vittoria(self, id_vincitore, motivo_vittoria: str):
+        def _mostra_vittoria():
+            # PROTEZIONE: Se l'utente sta leggendo le mosse, ignora la stampa della vittoria
+            if isinstance(self._app.screen, TrascrizioneScreen):
+                return
+
+            # 2. LA MAGIA: Se il ReplayScreen è attivo, lo chiudiamo noi da codice pulendo lo stack
+            if isinstance(self._app.screen, ReplayScreen):
+                self._app.pop_screen()
+
+            # 3. Ora siamo sicuri che sotto c'è solo il tabellone vero appena ridisegnato dal controller.
+            # Mostriamo il menu Vittoria (solo se non c'è già!)
+            if not isinstance(self._app.screen, VittoriaModalScreen):
+                self._app.push_screen(
+                    VittoriaModalScreen(id_vincitore, motivo_vittoria, self._app)
+                )
+
+        self._app.call_from_thread(_mostra_vittoria)
+
+        self._app.call_from_thread(_mostra_vittoria)
+
+    def stampa_trascrizione(
+        self, trascrizione: list[str], num_giocatori: int, replay: bool = False
+    ):
+        if not replay:
+            # Aggiungiamo la callback per sbloccare il tempo
+            def _chiuso(risultato=None):
+                self._app.get_coda_input().put("finestra_chiusa")
+
+            def _mostra_trascrizione():
+                testo = (
+                    "\n".join(trascrizione)
+                    if trascrizione
+                    else "Nessuna mossa effettuata."
+                )
+                # Passiamo _chiuso come parametro secondario
+                self._app.push_screen(TrascrizioneScreen(testo), _chiuso)
+
+            self._app.call_from_thread(_mostra_trascrizione)
+
+    def chiedi_input_utente(self, indicazioniInput: str = "") -> str:
+        # Il controller chiama questo metodo per leggere dalla coda,
+        # che viene popolata da on_input_submitted nella screen
+        return self._app.get_coda_input().get()
+
+    def get_input(self) -> str:
+        return self.chiedi_input_utente()
+
+    def forza_input(self, testo: str):
+        """Intercetta il comando di timeout dal Controller (es. 'resa_per_tempo')
+        e lo inietta direttamente nella coda della GUI per sbloccarla all'istante.
+        """
+        # IMPORTANTE: Sostituisci 'self._app.coda_input' con la variabile
+        # esatta che utilizzi nel tuo get_input() per leggere la coda!
+        self._app.get_coda_input().put(testo)
+
+    def stampa_richiesta_input(self, indicazioni: str = ""):
+        # Aggiorna il label hint sopra il campo input
+        def _aggiorna():
+            try:
+                self._app.screen.query_one("#label-input-hint").update(
+                    indicazioni or "Fai la tua mossa:"
+                )
+            except Exception:
+                pass
+
+        self._app.call_from_thread(_aggiorna)
+
+    def avvia_interfaccia_partita(self, ids_giocatori: list[str]) -> None:
+        """Chiede all'app Textual di mostrare la schermata di partita e attende che sia pronta."""
+        self._app.log("[RADAR-SCHERMO] A. Richiesto avvio schermo partita")
+        evento = Event()
+
+        def _cambia_schermo():
+            self._app.log(
+                "[RADAR-SCHERMO] B. Chiamata mostra_schermo_partita in corso..."
+            )
+            try:
+                self._app.mostra_schermo_partita(ids_giocatori)
+                self._app.log(
+                    "[RADAR-SCHERMO] C. Schermo caricato senza errori grafici!"
+                )
+            except Exception as e:
+                self._app.log(f"[ERRORE SCHERMO] {e}")
+            finally:
+                # FONDAMENTALE: Sblocca il controller a prescindere!
+                self._app.log("[RADAR-SCHERMO] D. Sblocco l'evento del controller")
+                evento.set()
+
+        self._app.call_from_thread(_cambia_schermo)
+        self._app.log(
+            "[RADAR-SCHERMO] E. Il controller è in pausa e aspetta l'evento..."
+        )
+        evento.wait()
+        self._app.log("[RADAR-SCHERMO] F. Evento sbloccato! Il controller riparte!")
+        time.sleep(0.1)
+
+    def torna_al_menu(self):
+        """Rimuove lo schermo della partita e torna al menu."""
+        # Anche le operazioni di chiusura (pop_screen) devono passare dal thread principale
+        self._app.call_from_thread(self._app.torna_al_menu)
+
+    def _gestore_input_tui(self, messaggio: str) -> str:
+        """Intercetta le richieste del Controller e le adatta alla TUI."""
+        testo_lower = messaggio.lower()
+        coda = self._app.get_coda_input()
+
+        # CASO 1: Domande di conferma con [si/no] apre il popup grafico bloccante
+        if "[si/no]" in testo_lower:
+
+            def _mostra_popup():
+                self._app.push_screen(ConfermaScreen(messaggio, coda))
+
+            self._app.call_from_thread(_mostra_popup)
+            risposta = coda.get()
+            if risposta == "si_uscita":
+                self._app.notify(
+                    "Chiusura gioco in corso...", title="Uscita", severity="information"
+                )
+                time.sleep(1.5)
+                self._app.exit()
+                return "si"
+
+            return "si" if risposta == "si" else "no"
+
+        # CASO 2: Richieste di "Premi INVIO per continuare..." (Help, Trascrizione)
+        elif "invio" in testo_lower:
+            # Ora la TUI si BLOCCA in attesa che il Modal venga chiuso.
+            # Il thread del timer è già morto nel Controller: il tempo è in pausa assoluta!
+            return coda.get()
+
+        # CASO 3: Qualsiasi altra richiesta normale di gioco
+        else:
+            return coda.get()
+
+    def crea_replay_view(self):
+        return ReplayViewTUI(self._app)
+
+    def aggiorna_orologio_live(self, id_giocatore: str, tempo_formattato: str):
+        """Riceve il tick dal timer in background e lo passa alla UI dei giocatori."""
+        self.get_giocatore_view().aggiorna_orologio_live(id_giocatore, tempo_formattato)
+
+    def mostra_messaggio_timeout(self, id_giocatore: str):
+        """Mostra una notifica visiva quando il tempo di un giocatore scade nella TUI."""
+
+        def _notifica_timeout():
+            self._app.notify(
+                f"Il giocatore {id_giocatore} ha esaurito il tempo a sua disposizione ed è eliminato!",
+                title="⏳ TEMPO SCADUTO",
+                severity="warning",  # Genera una notifica arancione/gialla molto visibile
+                timeout=6,  # Rimane a schermo per 6 secondi per dare tempo di leggere
+            )
+
+        # Trattandosi di un aggiornamento grafico lanciato dal timer (background),
+        # DEVE passare per call_from_thread!
+        self._app.call_from_thread(_notifica_timeout)
