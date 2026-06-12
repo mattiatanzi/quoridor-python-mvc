@@ -33,7 +33,7 @@ Screen {
 }
 
 /* Tutti i bottoni dei menu */
-Button {
+.btn-menu {
     width: 100%;
     margin-bottom: 1;
 }
@@ -230,42 +230,58 @@ GiocatoreViewWidget.giocatore-eliminato > .giocatore-box {
     background: black; /* Sfondo del tabellone PURAMENTE NERO per contrasto assoluto */
 }
 
-/* 1. Caselle: Il quadrato perfetto (6x3) centrato nello slot da 8 */
+/* 1. Caselle (Colonne dispari: larghe 8) */
 .casella { 
-    width: 6; min-width: 6; 
-    height: 3; min-height: 3; 
-    margin: 0 1; /* Questo annulla il margine globale in automatico */
-    padding: 0 !important;
-    background: ansi_bright_black; /* GRIGIO FORTE per spiccare sul nero di Docker */
+    width: 8;
+    min-width: 8;
+    max-width: 8;
+    height: 3; 
+    min-height: 3; 
+    max-height: 3;
+    background: ansi_bright_black;
     border: none; 
-    color: ansi_white; 
+    color: ansi_white;
     text-style: bold; 
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-/* 2. Muri Verticali: Blindati a 2x3 */
+/* 2. Muri Verticali (Colonne pari: larghe 2) */
 .muro-v { 
-    width: 2; min-width: 2;
-    height: 3; min-height: 3; 
-    background: black; /* Vuoto assoluto fino a quando non è piazzato */
-    border: none; 
-    margin: 0 !important; /* IMMUNIZZAZIONE */
-    padding: 0 !important; /* Rimuove lo spessore interno del bottone Textual */
-}
-
-/* 3. Muri Orizzontali: Blindati a 8x1 (Larghi come la colonna della casella) */
-.muro-h { 
-    width: 8; min-width: 8;
-    height: 1; min-height: 1; 
-    background: black; /* Vuoto assoluto */
+    width: 2; 
+    min-width: 2;
+    max-width: 2;
+    height: 3; 
+    min-height: 3; 
+    max-height: 3;
+    background: black; 
     border: none;
-    margin: 0 !important; /* IMMUNIZZAZIONE DAL MARGINE GLOBALE */
-    padding: 0 !important; /* Forza l'altezza a 1 riga esatta */
+    margin: 0 !important; 
+    padding: 0 !important;
 }
 
-/* 4. Intersezione (2x1) */
+/* 3. Muri Orizzontali (Colonne dispari: larghi 8) */
+.muro-h { 
+    width: 8;
+    min-width: 8;
+    max-width: 8;
+    height: 1; 
+    min-height: 1; 
+    max-height: 1;
+    background: black; 
+    border: none;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 4. Intersezione (Colonne pari: larghe 2) */
 .intersezione { 
-    width: 2; min-width: 2;
-    height: 1; min-height: 1; 
+    width: 2;
+    min-width: 2;
+    max-width: 2;
+    height: 1; 
+    min-height: 1; 
+    max-height: 1;
     background: black; 
     margin: 0 !important;
     padding: 0 !important;
@@ -273,8 +289,7 @@ GiocatoreViewWidget.giocatore-eliminato > .giocatore-box {
 
 /* Hover e Colori (ANSI nativi ad altissimo contrasto) */
 .casella:hover { background: ansi_white; color: black; }
-.muro-v:hover, .muro-h:hover { background: ansi_bright_green; }
-.muro-piazzato { background: ansi_yellow !important; }
+
 
 /* Giocatori: Colori puri ANSI per visibilità massima */
 .giocatore-1 { background: ansi_red !important; color: ansi_white !important;}

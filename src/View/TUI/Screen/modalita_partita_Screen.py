@@ -14,10 +14,10 @@ class ModalitaPartitaScreen(Screen):
         with Horizontal(classes="layout-menu-aiuto"):
             with Vertical(id="menu-modalita-container"):
                 yield Label("Selezionare Una Modalità Di Gioco", id="titolo-modalita")
-                yield Button("- Partita con Timer", id="btn-timer")
-                yield Button("- Partita senza Timer", id="btn-notimer")
-                yield Button("- Mostra aiuto", id="btn-aiuto") # <-- Bottone Aiuto
-                yield Button("- Torna Indietro", id="btn-indietro", variant="error")
+                yield Button("- Partita con Timer", id="btn-timer" , classes= "btn-menu")
+                yield Button("- Partita senza Timer", id="btn-notimer" , classes= "btn-menu")
+                yield Button("- Mostra aiuto", id="btn-aiuto" , classes= "btn-menu") # <-- Bottone Aiuto
+                yield Button("- Torna Indietro", id="btn-indietro", variant="error" , classes= "btn-menu")
             
             yield Label("", id="pannello-aiuto")
 

@@ -12,10 +12,10 @@ class NumeroGiocatoriScreen(Screen):
         with Horizontal(classes="layout-menu-aiuto"):
             with Vertical(id="menu-giocatori-container"):
                 yield Label("Selezionare Il Numero Di Giocatori", id="titolo-giocatori")
-                yield Button("- 2 Giocatori", id="btn-2-giocatori")
-                yield Button("- 4 Giocatori", id="btn-4-giocatori")
-                yield Button("- Mostra Aiuto", id="btn-aiuto") 
-                yield Button("- Torna Indietro", id="btn-indietro", variant="error")
+                yield Button("- 2 Giocatori", id="btn-2-giocatori" , classes= "btn-menu")
+                yield Button("- 4 Giocatori", id="btn-4-giocatori" , classes= "btn-menu")
+                yield Button("- Mostra Aiuto", id="btn-aiuto" , classes= "btn-menu") 
+                yield Button("- Torna Indietro", id="btn-indietro", variant="error" , classes= "btn-menu")
             
             # Pannello per l'help a scomparsa
             yield Label("", id="pannello-aiuto")

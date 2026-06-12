@@ -19,7 +19,7 @@ class TrascrizioneScreen(ModalScreen):
             yield TrascrizioneWidget(self._trascrizione)
             
             # 2. Bottone per chiudere il popup e tornare a giocare
-            yield Button("Chiudi", id="btn-chiudi-trascrizione", variant="error")
+            yield Button("Chiudi", id="btn-chiudi-trascrizione", variant="error" , classes= "btn-menu")
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "btn-chiudi-trascrizione":

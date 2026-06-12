@@ -15,12 +15,12 @@ class ImpostaTimerScreen(Screen):
         with Horizontal(classes="layout-menu-aiuto"):
             with Vertical(id="menu-timer-container"):
                 yield Label("Selezionare Un Limite di Tempo", id="titolo-timer")
-                yield Button("- Gioca a 3 Minuti", id="btn-3min")
-                yield Button("- Gioca a  5 Minuti", id="btn-5min")
+                yield Button("- Gioca a 3 Minuti", id="btn-3min" , classes= "btn-menu")
+                yield Button("- Gioca a  5 Minuti", id="btn-5min" , classes= "btn-menu")
                 yield Label("\nOppure inserisci tempo: HH:MM:SS")
                 yield Input(placeholder="HH:MM:SS", id="input-custom-timer")
-                yield Button("- Mostra aiuto", id="btn-aiuto") # <-- Bottone Aiuto
-                yield Button("- Torna Indietro", id="btn-indietro", variant="error")
+                yield Button("- Mostra aiuto", id="btn-aiuto" , classes= "btn-menu" ) # <-- Bottone Aiuto
+                yield Button("- Torna Indietro", id="btn-indietro", variant="error" , classes= "btn-menu")
             
             yield Label("", id="pannello-aiuto")
     def on_button_pressed(self, event: Button.Pressed):

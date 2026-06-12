@@ -25,10 +25,10 @@ class QuoridorViewScreen(Screen):
         # Sostituisci il blocco with Center(): con questo:
         with Horizontal(classes="layout-menu-aiuto"):
             with Vertical(id="menu-container"):
-                yield Label("Benvenuto in Quoridor", id="menu-titolo")
-                yield Button("- Avvia una nuova partita", id="btn-avviaPart")
-                yield Button("- Mostra aiuto", id="btn-avviaHelp")
-                yield Button("- Esci dal gioco", id="btn-Esci", variant="error")
+                yield Label("Benvenuto in Quoridor", id="menu-titolo" , classes= "btn-menu")
+                yield Button("- Avvia una nuova partita", id="btn-avviaPart" , classes= "btn-menu")
+                yield Button("- Mostra aiuto", id="btn-avviaHelp" , classes= "btn-menu")
+                yield Button("- Esci dal gioco", id="btn-Esci", variant="error" , classes= "btn-menu")
             
             # Pannello laterale per l'aiuto
             yield Label("", id="pannello-aiuto")

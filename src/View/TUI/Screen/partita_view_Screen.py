@@ -72,10 +72,10 @@ class PartitaViewScreen(Screen):
                 
                 # I pulsanti in basso a destra
                 with Horizontal(id="azioni-partita"):
-                    yield Button("Mostra Aiuto", id="btn-aiuto", variant="primary")
-                    yield Button("Mostra Mosse", id="btn-trascrizione", variant="success")
-                    yield Button("Resa / Abbandona", id="btn-abbandona", variant="warning")
-                    yield Button("Esci dal Gioco", id="btn-esci-partita", variant="error")
+                    yield Button("Mostra Aiuto", id="btn-aiuto", variant="primary" , classes= "btn-menu")
+                    yield Button("Mostra Mosse", id="btn-trascrizione", variant="success" , classes= "btn-menu")
+                    yield Button("Resa / Abbandona", id="btn-abbandona", variant="warning" , classes= "btn-menu")
+                    yield Button("Esci dal Gioco", id="btn-esci-partita", variant="error" , classes= "btn-menu")
             yield Label("", id="pannello-aiuto")
         yield Footer()
 
