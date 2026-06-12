@@ -14,7 +14,7 @@ class ModalitaPartitaScreen(Screen):
             with Vertical(id="menu-modalita-container"):
                 yield Label("Selezionare Una Modalità Di Gioco", id="titolo-modalita")
                 yield Button(f"{CostantiQuoridorView.POSSIBILI_SCELTE_MODALITA.get(CostantiQuoridorView.SCELTA_PARTITA_CON_TIMER)}", id="btn-timer" , classes= "btn-menu")
-                yield Button(f"{CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_PARTITA_SENZA_TIMER)}", id="btn-notimer" , classes= "btn-menu")
+                yield Button(f"{CostantiQuoridorView.POSSIBILI_SCELTE_MODALITA.get(CostantiQuoridorView.SCELTA_PARTITA_SENZA_TIMER)}", id="btn-notimer" , classes= "btn-menu")
                 yield Button(f"{CostantiQuoridorView.MOSTRA_AIUTO}", id="btn-aiuto" , classes= "btn-menu") # <-- Bottone Aiuto
                 yield Button(f"{CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_TORNA_INDIETRO)}", id="btn-indietro", variant="error" , classes= "btn-menu")
             

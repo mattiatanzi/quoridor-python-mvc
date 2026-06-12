@@ -29,7 +29,7 @@ class QuoridorViewScreen(Screen):
                 yield Label("Benvenuto in Quoridor", id="menu-titolo" , classes= "btn-menu")
                 yield Button("- Avvia una nuova partita", id="btn-avviaPart" , classes= "btn-menu")
                 yield Button(f"{CostantiQuoridorView.MOSTRA_AIUTO}", id="btn-avviaHelp" , classes= "btn-menu")
-                yield Button(f"{CostantiQuoridorView.POSSIBILI_TIMER_DEFAULT.get(CostantiQuoridorView.SCELTA_TORNA_INDIETRO)}", id="btn-Esci", variant="error" , classes= "btn-menu")
+                yield Button(f"{CostantiQuoridorView.ESCI_GIOCO}", id="btn-Esci", variant="error" , classes= "btn-menu")
             
             # Pannello laterale per l'aiuto
             yield Label("", id="pannello-aiuto")

@@ -289,6 +289,7 @@ class PartitaController:
 
                 # Tempo Esaurito
                 if azione_pulita == "resa_per_tempo":
+                    self.__model.aggiungi_mossa_trascrizione("rpa")
                     self.__view.mostra_messaggio_timeout(id_giocatore_attivo)
                     self.__model.elimina_giocatore(giocatore_attivo.get_id())   
                     
@@ -351,7 +352,7 @@ class PartitaController:
                         risposta = chiedi_input_utente(messaggio_conferma)
                     else:
                         if risposta == "si":
-
+                            self.__model.aggiungi_mossa_trascrizione("abb")
                             self.get_model().elimina_giocatore(
                                 giocatore_attivo.get_id()
                             )
