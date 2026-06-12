@@ -1,7 +1,7 @@
-
 from datetime import timedelta
 
 import pytest
+
 from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.giocatore import Giocatore, TempoException
 
@@ -36,14 +36,10 @@ class TestGiocatoreRiduciTempo:
 
 
         """
-        classi_equivalenza = [
-            timedelta(minutes = 1),
-            timedelta(0),
-            timedelta(minutes = -1)
-        ]
+        classi_equivalenza = [timedelta(minutes=1), timedelta(0), timedelta(minutes=-1)]
 
         # CE1
-        giocatore_creato = Giocatore(new_tempo_iniziale = timedelta(minutes = 5))
+        giocatore_creato = Giocatore(new_tempo_iniziale=timedelta(minutes=5))
 
         tempo_iniziale = giocatore_creato.get_tempo_residuo()
         tempo_da_ridurre = classi_equivalenza[0]
@@ -52,7 +48,7 @@ class TestGiocatoreRiduciTempo:
         assert giocatore_creato.get_tempo_residuo() == tempo_iniziale - tempo_da_ridurre
 
         # CE2
-        giocatore_creato = Giocatore(new_tempo_iniziale = timedelta(minutes = 5))
+        giocatore_creato = Giocatore(new_tempo_iniziale=timedelta(minutes=5))
 
         tempo_iniziale = giocatore_creato.get_tempo_residuo()
         tempo_da_ridurre = classi_equivalenza[1]
@@ -61,14 +57,14 @@ class TestGiocatoreRiduciTempo:
         assert giocatore_creato.get_tempo_residuo() == tempo_iniziale
 
         # CE3
-        giocatore_creato = Giocatore(new_tempo_iniziale = timedelta(minutes = 5))
+        giocatore_creato = Giocatore(new_tempo_iniziale=timedelta(minutes=5))
 
         tempo_da_ridurre = classi_equivalenza[2]
         with pytest.raises(TempoException):
             giocatore_creato.riduci_tempo(tempo_da_ridurre)
 
         # CP1
-        giocatore_creato = Giocatore(new_tempo_iniziale = timedelta(minutes = 5))
+        giocatore_creato = Giocatore(new_tempo_iniziale=timedelta(minutes=5))
 
         tempo_iniziale = giocatore_creato.get_tempo_residuo()
         tempo_da_ridurre = tempo_iniziale
@@ -77,14 +73,13 @@ class TestGiocatoreRiduciTempo:
         assert giocatore_creato.get_tempo_residuo() == timedelta(0)
 
         # CP2
-        giocatore_creato = Giocatore(new_tempo_iniziale = timedelta(minutes = 5))
+        giocatore_creato = Giocatore(new_tempo_iniziale=timedelta(minutes=5))
 
         tempo_iniziale = giocatore_creato.get_tempo_residuo()
-        tempo_da_ridurre = tempo_iniziale + timedelta(minutes = 1)
+        tempo_da_ridurre = tempo_iniziale + timedelta(minutes=1)
 
         assert giocatore_creato.riduci_tempo(tempo_da_ridurre) is False
         assert giocatore_creato.get_tempo_residuo() == timedelta(0)
-
 
     def test_giocatore_senza_limite_tempo(self):
         """Verifica riduci_tempo() in caso di Giocatore senza limite di tempo.
@@ -97,13 +92,13 @@ class TestGiocatoreRiduciTempo:
 
         """
         # CE1
-        giocatore_creato = Giocatore(new_tempo_iniziale = CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO)
+        giocatore_creato = Giocatore(
+            new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO
+        )
 
-
-        tempo_da_ridurre = timedelta(seconds = 1)
+        tempo_da_ridurre = timedelta(seconds=1)
         with pytest.raises(TempoException):
             giocatore_creato.riduci_tempo(tempo_da_ridurre)
-
 
     def test_giocatore_tempo_zero(self):
         """Verifica riduci_tempo() in caso di Giocatore con tempo limite zero.
@@ -122,15 +117,15 @@ class TestGiocatoreRiduciTempo:
         """
         # CE1
         tempo_iniziale = timedelta(0)
-        giocatore_creato = Giocatore(new_tempo_iniziale = tempo_iniziale)
+        giocatore_creato = Giocatore(new_tempo_iniziale=tempo_iniziale)
 
-        tempo_da_ridurre = timedelta(seconds = 1)
+        tempo_da_ridurre = timedelta(seconds=1)
         with pytest.raises(TempoException):
             giocatore_creato.riduci_tempo(tempo_da_ridurre)
 
         # CE2
         tempo_iniziale = timedelta(0)
-        giocatore_creato = Giocatore(new_tempo_iniziale = tempo_iniziale)
+        giocatore_creato = Giocatore(new_tempo_iniziale=tempo_iniziale)
 
         tempo_da_ridurre = timedelta(0)
         with pytest.raises(TempoException):
@@ -138,11 +133,12 @@ class TestGiocatoreRiduciTempo:
 
         # CE3
         tempo_iniziale = timedelta(0)
-        giocatore_creato = Giocatore(new_tempo_iniziale = tempo_iniziale)
+        giocatore_creato = Giocatore(new_tempo_iniziale=tempo_iniziale)
 
         tempo_da_ridurre = timedelta(seconds=-1)
         with pytest.raises(TempoException):
             giocatore_creato.riduci_tempo(tempo_da_ridurre)
+
 
 class TestGiocatorePossiedeLimiteTempo:
     """Classe TestGiocatorePossiedeLimiteTempo.
@@ -164,13 +160,12 @@ class TestGiocatorePossiedeLimiteTempo:
 
         """
         # Caso Generale
-        giocatore_creato = Giocatore(new_tempo_iniziale = timedelta(minutes = 5))
+        giocatore_creato = Giocatore(new_tempo_iniziale=timedelta(minutes=5))
         assert giocatore_creato.possiede_limite_tempo() is True
 
         # CP1
-        giocatore_creato = Giocatore(new_tempo_iniziale = timedelta(0))
+        giocatore_creato = Giocatore(new_tempo_iniziale=timedelta(0))
         assert giocatore_creato.possiede_limite_tempo() is True
-
 
     def test_giocatore_senza_limite_tempo(self):
         """Verifica possiede_limite_tempo() in caso di Giocatore con tempo limite nullo.
@@ -179,9 +174,12 @@ class TestGiocatorePossiedeLimiteTempo:
             Caso Generale => restituisce False
 
         """
-        giocatore_creato = Giocatore(new_tempo_iniziale = CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO)
+        giocatore_creato = Giocatore(
+            new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO
+        )
 
         assert giocatore_creato.possiede_limite_tempo() is False
+
 
 class TestGiocatoreHaFinitoTempo:
     """Classe TestGiocatoreHaFinitoTempo.
@@ -198,10 +196,11 @@ class TestGiocatoreHaFinitoTempo:
 
 
         """
-        giocatore_creato = Giocatore(new_tempo_iniziale = CostantiGiocatore.DEF_TIMER_PREDEFINITI[0])
+        giocatore_creato = Giocatore(
+            new_tempo_iniziale=CostantiGiocatore.DEF_TIMER_PREDEFINITI[0]
+        )
 
         assert giocatore_creato.ha_finito_tempo() is False
-
 
     def test_giocatore_tempo_esaurito(self):
         """Verifica ha_finito_tempo() in caso di Giocatore con tempo limite esaurito.
@@ -215,9 +214,11 @@ class TestGiocatoreHaFinitoTempo:
 
         """
         # Caso Generale
-        giocatore_creato = Giocatore(new_tempo_iniziale = timedelta(0))
+        giocatore_creato = Giocatore(new_tempo_iniziale=timedelta(0))
         assert giocatore_creato.ha_finito_tempo() is True
 
         # CP1
-        giocatore_creato = Giocatore(new_tempo_iniziale = CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO)
+        giocatore_creato = Giocatore(
+            new_tempo_iniziale=CostantiGiocatore.DEF_SENZA_LIMITE_TEMPO
+        )
         assert giocatore_creato.ha_finito_tempo() is False

@@ -388,25 +388,28 @@ class Partita:
         if giocatore_attivo.get_muri_disponibili() == 0:
             raise ErrorePartita("Errore: Muri da piazzare terminati")
 
-        if CostantiPartita.PRIMA_COLONNA <= azione[0] <= CostantiPartita.ULTIMA_COLONNA:
-            if CostantiPartita.PRIMA_RIGA <= azione[1] <= CostantiPartita.ULTIMA_RIGA:
-                if azione[2] == CostantiPartita.ORIZZONTALE:
-                    self.__tavoliere.piazza_muro_orizzontale(azione)
-                elif azione[2] == CostantiPartita.VERTICALE:
-                    self.__tavoliere.piazza_muro_verticale(azione)
+        if (len(azione) == 3):
+            if CostantiPartita.PRIMA_COLONNA <= azione[0] <= CostantiPartita.ULTIMA_COLONNA:
+                if CostantiPartita.PRIMA_RIGA <= azione[1] <= CostantiPartita.ULTIMA_RIGA:
+                    if azione[2] == CostantiPartita.ORIZZONTALE:
+                        self.__tavoliere.piazza_muro_orizzontale(azione)
+                    elif azione[2] == CostantiPartita.VERTICALE:
+                        self.__tavoliere.piazza_muro_verticale(azione)
+                    else:
+                        raise ErroreFormattazione(
+                            "Errore: inserire dopo la posizione h/v per indicare muro "
+                            + "verticale o orizzontale"
+                        )
                 else:
                     raise ErroreFormattazione(
-                        "Errore: inserire dopo la posizione h/v per indicare muro "
-                        + "verticale o orizzontale"
+                        "Errore: inserire dopo la colonna un numero tra 1 e 9"
                     )
             else:
                 raise ErroreFormattazione(
-                    "Errore: inserire dopo la colonna un numero tra 1 e 9"
+                    "Errore: inserire colonna corretta come primo carattere tra 'a' e 'i'"
                 )
         else:
-            raise ErroreFormattazione(
-                "Errore: inserire colonna corretta come primo carattere tra 'a' e 'i'"
-            )
+            raise ErroreFormattazione("La mossa inserita non corrisponde ad un muro")
 
     def muovi_giocatore(self, azione: str, giocatore_attivo: Giocatore):
         if not (
@@ -439,6 +442,7 @@ class Partita:
         else:
             # Il passaggio non è libero (o non è adiacente)
             raise ErrorePosizione(f"Mossa non valida: {azione} non è raggiungibile")
+
 
     # Osservatore condizione di vittoria
 
