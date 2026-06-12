@@ -27,11 +27,10 @@ class MuroOrizzontale(Static):
 class TavoliereViewStatic(Static):
     """Il Widget puro che disegna il tabellone 17x17 e le coordinate esterne."""
 
-    def __init__(self, coda_input,interattivo = True, **kwargs):
+    def __init__(self, coda_input, **kwargs):
         super().__init__(**kwargs)
         self._coda_input = coda_input
         self._muri_attualmente_hoverati = []
-        self._interattivo = interattivo
 
     def compose(self) -> ComposeResult:
         colonna = Costanti.COLONNE
@@ -71,8 +70,6 @@ class TavoliereViewStatic(Static):
 
     def on_button_pressed(self, event: Button.Pressed):
         """Cattura il click su QUALSIASI cosa (casella o lineetta) e lo invia al controller."""
-        if not self._interattivo:
-            return
         id_premuto = event.button.id
         if id_premuto and id_premuto.startswith("btn-"):
             mossa = id_premuto.replace("btn-", "")
@@ -80,8 +77,6 @@ class TavoliereViewStatic(Static):
 
     def on_muro_cliccato(self, event: MuroCliccato) -> None:
         """Cattura il messaggio inviato da MuroVerticale o MuroOrizzontale."""
-        if not self._interattivo:
-            return
         id_premuto = event.ID_muro
         if id_premuto and id_premuto.startswith("btn-"):
             mossa = id_premuto.replace("btn-", "")
@@ -89,8 +84,6 @@ class TavoliereViewStatic(Static):
     
     def on_mouse_move(self, event: events.MouseMove) -> None:
         """Gestisce l'hover unendo visivamente i due segmenti del muro e l'intersezione centrale."""
-        if not self._interattivo:
-            return
         try:
             widget_sotto_mouse, _ = self.screen.get_widget_at(event.screen_x, event.screen_y)
         except Exception:
