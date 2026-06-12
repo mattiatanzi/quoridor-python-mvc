@@ -341,6 +341,11 @@ La seconda soluzione invece controlla ad ogni ciclo se il giocatore ha un timer,
 
 ## 7. Modalità di collaborazione del team
 Il team ha adottato una metodologia di sviluppo ispirata al framework Agile/Scrum, personalizzandola fortemente per adattarla alle dinamiche di un gruppo di lavoro universitario. L'obiettivo principale è stato mantenere un ciclo di rilascio iterativo, garantendo flessibilità e comunicazione costante, compatibilmente con gli orari di studio e gli impegni di ciascun componente.
+### 7.1 Organizzazione e Strumenti di Comunicazione
+Nonostante Scrum preveda cerimonie rigidamente strutturate in presenza, il team ha optato per un approccio ibrido, supportato dagli strumenti digitali che ha permesso di lavorare in modo asincrono ma sempre allineato, oltre che ai normali meeting svolti dal vivo:
+- GitHub Project Board: Utilizzata come Kanban Board centrale per tradurre il Product Backlog in Sprint Backlog. Ogni funzionalità è stata modellata come Issue e fatta transitare attraverso gli stati operativi (To Do, In Progress, Review, Ready, Done).
+- Canali Istituzionali (Microsoft Teams): Utilizzato per i meeting ufficiali di avvio Sprint, per la condivisione di documenti formali e per le comunicazioni dirette con i docenti/tutor.
+- Messaggistica Istantanea (WhatsApp o Teams): Data la necessità di comunicazioni rapide e continue, il team ha istituito un gruppo di chat dedicato. Questo canale ha sostituito in parte la sala riunioni fisica, permettendo di segnalare blocchi improvvisi, organizzare sessioni di programmazione dell'ultimo minuto e richiedere revisioni del codice in tempo reale.
 
 ## 8. Analisi retrospettiva
 
