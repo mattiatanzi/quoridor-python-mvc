@@ -6,13 +6,25 @@ from src.View.tavoliere_view import TavoliereviewAstratta
 
 
 class ReplayViewAstratta(ABC):
-    """classe View del replay astratta."""
+    """Classe ReplayViewAstratta.
 
-    def __init__(
-        self,
-        stampa_tavoliere: TavoliereviewAstratta,
-        stampa_trascrizione: PartitaViewAstratta,
-    ):
+    DESCRIZIONE
+        Interfaccia che gestisce la visualizzazione del replay della partita.
+
+    METODI
+
+        def stampa_replay(
+            stato_corrente: Partita,
+            descrizione_mossa: str,
+            trascrizione_parziale: list[str],
+            automatico: bool = False
+        )
+            DESCRIZIONE
+                Mostra lo stato del replay della partita e la relativa trascrizione
+                delle mosse.
+    """
+    
+    def __init__(self,stampa_tavoliere : TavoliereviewAstratta, stampa_trascrizione: PartitaViewAstratta ):
         self.__stampa_tavoliere = stampa_tavoliere
         self.__stampa_trascrizione = stampa_trascrizione
 

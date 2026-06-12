@@ -7,6 +7,29 @@ from src.View.costanti_quoridor_view import CostantiQuoridorView
 
 
 class NumeroGiocatoriScreen(Screen):
+    """Schermata di selezione del numero di giocatori.
+
+    DESCRIZIONE
+    
+        Permette all'utente di selezionare il numero di giocatori per la partita,
+        oltre a fornire opzioni di aiuto e ritorno al menu precedente.
+
+    METODI
+
+        def __init__(self, coda_input, **kwargs):
+            DESCRIZIONE
+                Inizializza la schermata e collega la coda degli input.
+
+        def compose(self) -> ComposeResult:
+            DESCRIZIONE
+                Crea e visualizza l'interfaccia per la scelta del numero di giocatori.
+
+        def on_button_pressed(self, event: Button.Pressed):
+            DESCRIZIONE
+                Gestisce la selezione del numero di giocatori, la richiesta di aiuto
+                e il ritorno alla schermata precedente.
+    """
+    
     def __init__(self, coda_input, **kwargs):
         super().__init__(**kwargs)
         self.__coda_input = coda_input

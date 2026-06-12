@@ -7,17 +7,22 @@ from src.View.costanti_quoridor_view import CostantiQuoridorView
 
 
 class QuoridorViewScreen(Screen):
-    """Parte grafica che effettuata con Textual.
+    """Parte grafica effettuata con Textual.
 
-    Contiene soltanto quello che viene mostrato a video
-    def compose(self) -> ComposeResult
-        DESCRIZIONE
-        Mostra a video i componenti
+    DESCRIZIONE
+        Contiene soltanto quello che viene mostrato a video:
+        menu principale, gestione pulsanti e invio comandi alla App.
 
-    def on_event_pressed(self,event: Button.Pressed)
-        DESCRIZIONE
-        Cattura il click del mouse e traduce il click in un comando da mandare
-        all APP che gestira il collegamento con partita controller
+    METODI
+
+        def compose(self) -> ComposeResult:
+            DESCRIZIONE
+                Mostra a video i componenti grafici dello screen.
+
+        def on_button_pressed(self, event: Button.Pressed):
+            DESCRIZIONE
+                Cattura il click del mouse e traduce il click in un comando
+                da mandare alla App, che gestirà il collegamento con il controller.
     """
 
     def compose(self) -> ComposeResult:

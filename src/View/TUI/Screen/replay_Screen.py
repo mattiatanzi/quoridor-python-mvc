@@ -10,6 +10,32 @@ from src.View.TUI.Widget.trascrizione_Widget import TrascrizioneWidget
 
 
 class ReplayScreen(Screen):
+    """Screen di replay della partita.
+
+    DESCRIZIONE
+        Mostra la riproduzione della partita con:
+        - tavoliere di gioco
+        - descrizione della mossa corrente
+        - trascrizione delle mosse
+        - controlli di navigazione del replay
+
+    METODI
+
+        def __init__(self, coda_input, **kwargs):
+            DESCRIZIONE
+                Inizializza lo screen e collega la coda di input condivisa.
+
+        def compose(self) -> ComposeResult:
+            DESCRIZIONE
+                Costruisce il layout grafico del replay con tavoliere,
+                trascrizione e pulsanti di navigazione.
+
+        def on_button_pressed(self, event: Button.Pressed):
+            DESCRIZIONE
+                Traduce i click sui pulsanti di navigazione del replay
+                in comandi inviati alla coda input.
+    """
+    
     def __init__(self, coda_input, **kwargs):
         super().__init__(**kwargs)
         self._coda_input = coda_input

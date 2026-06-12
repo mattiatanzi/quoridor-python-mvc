@@ -1,16 +1,12 @@
 class GiocatoreViewCLI:
-    """classe GiocatoreView.
+    """classe GiocatoreViewCLI.
 
     DESCRIZIONE
-        Rappresenta la classe che gestisce operazioni di input / stampa per il Giocatore
+        Rappresenta la classe che gestisce operazioni di stampa per il Giocatore
 
     METODI
 
         ------ STAMPE ATTRIBUTI ------
-
-        def stampa_id_giocatore(self, id_giocatore):
-            DESCRIZIONE
-                Stampa dell'id giocatore
 
         def stampa_giocatore_attivo(
             self,
@@ -35,7 +31,7 @@ class GiocatoreViewCLI:
             tempo_formattato = None
         ):
             DESCRIZIONE
-                Stampa informazioni generali riguardo i giocatori eliminati.
+                Stampa informazioni generali riguardanti i giocatori eliminati.
                 Se il giocatore ha i limiti di tempo, mostra quanto tempo gli rimane
                 per il turno corrente.
         ------ STAMPE ERRORI ------

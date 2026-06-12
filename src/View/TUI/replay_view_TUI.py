@@ -9,6 +9,41 @@ from src.View.TUI.tavoliere_view_TUI import TavoliereViewTUI
 
 
 class ReplayViewTUI(ReplayViewAstratta):
+    """Implementazione TUI della view del replay.
+
+    DESCRIZIONE
+        Gestisce la visualizzazione del replay della partita
+        aggiornando tavoliere, descrizione delle mosse e trascrizione
+        tramite la UI Textual.
+
+    ATTRIBUTI
+        _app : QuoridorViewApp
+            Riferimento all'app Textual condivisa
+
+        _tavoliere_view : TavoliereViewTUI
+            View del tavoliere utilizzata per aggiornare lo stato grafico
+
+        _giocatore_view : GiocatoreViewTUI
+            View dei giocatori utilizzata per aggiornamenti grafici indiretti
+
+    METODI
+
+        def __init__(self, app_condivisa):
+            DESCRIZIONE
+                Inizializza le view TUI necessarie al replay.
+
+        def stampa_replay(
+            self,
+            stato_corrente: Partita,
+            descrizione_mossa: str,
+            trascrizione_parziale: list[str],
+            automatico: bool = False
+        ):
+            DESCRIZIONE
+                Aggiorna lo stato del replay mostrando il tavoliere,
+                la mossa corrente e la trascrizione progressiva.
+    """
+    
     def __init__(self, app_condivisa):
         self._app = app_condivisa
         self._tavoliere_view = TavoliereViewTUI(self._app)
@@ -25,9 +60,7 @@ class ReplayViewTUI(ReplayViewAstratta):
             stato_corrente.get_tavoliere(), stato_corrente.get_giocatori()
         )
 
-        # ==========================================
-        # 2. AGGIORNAMENTO ESCLUSIVO DELLA UI DEL REPLAY
-        # ==========================================
+
         def _aggiorna():
             try:
                 if not isinstance(self._app.screen, ReplayScreen):
@@ -63,5 +96,4 @@ class ReplayViewTUI(ReplayViewAstratta):
 
         # Invia l'ordine al thread principale
         # Essendo chiamato DOPO il tabellone, i giocatori verranno sempre disegnati
-        # "SOPRA" il tabellone appena rinfrescato, garantendo l'ordine perfetto!
         self._app.call_from_thread(_aggiorna)

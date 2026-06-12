@@ -9,6 +9,55 @@ from src.View.TUI.Screen.numero_giocatori_Screen import NumeroGiocatoriScreen
 
 
 class ParametriPartitaViewTUI(ParametriPartitaView):
+    """Implementazione TUI della gestione dei parametri di partita.
+
+    DESCRIZIONE
+        Gestisce l'interazione tra il controller e l'interfaccia TUI per la
+        selezione dei parametri di gioco (modalità partita, numero giocatori,
+        limite di tempo). Utilizza una coda condivisa per sincronizzare input
+        asincroni provenienti dall'interfaccia Textual.
+
+    ATTRIBUTI
+        __app
+            Riferimento all'applicazione Textual condivisa.
+
+        __coda_input : queue.Queue
+            Coda condivisa per la comunicazione tra UI e controller.
+
+    METODI
+
+        def get_input_modalita_partita(self, err: str = "") -> str:
+            DESCRIZIONE
+                Mostra lo schermo per la selezione della modalità di partita
+                e attende l'input dell'utente.
+
+        def get_input_limite_tempo(self, err: str = "") -> str:
+            DESCRIZIONE
+                Mostra lo schermo per la selezione del limite di tempo
+                e attende l'input dell'utente.
+
+        def get_input_numero_giocatori(self) -> str:
+            DESCRIZIONE
+                Mostra lo schermo per la selezione del numero di giocatori
+                e attende l'input dell'utente.
+
+        def stampa_aiuto_modalita_partita(self):
+            DESCRIZIONE
+                Mostra la guida relativa alla modalità di partita.
+
+        def stampa_aiuto_limite_tempo(self):
+            DESCRIZIONE
+                Mostra la guida relativa al limite di tempo.
+
+        def stampa_aiuto_numero_giocatori(self):
+            DESCRIZIONE
+                Mostra la guida relativa al numero di giocatori.
+
+        def stampa_errore_parametri(self, errore):
+            DESCRIZIONE
+                Mostra un messaggio di errore relativo ai parametri della partita.
+    """
+    
     def __init__(self, app_condivisa, coda_input: queue.Queue):
         self.__app = app_condivisa
         self.__coda_input = coda_input

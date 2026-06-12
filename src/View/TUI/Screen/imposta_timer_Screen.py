@@ -9,6 +9,33 @@ from src.View.costanti_quoridor_view import CostantiQuoridorView
 
 
 class ImpostaTimerScreen(Screen):
+    """Schermata di selezione del timer di gioco.
+
+    DESCRIZIONE
+        Permette all'utente di selezionare un limite di tempo predefinito
+        oppure inserire un tempo personalizzato in formato HH:MM:SS.
+
+    METODI
+
+        def __init__(self, coda_input, **kwargs):
+            DESCRIZIONE
+                Inizializza la schermata e collega la coda degli input.
+
+        def compose(self) -> ComposeResult:
+            DESCRIZIONE
+                Crea e visualizza l'interfaccia per la scelta del timer.
+
+        def on_button_pressed(self, event: Button.Pressed):
+            DESCRIZIONE
+                Gestisce la selezione dei timer predefiniti, la richiesta
+                di aiuto e il ritorno alla schermata precedente.
+
+        def on_input_submitted(self, event: Input.Submitted):
+            DESCRIZIONE
+                Gestisce l'inserimento di un timer personalizzato da parte
+                dell'utente.
+    """
+    
     def __init__(self, coda_input, **kwargs):
         super().__init__(**kwargs)
         self.__coda_input = coda_input

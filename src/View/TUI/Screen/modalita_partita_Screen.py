@@ -7,6 +7,28 @@ from src.View.costanti_quoridor_view import CostantiQuoridorView
 
 
 class ModalitaPartitaScreen(Screen):
+    """Schermata di selezione della modalità di gioco.
+
+    DESCRIZIONE
+        Permette all'utente di scegliere se avviare una partita con timer
+        o senza timer, oltre a fornire opzioni di aiuto e ritorno al menu.
+
+    METODI
+
+        def __init__(self, coda_input, **kwargs):
+            DESCRIZIONE
+                Inizializza la schermata e collega la coda degli input.
+
+        def compose(self) -> ComposeResult:
+            DESCRIZIONE
+                Crea e visualizza l'interfaccia della scelta modalità partita.
+
+        def on_button_pressed(self, event: Button.Pressed):
+            DESCRIZIONE
+                Gestisce la selezione della modalità, la richiesta di aiuto
+                e il ritorno alla schermata precedente.
+    """
+    
     def __init__(self, coda_input, **kwargs):
         super().__init__(**kwargs)
         self.__coda_input = coda_input

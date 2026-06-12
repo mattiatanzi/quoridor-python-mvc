@@ -5,7 +5,7 @@ from src.View.parametri_partita_view import ParametriPartitaView
 
 
 class ParametriPartitaViewCLI(ParametriPartitaView):
-    """Classe ParametriPartitaView.
+    """Classe ParametriPartitaViewCLI.
 
     DESCRIZIONE
         Classe che gestisce stampa e input per ParametriPartita
@@ -33,6 +33,26 @@ class ParametriPartitaViewCLI(ParametriPartitaView):
                 per aiutare l'utente a inserire il giusto input.
                 In caso di tempo personalizzato, l'utente deve inserire
                 il tempo nel formato: "HH:MM:SS"
+                
+        def get_input_numero_giocatori(self, err: str = ""):
+            DESCRIZIONE
+                Stampa l'interfaccia per chiedere il numero di giocatori
+                della partita (2 o 4 giocatori).
+                Restituisce una scelta.
+                Eventualmente è possibile passare una stringa di errore da
+                mostrare per aiutare l'utente a inserire il giusto input.
+
+        def stampa_aiuto_modalita_partita(self):
+            DESCRIZIONE
+                Stampa una guida relativa alla scelta della modalità di partita.
+
+        def stampa_aiuto_limite_tempo(self):
+            DESCRIZIONE
+                Stampa una guida relativa alla scelta del limite di tempo.
+
+        def stampa_aiuto_numero_giocatori(self):
+            DESCRIZIONE
+                Stampa una guida relativa alla scelta del numero di giocatori.
 
 
     """

@@ -6,16 +6,26 @@ from src.View.tavoliere_view import TavoliereviewAstratta
 
 
 class TavoliereViewCLI(TavoliereviewAstratta):
-    """Rappresenta l'insieme di operazioni per mostrare a video il tavoliere, CLI.
+    """Rappresenta l'insieme di operazioni per mostrare a video il tavoliere in versione CLI.
 
     Costanti
-    --------
-        nome: COSTANTI
-        Costante di tipo Costanti che contiene tutte le costanti
+    
+        __COSTANTI
+            Costante di tipo Costanti che contiene tutte le costanti utilizzate
+            per la stampa del tavoliere
 
     Metodi
-    -------
-    Stessi della classe astratta TavoliereViewAstratta
+    
+        Stessi della classe astratta TavoliereViewAstratta
+        
+        def stampa_tavoliere(
+            self,
+            tavoliere: Tavoliere,
+            giocatori: set[Giocatore]
+        ):
+        DESCRIZIONE
+            Stampa la rappresentazione testuale del tavoliere,
+            mostrando la posizione dei giocatori e dei muri.
     """
 
     __COSTANTI = Costanti()

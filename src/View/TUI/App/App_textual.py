@@ -8,21 +8,36 @@ from src.View.TUI.Screen.quoridor_view_Screen import QuoridorViewScreen
 
 
 class QuoridorViewApp(App):
-    """Gestice cosa viene mostrato a video, ossia quale screen.
+    """Gestisce cosa viene mostrato a video, ossia quale screen.
 
-    def __init__(self, coda_input: queue.Queue, **kwargs):
-        DESCRIZIONE
+    DESCRIZIONE
+        Gestisce la logica di visualizzazione della TUI e la gestione degli screen.
 
-    def on_mount(self):
-        DESCRIZIONE
-        Dice quale schermo deve essere mostrato appena creato un oggetto di tipo
-        QuoridorViewApp
+    METODI
 
-    def invia_comando(self, comando: str):
-        DESCRIZIONE
-        Memorizza il comando premuto nella TUI in modo tale da poterlo
-        utilizzare successivamente per poter procedere nel gioco, questo ci permette di
-        non andare a modificare tutti i metodi già precedentemente creati
+        def __init__(self, coda_input: queue.Queue, **kwargs):
+            DESCRIZIONE
+                Inizializza l'app TUI e salva la coda degli input.
+
+        def on_mount(self):
+            DESCRIZIONE
+                Imposta lo screen iniziale quando l'app viene avviata.
+
+        def invia_comando(self, comando: str):
+            DESCRIZIONE
+                Inserisce un comando nella coda input per essere processato dal gioco.
+
+        def mostra_schermo_partita(self, ids_giocatori: list[str]) -> None:
+            DESCRIZIONE
+                Mostra lo screen della partita.
+
+        def torna_al_menu(self):
+            DESCRIZIONE
+                Chiude lo screen della partita tornando al menu.
+
+        def get_coda_input(self):
+            DESCRIZIONE
+                Restituisce la coda degli input della TUI.
     """
 
     CSS_PATH = "stile_quoridor_view_TUI.tcss"

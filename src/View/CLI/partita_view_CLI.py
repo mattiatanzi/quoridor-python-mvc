@@ -95,7 +95,7 @@ class PartitaViewCLI(PartitaViewAstratta):
             DESCRIZIONE
             Stampa a video la guida riassuntiva dei comandi disponibili.
 
-        def stampa_vittoria(self, idVincitore):
+        def stampa_vittoria(self, idVincitore, motivo_vittoria: str):
             DESCRIZIONE
                 Stampa a video l'interfaccia di vittoria
 
@@ -115,6 +115,35 @@ class PartitaViewCLI(PartitaViewAstratta):
             DESCRIZIONE
                 Scrive un messaggio e prende e restituisce quello che scrive l'utente
                 in input.
+        
+        def forza_input(self, testo: str):
+            DESCRIZIONE
+                Inserisce forzatamente un input nella coda di input.
+
+        ------ GESTIONE INTERFACCIA ------
+
+        def avvia_interfaccia_partita(self, ids_giocatori: list[str]) -> None:
+            DESCRIZIONE
+                Avvia l'interfaccia relativa alla partita.
+
+        def torna_al_menu(self):
+            DESCRIZIONE
+                Effettua il ritorno al menu principale.
+
+        def crea_replay_view(self):
+            DESCRIZIONE
+                Crea e restituisce la view utilizzata per il replay.
+
+        ------ TIMER ------
+
+        def aggiorna_orologio_live(self, id_giocatore, tempo_formattato):
+            DESCRIZIONE
+                Aggiorna la visualizzazione del tempo residuo del giocatore.
+
+        def mostra_messaggio_timeout(self, id_giocatore: str):
+            DESCRIZIONE
+                Mostra un messaggio relativo all'eliminazione di un giocatore
+                per timeout.
 
     """
 
