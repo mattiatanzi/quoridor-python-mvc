@@ -27,10 +27,11 @@ class MuroOrizzontale(Static):
 class TavoliereViewStatic(Static):
     """Il Widget puro che disegna il tabellone 17x17 e le coordinate esterne."""
 
-    def __init__(self, coda_input, **kwargs):
+    def __init__(self, coda_input,is_replay = False, **kwargs):
         super().__init__(**kwargs)
         self._coda_input = coda_input
         self._muri_attualmente_hoverati = []
+        self._is_replay = is_replay
 
     def compose(self) -> ComposeResult:
         colonna = Costanti.COLONNE
@@ -84,6 +85,8 @@ class TavoliereViewStatic(Static):
     
     def on_mouse_move(self, event: events.MouseMove) -> None:
         """Gestisce l'hover unendo visivamente i due segmenti del muro e l'intersezione centrale."""
+        if self._is_replay:
+            return
         try:
             widget_sotto_mouse, _ = self.screen.get_widget_at(event.screen_x, event.screen_y)
         except Exception:

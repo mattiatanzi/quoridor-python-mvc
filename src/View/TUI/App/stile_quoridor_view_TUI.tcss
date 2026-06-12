@@ -475,7 +475,7 @@ VittoriaModalScreen {
 }
 
 /* Disattiva l'interazione visiva con il tabellone in modalità replay */
-#replay-sinistra Button:hover {
+#replay-sinistra Static:hover {
     background: ansi_bright_black; /* Mantiene il colore grigio per non lampeggiare */
     border: none;
 }
@@ -489,4 +489,8 @@ VittoriaModalScreen {
    per far capire graficamente che è una visualizzazione passiva */
 #replay-sinistra TavoliereViewStatic {
     opacity: 0.9;
+}
+
+.muro-piazzato, .muro-piazzato:disabled {
+    background: ansi_bright_white !important; /* Sostituisci con il colore reale dei tuoi muri */
 }

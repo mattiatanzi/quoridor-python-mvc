@@ -14,6 +14,7 @@ from src.View.TUI.ModalScreen.vittoria_ModalScreen import VittoriaModalScreen
 from src.View.TUI.Screen.trascrizione_Screen import TrascrizioneScreen
 from src.View.TUI.replay_view_TUI import ReplayViewTUI
 from src.View.TUI.Screen.replay_Screen import ReplayScreen
+from src.View.TUI.ModalScreen.aiuto_ModalScreen import AiutoScreen
 
 class PartitaViewTUI(PartitaViewAstratta):
     """Implementazione TUI della view della partita.
@@ -94,41 +95,30 @@ class PartitaViewTUI(PartitaViewAstratta):
         self._app.call_from_thread(_aggiorna)
     def stampa_aiuto(self):
         messaggio = """
-QUORIDOR: COMANDI PRINCIPALI
+QUORIDOR: COMANDI PRINCIPALI PER TESTO CON AGGIUNTA DI PULSANTI
         
-• Muovi pedone: 
-<colonna><riga> (es. 'e2')
+• Muovi pedone: <colonna><riga> (es. 'e2') 
+  o clicca casella adiacente al pedone
 
-• Piazza muro:  
-<colonna><riga><h/v> (es. 'e2h')
-  (h = in basso a dx | v = a destra in basso)
+• Piazza muro:  <colonna><riga><h/v> (es. 'e2h')   (h = in basso a dx | v = a destra in basso)
+  o clicca tra le caselle
         
-• Mostra aiuto: 'help' o 'aiuto'
-• Elenco mosse: 'trascrizione' o 'mosse'
+• Mostra aiuto: 'help' o 'aiuto' ( o clicca il pulsante mostra aiuto)
+• Elenco mosse: 'trascrizione' o 'mosse' 
 • Abbandona:    'quit' o 'abbandona'
 • Esci:         'exit' o 'esci'
-        
         """
-        def _aggiorna_aiuto():
-            try:
-                # 1. Cerca il pannello, inserisce la stringa del Controller e lo apre
-                pannello = self._app.screen.query_one("#pannello-aiuto", Label)
-                pannello.update(messaggio)
-                pannello.add_class("visibile")
-                
-                # 2. Sincronizza il testo del bottone
-                try:
-                    btn = self._app.screen.query_one("#btn-aiuto", Button)
-                    btn.label = "Nascondi Aiuto"
-                except Exception:
-                    pass
-                    
-            except Exception:
-                # Se la grafica dovesse avere problemi, usa le notifiche come fallback
-                self._app.notify(messaggio)
-                
-        self._app.call_from_thread(_aggiorna_aiuto)
+        # Questa callback si attiva da sola quando clicchi "Chiudi" o premi Esc
+        def _chiuso(risultato=None):
+            self._app.get_coda_input().put("finestra_chiusa")
 
+        def _mostra_aiuto():
+
+            # Passiamo _chiuso come parametro secondario
+            self._app.push_screen(AiutoScreen(messaggio), _chiuso)
+                
+        self._app.call_from_thread(_mostra_aiuto)
+        
     def stampa_vittoria(self, id_vincitore, motivo_vittoria: str):
         def _mostra_vittoria():
             # PROTEZIONE: Se l'utente sta leggendo le mosse, ignora la stampa della vittoria
@@ -151,12 +141,15 @@ QUORIDOR: COMANDI PRINCIPALI
     def stampa_trascrizione(
         self, trascrizione: list[str], num_giocatori: int, replay: bool = False
     ):
-        # Nel caso del replay lo gestiremo a parte, ma per la partita usiamo il Modal
         if not replay:
+            # Aggiungiamo la callback per sbloccare il tempo
+            def _chiuso(risultato=None):
+                self._app.get_coda_input().put("finestra_chiusa")
+
             def _mostra_trascrizione():
-                # Creiamo una stringa leggibile
                 testo = "\n".join(trascrizione) if trascrizione else "Nessuna mossa effettuata."
-                self._app.push_screen(TrascrizioneScreen(testo))
+                # Passiamo _chiuso come parametro secondario
+                self._app.push_screen(TrascrizioneScreen(testo), _chiuso)
                 
             self._app.call_from_thread(_mostra_trascrizione)
 
@@ -175,8 +168,8 @@ QUORIDOR: COMANDI PRINCIPALI
         """
         # IMPORTANTE: Sostituisci 'self._app.coda_input' con la variabile 
         # esatta che utilizzi nel tuo get_input() per leggere la coda!
-        self._app.coda_input.put(testo)
-        
+        self._app.get_coda_input().put(testo)
+
     def stampa_richiesta_input(self, indicazioni: str = ""):
         # Aggiorna il label hint sopra il campo input
         def _aggiorna():
@@ -239,9 +232,9 @@ QUORIDOR: COMANDI PRINCIPALI
             
         # CASO 2: Richieste di "Premi INVIO per continuare..." (Help, Trascrizione)
         elif "invio" in testo_lower:
-            # Nella TUI questi elementi sono a scomparsa, non blocchiamo il gioco!
-            # Sblocca il controller istantaneamente.
-            return ""
+            # Ora la TUI si BLOCCA in attesa che il Modal venga chiuso.
+            # Il thread del timer è già morto nel Controller: il tempo è in pausa assoluta!
+            return coda.get()
             
         # CASO 3: Qualsiasi altra richiesta normale di gioco
         else:

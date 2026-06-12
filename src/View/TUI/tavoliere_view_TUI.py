@@ -11,7 +11,7 @@ class TavoliereViewTUI(TavoliereviewAstratta):
     
     __COSTANTI = Costanti()
 
-    def __init__(self, app_condivisa):
+    def __init__(self, app_condivisa,coda_input = None):
         self.__app = app_condivisa
         self.__cache_nodi = None # Il segreto per la velocità assoluta
         self._schermo_cache = None
@@ -96,4 +96,9 @@ class TavoliereViewTUI(TavoliereviewAstratta):
                 self.__app.log(f"[ERRORE TAVOLIERE]:\n{traceback.format_exc()}")
 
         # Invio al thread grafico
-        self.__app.call_from_thread(_aggiorna_grafica)
+        try:
+            self.__app.call_from_thread(_aggiorna_grafica)
+        except RuntimeError:
+            # Se siamo già nel thread principale della UI (es. durante il Replay),
+            # l'eccezione scatta e noi eseguiamo la funzione direttamente!
+            _aggiorna_grafica()

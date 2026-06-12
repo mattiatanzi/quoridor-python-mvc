@@ -23,4 +23,4 @@ class TrascrizioneScreen(ModalScreen):
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "btn-chiudi-trascrizione":
-            self.app.pop_screen()
+            self.dismiss()

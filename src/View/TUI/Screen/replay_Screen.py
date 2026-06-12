@@ -14,13 +14,12 @@ class ReplayScreen(Screen):
 
     def compose(self) -> ComposeResult:
         with Horizontal(id="replay-layout"):
-            
             # SINISTRA: Tavoliere e Descrizione Mossa
             with VerticalScroll(id="replay-sinistra"):
                 yield Label("MODALITÀ REPLAY", id="replay-titolo")
                 yield Label("", id="replay-descrizione-mossa")
-                coda_finta = queue.Queue #Usiamo una coda fittizia per evitare di prendere input inutili durante la visione del replay
-                yield TavoliereViewStatic(coda_finta) 
+                coda_finta = queue.Queue() #Usiamo una coda fittizia per evitare di prendere input inutili durante la visione del replay
+                yield TavoliereViewStatic(coda_finta,is_replay=True) 
                 
             # DESTRA: Trascrizione 
             with Vertical(id="replay-destra"):
