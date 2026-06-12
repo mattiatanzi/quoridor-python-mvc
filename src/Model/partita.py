@@ -1,5 +1,6 @@
 from src.Model.costanti_partita import CostantiPartita
 from src.Model.giocatore import ErrorePosizione, Giocatore
+from src.Model.costanti_giocatore import CostantiGiocatore
 from src.Model.nodo import Nodo
 from src.Model.tavoliere import Tavoliere
 
@@ -302,13 +303,14 @@ class Partita:
 
     def aggiungi_giocatore(self, new_giocatore: Giocatore):
         numero_giocatori_partita = len(self.get_giocatori())
+        max_giocatori = int(CostantiPartita.MAX_GIOCATORI_AMMESSI)
 
-        if numero_giocatori_partita < CostantiPartita.TOTALE_GIOCATORI:
+        if numero_giocatori_partita < max_giocatori:
             self.get_giocatori().add(new_giocatore)
         else:
             raise ErrorePartita(
                 "Impossibile Aggiungere Giocatori (Numero giocatori: "
-                f"{numero_giocatori_partita}/{CostantiPartita.TOTALE_GIOCATORI})"
+                f"{numero_giocatori_partita}/{max_giocatori})"
             )
 
     def rimuovi_giocatore(self, id):
@@ -325,7 +327,13 @@ class Partita:
 
     def elimina_giocatore(self, id):
         giocatore_selezionato = self.get_giocatore(id)
-        giocatore_selezionato.set_attivo(False)
+        if (giocatore_selezionato.is_attivo()):
+            giocatore_selezionato.set_attivo(False)
+        else:
+            raise ErrorePartita(
+                f"Impossibile eliminare il giocatore {giocatore_selezionato.get_id()}, \n"
+                "In quanto era già stato eliminato"
+            )
 
     # Cambiare Posizione di Giocatore in partita
 
@@ -357,38 +365,53 @@ class Partita:
     def incrementa_turno(self):
         id_giocatore_attivo = self.get_id_giocatore_attivo()
 
-        numeroGiocatore = int(id_giocatore_attivo[1]) + 1
+        totale_giocatori = len(self.get_giocatori())
 
-        if numeroGiocatore > len(self.get_giocatori()):
-            numeroGiocatore = 1
+        if (totale_giocatori != 0):
 
-        nuovo_id_giocatore_attivo = f"{id_giocatore_attivo[0]}{numeroGiocatore}"
+            if (id_giocatore_attivo in CostantiGiocatore.POSSIBILI_ID_GIOCATORE):
+                numeroGiocatore = int(id_giocatore_attivo[1]) + 1
 
-        self.set_id_giocatore_attivo(nuovo_id_giocatore_attivo)
+                if numeroGiocatore > totale_giocatori:
+                    numeroGiocatore = 1
+
+                nuovo_id_giocatore_attivo = f"{id_giocatore_attivo[0]}{numeroGiocatore}"
+            else:
+                nuovo_id_giocatore_attivo = CostantiPartita.ID_PRIMO_GIOCATORE_ATTIVO
+
+            self.set_id_giocatore_attivo(nuovo_id_giocatore_attivo)
+
+        else:
+            raise ErrorePartita(
+                "Impossibile Incrementare Turno, Nessun Giocatore in Partita"
+            )
 
     def piazza_muro(self, azione: str, giocatore_attivo: Giocatore):
         if giocatore_attivo.get_muri_disponibili() == 0:
             raise ErrorePartita("Errore: Muri da piazzare terminati")
 
-        if CostantiPartita.PRIMA_COLONNA <= azione[0] <= CostantiPartita.ULTIMA_COLONNA:
-            if CostantiPartita.PRIMA_RIGA <= azione[1] <= CostantiPartita.ULTIMA_RIGA:
-                if azione[2] == CostantiPartita.ORIZZONTALE:
-                    self.__tavoliere.piazza_muro_orizzontale(azione)
-                elif azione[2] == CostantiPartita.VERTICALE:
-                    self.__tavoliere.piazza_muro_verticale(azione)
+        if (len(azione) == 3):
+            if CostantiPartita.PRIMA_COLONNA <= azione[0] <= CostantiPartita.ULTIMA_COLONNA:
+                if CostantiPartita.PRIMA_RIGA <= azione[1] <= CostantiPartita.ULTIMA_RIGA:
+                    if azione[2] == CostantiPartita.ORIZZONTALE:
+                        self.__tavoliere.piazza_muro_orizzontale(azione)
+                    elif azione[2] == CostantiPartita.VERTICALE:
+                        self.__tavoliere.piazza_muro_verticale(azione)
+                    else:
+                        raise ErroreFormattazione(
+                            "Errore: inserire dopo la posizione h/v per indicare muro "
+                            + "verticale o orizzontale"
+                        )
                 else:
                     raise ErroreFormattazione(
-                        "Errore: inserire dopo la posizione h/v per indicare muro "
-                        + "verticale o orizzontale"
+                        "Errore: inserire dopo la colonna un numero tra 1 e 9"
                     )
             else:
                 raise ErroreFormattazione(
-                    "Errore: inserire dopo la colonna un numero tra 1 e 9"
+                    "Errore: inserire colonna corretta come primo carattere tra 'a' e 'i'"
                 )
         else:
-            raise ErroreFormattazione(
-                "Errore: inserire colonna corretta come primo carattere tra 'a' e 'i'"
-            )
+            raise ErroreFormattazione("La mossa inserita non corrisponde ad un muro")
 
     def muovi_giocatore(self, azione: str, giocatore_attivo: Giocatore):
         if not (
@@ -424,6 +447,7 @@ class Partita:
         else:
             # Il passaggio non è libero (o non è adiacente)
             raise ErrorePosizione(f"Mossa non valida: {azione} non è raggiungibile")
+
 
     # Osservatore condizione di vittoria
 

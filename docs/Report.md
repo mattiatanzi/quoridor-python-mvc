@@ -69,6 +69,7 @@ classDiagram
 S1_1. **Visualizzare la scacchiera**:
    Come giocatore voglio vedere la scacchiera 9x9 con le posizioni dei pedoni e dei muri sul terminale, in modo da poter decidere la prossima mossa.  
 **Criteri di Accettazione**:
+
 - La scacchiera mostra una griglia 9x9 con le colonne etichettate da a a i e le righe da 1 a 9.
 
 - Il pedone del Giocatore 1 è visualizzato nella posizione corrente con il simbolo P1, il pedone del Giocatore 2 con P2.
@@ -164,6 +165,7 @@ S1_7. **Mostrare un messaggio di aiuto**:
 
 S1_8. **Uscire dal gioco**: Come giocatore, voglio poter uscire completamente dal gioco tramite un comando testuale, in modo tale da chiudere l'applicazione in modo sicuro e tornare al terminale.  
 **Criteri di Accettazione**:
+
 - Il sistema riconosce e accetta un comando testuale specifico per l'uscita (es. `esci`, `quit` o `exit`) inserito al prompt dei comandi.
 - Al momento dell'inserimento del comando, l'applicazione si chiude immediatamente e in modo pulito.
 - Se il comando viene inserito mentre una partita è in corso, la partita viene interrotta istantaneamente senza salvataggio.
@@ -173,6 +175,7 @@ S1_8. **Uscire dal gioco**: Come giocatore, voglio poter uscire completamente da
 
 S2_1. **Giocare con un limite di tempo**: In qualità di giocatore, voglio poter giocare una partita con il limite di tempo.  
 **Criteri di accettazione**:
+
 - Il timer selezionato rappresenta il tempo totale a disposizione di ciascun giocatore per l'intera partita. Il timer scorre solo durante il turno del giocatore attivo e si mette in pausa quando il turno passa all'avversario.
 - È possibile avviare una partita dal menu principale con o senza il limite di tempo.
 - Durante la partita ogni giocatore deve poter vedere il limite di tempo rimasto
@@ -200,6 +203,7 @@ S2_3. **Visualizzare il Replay**: In qualità di giocatore, voglio poter far par
 
 S2_4. **Giocare anche in 4**: In qualità di giocatore, voglio poter avviare e giocare una partita con 4 giocatori totali, in modo tale da poter sfidare più persone contemporaneamente e provare diverse modalità e strategie di gioco.  
 **Criteri di accettazione**: 
+
 - L'utente deve poter selezione la modalità a 4 giocatori a partire dal menù iniziale
 
 - La configurazione deve essere adatta alla modalità a 4 giocatori (come stabilito nel meeting, in caso di partita a 4 giocatori, a ognuno viene assegnato uno dei 4 lati del tavoliere, e ognuno ha a disposizione 5 muri piazzabili)
@@ -212,6 +216,7 @@ S2_4. **Giocare anche in 4**: In qualità di giocatore, voglio poter avviare e g
 
 S2_5. **Nuova interfaccia avanzata**: In qualità di giocatore, voglio interagire con il gioco tramite un'interfaccia avanzata in modo tale da avere un'esperienza visiva più moderna e intuitiva, potendo usare sia il mouse che la tastiera.  
 **Criteri di accettazione**:
+
 - Flessibilità di interazione: L'utente può usare i click del mouse sulle caselle, ma è sempre presente una barra/prompt per inserire i comandi con la notazione compatta (es. e2, e3h).
 
 - Usabilità: Le istruzioni base e i controlli della UI sono sempre visibili o facilmente richiamabili tramite un widget di help dedicato per non creare indecisioni ai nuovi giocatori.
@@ -231,8 +236,11 @@ S2_5. **Nuova interfaccia avanzata**: In qualità di giocatore, voglio interagir
 - **RNF4** (Normalizzazione comandi): La Command Line Interface (CLI) deve accettare notazioni testuali compatte (es. `e2` per il pedone, `e3h` per i muri).
 
 *In più, seguono tre nuovi requisiti non funzionali da rispettare (oltre ai quattro già presenti), essi sono stati individuati per lo sprint 2:*
+
 - **RNF5** (Usabilità): Un utente nuovo non deve avere indecisioni, tutto dev’essere chiarito soprattutto in luogo delle nuove funzionalità che riguardano il gioco. Dunque tutte le nuove istruzioni si riflettono nel comando help.
+
 - **RNF6** (Flessibilità di interazione): Nonostante la nuova interfaccia avanzata dev’essere possibile inserire i comandi anche da prompt testuale con notazione compatta come avveniva prima. 
+
 - **RNF7** (Testabilità logica): I test automatici, devono essere eseguiti secondo la logica di gioco, evitando di gestire input del giocatore o output testuale, che invece possono cambiare nel tempo. 
   
   ## 4. System Design
@@ -338,6 +346,137 @@ La seconda soluzione invece controlla ad ogni ciclo se il giocatore ha un timer,
       - **`ParametriPartitaController` (Controller):** Ha il solo compito di orchestrare la fase di setup pre-partita, facendo dialogare la View e il Model per ottenere un oggetto contenente i parametri definitivi.
       
       Isolando il dominio della "configurazione" da quello dell'"esecuzione della partita", abbiamo ottenuto un codice più coeso, facilmente testabile e manutenibile, dove eventuali future modifiche ai menu di avvio non andranno a intaccare in alcun modo le logiche centrali del gioco.
+      
+      ## 6. Riepilogo dei test
+      
+      La presente sezione sintetizza la strategia di testing adottata per il progetto, illustrando i criteri logici con cui sono stati selezionati i casi di test, le componenti del sistema interessate e le motivazioni alla base di tali scelte. La suite di test garantisce la correttezza della logica di dominio e la stabilità del sistema di fronte a input anomali.
+      
+      ### 6.1 Criteri di selezione dei casi di test
+      
+      Per la progettazione dei test è stato adottato un approccio funzionale di tipo Black-Box, mirato a validare il comportamento dei metodi pubblici delle classi rispetto ai requisiti di gioco, disaccoppiando il testing dalla specifica implementazione del codice.
+      La selezione dei casi di test si è basata su due tecniche principali:
+
+2. Partizionamento in Classi di Equivalenza (CE): Il dominio degli input di ogni funzione è stato diviso in classi (valide e non valide). È stato selezionato un caso rappresentativo per ciascuna classe per evitare ridondanze, assicurando che il sistema si comporti in modo omogeneo per tutti i valori di una stessa partizione (es. movimenti ortogonali validi vs. tentativi di attraversamento dei muri).
+
+3. Analisi dei Valori Limite e Condizioni Particolari (CP): Sono stati testati i casi "edge" (limite) in cui è più probabile che si verifichino anomalie software. Tra questi rientrano l'esaurimento esatto del tempo del timer (tempo pari a zero), l'arretramento di un pedone sulla propria linea di partenza, o il tentativo di avanzamento del replay quando si è già all'ultimo snapshot disponibile.
+   
+   ### 6.2 Localizzazione dei test e motivazioni (Cosa abbiamo testato e perché)
+   
+   I test si concentrano in modo mirato sul Model e su alcune logiche critiche del Controller. Si è ritenuto indispensabile testare in modo esaustivo le seguenti macro-aree, in quanto rappresentano il "motore" del gioco Quoridor; un eventuale difetto in queste sezioni comprometterebbe l'intera partita.
+- **Meccaniche fisiche e Regole di gioco** (`test_movimento_pedone.py`, `test_piazzamento_muri.py`, `test_vittoria_base.py`):  
+  
+  - *Localizzazione*: Moduli Partita, Tavoliere.
+  - **Motivazione**: È la priorità assoluta. Si è deciso di testare rigorosamente il rispetto dei bordi, le collisioni con i muri (sovrapposizioni parziali o totali) e le regole di salto. La condizione di vittoria è stata testata per validare non solo il successo legittimo, ma per prevenire falsi positivi (es. vittoria assegnata erroneamente se si indietreggia).
+
+- **Gestione del Turno e Stato Giocatori** (`test_partita_4_giocatori.py`, `test_timer.py`):
+  
+  - *Localizzazione*: Moduli Partita, Giocatore, Timer.
+  
+  - **Motivazione**: Scalare il gioco da 2 a 4 giocatori introduce un'alta complessità nello stato della partita. Si è ritenuto vitale testare l'aggiunta, la rimozione e soprattutto l'eliminazione dei giocatori. Testare il passaggio del turno garantisce che un giocatore sconfitto o senza tempo venga correttamente "saltato" dal motore di gioco senza mandare in crash la rotazione.
+
+- **Trascrizione e Replay** (`test_partita.py`, `test_replay.py`):
+  
+  - *Localizzazione*: Modulo ReplayController e logiche di formattazione in Partita.
+  
+  - **Motivazione**: Il sistema di storicizzazione (mossa in notazione algebrica) e di ricostruzione a posteriori degli stati (Replay) è fondamentale per l'integrità dei dati. Si è testato il comportamento del Replay sia in scenari standard (navigazione lineare), sia in scenari con "buchi" nella trascrizione (es. mosse segnalate con --- per giocatori ritirati).
+    
+    ### 6.3 Numerica e Stato della Build
+    
+    La suite è composta da un totale di circa 30 casi di test unitari e di integrazione.
+
+Tutti i test implementati coprono gli Oracoli definiti nelle specifiche del Model. L'esito dell'intera suite è del 100% positivo (0 failures, 0 errors). Il superamento totale della suite è stato impostato come vincolo bloccante (prerequisito) per la validazione della build; nessuna modifica al codice sorgente può essere considerata integrata con successo nel ramo principale se compromette l'esito di uno qualsiasi dei test sopra citati.
+
+### Diagrammi delle classi
+
+Sono state prese in considerazione le US1 e US4, e sono stati costruti due diagrammi per ciascuna US più un diagramma riassuntivo che riassuma i cambiamenti effettuati.
+
+- Diagramma Riassuntivo
+  - ![DiagrammaClassiUS1andUS4](./img/diagramma_classi_US1andUS4_Sprint2.png)
+- Diagramma US1
+  - ![DiagrammaClassiUS1](./img/diagramma_classi_US1_Sprint2.png)
+- Diagramma US4
+  - <img title="" src="./img/diagramma_classi_US4_Sprint2.png" alt="DiagrammaClassiUS4" width="631">
+
+### Diagrammi di Sequenza
+
+Le sequenze riportate includono due momenti cruciali del progetto: la logica di verifica del timer e la logica di selezione della modalità partita a 4 giocatori.
+
+#### Timer
+
+Nel primo flusso si analizza `gioca_partita()` in PartitaController, ipotizzando il caso in cui si stia giocando con Timer. Il flusso prevede:
+
+1. Selezione del giocatore attivo
+
+2. Verifica se il giocatore attivo possiede limite di tempo (in questo caso tenere conto del tempo in cui inizia il turno)
+
+3. Se il giocatore fa una mossa **valida**, allora verrà segnato il tempo finale e ridotto facendo tempo finale - iniziale (in versioni successive viene tenuto conto del tempo LIVE, ma la logica di funzionamento rimane la stessa)
+
+4. Se è stato sottratto del tempo al giocatore, viene verificato che quest'ultimo non abbia terminato tempo, in caso contrario viene eliminato
+
+5. Se un giocatore viene eliminato, viene controllato se in partita è rimasto un solo vincitore, ed in caso affermativo vengono svolte tutte le istruzioni per confermare la vittoria (stampa della vittoria, stampa del replay, ...)
+
+Qui viene illustrato il diagramma di sequenza, quando viene chiamato `gioca_partita()`
+
+- ![DiagrammaSequenzaTimer](./img/diagramma_sequenza_gioca_partita.png)
+
+#### 4 giocatori
+
+In questo caso invece si segue passo passo il flusso da seguire per poter creare una partita a 4 giocatori:
+
+- il controller principale del gioco, `QuoridorController`, chiama una funzione che interagisce con l'utente per settare i parametri della partita, ovvero `ottieni_parametri_utente()`.
+
+- Qui viene effettuato un ciclo che permette all'utente di interagire col sistema fin quando 1) termina la configurazione della partita 2) vuole uscire dal gioco
+
+- Segue la simulazione del primo caso, ovvero in cui l'utente ha terminato configurazione con successo e vuole giocare. A questo punto il controllo passerà nuovamente al `QuoridorController`, che leggendo dai dati di `ParametriPartita` creato grazie a `ParametriPartitaController`, istanzierà varie classi al fine di creare una partita adeguata. Nel diagramma viene evidenziato sopratutto il ciclo di istanziazione dei giocatori, che creerà un giocatore in base al valore di `ParametriPartita` selezionato in precedenza.
+
+- Infine verrà creata la partita e il rispettivo controller, e si potrà cominciare a giocare
+
+Sequenza di Selezione (Utente) della modalità a 4 giocatori
+
+- ![DiagrammaSequenza4Giocatori](./img/diagramma_sequenza_4_gioc.png)
+
+## 7. Modalità di collaborazione del team
+
+Il team ha adottato una metodologia di sviluppo ispirata al framework Agile/Scrum, personalizzandola fortemente per adattarla alle dinamiche di un gruppo di lavoro universitario. L'obiettivo principale è stato mantenere un ciclo di rilascio iterativo, garantendo flessibilità e comunicazione costante, compatibilmente con gli orari di studio e gli impegni di ciascun componente.
+
+### 7.1 Organizzazione e Strumenti di Comunicazione
+
+Nonostante Scrum preveda cerimonie rigidamente strutturate in presenza, il team ha optato per un approccio ibrido, supportato dagli strumenti digitali che ha permesso di lavorare in modo asincrono ma sempre allineato, oltre che ai normali meeting svolti dal vivo:
+
+- GitHub Project Board: Utilizzata come Kanban Board centrale per tradurre il Product Backlog in Sprint Backlog. Ogni funzionalità è stata modellata come Issue e fatta transitare attraverso gli stati operativi (To Do, In Progress, Review, Ready, Done).
+
+- Canali Istituzionali (Microsoft Teams): Utilizzato per i meeting ufficiali di avvio Sprint, per la condivisione di documenti formali e per le comunicazioni dirette con i docenti/tutor.
+
+- Messaggistica Istantanea (WhatsApp o Teams): Data la necessità di comunicazioni rapide e continue, il team ha istituito un gruppo di chat dedicato. Questo canale ha sostituito in parte la sala riunioni fisica, permettendo di segnalare blocchi improvvisi, organizzare sessioni di programmazione dell'ultimo minuto e richiedere revisioni del codice in tempo reale.
+  
+  ### 7.2 Meeting di progetto
+  
+  Il team ha riadattato i quattro eventi canonici di Scrum alle proprie necessità pratiche:
+1. **Sprint Planning** (Meeting Pre-Sprint): Una riunione formale (svolta all'inizio di ogni iterazione) per analizzare le richieste, valutare la fattibilità tecnica, definire i Requisiti Non Funzionali e assegnare le singole Issue ai membri del gruppo.
+
+2. **Daily Scrum** (Sync Asincroni): Invece del canonico meeting giornaliero di 15 minuti, il team ha effettuato allineamenti quotidiani tramite il canale di messaggistica istantanea, aggiornando i compagni sullo stato dei lavori e sulle difficoltà riscontrate.
+
+3. **Sprint Review**: Svolta in prossimità della chiusura dello Sprint per unire i branch, verificare l'integrazione delle diverse funzionalità sulla piattaforma principale e testare il comportamento globale del gioco (es. esecuzione in container Docker).
+
+4. **Sprint Retrospective**: L'incontro più importante per la salute del gruppo, dedicato esclusivamente all'analisi del processo lavorativo e all'individuazione di azioni correttive per lo Sprint successivo.
+   
+   ### 7.3 Assegnazione task e GitHub Flow
+   
+   Per l'integrazione del codice, il team segue rigorosamente il GitHub Flow per mantenere il branch `main` sempre stabile e compilabile:
+- **Branching e Pull Request**: Nessun membro è autorizzato a effettuare commit diretti sul main. Per ogni Issue viene creato un branch dedicato; a lavoro ultimato si apre una Pull Request (PR).
+- **Code Review Obbligatoria**: Le modifiche devono ricevere un'approvazione esplicita (Approve) da parte di un altro membro del team prima del merge. Nel nostro caso abbiamo alzato per gran parte del progetto questo numero a tre, che corrisponde a più della metà del team, in modo da garantire, con questa convenzione, una maggiore sicurezza di ciò che entrava nell'ambiente di rilascio.
+- **Strategia di Lavoro Mista**: Per task complessi e isolati (es. Motore di Replay, Logica del Tempo), il lavoro è stato assegnato a coppie o piccoli sottogruppi (Pair Programming). Per task trasversali (es. Documentazione, Testing, sviluppo dell'Interfaccia TUI), si è adottato l'approccio delle Issue Padre: tutti i membri vi partecipano contemporaneamente, curando ciascuno i test e la documentazione del proprio modulo di competenza.
+
+### 7.4 Analisi retrospettiva e miglioramento continuo
+
+La metodologia Agile adottata dal team trova il suo momento di massima espressione nell'analisi retrospettiva condotta al termine di ogni ciclo di sviluppo. Queste sessioni non si limitano a un bilancio passivo del lavoro completato, ma fungono da vero e proprio motore per l'evoluzione e il progressivo affinamento dell'intero processo ingegneristico.
+
+Durante le retrospettive, il gruppo si riunisce attorno a lavagne digitali per mappare in modo collaborativo l'andamento delle attività, identificando sistematicamente i punti di forza da consolidare e le inefficienze su cui intervenire. L'approccio empirico e adattivo del team ha permesso di convertire i punti di riflessione emersi in linee guida metodologiche stabili e ricorrenti:
+
+- *Evoluzione nell'approccio ai task generali*: L'analisi delle prime dinamiche di collaborazione ha evidenziato come i compiti trasversali e non legati a una specifica classe di codice (quali la stesura della documentazione tecnica o la configurazione delle suite di test) rischiassero una gestione frammentata o un carico sbilanciato. Per risolvere questa criticità, il team ha adottato la strategia delle Issue Padre. Questa astrazione consente di suddividere i macro-obiettivi in sotto-task modulari e paralleli, responsabilizzando ogni membro sulla propria componente e garantendo un'integrazione fluida del deliverable complessivo.
+- *Avanzamento progressivo dei controlli di qualità*: Per scongiurare il rischio di regressioni logiche o crash applicativi durante l'assemblaggio delle nuove funzionalità, il team ha progressivamente innalzato i criteri di accettazione per il codice da integrare nel ramo principale. Questo ha portato a un irrigidimento controllato della fase di Code Review sulle Pull Request e alla configurazione di vincoli statici stringenti, che agiscono come barriera di sicurezza prima di ogni fusione.
+
+Questo ciclo continuo di feedback e auto-correzione assicura che l'organizzazione del gruppo non rimanga statica, ma si adegui dinamicamente e in modo incrementale alla complessità del software da sviluppare.
 
 ## 8. Analisi retrospettiva
 
