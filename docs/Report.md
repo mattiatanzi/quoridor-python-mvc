@@ -6,7 +6,18 @@
   * [3.1 Requisiti funzionali](#31-requisiti-funzionali)
   * [3.2 Requisiti non funzionali](#32-requisiti-non-funzionali)
 * [4. System Design](#4-system-design)
+* [5. OO Design](#5-oo-design)
+* [6. Riepilogo dei test](#6-riepilogo-dei-test)
+  * [6.1 Criteri di selezione dei Casi di test](#61-criteri-di-selezione-dei-casi-di-test)
+  * [6.2 Localizzazione dei test e motivazioni di cosa abbiamo testato](#62-localizzazione-dei-test-e-motivazioni-cosa-abbiamo-testato-e-perché)
+  * [6.3 Numerica e stato della build](#63-numerica-e-stato-della-build)
+* [7. Modalità di collaborazione del team](#7-modalità-di-collaborazione-del-team)
+  * [7.1 Organizzazione e strumenti di comunicazione](#71-organizzazione-e-strumenti-di-comunicazione)
+  * [7.2 Meeting di progetto](#72-meeting-di-progetto)
+  * [7.3 Assegnazione task e gitjub flow](#73-assegnazione-task-e-github-flow)
+  * [7.4 Analisi retrospettiva e miglioramento continuo](#74-analisi-retrospettiva-e-miglioramento-continuo)
 * [8. Analisi retrospettiva](#8-analisi-retrospettiva)
+  
   * [8.1 Sprint 0](#81-sprint-0)
 
 # Relazione Tecnica - Sprint 1 Team Stonebraker
@@ -265,6 +276,27 @@ Abbiamo scelto di progettare il `Tavoliere` tramite `Grafo`. Si è infatti scelt
   > *il piazzamento di un muro da parte di un giocatore si traduce semplicemente nella rimozione dell'arco (quello del legame di adiacenza) dalla lista di adiacenza del Nodo in questione e dalla lista di adiacenza dell'altro Nodo interessato.*  
 
 La scelta di questa struttura dati permetterà anche in futuro di implementare, per funzionalità avanzate, tramite algoritmi BFS o DFS, come verificare che un muro non blocchi completamente il percorso del giocatore.
+
+### Struttura del Progetto
+
+ Per supportare diverse interfacce utente, e per garantire la MVC, la View è stata ulteriormente suddivisa in sottocartelle:
+
+* `src/Model/`: Contiene la logica di business, le regole di Quoridor, il grafo del tabellone e la gestione dei giocatori.
+* `src/Controller/`: Contiene i gestori che fanno comunicare Model e View.
+* `src/View/`: Contiene le interfacce astratte e le implementazioni concrete dell'interfaccia utente.
+  * `src/View/CLI/`: Implementazione dell'interfaccia a riga di comando.
+  * `src/View/TUI/`: Implementazione dell'interfaccia grafica testuale (Textual).
+    * `src/View/TUI/Screen/`: Schermate principali (es. Menu, Tabellone).
+    * `src/View/TUI/Widget/`: Componenti riutilizzabili (es. Pannelli, Bottoni).
+  
+### Gestione delle Interfacce (View)
+
+Per garantire la massima flessibilità e disaccoppiamento del codice, abbiamo strutturato il livello View utilizzando interfacce basate su **Classi Astratte** di Python (`abc.ABC`).
+
+I Controller (es. `PartitaController`) non comunicano mai direttamente con le implementazioni concrete grafiche (CLI o TUI), ma dipendono esclusivamente dalle classi astratte (es. `PartitaViewAstratta`). Questo ci ha permesso di:
+1. **Rispettare il Dependency Inversion Principle (SOLID)**: I moduli di alto livello (Controller) non dipendono dai dettagli (Textual o stampe su terminale), ma dalle astrazioni.
+2. **Intercambiabilità**: Possiamo passare dinamicamente dalla CLI alla TUI (sottocartelle `src/View/CLI` e `src/View/TUI`) semplicemente "iniettando" (Dependency Injection) la classe concreta corretta al momento dell'avvio, senza dover modificare una singola riga di codice all'interno dei Controller.
+3. **Estendibilità**: In un futuro sarà possibile applicare altre interfacce su questo codice senza andare a modificare le parti che non riguardano la view (Controller e Model). 
 
 ### Gestione dei requisiti non funzionali
 
